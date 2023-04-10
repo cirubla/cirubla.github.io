@@ -1,0 +1,16 @@
+window.g_loadAllComments = function() {
+  if (window.isCommentInited) {
+    return {
+      feed: {}
+    }
+  }
+
+  var comments = atob('H4sICHFYJmQAAzg3ODA0NjU0NTYwMTg2MDYwMjUuanNvbgDFVltvG0UU/ivR1spLvDuXvXktWSFNQ8gDqCJJW2j7MN4d727Z3VnNjGO7VaQIKoQEVYAHkKI+oaL2CSoVRKpG6p/BTnniLzCzTmwnTUqLgNqy5Jlz3e+c8529Y2xRLlJWGE0DWdCoG7QIWZQWsbrY3HjXbKirDqWR0bxj9POsEOo+kbJsAtDr9ayebTEeAwyhC5Yky5V2pVVjJS3WKeFhMjUggRWyHJhAlDQEWkNUGgBZCEws42hqIcKE5kRYMWNxRivrcTClHUc1KonO8yq4YSyvvL+6/h67TdPSX8uXgmv9d8nqyqZ1w1CqaZV+TSpdZdFsZyyOKdfu6igIgurCdLHtugFEroOwi7GH/cAqmZANvwEdz3VcD6KGBz2IXUub5rSQwtiuG90yIpJOQ2CIbRPaJvY3EGxC2MSB5TTwAmyogzaQqczoRH35yNUcK+YOD747fPTlH3u7o8+eHO7dHd7bG/70Q3NueWFhTh93fz58+Gz04N5o5+Hw269e/PZo+PTJcPfx8GBnuPvNdfvmnwd7w4NPh/v7wwd3D7/+XMfK0uITo3n9jsFp9hq4XqhqrVIclCpDg5RlloZEqgYBRJV3QZVISRNOO0fOhPJWchZzkpsyUcEsDaYomay8ancCHKMFItoh3UyqxI4TEjTrvGk83XgzNTwKckb9wBm1eymZRZLJ1i3Bivmy285SkdDIzEm/NVNG6DYRbjq+5bj443klNDkVylS0XAjnOdUzRFuSd+k84xHl7UFr4mt+q4VnnlcFo7xQ/TJ9aEn7EiTyDZFV1QoARCDs982QMyHMMiOyw3huRiqhjJWmbdJ+SEuNplX5n6aRdNsno+lg3bbotpWk3W1bqhKTUMb2zbpBujJhvGqlguTT9p1t2WoaeDqRzRDFbL3UU3XSjAKEfAfZrud4ge03VNE8jLQL1ZppNnFSME7LbPDOjAetpMY/zUlcJfKavS2Tbt4utO+60UsjqakJexoHmsaJjmVjdRI8VH8BcKx2eRJzc3VjLcFldPvSR2vgigz5RY9fg+UaWDr6XNyMwdbV6FJ/ZdP5wAuBwBiCDV08lfitMja2NZQxLShX7c117lP+9S2oCbgC8BzolLjC5OL4SuMwJdqaZJJkH44702iiEzIhCZdrRUT7E2DRKfNU0lxcpvxyhSrSq0DyQVXx01wbLq1f67nh+jHXXrm6uiL+Ba41A+S4jQBC7KDAsaGDfJ3kZJhmORaZCJkQb2DchH4TNyyMgynHnkHKrzZQDV+jUSpnVl1N3Z237nyghfXXdH6S8UeP9188vz/a2Rk+/1VR/O/7z7ROyAqpENdaR8RwxAmvsDnF7jr/t0um4OUCLp4kwLdP+H+f49sk6UWRsN7RO0ELebbb8DBUrw84uBCeMR2T3jJeydJLBSsGOeuK/5tf0Ql+rU5jfj1GL81jVIGmf5U3dQPaGVFYxmlnMSQqXssmToPgdgN2vE7YQDZ1A79jU+KT0G0jReIVscqE19LCrJ7HlGw6yEowu+d4Vo2xGBTRcfMpDUoiMH4H/m+3cN0Yu/8H9HhGe2tAWZeH9Px9e/64aKfTuTjb+0sDMG4OdaRqnUSXuVohXA5mes44Dq43ynJGhFButkjW1bIyjUzb9V3kQ9+uZu6UUZQKheFgI83pjJmm2OHTXxAa3f8Cj77/cW5MtJpeb6rv9l8diWQyyQwAAA==');
+  var inputArray = new Uint8Array(comments.length);
+  for (var i = 0; i < comments.length; i++) {
+    inputArray[i] = comments.charCodeAt(i);
+  }
+  var outputArray = pako.inflate(inputArray);
+  window.isCommentInited = true;
+  return JSON.parse(new TextDecoder("utf-8").decode(outputArray));
+}

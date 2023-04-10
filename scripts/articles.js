@@ -8,7 +8,7 @@ jQuery(function($)
   {
     var postContent = document.querySelector('.post-body');
     postContent.innerHTML = '';
-    var size = Math.min(offset + 100,m_articles.length);
+    var size = Math.min(offset + 50,m_articles.length);
     for (var i=offset;i<size;i++) 
     {
       var a = m_articles[i];

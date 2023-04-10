@@ -1,0 +1,748 @@
+body {
+  margin: 0px;
+  font-size: small;
+  background-color: WhiteSmoke;
+  color: Black;
+}
+#main {
+  float: left;
+  padding-bottom: 20px;
+  padding: 0px;
+  font: normal normal 100% 'Trebuchet MS', verdana, sans-serif;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+#content-wrapper {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+h1 {
+  font-size: 240%;
+  font-weight: bold;
+  line-height: 120%;
+  text-align: center;
+}
+h4 {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.post-info {
+  text-align: left;
+  font-weight: normal;
+}
+.post-info .date-header {
+  font-size: 125%;
+  padding: 1px 50px 1px 20px;
+  color: Gray;
+}
+.post-info .tag {
+  font-size: 100%;
+  padding: 1px;
+  margin-left: 15px;
+}
+
+.post {
+  padding: 0px 20px 0px 20px;
+  margin-bottom: 20px;
+  line-height: 22px;
+}
+
+.post h2 {
+  font-size: 150%;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 0px 0px 22px;
+}
+.post h3 {
+  font-size: 120%;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0px 0px 0px 22px;
+}
+.post h4 {
+  font-size: 110%;
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0px 0px 0px 22px;
+}
+
+.post blockquote, .post q, .post pre, .post code {
+  background-color: #DDD;
+}
+.post blockquote {
+  margin: 1em 2em;
+  border: 0px none;
+}
+.post pre, .post code {
+  font-family: "DejaVu Sans Mono", Monaco, Menlo, Consolas, "Lucida Console", Courier, monospace;
+}
+.post pre {
+  overflow-x: auto;
+  padding: 0.5em 1em;
+  border: 0px none;
+}
+.post pre.shell {
+  background-color: Black;
+  color: LawnGreen;
+  border: 4px ridge Gray;
+  padding: 1em;
+  overflow-y: scroll;
+}
+
+.post a[target="_blank"] {
+  background: transparent url(../images/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+
+.post-toolbar {
+  margin-bottom: 30px;
+  margin-left: 30px;
+}
+
+.post-toolbar-1, .post-toolbar-2 {
+  margin: 0px;
+}
+
+.post-toolbar-2 .post-timestamp {
+  color: #808080;
+}
+
+.post-timestamp, .post-comment-link, .post-labels {
+  margin-right: 12px;
+}
+
+.post-timestamp, .post-comment-link, .post-labels {
+  margin-right: 12px;
+}
+
+h1.post-title, h1.entry-title {
+  font-size: 160%;
+  font-weight: bold;
+  text-align: left;
+  margin-left: 30px;
+}
+
+.copyright {
+  margin: 1em 2em;
+  padding: 5px;
+  border: 1px solid Black;
+}
+
+.copyright h4 {
+  padding: 0px !important;
+}
+
+.post-copyright {
+  margin: 1em 2em;
+  padding: 5px;
+  border: 1px solid Black;
+}
+
+.blogger-post-footer + hr {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: #0066FF;
+}
+a:hover {
+  text-decoration: underline;
+  color: #88BBFF;
+}
+a img {
+  border: 0;
+}
+a:visited {
+  color: #800080;
+}
+
+#sidebar a {
+  color: #0066FF;
+}
+#sidebar a:visited {
+  color: #800080;
+}
+#sidebar a:hover {
+  color: #88BBFF;
+}
+
+#sidebar {
+  text-transform: none;
+  background-color: White;
+  color: Black;
+  padding-left: 20px;
+  width: 30%;
+  float: right;
+  font: normal normal 100% 'Trebuchet MS', verdana, sans-serif;
+  border-left: 2px dashed Black;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.sidebar h2 {
+  font-weight: bold;
+  font-size: 120%;
+  color: Black;
+}
+.sidebar h3 {
+  font-weight: bold;
+  font-size: 100%;
+  color: Black;
+}
+.sidebar .widget {
+  padding: 4px 8px 0px 0px;
+}
+
+.descriptionwrapper {
+  margin-left: 30px;
+}
+
+.description {
+  text-align: left;
+  padding-top: 10px;
+  padding-left: 0px;
+}
+
+/*--@ Source code syntax highlight @--*/
+.source pre { background: DarkSlateGray; }
+.source .hll { background-color: LightYellow; }
+.source .k { color: DodgerBlue; font-weight: bold; } /* Keyword */
+.source .kt { color: DodgerBlue; font-weight: bold; } /* Keyword.Type */
+.source .kn { color: DodgerBlue; font-weight: bold; } /* Keyword.Namespace */
+.source .kr { color: DodgerBlue; font-weight: bold; } /* Keyword.Reserved */
+.source .kc { color: DodgerBlue; font-weight: bold; } /* Keyword.Constant */
+.source .kd { color: DodgerBlue; font-weight: bold; } /* Keyword.Declaration */
+.source .kp { color: DodgerBlue; font-weight: bold; } /* Keyword.Pseudo */
+.source .n { color: White; } /* Name */
+.source .nb { color: SteelBlue; font-weight: bold; } /* Name.Builtin */
+.source .bp { color: SteelBlue; font-weight: bold; } /* Name.Builtin.Pseudo */
+.source .nn { color: GoldenRod; font-weight: bold } /* Name.Namespace */
+.source .nc { color: GoldenRod; font-weight: bold; } /* Name.Class */
+.source .nf { color: GoldenRod; font-weight: bold } /* Name.Function */
+.source .no { color: White; } /* Name.Constant */
+.source .nd { color: White; } /* Name.Decorator */
+.source .ne { color: White; } /* Name.Exception */
+.source .nv { color: White; } /* Name.Variable */
+.source .vc { color: White; } /* Name.Variable.Class */
+.source .vg { color: White; } /* Name.Variable.Global */
+.source .vi { color: White; } /* Name.Variable.Instance */
+.source .nl { color: White; } /* Name.Label */
+.source .nt { color: SteelBlue } /* Name.Tag */
+.source .ni { color: SteelBlue; } /* Name.Entity */
+.source .na { color: OliveDrab; } /* Name.Attribute */
+.source .py { color: White; } /* Name.Property */
+.source .nx { color: White; } /* Name.Other */
+.source .m { color: Orchid; } /* Literal.Number */
+.source .mb { color: Orchid; } /* Literal.Number.Bin */
+.source .mi { color: Orchid; } /* Literal.Number.Integer */
+.source .il { color: Orchid; } /* Literal.Number.Integer.Long */
+.source .mo { color: Orchid; } /* Literal.Number.Oct */
+.source .mh { color: Orchid; } /* Literal.Number.Hex */
+.source .mf { color: Orchid; } /* Literal.Number.Float */
+.source .s { color: Chocolate; } /* Literal.String */
+.source .sb { color: Chocolate; } /* Literal.String.Backtick */
+.source .sc { color: Chocolate; } /* Literal.String.Char */
+.source .sd { color: Chocolate; } /* Literal.String.Doc */
+.source .s2 { color: Chocolate; } /* Literal.String.Double */
+.source .se { color: Chocolate; } /* Literal.String.Escape */
+.source .sh { color: Chocolate; } /* Literal.String.Heredoc */
+.source .si { color: Chocolate; } /* Literal.String.Interpol */
+.source .sx { color: Chocolate; } /* Literal.String.Other */
+.source .sr { color: Chocolate; } /* Literal.String.Regex */
+.source .s1 { color: Chocolate; } /* Literal.String.Single */
+.source .ss { color: Chocolate; } /* Literal.String.Symbol */
+.source .o { color: Aqua; } /* Operator */
+.source .ow { color: Aqua; } /* Operator.Word */
+.source .p { color: White; } /* Punctuation */
+.source .c { color: LimeGreen; font-style: italic; } /* Comment */
+.source .ch { color: LimeGreen; font-style: italic; } /* Comment.Hashbang */
+.source .cm { color: LimeGreen; font-style: italic; } /* Comment.Multiline */
+.source .c1 { color: LimeGreen; font-style: italic; } /* Comment.Single */
+.source .cs { color: LimeGreen; font-style: italic; } /* Comment.Special */
+.source .cp { color: SteelBlue; font-weight: bold; font-style: italic; } /* Comment.Preproc */
+.source .cpf { color: LawnGreen; font-style: italic; } /* Comment.PreprocFile */
+.source .x { color: DarkGray; } /* Other */
+
+#comments {
+  margin-left: 30px !important;
+}
+
+/*--@ Label @--*/
+#comments #comments-label {
+  font-size: 140% !important;
+}
+
+/*--@ Loading info @--*/
+#comments #comments-loading {
+  width: 100%;
+  text-align: left;
+}
+#comments #comments-loading #progress-label {
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/*--@ Warning info @--*/
+#comments #comments-warning {
+  font-size: 125%;
+  font-weight: bold;
+}
+
+/*--@ Toolbar @--*/
+#comments #comments-toolbar {
+  text-align: right;
+}
+#comments #comments-toolbar span {
+  padding: 0px 12px;
+}
+#comments #comments-toolbar .filter-time-range {
+  margin-top: 20px;
+}
+#comments #comments-toolbar .filter-time-range select {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+}
+
+/*--@ Dropdown menu @--*/
+#comments .menubar {
+  display: inline-block !important;
+}
+#comments .ui-menu {
+  font-size: 100% !important;
+  text-align: left;
+  white-space: nowrap !important;
+  z-index: 256;
+}
+#comments .ui-menu-icon {
+  display: none;
+}
+#comments .ui-menu-item a {
+  color: #0066FF;
+  text-decoration: none;
+  padding: 0px 10px;
+}
+#comments .ui-menu.dropdown {
+  text-align: center !important;
+  background-color: transparent !important;
+  background: none !important;
+  border-style: none !important;
+}
+
+/*--@ Thread @--*/
+#comments #comment-holder {
+  display: none;  /* temporary hide */
+}
+
+#comments .comment-thread ol {
+  list-style-type: none !important;
+}
+
+/* #comments-loading {
+  margin-left: 30px;
+} */
+
+#progress-bar {
+  position: relative;
+}
+
+#comments li.comment .comment-block {
+  background: transparent;
+  background-color: LightGray;
+  padding: 10px !important;
+  border: 3px solid Silver;
+  border-radius: 10px;
+  margin-left: 60px !important;
+  margin-top: -35px;
+}
+#comments li.comment .comment-block.match {
+  border-color : CadetBlue !important;
+}
+#comments li.comment .comment-block.unread {
+  background-color: Snow !important;
+}
+#comments li.comment .comment-block.current {
+  border-color: DodgerBlue !important;
+}
+#comments li.comment.spam .comment-block {
+  background-color: DarkGray !important;
+  border-color: DarkGray !important;
+}
+
+#comments li.comment.sub {
+  padding: 0px !important;
+}
+#comments li.comment.sub .comment-block {
+  border: 2px solid Silver;
+}
+
+/*--@ Restore hidden comments @--*/
+#comments li.restore {
+  text-align: center;
+  margin: 15px 0px;
+}
+
+/*--@ Button of expand/collapse @--*/
+#comments .comment-replies.thread-expanded .comment-thread {
+  display: block;
+}
+#comments .comment-replies.thread-expanded .thread-toggle {
+  display: block;
+  width: 60px !important;
+  height: 18px !important;
+  background: url(../images/expanded.png) no-repeat scroll 0px 3px transparent;
+}
+#comments .comment-replies.thread-expanded .thread-toggle:after {
+  content: "折叠";
+  float: right;
+  color: Gray;
+}
+#comments .comment-replies.thread-collapsed .comment-thread {
+  display: none;
+}
+#comments .comment-replies.thread-collapsed .thread-toggle {
+  display: block;
+  width: 60px !important;
+  height: 18px !important;
+  background: url(../images/collapsed.png) no-repeat scroll 0px 3px transparent;
+}
+#comments .comment-replies.thread-collapsed .thread-toggle:after {
+  content: "展开";
+  float: right;
+  color: Gray;
+}
+
+/*--@ Comment header @--*/
+#comments .comment-header {
+  overflow: hidden;
+  padding-bottom: 8px;
+}
+#comments .comment-header .star {
+  font-size: 80%;
+  color: DeepPink;
+  margin-left: 10px;
+}
+#comments .comment-header cite.user {
+  font-style: normal !important;
+}
+#comments .comment-header cite.blog-author a {
+  border-bottom: 2px solid !important;
+}
+#comments .comment-header cite.blog-author a:hover {
+  text-decoration: none !important;
+}
+#comments .comment-header .datetime {
+  margin-left: 40px !important;
+}
+#comments .comment-header .hot {
+  float: right;
+  text-align: right;
+  font-size: 115%;
+  color: DeepPink;
+  margin-left: 15px;
+}
+#comments .comment-header .counter {
+  float: right;
+  text-align: right;
+  font-size: 125%;
+  margin-left: 15px;
+}
+#comments li.comment.sub .comment-header .counter {
+  font-size: 100%;
+}
+
+/*--@ Button of actions @--*/
+#comments .comment-actions {
+  height: 30px;
+  padding-top: 8px;
+}
+#comments .comment-actions .reply-btn,
+#comments .comment-actions .blog-admin,
+#comments .comment-actions .menubar {
+  margin-right: 20px;
+}
+#comments .comment-actions .add-btn {
+  float: right;
+  margin-left: 20px;
+}
+#comments .comment-actions .mark-spam {
+  float: right;
+  padding-top: 5px;
+}
+#comments .comment-actions .go-level-current,
+#comments .comment-actions .go-level-up,
+#comments .comment-actions .go-level-down,
+#comments .comment-actions .go-level {
+  float: right;
+  margin-left: 10px;
+}
+#comments .comment-actions .go-level-up,
+#comments .comment-actions .go-level-down {
+  font-size: 125%;
+}
+#comments .comment-actions .go-level {
+  width: 75px;
+  height: 30px;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 30px;
+}
+#comments .comment-actions .go-level > option.spam {
+  background-color: Gray;
+}
+#comments .comment-actions .add-btn,
+#comments .comment-actions .reply-btn {
+  font-weight: bold;
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+#comments .comment-actions.top {  /* at page bottom */
+  font-size: 125%;
+  margin: 40px 0px;
+}
+#comments .comment-actions.top .add-btn {  /* at page bottom */
+  float: left;
+  margin-left: 0px;
+}
+
+/*--@ Comment content @--*/
+#comments .comment-content {
+  overflow: hidden;
+  position: relative !important;
+  background-color: inherit !important;
+}
+
+/*--@ Deleted or banned comment @--*/
+#comments .comment-content .deleted-comment,
+#comments .comment-content .banned-comment {
+  font-style: italic !important;
+  color: Gray !important;
+  background-color: inherit !important;
+}
+
+/*--@ BBcode @--*/
+#comments .comment-content a[target="_blank"] {
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+#comments .comment-content .bbcode img {
+  border: 1px solid Black;
+}
+#comments .comment-content .bbcode img.icon {
+  max-width: 256px;
+  max-height: 192px;
+}
+#comments .comment-content .quote {
+  background-color: LightSteelBlue;
+}
+#comments .comment-content div.quote {
+    margin: 0em 2em;
+}
+#comments .comment-content del {
+  color: Gray;
+}
+
+/*--@ Image of avatar @--*/
+#comments .avatar-image-container,
+#comments .avatar-image-container img {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border: none !important;
+}
+
+/*--@ Editor @--*/
+#comments .comment-form,
+#comments iframe#comment-editor {
+  display: none !important;
+}
+
+/*--@ Button of 'load more' @--*/
+#comments .loadmore {
+  display: none !important;
+}
+
+/*--@ Comment footer @--*/
+#comments .comment-footer {
+  display: none !important;
+}
+
+#tweets {
+  margin-right: 30px;
+}
+
+#tweets .comments-toolbar,
+#tweets .comments-auto-load,
+#tweets .comments-content,
+#tweets .comments-warning {
+  padding-bottom: 6px;
+}
+
+#tweets .comments-content .comment-block {
+  padding: 12px 0px;
+}
+#tweets .comments-content .comment-block.ignore {
+  background-color: Silver;
+}
+
+/*--@ Comment header @--*/
+#tweets .comments-content .comment-header img.avatar {
+  width: 36px;
+  height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  border: none;
+}
+#tweets .comments-content .comment-header cite.author {
+  font-style: normal;
+  font-size: 100%;
+  font-weight: bold;
+  margin: 0px 18px;
+}
+#tweets .comments-content .comment-header cite.author.blog-author {
+  border-bottom: 1px solid !important;
+}
+
+#tweets .comments-content .comment-header .datetime {
+  font-size: 80%;
+  font-style: italic;
+  color: Gray;
+}
+
+#tweets .comments-content .comment-article {
+  padding: 5px 0px;
+}
+
+/*--@ Comment text @--*/
+#tweets .comments-content .comment-text a[target="_blank"] {
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+
+.post-inner-index {
+  padding: 1em 2em;
+}
+
+.post-header-line-1 {
+  margin-left: 30px;
+}
+
+/*--@ jQueryUI font @--*/
+.ui-widget {
+  font: 100% "Trebuchet MS",verdana,sans-serif !important;
+}
+.ui-widget .ui-widget {
+  font: 90% "Trebuchet MS",verdana,sans-serif !important;
+}
+
+/*--@ jQueryUI tooltip @--*/
+.ui-tooltip {
+  background: LightYellow !important;
+  border-radius: 15px !important;
+  font-size: 100% !important;
+  max-width: 640px !important;
+}
+
+/*--@ jQueryUI progressbar @--*/
+.ui-progressbar {
+  position: relative;
+}
+
+/*--@ post-body @--*/
+.post-body img {
+  max-width: 100%;
+}
+
+/*--@ Toolbar on right side @--*/
+#side-toolbar {
+  display: none;
+  visibility: hidden;
+  background-color: LightGray;
+  border: 1px solid SlateGray;
+  z-index: 1024;
+  position: fixed;
+  top: 50%;
+  margin-top: -60px;
+  left: 100%;
+  margin-left: -38px;
+  width: 38px;
+  height: auto;
+  padding: 3px;
+  font-size: 15px;
+}
+#side-toolbar div {
+  width: 32px;
+  height: 32px;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#side-toolbar .go-comments {
+  text-align: center;
+  background: url(https://lh5.googleusercontent.com/xG1s7ZZY2PP5W-Mm6TpxZylaN0HaP1xTFXiz64rbmmdPeHvKcAOfFAjVNA5NsX-ku3MKFiqwWO8jPdz0hK04ADiABoeOjvZD2AlOsSN6bczTigCJznEFvMNY3VwceQ9nBASw9Owzy3c) no-repeat scroll 0px 0px transparent;
+}
+#side-toolbar .go-comments a,
+#side-toolbar .go-comments a:link,
+#side-toolbar .go-comments a:visited {
+  text-decoration: none;
+  color: Fuchsia;
+  line-height: 24px;
+  font-size: 10px;
+}
+
+.post-toolbar-1 .post-config-buttons a {
+  margin: 0px 3px;
+}
+
+/*--@ Message tip at bottom @--*/
+#bottom-tip {
+  display: none;
+  background-color: Silver;
+  border: 1px solid SlateGray;
+  text-align: center;
+  font-size: 125%;
+  z-index: 1024;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 64px;
+  line-height: 64px;
+}
+
+.status-msg-wrap {
+  font-size: 110%;
+  width: 90%;
+  margin: 10px auto;
+  position: relative;
+}
+
+.status-msg-border {
+  border: 1px solid #000;
+  filter: alpha(opacity=40);
+  -moz-opacity: .4;
+  opacity: .4;
+  width: 100%;
+  position: relative;
+}
+
+.status-msg-body {
+  background-color: #e4e4e4;
+  width: 100%;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #999;
+}

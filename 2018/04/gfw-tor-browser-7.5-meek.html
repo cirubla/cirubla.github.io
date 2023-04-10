@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>&#8220;如何翻墙&#8221;系列&#65306;扫盲 Tor Browser 7.5&#8212;&#8212;关于 meek 插件的配置&#12289;优化&#12289;原理 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2018-04-12T21:21:00+08:00">2018年4月12日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：442条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              &#8220;如何翻墙&#8221;系列&#65306;扫盲 Tor Browser 7.5&#8212;&#8212;关于 meek 插件的配置&#12289;优化&#12289;原理
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;引子</h2>
+<br>
+&#12288;&#12288;3年前&#65288;2014年10月&#65289;&#65292;Tor 官网发布了全新的 Tor Browser 4.0 版本&#8212;&#8212;该版本引入了 meek 这个牛逼的流量混淆插件&#65292;可以让 Tor 在墙内独立联网&#12290;<br>
+&#12288;&#12288;当年俺已经写过一篇教程&#65288;在&#8220;<a href="../../2014/10/gfw-tor-meek.html">这里</a>&#8221;&#65289;&#65292;跟大伙儿分享 meek 使用心得&#65288;包括&#65306;安装&#12289;配置&#12289;优化&#12289;技术原理&#65289;&#12290;<br>
+&#12288;&#12288;如今三年半过去了&#65292;Tor Browser 已经发展到 7.5 版本&#65292;&#65288;与 4.0 相比&#65289;配置界面有很多变化&#12290;上周&#65292;某热心读者在博客评论区提议&#65292;要俺更新一下 meek 的教程&#65292;于是有了今天这篇&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;Tor 是啥&#65311;</h2>
+<br>
+&#12288;&#12288;Tor 是洋文&#8220;The Onion Router&#8221;的缩写&#65292;中文又称&#8220;洋葱网络/洋葱路由&#8221;&#12290;<br>
+&#12288;&#12288;它是一款非常老牌的翻墙工具&#65288;老网民亲切地称之为&#65306;戴&#8220;套&#8221;翻墻&#65289;&#12290;说它是翻墙工具&#65292;其实贬低它了&#8212;&#8212;它不仅仅可以翻墙&#65292;还是一款很牛B 的&#12304;隐匿性工具&#12305;&#8212;&#8212;在你上网时&#65292;帮你隐匿自己的&#12304;真实公网 IP&#12305;&#12290;<br>
+&#12288;&#12288;关于 Tor 的更多介绍&#65292;请看&#12298;<a href="../../2013/11/tor-faq.html">&#8220;如何翻墙&#8221;系列&#65306;关于 Tor 的常见问题解答</a>&#12299;&#12290;&#65288;不熟悉 Tor 的同学&#65292;最好先看完那篇&#65292;然后再看本文&#65289;<br>
+<br>
+<br>
+<h2>&#9733;前些年&#65292;为啥 Tor&#12304;无法&#12305;在天朝内独立联网&#65311;</h2>
+<br>
+&#12288;&#12288;大约在2010年的两会期间&#65292;GFW 开始全面屏蔽 Tor 在全球的节点&#65288;包括网桥/bridge&#65289;&#8212;&#8212;也就是把这些节点都列入&#8220;IP 黑名单&#8221;&#12290;从那之后&#65292;天朝之内的 Tor 就很难独立联网了&#12290;<br>
+&#12288;&#12288;顺便说一下&#65306;<br>
+&#12288;&#12288;从2010到2014年&#65292;虽然 Tor 在墙内无法&#12304;独立&#12305;联网&#65292;但是可以利用双重代理的方式&#65292;借助其它翻墙工具联网&#65292;教程参见&#12298;<a href="../../2012/03/howto-cover-your-tracks-5.html">如何隐藏你的踪迹&#65292;避免跨省追捕[5]&#65306;用多重代理隐匿公网IP</a>&#12299;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;为啥 meek 插件可以帮 Tor&#12304;复活&#12305;&#65311;</h2>
+<br>
+<h3>&#9671;原理概述</h3>
+<br>
+&#12288;&#12288;在本文开篇处&#65292;俺提到说&#65306;Tor Browser 从 4.0 版本开始&#65292;内置了 meek 流量混淆插件&#12290;<br>
+&#12288;&#12288;有了这个插件&#65292;可以把 Tor 流量伪装成访问云计算平台的流量&#12290;当你的数据流量到达云计算平台之后&#65292;会经过一系列中转&#65288;具体的技术原理&#65292;本文末尾有简介&#65289;&#65292;最终转向你真正访问的网站&#12290;<br>
+&#12288;&#12288;这么做的好处在于&#65306;<br>
+1. 由于传输流量经过伪装&#65292;GFW 比较难区分&#8220;伪装的 Tor 流量&#8221;和&#8220;真正访问云计算的普通流量&#8221;&#12290;<br>
+2. 由于 meek 依赖的这几个云计算平台都是大公司&#65288;亚马逊&#12289;微软&#65289;提供的&#65292;GFW 不太敢随便封杀它们的公网 IP 地址&#12290;<br>
+&#12288;&#12288;注&#65306;meek 的这种手法&#65292;技术行话称之为&#12304;依附的自由&#12305;&#12290;<br>
+<br>
+<h3>&#9671;优点</h3>
+<br>
+&#12288;&#12288;<b>优点1</b><br>
+&#12288;&#12288;这几个大公司的云平台&#65292;有很多国内的商业公司也在用&#65292;GFW 不敢轻易封锁这几个云计算平台的&#8220;服务器 IP&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>优点2</b><br>
+&#12288;&#12288;俺初步使用下来&#65292;感觉线路还是比较稳定&#12290;<br>
+<br>
+&#12288;&#12288;<b>优点3</b><br>
+&#12288;&#12288;由于 Tor 本身就是多重代理&#65288;默认三重&#65289;&#65292;所以当你用 Tor + meek 翻墙&#65292;你的&#8220;公网IP&#8221;的隐匿性会明显高于其它&#8220;单重代理&#8221;的工具&#65288;比如&#65306;VPN&#12289;自由门&#12289;无界&#65289;<br>
+<br>
+<h3>&#9671;缺点</h3>
+<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;速度还不够快&#12290;俺自测的结果&#65292;大约是几十个 KB/s&#65288;字节率&#65289;&#12290;这个速度看视频肯定没戏&#65292;看网页还可以&#12290;<br>
+&#12288;&#12288;希望今后可以有明显的改善&#8212;&#8212;比如 Tor 社区部署更多的 meek 网桥&#65307;或者对代码和架构进行优化&#12290;<br>
+&#12288;&#12288;注&#65306;有热心读者反馈说速度可以达到 100KB/s&#65292;俺估计不同的省份或者不同的 ISP&#65292;效果可能不同&#12290;<br>
+<br>
+<br>
+<h2>&#9733;基本使用教程</h2>
+<br>
+&#12288;&#12288;先扫盲一下最基本的使用&#65306;如何配置 Tor Browser&#65292;让它走 meek 类型的网桥&#12290;<br>
+<br>
+<h3>&#9671;获取安装包</h3>
+<br>
+&#12288;&#12288;<b>通过官网下载</b><br>
+&#12288;&#12288;首先&#65292;你要到 Tor 的<a href="https://www.torproject.org/" target="_blank" rel="nofollow">官网</a>去下载&#12290;下载页面在&#8220;<a href="https://www.torproject.org/download/" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;上述页面提供了 Windows&#12289;Linux&#12289;Mac OS&#12289;Android 几大平台的安装包&#12290;官网默认提供的安装包是&#12304;英文界面&#12305;&#65292;如果你想选别的语种&#65292;点击官网的&#8220;<a href="https://www.torproject.org/download/languages/" target="_blank" rel="nofollow">这个链接</a>&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>通过 BT Sync/Resilio Sync 获取</b><br>
+&#12288;&#12288;俺提供了一个 BTsync 网盘&#65292;里面包含各种常见翻墙工具&#65292;Tor Browser 也在其中&#12290;该网盘的同步密钥是&#65306;<br>
+<pre>BTLZ4A4UD3PEWKPLLWEOKH3W7OQJKFPLG</pre>
+&#12288;&#12288;顺便说一下&#65306;<br>
+&#12288;&#12288;如果你想使用 BTsync&#65292;建议先看如下这几篇教程&#65306;<br>
+&#12298;<a href="../../2015/01/BitTorrent-Sync.html">扫盲 BTSync&#65288;Resilio Sync&#65289;&#8212;&#8212;不仅是同步利器&#65292;而且是&#12304;分布式&#12305;网盘</a>&#12299;<br>
+&#12298;<a href="../../2017/08/GFW-Resilio-Sync.html">聊聊 GFW 如何封杀 Resilio Sync&#65288;BTSync&#65289;&#65311;以及如何&#12304;免翻墙&#12305;继续使用&#65311;</a>&#12299;<br>
+<br>
+<h3>&#9671;安装</h3>
+<br>
+&#12288;&#12288;安装过程的第一步会让你选择安装界面的语言&#12290;不熟悉洋文的同学&#65292;可以先切换为&#12304;chinese&#12305;&#12290;<br>
+&#12288;&#12288;整个安装过程很傻瓜化&#65292;没啥好说的&#12290;你就照着安装向导一步步往下走&#65292;既可&#12290;<br>
+<br>
+<h3>&#9671;网络配置</h3>
+<br>
+&#12288;&#12288;第一次运行 Tor Browser 会出现如下网络设置的对话框&#12290;只需按照俺给出的截图进行配置&#65292;就可以让 Tor 通过 meek 插件联网&#12290;<br>
+<br>
+<center><img src="../../images/2018/04/tgONa9umvDR_FKBnH9UdTXz4xlmq6A64ok_gU4LP_eRCwnlnKVexQiuK4mNulAV8sF2VqikjhC2ckpavl-LPQH_bSSmOfmIWTJxHQLLoIJqF47cG6pcjCpDx6hj49ZeDeBc1IWplt8w" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/Zhf2WZ5FA4_lxaD3VlvKOxdGV5dst3lOM17LtOZFXLYRqgM838d4_iQu4ce9KMfNcvuI4uB1lhVwARCrEo0B2ERcCqTdcfN8qANkQMH4zw7EeeWHMtl77aWbcdAhYQi7lDxL1ffBpuA" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/9hfXaLU_WgR9DBMBck3ZwgVFEgu7yDPa7Sjzepy1kfqWJZC7HllObPf_F99NzwBqnMq75yH7UV9HNw5PV_1orGjzJi9Mo2ABm13E7EZRadblTcWDhmA02s4rNhQGA-3iSp7csu4Ngqc" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/doNzefWoPCmEO44_wKs21alBvxr74RDQjo_yS7y0zAZuKwUTJvtUjn4OfJAgA2cYTjHUSbGxy4NwLusUjnfb5nVyINe_Mplxv5JAluoHrgVffuRZGPuSMn6INxi7C3OIpiJ51ioQK1o" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/Z3BS-Eun0txgQEsuqbTAX3mTrEXia76uS1d9A7TRbQR4_GObytNa-E58zjUEMXMzPE4e_NNHz6xP9y_D3_RSud1nCPseZ98K1l5u_jE5aiG00KkRUsJweWtpZqqd4GaJ0ZKvLcwLb4s" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;版本升级</h3>
+<br>
+&#12288;&#12288;如果你启动了 Tor Browser 之后&#65292;看到如下提示&#65292;说明 Tor Browser 内置的 Firefox 需要升级版本&#12290;<br>
+<br>
+<center><img src="../../images/2018/04/FlaWC45lp9FasInsVlrXOB64PG8QRUmB46SP0aQSEopksjHy_xb_bcCI8hITkydQs6ruzkEuJsCnVH7cIZntrgVasWKPa6-j6oGJDrKbHqC2u7iUcS9cysPaRyWLyxLO8yBDjcZ-J-0" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;先点击如下菜单项&#65292;就会弹出升级的对话框&#65292;并自动下载最新版本的 Tor Browser&#12290;<br>
+<br>
+<center><img src="../../images/2018/04/xtUgbLQf0GsERDs7r98zaOdG2Sn1rCrbd2ww5UVUtuE690_YKfA9WGlVsT-nA3rQdopUuMA6lq0X9IJnsvIKVDDm5BU-WqvH31Wk7px_XT2Lds_ErtZItYLKB_wXQ3E8u7_yLgtAhIY" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/saCSp8VjbQEVIfb8j1pb2AloEz6dgYo9ur94XDhv1yGTTUH3wa_4JpVzZwU6BmPaMdVfCJ6sr7WEn3FammWbkaCof6ponOk6l9gc31EWjY2u4DMpw8vy1tx7hi4QIylBkA7nYxiABHs" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;安全设置</h3>
+<br>
+&#12288;&#12288;还有一个&#8220;安全设置&#8221;的功能&#65292;也简单说一下&#12290;先点击如下菜单项&#12290;<br>
+<br>
+<center><img src="../../images/2018/04/CIbQBu4yaiJJB76VFL3jR7gD2-d9p3RW_zwGGleolHbzPF16cr3hpBzf_1-FwaluGc_O7zOcV-Hw9bTLC8Z9wo0zNpquWlauOgW0FVwf515c5EUMuD9G17hImXooAItkbzuFqYhF55Y" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;然后会弹出一个对话框&#12290;通过移动对话框左侧的滑块&#65292;可以切换不同的安全等级&#65288;共3级&#65289;&#12290;具体截图如下&#65306;<br>
+<br>
+<center><img src="../../images/2018/04/T7BgSaXUOav4cZslkgTCrDnUm505vGZQuUeNCGx1o0SFoVm0U4_9jTKutxUEZCkxot8m1F6Q2_kyFeH_R-FZ8hLTsW0o8ic0-I0H2kWVX8v_8_rdNkSkx-gcSeEVAzmQKMmNCOw6Jd0" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/0pSchusPNN_IgjkHp6ABh6DgK385eEWrPXGeWM8pVeaA4HU1Urf_SXEOSVmXijDkCKkpf4QYuZoxEI72zYBkIRYZ0u6dMvun3huR3gy8Hs5Z2KFTUHbA70-zoyxwRFBsRjlD2iC5wDM" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2018/04/X5uMp2T6gQwEsctGzqx_8apnuttHUM2r0HpH2S9IcA-3pDwxOcb1mQ2vla0X5E2l-ANmctxi2K4i9Kws2lopzVZ7fYkfdzEvfv69e88ClpOYVW-o2uQCW8MdcIvwiiQx6nfo4j1CjPA" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;常见问题解答&#65288;FAQ&#65289;</h2>
+<br>
+<h3>&#9671;Tor Browser 提供的 SOCKS 代理&#65292;端口号是多少&#65311;</h3>
+<br>
+&#12288;&#12288;Tor Browser 内置了 Tor&#12290;这个内置的 Tor 会在本机地址&#65288;<code>127.0.0.1</code>&#65289;开启一个 SOCKS 的监听端口&#12290;<br>
+&#12288;&#12288;Tor Browser Bundle 软件包从 <code>2.3.25</code> 版本开始&#65292;其内部 Tor 提供的 SOCKS 监听端口号改为 <code>9150</code>&#65292;而 Tor 的其它软件包&#65288;比如 Tor Expert Bundle&#65289;继续使用 <code>9050</code> 作为 SOCKS 代理的端口号&#12290;<br>
+&#12288;&#12288;由于端口号的改动&#65292;导致很多翻墙的同学&#65292;把端口号设错了&#65292;功亏一篑 :(<br>
+<br>
+<h3>&#9671;如何让&#12304;本机&#12305;的第三方软件通过 Tor Browser 联网&#65311;</h3>
+<br>
+&#12288;&#12288;这个问题要分两种情况来描述&#8212;&#8212;关键看第三方软件是否支持 SOCKS 代理&#12290;<br>
+<br>
+&#12288;&#12288;<b>第三方软件支持 SOCKS 代理</b><br>
+&#12288;&#12288;前面说了&#65306;Tor Browser 内置的 Tor 会在本机地址&#65288;<code>127.0.0.1</code>&#65289;开启一个 SOCKS 端口&#65292;端口号是 <code>9150</code><br>
+&#12288;&#12288;因此&#65292;如果某个网络软件跟 Tor Browser 安装在同一个操作系统中&#65292;那么该软件就可以利用 Tor Browser 内置的 Tor&#65292;进行翻墙&#12290;<br>
+&#12288;&#12288;举例1&#65306;<br>
+&#12288;&#12288;假如你不喜欢 Tor Browser 内置的 Firefox&#65292;喜欢用自己的 Chrome&#12290;那么你可以设置 Chrome&#65292;让 Chrome 走 Tor 提供的 SOCKS 代理&#12290;<br>
+&#12288;&#12288;举例2&#65306;<br>
+&#12288;&#12288;假设你想让自己的 Skype 走 Tor 的线路&#65292;同样也可以修改 Skype 的代理设置&#65292;让 Skype 走 Tor 的线路联网&#12290;<br>
+<br>
+&#12288;&#12288;<b>第三方软件只支持 HTTP 代理&#65292;&#12304;不&#12305;支持 SOCKS 代理</b><br>
+&#12288;&#12288;这种情况就稍微麻烦一些&#8212;&#8212;你需要利用 Privoxy 这款牛逼的工具&#65292;来实现&#12304;HTTP proxy 转 SOCKS proxy&#12305;&#12290;关于 Privoxy 的扫盲教程&#65292;俺在3年前&#65288;2014&#65289;写过一篇&#65288;如下&#65289;&#65292;本文这里就不再多费口水了&#12290;<br>
+&#12298;<a href="../../2014/12/gfw-privoxy.html">如何用 Privoxy 辅助翻墙&#65311;</a>&#12299;<br>
+<br>
+<h3>&#9671;如何&#12304;跨机器&#12305;共享 Tor Browser 的翻墙通道&#65311;</h3>
+<br>
+&#12288;&#12288;要想&#12304;跨机器&#12305;共享 Tor Browser 的翻墙通道&#65292;同样要考虑第三方软件是否支持 SOCKS 代理&#12290;关于这点&#65292;前一个小节已经介绍过了&#65292;此处不再罗嗦&#12290;<br>
+&#12288;&#12288;下面介绍两个招数&#8212;&#8212;&#8220;招数1&#8221;是专门针对 Tor 的&#65307;&#8220;招数2&#8221;是通用的&#65288;也可以用于其它翻墙工具&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b>招数1&#65306;修改 Tor 的配置文件</b><br>
+&#12288;&#12288;在 Tor Browser 的安装目录下搜索 <code>torrc</code> 文件&#12290;找到后用记事本&#65288;notepad&#65289;打开&#65292;在该文件末尾新增一行&#65292;内容如下&#12290;<br>
+<pre>SOCKSPort  0.0.0.0:9150</pre>
+&#12288;&#12288;修改完记得存盘&#65292;然后记得重启 Tor Browser&#12290;之后&#65292;Tor 的监听端口就会绑定到 <code>0.0.0.0</code> 这个地址&#8212;&#8212;意思就是说&#65292;任何地址&#65288;任何机器&#65289;都可以连接到 Tor 的监听端口&#12290;<br>
+&#12288;&#12288;&#65288;唠叨一下&#65306;如果要跨机器共享 Tor 的 SOCKS 端口&#65292;别忘了修改防火墙的配置&#65292;允许 <code>9150</code> 端口的 TCP 连入&#65289;<br>
+<br>
+&#12288;&#12288;<b>招数2&#65306;端口转发</b><br>
+&#12288;&#12288;除了上述方法&#65292;你还可以参考俺之前的博文&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何共享翻墙通道</a>&#12299;&#12290;此文中介绍了两种常见的&#8220;端口转发&#8221;方式&#12290;<br>
+&#12288;&#12288;端口转发的好处是&#65306;跟具体的翻墙软件无关&#8212;&#8212;既可以用于 Tor&#65292;也可以用于其它的翻墙代理&#12290;<br>
+<br>
+<h3>&#9671;如何剥离&#8220;内置的 Firefox&#8221;&#65311;</h3>
+<br>
+&#12288;&#12288;经过俺的初步研究&#65306;如果你想用 meek 插件&#65292;就&#12304;没办法&#12305;剥离内置的 Firefox&#12290;因为 Tor 的这个 meek 插件需要 Firefox 才能正常工作&#12290;<br>
+&#12288;&#12288;虽然无法剥离&#65292;但还是有希望进行一些优化滴&#12290;请看下一节&#12290;<br>
+<br>
+<h3>&#9671;Tor Browser 可以做成免安装的绿色版吗&#65311;</h3>
+<br>
+&#12288;&#12288;可以&#65281;<br>
+&#12288;&#12288;比较简单的做法是&#65306;<br>
+1. 先安装一遍<br>
+2. 配置好 meek<br>
+3. 把安装目录打个压缩包<br>
+&#12288;&#12288;然后就可以把这个压缩包拿到其它电脑上&#65292;解压并运行&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何优化&#8220;内置的 Firefox&#8221;&#65311;</h2>
+<br>
+&#12288;&#12288;本小节针对如下两种人&#65306;<br>
+1. 想用自己的浏览器&#65292;不喜欢 Tor Browser 内置的 Firefox<br>
+2. 只拿 Tor 来充当翻墙代理&#65292;完全不需要用到浏览器<br>
+<br>
+<h3>&#9671;为啥需要优化&#65311;</h3>
+<br>
+&#12288;&#12288;当你按照前面的基本教程&#65292;把 Tor Browser 启动起来并利用 meek 这个流量混淆插件翻墙成功&#12290;这时候 Tor Browser 会在内存中运行如下几个进程&#65288;请看截图&#65289;&#12290;<br>
+<br>
+<center><img src="../../images/2018/04/RmK77OACn1tLlUpXpQ2bHLpAV7tPIyAojXgKoIabO4fnCHzO6YIj0RVWl5Ex1_ZudW2bKfvGIp0shnfk1jpqNB3-A0CBWaE4kEzPsMfsYLPwzL5BgyxeoKxQz5G4dxJ9uzG5" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;截图中显示的是进程的父子关系&#65288;术语叫&#8220;进程树&#8221;&#65289;&#12290;Windows 内置的&#8220;任务管理器&#8221;只能显示&#8220;进程列表&#8221;&#65292;无法显示&#8220;进程树&#8221;&#12290;俺这里用的是&#12304;Process Explorer&#12305;&#65288;该工具由微软官网提供&#65292;链接在&#8220;<a href="https://technet.microsoft.com/en-us/sysinternals/bb896653.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;<br>
+&#12288;&#12288;只要你眼睛没瞎&#65292;自然会发现&#65306;在 Tor Browser 的进程树中&#65292;有两个 Firefox 进程&#12290;这是咋回事捏&#65311;俺来解释一下&#65306;<br>
+&#12288;&#12288;&#12304;最上面&#12305;的那个 Firefox 对应的就是你看到的 Firefox 浏览器界面&#12290;而&#12304;下面&#12305;那个 Firefox 是用来跟 meek 插件搭配的&#65288;俺猜测是用来进行网络流量转发&#65289;&#12290;这也就是为啥俺刚才说&#12304;Firefox 没法剥离&#12305;&#12290;因为 Firefox 参与了 meek 插件的工作&#12290;<br>
+&#12288;&#12288;现在&#65292;假设你不想用内置的 Firefox&#65292;想用别的浏览器&#65292;那么最上面的那个 Firefox 进程对你而言就是多余的&#65288;而且浪费了你的系统内存&#65289;&#12290;但是没有它&#65292;你又没法启动 Tor&#65292;咋办捏&#65311;<br>
+<br>
+<h3>&#9671;如何优化&#65311;</h3>
+<br>
+&#12288;&#12288;俺想了一个解决办法&#65306;<b>不依赖&#12304;内置的&#12305; Firefox&#65292;直接启动 Tor&#65288;以及 meek 插件&#65289;</b>&#12290;操作步骤如下&#65306;<br>
+<br>
+&#12288;&#12288;<b>1. 先正常启动一次</b><br>
+&#12288;&#12288;你先根据俺前面介绍的教程&#65292;把 Tor Browser 正常启动一次&#65292;并配置好 meek 插件&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 制作一个启动脚本&#65288;bat 批处理文件&#65289;</b><br>
+&#12288;&#12288;首先&#65292;俺准备了一个 BAT 脚本&#65288;由于这个脚本很简单&#65292;只有一行&#65292;就不放到网盘上了&#65289;&#12290;这个脚本的内容如下&#65306;<br>
+<pre>.\TorBrowser\Tor\tor.exe --defaults-torrc .\TorBrowser\Data\Tor\torrc-defaults -f .\TorBrowser\Data\Tor\torrc DataDirectory .\TorBrowser\Data\Tor GeoIPFile .\TorBrowser\Data\Tor\geoip GeoIPv6File .\TorBrowser\Data\Tor\geoip6</pre>
+<br>
+&#12288;&#12288;把上述内容复制下来&#65292;用记事本&#65288;notepad&#65289;保存成某个批处理文件&#65288;记得扩展名要用 <code>.bat</code> &#65292;比如说就叫 <code>run.bat</code>&#65289;&#12290;<br>
+&#12288;&#12288;友情提醒一下&#65306;上述内容总共只有一行&#65292;中间&#12304;不要&#12305;出现换行/回车&#12290;<b>保存的时候&#65292;文件编码用 ANSI&#65292;&#12304;不要用&#12305;UTF8</b><br>
+<br>
+&#12288;&#12288;<b>3. 把上述脚本放置到 Tor Browser 的主目录下</b><br>
+&#12288;&#12288;假设你把 Tor Browser 安装到 XXX 目录&#65292;那么俺所说的&#8220;主目录&#8221;就是&#65306;XXX 目录下的 Browser 子目录<br>
+&#12288;&#12288;&#65288;放置批处理文件的目录&#12304;一定不要搞错&#12305;&#65292;否则运行不了&#65289;<br>
+<br>
+&#12288;&#12288;<b>4. 运行上述脚本</b><br>
+&#12288;&#12288;这步很简单&#8212;&#8212;只需在资源管理器里面双击这个 bat 文件&#65292;既可&#12290;运行之后会弹出一个黑色的命令行窗口&#12290;<br>
+&#12288;&#12288;这时候&#65292;如果你手头有 Process Explorer&#65292;再去查看系统中运行的进程&#65292;就会看到如下&#65288;截图&#65289;&#65306;<br>
+<br>
+<center><img src="../../images/2018/04/bcpS9wJQI3bxiIEWDiW-yTyFlPG_2vCp9O3hdF78gdBxqyHoGcr72Hy0FCM_vDt2P1lMBibGRxJ8gv9MjnYJdhtdkYonkXCqnpW66PP29n3c8zX04BUyUdb5b3CP_K0b0utn" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;从截图中可以看出&#65292;原先的两个 Firefox 如今只剩下一个啦&#65288;节约了不少内存&#65289;&#12290;<br>
+<br>
+<h3>&#9671;其它平台</h3>
+<br>
+&#12288;&#12288;由于俺的读者里面&#65292;以 Windows 用户居多&#65292;所以刚才举了 Windows 的例子&#65288;bat 脚本&#65289;&#12290;如果你用的是其它操作系统&#65288;Linux 或 Mac OS X&#65289;&#65292;可以参照俺的例子&#65292;依样画葫芦&#12290;<br>
+<br>
+<br>
+<h2>&#9733;简介 meek 网桥的技术原理</h2>
+<br>
+&#12288;&#12288;&#65288;如果你是技术菜鸟&#65292;本小节可以略过不看&#65292;以免浪费时间&#65289;<br>
+<br>
+<h3>&#9671;啥是&#8220;流量混淆&#8221;&#65311;</h3>
+<br>
+&#12288;&#12288;首先&#65292;Tor 网络内部&#65288;从&#8220;你本机&#8221;一直到&#8220;出口节点&#8221;&#65289;的传输是强加密的&#65292;别人无法偷窥你的真实网络流量&#12290;除非 Tor 软件本身出现严重安全漏洞&#65292;或者你碰到的&#8220;出口节点&#8221;是蜜罐&#12290;<br>
+&#12288;&#12288;虽然别人无法偷窥你的真实上网内容&#65292;但是如果有人&#65288;比如&#65306;电信运营商&#65289;监控你的流量&#65292;可以判断出你在使用 Tor&#8212;&#8212;&#65288;请注意&#65306;&#8220;判断流量类型&#8221;&#12304;不等于&#12305;&#8220;解密内容&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;而&#8220;流量混淆&#8221;的作用就是&#65306;把 Tor 流量伪装成其它的上网流量&#65292;让监控者看不出你在用 Tor&#12290;<br>
+&#12288;&#12288;出于软件架构方面的考虑&#65292;&#8220;流量混淆&#8221;的功能不是做到 Tor 的核心软件中&#65292;而是通过插件的方式来提供&#12290;因为&#8220;混淆流量&#8221;的方式是多种多样的&#65292;用插件来扩展&#65292;就无需频繁改动核心模块的代码&#12290;<br>
+<br>
+<h3>&#9671;普通的&#8220;流量混淆插件&#8221;&#65292;有啥缺点&#65311;</h3>
+<br>
+&#12288;&#12288;在 meek 之前&#65292;Tor 开源社区已经出过好几款流量混淆插件&#12290;俺就拿 obfsproxy 来举例&#8212;&#8212;下面是 obfsproxy 的示意图&#12290;<br>
+<center><img src="../../images/2018/04/1M-p-hMprj7T3Ba_XXVu2pfoBN4_2ujk8zPhfdunFjTjHbjtMqG44rAddHko4yIpSK2YVblmfzK9LpfgLpNaPrLFdsmpoJhGoHnH4kiBF3r5fqgA13Ap2dL9ezg5" alt="不见图 请翻墙"></center>&#12288;&#12288;图中的&#8220;Tor client&#8221;和&#8220;obfsproxy client&#8221;在你本机&#65292;他们要正常工具&#65292;就需要先连接到&#8220;obfsproxy server&#8221;&#12290;<br>
+&#12288;&#12288;虽然 GFW 无法区分被 obfsproxy 混淆过的流量&#65292;但是因为全球的 obfsproxy server 数量是有限的&#65292;GFW 可以把所有的&#8220;obfsproxy server&#8221;都加入&#8220;IP 黑名单&#8221;&#12290;如此一来&#65292;就足以让 obfsproxy 失效&#12290;<br>
+<br>
+<h3>&#9671;&#8220;meek&#8221;相比&#8220;obfsproxy&#8221;有啥优点&#65311;</h3>
+<br>
+&#12288;&#12288;meek 插件跟 obfsproxy 插件类似&#65292;也是 client/server 架构&#8212;&#8212;&#8220;meek client&#8221;与&#8220;Tor 客户端&#8221;一起运行在你本机&#12290;下面这张是 meek 的示意图&#65288;摘自 Tor 官网的文档&#65289;&#65306;<br>
+<br>
+<center><img src="../../images/2018/04/x5qtvlfMnuFXfRiBlJWvrowm-CdniQEIxiHQY0H8VFJftKf0yq3431KAQcwGiYCGmx6-wWYFNUlICm3wHKVWAthrCByxkhDzHvdbPCgNR6pvmc4Iq_4mKfSvfZSPtxzVPXdS" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;从图中可以看出&#65292;meek 跟 obfsproxy 的主要差异在于&#65306;meek server 并不是直接暴露出来的&#12290;换句话说&#65292;你本机&#12304;不需要&#12305;直接连接 meek server&#65292;而是直接连接云计算平台的服务器&#65288;图中的&#8220;Frontend Server&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;如此一来&#65292;即便 GFW 知道 meek server 的 IP&#65292;并且封杀这些 IP&#65292;也&#12304;没有意义&#12305;&#12290;而云计算平台的 IP&#65292;GFW 又不敢封杀&#12290;这就是 meek 插件可以突破 GFW 的关键所在&#12290;<br>
+<br>
+&#12288;&#12288;如果你是 IT 技术人员&#65292;想更多地了解 meek 的机制&#65292;请看 Tor 官网的相关文档&#65288;链接在&#8220;<a href="https://trac.torproject.org/projects/tor/wiki/doc/meek" target="_blank" rel="nofollow">这里</a>&#8221;&#65292;是洋文&#65289;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2009/05/how-to-break-through-gfw.html">如何翻墙</a>&#12299;&#65288;传说中的翻墙入门教程&#65292;不定期更新&#65289;<br>
+&#12298;<a href="../../2013/11/tor-faq.html">关于 Tor 的常见问题解答</a>&#12299;<br>
+&#12298;<a href="../../2009/09/break-through-gfw-with-tor.html">戴&#8220;套&#8221;翻墻的方法</a>&#12299;<br>
+&#12298;<a href="../../2020/08/Tor-Triple-Proxy.html">如何用 Tor 访问对 Tor 不友好的网站&#8212;&#8212;扫盲&#8220;三重代理&#8221;及其它招数</a>&#12299;<br>
+&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何&#12304;共享&#12305;翻墙通道&#8212;&#8212;兼谈&#12304;端口转发&#12305;的几种方法</a>&#12299;<br>
+&#12298;<a href="../../2019/04/Proxy-Tricks.html">如何让&#12304;不支持&#12305;代理的网络软件&#65292;通过代理进行联网&#65288;不同平台的 N 种方法&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2014/12/gfw-privoxy.html">如何用 Privoxy 辅助翻墙&#65311;</a>&#12299;<br>
+&#12298;<a href="../../2013/04/gfw-vpngate.html">扫盲 VPN Gate&#8212;&#8212;分布式的 VPN 服务器</a>&#12299;<br>
+&#12298;<a href="../../2011/12/gfw-wujie.html">新版本无界&#8212;&#8212;赛风3失效后的另一个选择</a>&#12299;<br>
+&#12298;<a href="../../2011/10/gfw-psiphon.html">双管齐下的赛风3</a>&#12299;<br>
+&#12298;<a href="../../2010/03/choose-free-gate.html">自由門&#8212;&#8212;Tor 被封之后的另一个选择</a>&#12299;<br>
+&#12298;<a href="../../2011/09/gfw-vpn-hotspot-shield.html">扫盲 VPN 翻墙&#8212;&#8212;以 Hotspot Shield 为例</a>&#12299;<br>
+&#12298;<a href="../../2012/06/gfw-i2p.html">简单扫盲 I2P 的使用</a>&#12299;<br>
+&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;&#65288;系列&#65289;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2018/04/gfw-tor-browser-7.5-meek.html" id="OriginalPostUrl">https://program-think.blogspot.com/2018/04/gfw-tor-browser-7.5-meek.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="442">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4252055166448016455?postID=4252055166448016455&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4252055166448016455.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

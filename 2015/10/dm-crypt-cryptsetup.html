@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 dm-crypt&#8212;&#8212;多功能 Linux 磁盘加密工具&#65288;兼容 TrueCrypt 和 VeraCrypt&#65289; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2015-10-27T12:16:00+08:00">2015年10月27日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：257条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  <a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 dm-crypt&#8212;&#8212;多功能 Linux 磁盘加密工具&#65288;兼容 TrueCrypt 和 VeraCrypt&#65289;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;很抱歉&#65292;又拖了好几天才更新博文&#12290;最近实在太忙了 :( 而且这篇博文的内容比较杂&#65292;整理起来也有点费时&#12290;<br>
+&#12288;&#12288;&#65288;本文发出后&#65292;俺顺便清理了博客管理界面的&#8220;留言垃圾箱&#8221;&#65292;里面有30多条&#8220;被 Google 误判为垃圾广告的留言&#8221;&#65292;刚才都已经恢复了&#65289;<br>
+<br>
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;9月底&#65292;TrueCrypt 曝光了高危安全漏洞&#12290;于是俺在10月初写了<a href="../../2015/10/VeraCrypt.html">一篇教程</a>&#65292;介绍 VeraCrypt 这个替代品&#8212;&#8212;它可以完全覆盖 TrueCrypt 原有的功能&#65292;并且在安全方面还所有增强&#65288;比如用 PIM 来对抗&#8220;抗暴力破解&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;那篇博文发出后&#65292;有些读者担心这个 VeraCrypt 本身是否可靠&#65292;是否会有后门&#12290;从目前 VeraCrypt 的口碑来看&#65292;这款工具应该还是比较靠谱滴&#65281;当然&#65292;俺无法向你担保 VeraCrypt 一定没有后门&#65288;谁都没法打这个包票&#65289;&#12290;<br>
+&#12288;&#12288;为了照顾那些&#8220;对安全性要求&#12304;特别高&#12305;的同学&#8221;&#65292;今天来介绍另一款磁盘加密工具&#8212;&#8212;Linux 内核自带的&#8220;dm-crypt&#8221;&#12290;<br>
+&#12288;&#12288;另外&#65292;在本文的结尾部分&#65292;俺还会聊到&#65306;如何在&#12304;不使用&#12305;TrueCrypt/VeraCrypt 软件的情况下&#65292;挂载它们的加密盘&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;本文的目标读者</h2><br>
+&#12288;&#12288;既然是&#8220;扫盲&#8221;&#65292;本文主要面向那些不太懂技术的读者&#65288;技术菜鸟&#65289;&#12290;如今 Linux 已经比较普及了&#65292;有些技术菜鸟也开始玩 Linux&#12290;<br>
+&#12288;&#12288;如果你属于此类用户&#65292;并且你还比较关注隐私保护&#65292;希望用上磁盘加密工具&#12290;那么 Linux 内核自带的 dm-crypt 是一个不错的选择&#12290;<br>
+&#12288;&#12288;本文的主题&#65292;就是向技术菜鸟介绍 dm-crypt 的基本用法&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;dm-crypt/cryptsetup&#8221;是啥玩意儿&#65311;</h2><br>
+&#12288;&#12288;在某些技术文章中&#65292;&#8220;dm-crypt&#8221;和&#8220;cryptsetup&#8221;经常被混用或并用&#12290;或者说&#65292;这两者常常被用来指代同一个东西&#12290;如果要细说的话&#65292;&#8220;dm-crypt&#8221;是 Linux 内核提供的一个磁盘加密功能&#65292;而&#8220;cryptsetup&#8221;是一个命令行的前端&#65288;通过它来操作&#8220;dm-crypt&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;&#8220;dm-crypt&#8221;在 Linux Kernel 2.6 的早期版本就被整合到内核中&#65292;距今已经10多年了&#12290;经过这么多年发展&#65292;至少能说明如下几点&#65306;<br>
+1. 它的开源代码足够成熟<br>
+2. 它提供的功能足够通用<br>
+3. 它在安全方面足够靠谱<br>
+<br>
+<br>
+<h2>&#9733;&#8220;dm-crypt&#8221;的功能和特色</h2><br>
+&#12288;&#12288;先大致描述一下 dm-crypt 支持的功能以及相关特色&#12290;<br>
+<br>
+<h3>&#9671;支持多种加密格式</h3><br>
+&#12288;&#12288;目前 dm-crypt 支持如下几种加密格式&#65288;模式&#65289;&#12290;<br>
+&#12288;&#12288;<b>1. LUKS&#65288;Linux Unified Key Setup&#65289;</b><br>
+&#12288;&#12288;这是 dm-crypt 最常用的一种模式&#12290;在本文后续章节&#65292;俺会详细介绍&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. Plain</b><br>
+&#12288;&#12288;Plain 模式是提供给技术老手用的&#12290;如果你是技术菜鸟&#65292;就不用关心这个模式了&#65307;如果你是技术老鸟&#65292;请自己去查 dm-crypt 相关手册&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. loop-AES</b><br>
+&#12288;&#12288;loop-AES 是一款比较陈旧的 Linux 磁盘加密工具&#12290;dm-crypt 提供了对它的支持&#12290;<br>
+&#12288;&#12288;通常情况下&#65292;大伙儿&#12304;不需要&#12305;用到该模式&#12290;<br>
+<br>
+&#12288;&#12288;<b>4. TCRYPT</b><br>
+&#12288;&#12288;在 cryptsetup 的&#12304;1.6.0&#12305;版本之后&#65292;开始提供对 TrueCrypt 加密盘的支持&#12290;&#8220;TCRYPT&#8221;就是&#8220;TrueCrypt&#8221;的缩写&#12290;<br>
+&#12288;&#12288;在该模式下&#65292;可以打开 TrueCrypt 和 VeraCrypt 的加密盘&#65292;并对盘中的文件进行读写&#12290;<br>
+&#12288;&#12288;请注意&#65306;这个模式并&#12304;没有&#12305;实现 TrueCrypt 和 VeraCrypt 的所有功能&#12290;比如修改密码和 keyfiles 的功能就没有&#12290;具体欠缺哪些功能&#65292;参见下一章节的对照表&#12290;<br>
+<br>
+<h3>&#9671;&#12304;无需&#12305;额外安装软件</h3><br>
+&#12288;&#12288;由于 dm-crypt 早已被整合到 Linux Kernel 中&#12290;因此&#65292;你无需额外安装它&#12290;<br>
+&#12288;&#12288;至于它的命令行前端&#65288;cryptsetup&#65289;&#65292;大部分主流的发行版都会内置 cryptsetup 的软件包&#12290;<br>
+<br>
+<h3>&#9671;可以跟 LVM 无缝整合</h3><br>
+&#12288;&#12288;LVM&#65288;Logical Volume Manager&#65289;是 Linux 内核提供的另一个很有用的工具&#12290;比如用它来创建分区&#65292;将来可以随时调整分区大小&#65307;比如现有的硬盘空间用完了&#65292;可以另外加一块硬盘并且新加硬盘可以用来扩展现有分区&#12290;<br>
+&#12288;&#12288;LVM 和 dm-crypt 都是基于 Linux 内核的 <a href="https://en.wikipedia.org/wiki/Device_mapper" target="_blank" rel="nofollow">device mapper</a> 机制&#12290;因此两者可以很好地整合&#12290;比如你既可以玩&#8220;LVM over LUKS&#8221;&#65307;也可以玩&#8220;LUKS over LVM&#8221;&#12290;<br>
+&#12288;&#12288;有空的话&#65292;俺再单独写一篇关于 LVM 的扫盲&#65288;又是一个坑&#65289;<br>
+<br>
+<br>
+<h2>&#9733;dm-crypt VS TrueCrypt/VeraCrypt</h2><br>
+&#12288;&#12288;为了让大伙儿有个直观的认识&#65292;俺整理了如下的对照表&#12290;通过对比&#65292;你可以大致了解 dm-crypt 相对于&#8220;TrueCrypt和VeraCrypt&#8221;的优缺点&#12290;<br>
+&#12288;&#12288;再次提醒&#65306;dm-crypt 的 TCRYPT 模式&#65292;需要 cryptsetup 的版本号大于等于&#12304;1.6.0&#12305;才行&#12290;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr style="background:lightgrey;"><th> </th><th>LUKS 加密盘格式</th><th colspan="3">TC 加密盘格式</th></tr>
+<tr style="background:lightgrey;"><th>功能特性</th><th>dm-crypt 的 LUKS 模式</th><th>dm-crypt 的 TCRYPT 模式</th><th>TrueCrypt</th><th>VeraCrypt</th></tr>
+<tr><td style="background:lightgrey;">支持的操作系统</td><td>Linux</td><td>Linux</td><td>Windows<br>
+Linux<br>
+Mac OS</td><td>Windows<br>
+Linux<br>
+Mac OS</td></tr>
+<tr><td style="background:lightgrey;">支持的加密算法类型</td><td>&#65288;内核 Crypto API&#65289;</td><td>AES<br>
+Twofish<br>
+Serpent</td><td>AES<br>
+Twofish<br>
+Serpent</td><td>AES<br>
+Twofish<br>
+Serpent<br>
+Camellia<br>
+Kuznyechik</td></tr>
+<tr><td style="background:lightgrey;">支持多重加密算法&#65288;多算法级联&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>AES&#8211;Twofish<br>
+Serpent&#8211;AES<br>
+Twofish&#8211;Serpent<br>
+AES&#8211;Twofish&#8211;Serpent<br>
+Serpent&#8211;Twofish&#8211;AES</td><td>AES&#8211;Twofish<br>
+Serpent&#8211;AES<br>
+Twofish&#8211;Serpent<br>
+AES&#8211;Twofish&#8211;Serpent<br>
+Serpent&#8211;Twofish&#8211;AES</td><td>AES&#8211;Twofish<br>
+AES&#8211;Twofish&#8211;Serpent<br>
+Camellia&#8211;Kuznyechik<br>
+Camellia&#8211;Serpent<br>
+Kuznyechik&#8211;AES<br>
+Kuznyechik&#8211;Serpent&#8211;Camellia<br>
+Kuznyechik&#8211;Twofish<br>
+Serpent&#8211;AES<br>
+Serpent&#8211;Twofish&#8211;AES<br>
+Twofish&#8211;Serpent</td></tr>
+<tr><td style="background:lightgrey;">支持的哈希算法</td><td>RIPEMD-160<br>
+SHA1<br>
+SHA256<br>
+SHA512</td><td>RIPEMD-160<br>
+SHA-512<br>
+Whirlpool</td><td>RIPEMD-160<br>
+SHA-512<br>
+Whirlpool</td><td>RIPEMD-160<br>
+SHA-256<br>
+SHA-512<br>
+Whirlpool<br>
+Streebog</td></tr>
+<tr><td style="background:lightgrey;">&#12304;创建&#12305;加密的物理分区</td><td>YES</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">&#12304;挂载&#12305;加密的物理分区</td><td>YES</td><td>YES</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">&#12304;创建&#12305;虚拟加密盘&#65288;virtual volume&#65289;</td><td>YES</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">&#12304;挂载&#12305;虚拟加密盘&#65288;virtual volume&#65289;</td><td>YES</td><td>YES</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">加密系统分区&#65288;引导时自解密&#65289;</td><td>YES&#65288;仅 Linux 系统分区&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES&#65288;仅 Windows 系统分区&#65289;</td><td>YES&#65288;仅 Windows 系统分区&#65289;</td></tr>
+<tr><td style="background:lightgrey;">支持&#8220;密码&#8221;的认证方式</td><td>YES</td><td>YES</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">支持&#8220;Keyfiles&#8221;的认证方式</td><td>YES</td><td>YES</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">加密系统分区支持 Keyfiles</td><td>YES&#65288;仅 Linux 系统分区&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td style="background-color:lightpink;font-weight:bold;">NO</td></tr>
+<tr><td style="background:lightgrey;">修改密码或 Keyfiles</td><td>YES</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">&#12304;创建&#12305;隐藏卷&#65288;hidden volume&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">&#12304;挂载&#12305;隐藏卷&#65288;hidden volume&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">操作外层卷时&#65292;对隐藏卷写保护</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td></tr>
+<tr><td style="background:lightgrey;">自定义&#8220;生成密钥的迭代次数&#8221;</td><td>YES</td><td>YES&#65288;cryptsetup &#8805; 2.0.0&#65289;</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES&#65288;PIM 功能&#65292;版本 &#8805; 1.12&#65289;</td></tr>
+<tr><td style="background:lightgrey;">加密格式的模糊性</td><td style="background-color:lightpink;font-weight:bold;">NO</td><td>YES</td><td>YES</td><td>YES</td></tr>
+</tbody></table></center><br>
+<br>
+<h2>&#9733;预备知识</h2><br>
+&#12288;&#12288;在使用 <code>cryptsetup</code> 命令行进行操作之前&#65292;建议你先掌握如下的技能&#65306;<br>
+<blockquote>如何对硬盘分区&#65288;相关的命令行是 <code>fdisk</code>&#65289;<br>
+如何创建文件系统&#65288;相关的命令行是 <code>mkfs.ext4</code> 等&#65289;<br>
+如何挂载/卸载文件系统&#65288;相关的命令行是 <code>mount umount</code>&#65289;<br>
+如何显示已挂载的文件系统&#65288;相关的命令行是 <code>df</code>&#65289;</blockquote><br>
+&#12288;&#12288;上述这几个命令都比较简单&#65292;可以自己用 <code>man</code> 命令查一下帮助&#12290;会洋文的话&#65292;应该能看懂&#65307;就算你不懂洋文&#65292;Google 一下也可以查到这几个常用命令的语法&#12290;<br>
+<br>
+<br>
+<h2>&#9733;cryptsetup 命令行概述</h2><br>
+&#12288;&#12288;说完预备知识&#65292;开始来介绍 <code>cryptsetup</code> 的基本用法&#12290;<br>
+&#12288;&#12288;提醒一下&#65306;需要使用管理员权限&#65288;比如 <code>root</code>&#65289;来运行 <code>cryptsetup</code> 相关命令&#12290;<br>
+<br>
+<h3>&#9671;查看版本号</h3><br>
+&#12288;&#12288;使用如下命令行查看版本号&#12290;<br>
+<pre class="shell">cryptsetup --version</pre>&#12288;&#12288;因为 dm-crypt/cryptsetup 的某些新功能&#65292;只有新版本才提供&#12290;比如 cryptsetup 的版本号必须大于等于&#12304;1.6.0&#12305;才能支持 TrueCrypt 的加密盘格式&#12290;<br>
+&#12288;&#12288;如果你要用到这些新功能&#65292;先看一下版本号&#65292;以确保已经支持&#12290;<br>
+<br>
+<h3>&#9671;查看性能指标</h3><br>
+&#12288;&#12288;使用如下命令查看 dm-crypt/cryptsetup 针对不同&#8220;加密算法&#8221;和&#8220;散列算法&#8221;的性能指标&#12290;<br>
+<pre class="shell">cryptsetup benchmark</pre><br>
+<h3>&#9671;创建加密盘</h3><br>
+&#12288;&#12288;前面提到 dm-crypt/cryptsetup 支持的几种加密盘格式&#12290;作为扫盲教程&#65292;本文只介绍如何创建 LUKS 格式加密盘&#12290;<br>
+&#12288;&#12288;另外&#65292;dm-crypt/cryptsetup 只能用来打开 TrueCrypt 或 VeraCrypt 的加密盘&#65292;但是&#12304;无法&#12305;创建&#12290;<br>
+<br>
+&#12288;&#12288;创建&#65288;格式化&#65289; LUKS 加密盘的命令&#65292;大致写法如下&#65306;<br>
+<pre class="shell">cryptsetup 命令参数 luksFormat 物理设备或逻辑设备</pre>&#12288;&#12288;运行该命令之后&#65292;首先警告你&#65292;格式化会导致原有数据被覆盖&#12290;如果你确实要格式化&#65292;需要输入&#12304;大写&#12305;的 YES 进行确认&#12290;<br>
+&#12288;&#12288;然后会提示你输入两次密码&#65288;passphrase&#65289;&#12290;<br>
+&#12288;&#12288;输入完密码&#65292;还要再稍等片刻&#65288;创建加密盘需要时间&#65292;具体的时长取决于加密盘的大小以及相关的加密参数&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;上述写法中的&#12304;相关参数&#12305;是可以不写的&#12290;如果不写&#65292;则 cryptsetup 会采用相应的默认值&#12290;对于安全性要求较高的同学&#65292;&#12304;不要&#12305;使用默认值&#65292;要根据自己的需求指定相关的参数&#12290;<br>
+&#12288;&#12288;当你使用 <code>luksFormat</code> 进行格式化的时候&#65292;下面是几个常用参数以及俺推荐的参数值&#65306;<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr style="background:lightgrey;"><th>参数名称</th><th>含义</th><th>推荐值</th><th>备注</th></tr>
+<tr><td>--cipher</td><td>加密方式</td><td>aes-xts-plain64</td><td>AES 加密算法搭配 XTS 模式<br>
+关于 XTS 模式&#65292;可以参见之前的博文&#65306;<br>
+&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;</td></tr>
+<tr><td>--key-size</td><td>密钥长度</td><td>512</td><td>因为 XTS 模式需要两对密钥&#65292;每个的长度是256</td></tr>
+<tr><td>--hash</td><td>散列算法</td><td>sha512</td><td>N/A</td></tr>
+<tr><td>--iter-time</td><td>迭代时间</td><td>最好大于10000</td><td>单位是毫秒&#12290;该值越大&#65292;暴力破解越难&#65307;但是你在打开加密盘时也要等待更久</td></tr>
+</tbody></table></center><br>
+&#12288;&#12288;下面给一个具体的例子&#8212;&#8212;用 LUKS 方式创建&#65288;格式化&#65289;加密盘&#65292;该加密盘位于 <code>/dev/sda2</code> 分区<br>
+<pre class="shell">cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 10000 luksFormat /dev/sda2</pre><br>
+<h3>&#9671;打开加密盘</h3><br>
+&#12288;&#12288;dm-crypt/cryptsetup 可以打开前面提及的各种格式的加密&#65288;只要是它支持的格式&#65292;就可以打开&#65289;&#12290;<br>
+&#12288;&#12288;命令行大致的写法如下&#65306;<br>
+<pre class="shell">cryptsetup open --type 类型名 已加密的物理设备或逻辑设备 映射名</pre>&#12288;&#12288;上述命令行中的 <code>open --type 类型名</code>&#65292;也可以改用某种简写形式&#12290;<br>
+&#12288;&#12288;比如下面这个命令&#65306;<br>
+<pre class="shell">cryptsetup open --type luks 已加密的物理设备或逻辑设备 映射名</pre>&#12288;&#12288;其实等价于如下&#65306;<br>
+<pre class="shell">cryptsetup luksOpen 物理设备或逻辑设备 映射名</pre>&#12288;&#12288;下面举个具体的例子&#65306;<br>
+&#12288;&#12288;假设物理分区 <code>/dev/sda2</code> 采用 LUKS 加密&#65292;那么你可以用如下命令打开&#65288;命令中的 <code>xxx</code> 是映射名&#65292;你可以换成其它单词&#65289;<br>
+<pre class="shell">cryptsetup luksOpen /dev/sda2 xxx</pre>&#12288;&#12288;执行上述命令后&#65292;原有的加密分区 <code>/dev/sda2</code> 就被解密并映射到 <code>/dev/mapper/xxx</code><br>
+&#12288;&#12288;打开加密盘之后&#65292;你就&#12304;不要&#12305;再去操作 <code>/dev/sda2</code> 了&#65292;而应该去操作 <code>/dev/mapper/xxx</code><br>
+<br>
+<h3>&#9671;查看加密盘状态</h3><br>
+&#12288;&#12288;当你已经打开某个加密盘之后&#65292;可以用如下命令查看该加密盘的状态&#12290;<br>
+<pre class="shell">cryptsetup status 映射名</pre><br>
+<h3>&#9671;关闭加密盘</h3><br>
+&#12288;&#12288;当你已经打开某个加密盘之后&#65292;可以用如下命令关闭该加密盘&#12290;<br>
+<pre class="shell">cryptsetup close 映射名</pre><br>
+&#12288;&#12288;与 <code>open</code> 类似&#65292;cryptsetup 也对 <code>close</code> 提供了相应的别名&#65288;比如&#65306;<code>luksClose 和 tcryptClose</code>&#65289;<br>
+&#12288;&#12288;实际上 cryptsetup 是根据已经打开的加密盘的 header 来判断该加密盘的类型&#12290;所以上述别名的意义不大&#12290;比如说&#65292;你对某个 TrueCrypt 的加密盘使用 <code>luksClose</code>&#65292;依然可以正确关闭&#65292;不会出错&#12290;<br>
+<br>
+<br>
+<h2>&#9733;用 cryptsetup 创建 LUKS 的物理加密盘&#65288;加密物理分区&#65289;</h2><br>
+<h3>&#9671;准备一个物理分区</h3><br>
+&#12288;&#12288;首先&#65292;你要准备一个物理分区&#65292;用来加密&#12290;<br>
+&#12288;&#12288;&#12304;<b>你必须确保该分区上的数据是没用的</b>&#12305;&#12290;因为待会儿要对该分区进行格式化操作&#65292;该分区上原有的数据会被破坏掉&#12290;<br>
+&#12288;&#12288;在下面的介绍中&#65292;俺以 <code>/dev/sda2</code> 来进行举例&#12290;你实际使用的分区&#65292;可能会有所差异&#65288;具体取决于你的分区情况&#65289;&#12290;<br>
+<br>
+<h3>&#9671;用 LUKS 方式加密&#65288;格式化&#65289;物理分区</h3><br>
+&#12288;&#12288;使用前面章节提及的参数&#65292;对上述物理分区进行加密&#12290;得到一个加密分区&#12290;<br>
+<pre class="shell">cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 10000 luksFormat /dev/sda2</pre><br>
+<h3>&#9671;打开加密之后的文件容器</h3><br>
+&#12288;&#12288;使用如下命令打开上述的加密分区&#65292;使用的映射名是 <code>xxx</code>&#65288;你也可以改用其它单词&#65289;&#12290;<br>
+<pre class="shell">cryptsetup luksOpen /dev/sda2 xxx</pre>&#12288;&#12288;打开之后&#65292;该虚拟盘会被映射到 /dev/mapper/xxx<br>
+&#12288;&#12288;你可以用如下命令看到&#65306;<br>
+<pre class="shell">ls /dev/mapper/</pre><br>
+<h3>&#9671;创建文件系统</h3><br>
+&#12288;&#12288;由于加密分区已经打开并映射到 <code>/dev/mapper/xxx</code> 你可以在 <code>/dev/mapper/xxx</code> 之上创建文件系统&#12290;命令如下&#65288;文件系统类型以 ext4 为例&#65289;<br>
+<pre class="shell">mkfs.ext4 /dev/mapper/xxx</pre><br>
+<h3>&#9671;挂载文件系统</h3><br>
+&#12288;&#12288;创建完文件系统之后&#65292;你还需要挂载该文件系统&#65292;才能使用它&#12290;挂载的步骤如下&#12290;<br>
+&#12288;&#12288;首先&#65292;你要先创建一个目录&#65292;作为&#12304;挂载点&#12305;&#12290;俺把&#8220;挂载点&#8221;的目录设定为 <code>/mnt/xxx</code>&#65288;当然&#65292;你可以用其它目录作为挂载点&#65289;&#12290;<br>
+<pre class="shell">mkdir /mnt/xxx</pre>&#12288;&#12288;创建好&#8220;挂载点&#8221;对应的目录&#65292;下面就可以进行文件系统的挂载&#12290;<br>
+<pre class="shell">mount /dev/mapper/xxx /mnt/xxx</pre>&#12288;&#12288;挂载好文件系统&#65292;用如下命令查看&#65292;就可以看到你刚才挂载的文件系统&#12290;<br>
+<pre class="shell">df -hT</pre>&#12288;&#12288;接下来&#65292;你就可以通过 <code>/mnt/xxx</code> 目录去访问该文件系统&#12290;当你往 <code>/mnt/xxx</code> 下面创建下级目录或下级文件&#65292;这些东东将被存储到加密分区上&#12290;<br>
+<br>
+<h3>&#9671;退出</h3><br>
+&#12288;&#12288;当你使用完&#65292;要记得退出&#12290;包括下面两步&#65306;<br>
+&#12288;&#12288;卸载文件系统<br>
+<pre class="shell">umount /mnt/xxx</pre>&#12288;&#12288;关闭加密盘<br>
+<pre class="shell">cryptsetup close xxx</pre><br>
+<br>
+<h2>&#9733;用 cryptsetup 创建 LUKS 的虚拟加密盘&#65288;逻辑卷&#65289;</h2><br>
+&#12288;&#12288;在前一个章节&#65292;已经介绍了&#8220;对物理分区的加密&#8221;&#12290;其实 cryptsetup 也可以支持虚拟加密盘&#65288;逻辑加密盘&#65289;&#8212;&#8212;类似于 TrueCrypt 那样&#12290;<br>
+<br>
+<h3>&#9671;何为&#8220;虚拟加密盘&#8221;&#65311;</h3><br>
+&#12288;&#12288;考虑到某些读者没有看过&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;&#65292;俺再次唠叨一下&#65306;所谓的&#8220;虚拟加密盘&#8221;&#65292;就是说这个盘并&#12304;不是&#12305;对应物理分区&#65292;而是对应一个虚拟分区&#65288;逻辑卷&#65289;&#12290;这个虚拟分区&#65292;说白了就是一个大文件&#12290;虚拟分区有多大&#65292;这个文件就有多大&#12290;<br>
+&#12288;&#12288;&#8220;虚拟加密盘&#8221;的一个主要好处在于&#8212;&#8212;可以拷贝复制&#12290;比如你可以在不同的机器之间复制这个虚假分区对应的大文件&#12290;甚至可以把这个大文件上传到云端&#65288;网盘&#65289;进行备份&#8212;&#8212;这么干的好处参见&#12298;<a href="../../2013/07/online-backup-virtual-encrypted-disk.html">文件备份技巧&#65306;组合&#8220;虚拟加密盘&#8221;与&#8220;网盘&#8221;</a>&#12299;&#12290;<br>
+<br>
+<h3>&#9671;创建一个文件作为容器</h3><br>
+&#12288;&#12288;下面用 <code>dd</code> 命令创建 1GB&#65288;1024MB&#65289;的大文件&#65292;该文件位于 <code>/root/luks.vol</code> 路径&#12290;当然&#65292;你也可以指定其它的文件大小或其它的文件路径&#12290;<br>
+<pre class="shell">dd if=/dev/zero of=/root/luks.vol bs=1M count=1024</pre>&#12288;&#12288;&#65288;dd 命令是一个牛逼命令&#65292;之前在&#12298;<a href="../../2013/12/create-bootable-usb-stick-from-iso.html">如何用 ISO 镜像制作 U 盘安装盘&#65288;通用方法&#12289;无需 WinPE&#65289;</a>&#12299;介绍过该命令&#65289;<br>
+<br>
+&#12288;&#12288;经某个热心读者提醒&#65292;还可以使用 <code>fallocate</code> 命令创建容器文件&#12290;对于特别大的容器文件&#65292;性能&#12304;高于&#12305;<code>dd</code> 命令&#12290;<br>
+&#12288;&#12288;以下示例通过 <code>fallocate</code> &#12304;瞬间&#12305;创建一个 64GB 的大文件&#12290;<br>
+<pre class="shell">fallocate -l 64G /root/luks.vol</pre><br>
+<h3>&#9671;用 LUKS 方式加密&#65288;格式化&#65289;该文件容器</h3><br>
+&#12288;&#12288;使用前面章节提及的参数&#65292;对上述文件容器进行加密&#12290;得到一个虚拟的加密盘&#12290;<br>
+<pre class="shell">cryptsetup --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 10000 luksFormat /root/luks.vol</pre><br>
+<h3>&#9671;打开加密之后的文件容器</h3><br>
+&#12288;&#12288;使用如下命令打开上述的文件容器&#65292;使用的映射名是 xxx&#65288;你也可以改用其它单词&#65289;&#12290;<br>
+<pre class="shell">cryptsetup luksOpen /root/luks.vol xxx</pre>&#12288;&#12288;打开之后&#65292;该虚拟盘会被映射到 /dev/mapper/xxx<br>
+&#12288;&#12288;你可以用如下命令看到&#65306;<br>
+<pre class="shell">ls /dev/mapper/</pre><br>
+<h3>&#9671;创建文件系统</h3><br>
+&#12288;&#12288;由于加密盘已经打开并映射到 <code>/dev/mapper/xxx</code> 你可以在 <code>/dev/mapper/xxx</code> 之上创建文件系统&#12290;命令如下&#65288;文件系统类型以 ext4 为例&#65289;<br>
+<pre class="shell">mkfs.ext4 /dev/mapper/xxx</pre><br>
+<h3>&#9671;挂载文件系统</h3><br>
+&#12288;&#12288;创建完文件系统之后&#65292;你还需要挂载该文件系统&#65292;才能使用它&#12290;挂载的步骤如下&#12290;<br>
+&#12288;&#12288;首先&#65292;你要先创建一个目录&#65292;作为&#12304;挂载点&#12305;&#12290;俺把&#8220;挂载点&#8221;的目录设定为 <code>/mnt/xxx</code>&#65288;当然&#65292;你可以用其它目录作为挂载点&#65289;&#12290;<br>
+<pre class="shell">mkdir /mnt/xxx</pre>&#12288;&#12288;创建好&#8220;挂载点&#8221;对应的目录&#65292;下面就可以进行文件系统的挂载&#12290;<br>
+<pre class="shell">mount /dev/mapper/xxx /mnt/xxx</pre>&#12288;&#12288;挂载好文件系统&#65292;用如下命令查看&#65292;就可以看到你刚才挂载的文件系统&#12290;<br>
+<pre class="shell">df -hT</pre>&#12288;&#12288;接下来&#65292;你就可以通过 <code>/mnt/xxx</code> 目录去访问该文件系统&#12290;当你往 <code>/mnt/xxx</code> 下面创建下级目录或下级文件&#65292;这些东东将被存储到该虚拟加密盘上&#12290;<br>
+<br>
+<h3>&#9671;退出</h3><br>
+&#12288;&#12288;当你使用完&#65292;要记得退出&#12290;包括下面两步&#65306;<br>
+&#12288;&#12288;卸载文件系统<br>
+<pre class="shell">umount /mnt/xxx</pre>&#12288;&#12288;关闭加密盘<br>
+<pre class="shell">cryptsetup close xxx</pre><br>
+<br>
+<h2>&#9733;LUKS 加密盘使用 keyfile 作为认证因素</h2><br>
+<h3>&#9671;啥是&#8220;keyfile 认证因素&#8221;&#65311;</h3><br>
+&#12288;&#12288;其实这个概念&#65292;在当年扫盲 TrueCrypt 的教程中&#65288;&#12298;<a href="../../2011/05/recommend-truecrypt.html">TrueCrypt&#8212;&#8212;文件加密的法宝</a>&#12299;&#65289;已经有提及&#12290;今天俺再重复罗嗦一下&#12290;<br>
+&#12288;&#12288;传统的&#8220;密码认证&#8221;用的是一串密不示人的字符串作为认证因素&#12290;密码的缺点&#65306;<br>
+1. 当你密码设置得比较短&#65292;容易被暴力破解&#12290;<br>
+2. 不好记&#12290;尤其当你为了防范暴力破解&#65292;把密码设置得很复杂&#65292;于是就更不好记了&#12290;<br>
+&#12288;&#12288;而&#8220;keyfile 认证&#8221;就是用一个文件来替代密码&#65292;可以解决密码的上述两个缺点&#12290;<br>
+<br>
+<h3>&#9671;什么文件作&#8220;keyfile&#8221;比较合适&#65311;</h3><br>
+&#12288;&#12288;用信息学的术语来讲就是&#65306;文件内容的&#8220;熵值&#8221;越大&#65292;越适合作 keyfile&#12290;换用通俗的人话来讲就是&#65306;文件内容越紊乱越随机&#65292;就越适合&#12290;<br>
+&#12288;&#12288;通常而言&#65292;二进制可执行文件&#65288;比如 exe&#65289;&#12289;图片文件&#65288;比如 JPG&#12289;PNG&#12289;GIF&#65289;&#12289;视频文件&#65292;都可以用来作 keyfile&#12290;<br>
+&#12288;&#12288;对于 Linux 的用户&#65292;可以用如下命令生产一个&#12304;内容完全随机&#12305;的文件&#65292;作为 keyfile 使用&#12290;<br>
+<pre class="shell">dd if=/dev/urandom of=放置keyfile的文件路径 bs=1k count=64</pre>&#12288;&#12288;&#65288;上述命令生产的文件大小是 64KB&#65292;你可以自行设定其它尺寸&#65292;但是&#12304;不要小于&#12305; 1KB&#65289;<br>
+&#12288;&#12288;另外&#65292;&#12304;不建议&#12305;用纯文本文件作 keyfile&#8212;&#8212;因为纯文本文件的&#8220;熵值&#8221;通常都不够大&#12290;<br>
+<br>
+<h3>&#9671;预备知识&#8212;&#8212;关于&#8220;Key Slot&#8221;</h3><br>
+&#12288;&#12288;在继续介绍 keyfile 之前&#65292;稍微聊点预备知识&#12290;<br>
+&#12288;&#12288;LUKS 格式的加密盘&#65292;默认会提供8个&#8220;Key Slot&#8221;&#65288;编号从0到7&#65289;&#12290;每个&#8220;Key Slot&#8221;好比是一个独立的钥匙&#8212;&#8212;都可以用来打开这个 LUKS 加密盘&#12290;<br>
+&#12288;&#12288;你可以用如下命令&#65292;查看某个 LUKS 加密盘的&#8220;Key Slot&#8221;&#12290;<br>
+<pre class="shell">cryptsetup luksDump 已加密的物理设备或逻辑设备</pre>&#12288;&#12288;如果你刚才已经尝试过创建一个 LUKS 加密盘&#65292;用了这个命令之后&#65292;你会发现8个&#8220;Key Slot&#8221;中&#65292;头一个&#65288;编号为0的那个&#65289;已经被用掉了&#65288;显示为&#8220;ENABLED&#8221;&#65289;&#65292;其它7个还没用&#65288;显示为&#8220;DISABLED&#8221;&#65289;&#12290;因为你刚才创建加密盘的时候&#65292;已经设置过一次密码&#65292;所以用掉了一个&#8220;Key Slot&#8221;&#12290;<br>
+<br>
+<h3>&#9671;如何给 LUKS 加密盘增加 keyfile 认证&#65311;</h3><br>
+&#12288;&#12288;明白了&#8220;Key Slot&#8221;之后&#65292;咱们可以开始给 LUKS 加密盘增加新的&#8220;Key Slot&#8221;&#12290;<br>
+&#12288;&#12288;采用如下命令&#65292;可以指定某个文件作为 keyfile&#65292;并指派为某个 LUKS 加密盘的认证因素&#12290;<br>
+<pre class="shell">cryptsetup luksAddKey 已加密的物理分区或虚拟盘 所用keyfile的路径</pre>&#12288;&#12288;再次使用前一小节提及的 <code>luksDump</code> 查看一下&#65292;你会发现&#65306;又有一个&#8220;Key Slot&#8221;被用掉了&#12290;<br>
+<br>
+<h3>&#9671;如何用 keyfile 打开 LUKS 加密盘&#65311;</h3><br>
+&#12288;&#12288;如果你执行完前一个小节的步骤&#65288;设定了 keyfile&#65289;&#65292;接下来就可以用如下命令打开该 LUKS 加密盘&#12290;<br>
+<pre class="shell">cryptsetup --key-file 所用keyfile的路径 luksOpen 已加密的物理分区或虚拟盘 映射名</pre>&#12288;&#12288;&#65288;此时&#65292;你既可以用密码打开&#65292;也可以用 keyfile 打开&#65289;<br>
+<br>
+<h3>&#9671;如何删除&#8220;Key Slot&#8221;&#65311;</h3><br>
+&#12288;&#12288;采用如下命令&#65292;可以删除某个 LUKS 加密盘的&#8220;Key Slot&#8221;&#12290;<br>
+<pre class="shell">cryptsetup luksKillSlot 已加密的物理分区或虚拟盘 Slot的编号</pre>&#12288;&#12288;&#65288;再次提醒&#65306;编号是从0到7&#65292;头一个 Slot 的编号是0&#65289;<br>
+&#12288;&#12288;再次使用前一小节提及的 <code>luksDump</code> 查看一下&#65292;你会发现&#65306;某个&#8220;Key Slot&#8221;被删除了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;用 cryptsetup 操作 TrueCrypt/VeraCrypt 的加密盘</h2><br>
+<h3>&#9671;基本命令</h3><br>
+&#12288;&#12288;在前面的&#8220;功能概述&#8221;中提及&#65306;dm-crypt 软件的 <code>cryptsetup</code> 命令可以用来打开 TrueCrypt/VeraCrypt 加密盘&#12290;<br>
+&#12288;&#12288;命令行的大致写法如下&#65306;<br>
+<pre class="shell">cryptsetup open --type tcrypt 已加密的物理分区或虚拟盘 映射名</pre>&#12288;&#12288;也可以使用简写的方式如下&#65306;<br>
+<pre class="shell">cryptsetup tcryptOpen 已加密的物理分区或虚拟盘 映射名</pre><br>
+&#12288;&#12288;&#65288;再次唠叨一下&#65306;<code>cryptsetup</code> 的版本号必须&#8212;&#8212;大于等于&#12304;1.6.0&#12305;才能兼容 TrueCrypt/VeraCrypt 加密盘&#65289;<br>
+<br>
+<h3>&#9671;相关的命令行参数</h3><br>
+&#12288;&#12288;在 TCRYPT 模式下&#65292;有一些相关的参数&#65292;简要说明如下&#65306;<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr style="background:lightgrey;"><th>参数名</th><th>参数值</th><th>说明</th></tr>
+<tr><td>--tcrypt-hidden</td><td>无</td><td>打开隐藏卷&#65292;需要追加该参数</td></tr>
+<tr><td>--tcrypt-system</td><td>无</td><td>打开加密的系统分区&#65292;需要追加该参数</td></tr>
+<tr><td>--readonly</td><td>无</td><td>以&#8220;只读&#8221;方式打开加密分区&#65292;需要追加该参数</td></tr>
+<tr><td>--key-file</td><td>key file 路径</td><td>如果该加密盘用到了&#8220;keyfiles&#8221;认证&#65292;需要追加该参数</td></tr>
+<tr><td>--veracrypt</td><td>无</td><td>对 VeraCrypt 格式的加密盘&#65292;必须追加该参数<br>
+&#65288;cryptsetup 版本号 &#8805; 1.6.7 才支持该参数&#65289;</td></tr>
+<tr><td>--veracrypt-pim</td><td>PIM 值</td><td>如果 VeraCrypt 格式的加密盘设定了 PIM 值&#65292;必须追加该参数<br>
+&#65288;cryptsetup 版本号 &#8805; 2.0.0 才支持该参数&#65289;</td></tr>
+</tbody></table></center><br>
+&#12288;&#12288;关于 VeraCrypt 的补充说明&#65306;<br>
+&#12288;&#12288;<code>cryptsetup</code> 命令的版本号必须&#12304;&#8805; 1.6.7&#12305;才能打开 VeraCrypt 的加密盘&#12290;截止俺写这篇博文时&#65292;还&#12304;不&#12305;支持 VeraCrypt 的 PIM 功能&#12290;<br>
+&#12288;&#12288;本文发出之后又过了4年&#65288;2019年8月&#65289;&#65292;<code>cryptsetup</code> 命令升级到&#12304;2.0.0&#12305;版本终于支持 VeraCrypt 加密盘的 PIM 功能啦&#65281;<br>
+&#12288;&#12288;&#65288;关于 PIM 功能的详细介绍&#65292;请参见&#12298;<a href="../../2015/10/VeraCrypt.html">扫盲 VeraCrypt&#8212;&#8212;跨平台的 TrueCrypt 替代品</a>&#12299;&#65289;<br>
+<br>
+<br>
+<h2>&#9733;用 cryptsetup 加密系统分区&#65288;root filesystem&#65289;或全盘加密</h2><br>
+<h3>&#9671;配置方法</h3><br>
+&#12288;&#12288;在本文开头&#65292;俺已经说了&#8212;&#8212;这篇教程面向技术菜鸟&#12290;而&#8220;加密系统分区&#8221;对技术菜鸟来讲&#65292;有一定难度&#12290;万一没搞好&#65292;可能会把系统搞坏掉&#65288;导致 Linux 系统无法启动&#65289;&#12290;<br>
+&#12288;&#12288;咋办捏&#65311;俺帮大伙儿想了一招比较简单的玩法&#8212;&#8212;在安装系统的时候&#65292;就配置好&#8220;加密的系统分区&#8221;&#65288;甚至直接配置为&#8220;全盘加密&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;能否使用这招&#65292;要看具体的 Linux 发行版&#65292;在安装过程中是否提供相应的配置界面&#12290;如果俺没记错的话&#65292;如下几个主流的发行版&#65292;是可以在安装过程中加密系统分区或全盘加密的&#12290;&#65288;如果你觉得俺列举的发行版&#65292;有遗漏&#65292;欢迎到博客留言进行补充&#65289;<br>
+<blockquote>Debian<br>
+Fedora<br>
+Ubuntu<br>
+Linux Mint<br>
+CentOS<br>
+RedHat Enterprise Linux&#65288;RHEL&#65289;</blockquote>&#12288;&#12288;由于不同的发行版&#65292;安装界面各不相同&#65292;所以俺就偷懒一下&#65292;不提供截图了&#12290;<br>
+&#12288;&#12288;大体上&#65292;这些发行版的安装过程&#65292;都有一个步骤是&#8220;硬盘分区&#8221;&#12290;在这个步骤&#65292;会提供相关的&#8220;加密选项&#8221;&#12290;<br>
+&#12288;&#12288;对于想要进行全盘加密的同学&#65292;装系统过程中进行分区的时候&#65292;要把 <code>/boot</code> 单独分一个区&#12290;并且这个分区是&#12304;不能&#12305;加密的&#8212;&#8212;因为 <code>/boot</code> 要用来放置引导管理器与内核&#12290;<br>
+<br>
+<h3>&#9671;&#8220;全盘加密&#8221;的&#12304;弱点&#12305;</h3><br>
+&#12288;&#12288;从理论上讲&#65306;任何一种磁盘加密工具&#65292;&#65288;在不借助外部机制的情况下&#65289;都&#12304;不可能&#12305;实现真正的&#8220;自启动全盘加密&#8221;&#12290;<br>
+&#12288;&#12288;为啥捏&#65311;因为要想&#12304;自启动&#12305;&#65292;必须要有一个引导程序&#65292;至少这个引导程序不能加密&#65288;引导程序如果被加密了&#65292;就无法引导了&#65289;&#12290;所以&#65292;凡是能够实现&#8220;自启动全盘加密&#8221;的&#65292;其&#12304;引导程序&#12305;都是明文的&#65288;无加密的&#65289;<br>
+&#12288;&#12288;比如 TrueCrypt 和 VeraCrypt 进行全盘加密&#65292;都会替换原有的主引导扇区的内容&#65292;在里面放入一段代码&#12290;这段代码会在开机启动的时候&#65292;提示你输入密码&#65292;然后用你输入的密码进行解密&#12290;<br>
+&#12288;&#12288;对于 dm-crypt 的全盘加密&#65292;除了&#8220;主引导扇区&#8221;&#12304;没有&#12305;加密&#65292;还包括 <code>/boot</code> 分区也&#12304;没有&#12305;加密&#65288;因为启动管理器放置在 <code>/boot</code> 分区&#65289;&#12290;<br>
+&#12288;&#12288;如前所述&#65292;<b>这些&#12304;没有加密&#12305;的部分&#65292;会成为攻击者瞄准的弱点</b>&#12290;<br>
+<br>
+&#12288;&#12288;攻击举例&#65306;<br>
+&#12288;&#12288;如果某个攻击者可以物理接触你的电脑&#65292;此人完全可以把你硬盘上的引导程序替换为一个假的引导程序&#12290;当你开机启动的时候&#65292;这个&#12304;假的&#12305;引导程序照样会提示你输入解密的密码&#12290;如此一来&#65292;你的密码就泄漏了&#12290;<br>
+<br>
+<h3>&#9671;如何防范&#8220;全盘加密的&#12304;弱点&#12305;&#8221;</h3><br>
+&#12288;&#12288;常规的防范措施有如下几种&#65306;<br>
+<br>
+&#12288;&#12288;<b>方法1&#8212;&#8212;采用 BIOS 提供的&#8220;硬盘口令&#8221;功能</b><br>
+&#12288;&#12288;一般而言&#65292;台式机没有这个功能&#65307;大部分商用笔记本有这个功能&#12290;<br>
+&#12288;&#12288;这个功能的安全性如何&#65292;要看具体的笔记本品牌&#65288;不同厂商的实现&#65292;可能不一样&#65292;因此安全性也不一样&#65289;&#12290;如果这个功能比较靠谱&#65292;就可以防止攻击者在你不知情的情况下&#65292;替换你硬盘上的引导程序&#12290;<br>
+<br>
+&#12288;&#12288;<b>方法2&#8212;&#8212;采用外部存储介质进行引导</b><br>
+&#12288;&#12288;简而言之&#65292;就是把引导程序放到&#12304;可引导的&#12305;外部介质&#65288;比如 U盘&#12289;SD卡&#12289;MMC卡&#65289;&#12290;先用外部介质进行引导&#65292;然后通过外部介质中的引导程序&#65292;提示你输入密码&#65292;然后解密硬盘&#65292;最后再启动硬盘上的操作系统&#12290;<br>
+&#12288;&#12288;对于&#8220;U盘/SD卡/MMC卡&#8221;而言&#65292;因为可以随身携带或隐藏在某处&#65292;被攻击者物理接触的风险会降低&#12290;<br>
+&#12288;&#12288;对于 TrueCrypt/VeraCrypt&#12304;没法&#12305;用这招&#12290;而对于 dm-crypt&#65292;可以用这招&#12290;这种玩法略显复杂&#65292;不适合菜鸟&#12290;考虑到本文是&#8220;扫盲性质&#8221;的教程&#65292;暂且不提&#12290;<br>
+<br>
+&#12288;&#12288;<b>方法3&#8212;&#8212;把&#12304;整个系统&#12305;安装到外部存储介质</b><br>
+&#12288;&#12288;这种玩法就是把&#12304;整个操作系统&#12305;都安装到外部存储介质&#65288;比如 U盘&#12289;SD卡&#12289;MMC卡&#65289;&#12290;开机时&#65292;需要先插入外部存储介质&#65292;启动整个操作系统&#12290;然后在这个操作系统中内置的 dm-crypt 挂载加密的硬盘&#12290;<br>
+&#12288;&#12288;对于&#8220;U盘/SD卡/MMC卡&#8221;而言&#65292;因为可以随身携带或隐藏在某处&#65292;被攻击者物理接触的风险会降低&#12290;<br>
+&#12288;&#12288;很多主流的 Linux 发行版&#65292;默认提供了 Live CD 的功能&#65288;也就是用光盘直接启动出一个&#12304;可用&#12305;的 Linux 环境&#65289;<br>
+&#12288;&#12288;对这类发行版&#65292;你可以用工具把 Live CD 的 ISO 镜像文件&#8220;烧制&#8221;到 U盘/SD卡/MMC卡&#12290;然后就可以用来启动电脑&#12290;具体的教程参见&#12298;<a href="../../2013/12/create-bootable-usb-stick-from-iso.html">如何用 ISO 镜像制作 U 盘安装盘&#65288;通用方法&#12289;无需 WinPE&#65289;</a>&#12299;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;混用 dm-crypt 和 TrueCrypt/VeraCrypt</h2><br>
+&#12288;&#12288;在本文结束前&#65292;俺最后聊一下如何混用 dm-crypt 和 TrueCrypt/VeraCrypt&#12290;<br>
+<br>
+<h3>&#9671;为啥要混用&#65311;</h3><br>
+&#12288;&#12288;在本文开头部分给出了一个&#8220;功能对比&#8221;的清单&#65292;从中可以看出 dm-crypt 和 TrueCrypt/VeraCrypt <b>各有独到之处</b>&#12290;<br>
+&#12288;&#12288;比如 dm-crypt 可以用来加密 Linux 的系统分区&#65288;root filesystem&#65289;&#65292;而 TrueCrypt 和 VeraCrypt 都做不到&#65307;<br>
+&#12288;&#12288;反之&#65292;TrueCrypt 和 VeraCrypt 提供了&#8220;隐藏卷&#8221;的功能&#12290;可以用该功能来实现&#8220;Plausible Deniability&#8221;&#65288;介绍参见&#8220;<a href="../../2013/10/truecrypt-4.html">这里</a>&#8221;&#65289;&#65292;而 dm-crypt 做不到这点&#12290;<br>
+&#12288;&#12288;因此&#65292;有必要组合这两者&#12290;<br>
+<br>
+<h3>&#9671;&#8220;dm-crypt + TrueCrypt&#8221; VS &#8220;dm-crypt + VeraCrypt&#8221;</h3><br>
+&#12288;&#12288;截止俺写本文的时候&#65292;TrueCrypt 的 Linux 版本&#12304;尚未发现&#12305;高危漏洞&#65292;所以你如果要继续使用 Linux 下的 TrueCrypt&#65292;也是可以的&#12290;<br>
+&#12288;&#12288;但是考虑到 TrueCrypt 已经停止维护&#65292;长远来讲&#65292;还是建议用&#8220;dm-crypt + VeraCrypt&#8221;这个组合进行混用&#12290;<br>
+&#12288;&#12288;另外&#65292;VeraCrypt 增加了 PIM 功能来对抗暴力破解&#12290;对那些安全要求非常高的同学&#65292;这个&#8220;PIM 功能&#8221;也是有吸引力的&#12290;&#65288;关于 PIM 功能&#65292;参见&#12298;<a href="../../2015/10/VeraCrypt.html">扫盲 VeraCrypt&#8212;&#8212;跨平台的 TrueCrypt 替代品</a>&#12299;&#65289;<br>
+<br>
+<h3>&#9671;混用的思路</h3><br>
+&#12288;&#12288;首先用 dm-crypt/cryptsetup 对系统分区&#65288;root filesystem&#65289;进行加密 或者 实现全盘加密&#12290;&#65288;具体玩法参见前面的章节&#65289;<br>
+&#12288;&#12288;然后在已经加密的分区中&#65292;创建 TrueCrypt/VeraCrypt 的虚拟加密盘&#65292;并使用隐藏卷的功能&#12290;&#65288;如何使用隐藏卷&#65292;参见&#12298;<a href="../../2013/10/truecrypt-4.html">TrueCrypt 使用经验[4]&#65306;关于隐藏卷的使用和注意事项</a>&#12299;&#65289;<br>
+&#12288;&#12288;把你最敏感最重要的数据&#65292;存储在&#12304;隐藏卷&#12305;中&#12290;<br>
+&#12288;&#12288;假设将来有一天&#65292;你受到胁迫&#65292;你可以交出 dm-crypt 的加密密码&#12290;然后利用隐藏卷这个功能&#65292;来施展&#12304;Plausible Deniability&#12305;这个技巧&#65292;迷惑胁迫你的人&#12290;关于该技巧的使用场景&#65292;参见<a href="../../2011/05/recommend-truecrypt.html">这篇博文</a>里面的<q>&#9671;Plausible Deniability</q>章节&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如果你对 TrueCrypt/VeraCrypt 不放心&#65292;该咋办&#65311;</h2><br>
+&#12288;&#12288;本来这个话题应该是放到<a href="../../2015/10/VeraCrypt.html">之前那篇博文</a>来聊的&#12290;但是在写前面那篇博文的时候&#65292;俺还没有扫盲&#8220;dm-crypt/cryptsetup&#8221;&#12290;于是就把这个话题留到今天这篇&#12290;<br>
+<br>
+<h3>&#9671;某些用户的担心</h3><br>
+&#12288;&#12288;从俺博客的读者留言中&#65292;可以看出某些人对这两款工具都不太放心&#12290;<br>
+&#12288;&#12288;TrueCrypt<br>
+&#12288;&#12288;虽然历史悠久&#65292;口碑极好&#12290;但是官网已经宣布&#8220;停止维护&#8221;&#12290;而且上个月底&#65288;9月底&#65289;刚曝光了 Windows 版本的高危漏洞&#12290;<br>
+&#12288;&#12288;VeraCrypt<br>
+&#12288;&#12288;因为这个开源项目的历史比较短&#65292;有些同学担心这个项目会不会是一个蜜罐项目&#12290;<br>
+<br>
+<h3>&#9671;俺的分析</h3><br>
+&#12288;&#12288;先不管这两个软件在&#12304;代码层面&#12305;是否有后门&#65292;咱们先来说&#12304;加密盘的格式&#12305;&#12290;<br>
+&#12288;&#12288;&#8220;加密盘格式&#8221;与&#8220;程序代码&#8221;不同&#12290;&#8220;加密盘格式&#8221;是很少变化的&#65288;基本是静态的&#65289;&#65292;而&#8220;程序代码&#8221;会随着软件版本的升级&#65292;而不断发生变化&#8212;&#8212;有可能这个版本没有后门&#65292;但是下一个版本就被植入后门&#12290;<br>
+&#12288;&#12288;&#8220;TrueCrypt 的加密盘格式&#8221;已经被很多安全专家研究过&#12290;包括这两年安全界发起了对 TrueCrypt 的安全审计&#65292;其中一项工作就是&#65306;评估加密盘的格式&#12290;<br>
+&#12288;&#12288;到目前为止&#65292;至少&#12304;没有&#12305;发现该格式有明显的后门或弱点&#12290;<br>
+&#12288;&#12288;综上所述&#65292;俺认为 <b>TrueCrypt 的加密盘格式是可靠的&#65288;可信的&#65289;</b>&#12290;<br>
+<br>
+&#12288;&#12288;而 VeraCrypt 的加密盘格式&#65292;跟 TrueCrypt 的格式&#12304;<b>几乎完全一样</b>&#12305;&#8212;&#8212;俺专门看过这两者的技术规范文档&#65292;加密盘头部&#65288;header&#65289;的结构&#12304;完全一样&#12305;&#65292;仅有的差异在于某个标志位&#65288;从 TrueCrypt 的标志改为 VeraCrypt 的标志&#65289;&#12290;<br>
+&#12288;&#12288;因此&#65292;<b>VeraCrypt 的加密盘格式&#65292;也是可靠的&#65288;可信的&#65289;</b>&#12290;<br>
+<br>
+<h3>&#9671;防范措施</h3><br>
+&#12288;&#12288;基于上述分析&#65292;有一个策略可以帮你规避 TrueCrypt/VeraCrypt&#12304;软件本身&#12305;潜在的后门&#12290;具体步骤如下&#65306;<br>
+<br>
+&#12288;&#12288;1.<br>
+&#12288;&#12288;你在某个<b>操作系统虚拟机</b>中&#65292;安装好 TrueCrypt 或 VeraCrypt&#12290;<br>
+&#12288;&#12288;2.<br>
+&#12288;&#12288;使用虚拟机中的 TrueCrypt 或 VeraCrypt 帮你创建&#12304;虚拟&#12305;加密盘&#12290;<br>
+&#12288;&#12288;3.<br>
+&#12288;&#12288;把创建好的&#12304;虚拟&#12305;加密盘 copy 到你的 Linux 环境中&#65292;用 dm-crypt 打开加密盘进行使用&#12290;<br>
+&#12288;&#12288;4.<br>
+&#12288;&#12288;如果需要修改加密盘的密码或 keyfile&#65292;再把&#12304;虚拟&#12305;加密盘 copy 回操作系统虚拟机中&#65292;用 TrueCrypt 或 VeraCrypt 修改密码或 keyfile&#12290;<br>
+<br>
+&#12288;&#12288;基于上述步骤&#65292;你的 Linux 系统中完全不会运行 TrueCrypt 或 VeraCrypt&#65292;但是又可以享受这两款软件的强大功能&#65288;比如&#8220;隐藏卷&#8221;&#12289;比如&#8220;多重加密算法&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;代价就是&#65306;操作步骤稍嫌繁琐&#65288;需要 copy 虚拟加密盘&#65289;&#12290;这也是没办法滴&#8212;&#8212;&#8220;安全性&#8221;和&#8220;易用性&#8221;通常都是矛盾的&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2019/02/Use-Disk-Encryption-Anti-Computer-Forensics.html">如何用&#8220;磁盘加密&#8221;对抗警方的&#12304;取证软件&#12305;和&#12304;刑讯逼供&#12305;&#65292;兼谈数据删除技巧</a>&#12299;<br>
+&#12298;<a href="../../2015/10/VeraCrypt.html">扫盲 VeraCrypt&#8212;&#8212;跨平台的 TrueCrypt 替代品</a>&#12299;<br>
+&#12298;<a href="../../2011/05/recommend-truecrypt.html">TrueCrypt&#8212;&#8212;文件加密的法宝</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-2.html">TrueCrypt 使用经验[2]&#65306;关于加密盘的密码认证和 KeyFiles 认证</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-3.html">TrueCrypt 使用经验[3]&#65306;关于加密盘的破解和防范措施</a>&#12299;<br>
+&#12298;<a href="../../2013/10/truecrypt-4.html">TrueCrypt 使用经验[4]&#65306;关于隐藏卷的使用和注意事项</a>&#12299;<br>
+&#12298;<a href="../../2020/06/Linux-Logical-Volume-Manager.html">扫盲 Linux 逻辑卷管理&#65288;LVM&#65289;&#8212;&#8212;兼谈 RAID 以及&#8220;磁盘加密工具的整合&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2011/05/file-encryption-overview.html">文件加密的扫盲介绍</a>&#12299;<br>
+&#12298;<a href="../../2013/07/online-backup-virtual-encrypted-disk.html">文件备份技巧&#65306;组合&#8220;虚拟加密盘&#8221;与&#8220;网盘&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2019/11/POSIX-TUI-from-TTY-to-Shell-Programming.html">扫盲 Linux&#65286;UNIX 命令行&#8212;&#8212;从&#8220;电传打字机&#8221;聊到&#8220;shell 脚本编程&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2013/12/create-bootable-usb-stick-from-iso.html">如何用 ISO 镜像制作 U 盘安装盘&#65288;通用方法&#12289;无需 WinPE&#65289;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2015/10/dm-crypt-cryptsetup.html" id="OriginalPostUrl">https://program-think.blogspot.com/2015/10/dm-crypt-cryptsetup.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="257">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/1736188242157790403?postID=1736188242157790403&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/1736188242157790403.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

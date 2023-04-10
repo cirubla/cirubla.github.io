@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何用 GreaseMonkey 扩展 Google Reader - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2011-11-02T22:29:00+08:00">2011年11月2日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：47条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何用 GreaseMonkey 扩展 Google Reader
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;话说俺一直是 Google Reader 的重度使用者&#8212;&#8212;从2005年10月至今&#65292;俺的阅读数已超过13万&#12290;上周 Google 放出风声说要改版&#65292;俺还是满心期待的&#12290;谁曾想&#65292;昨天&#65288;11年11月1日&#65289;发布的新版本&#65292;那界面真是让人大跌眼镜&#8212;&#8212;怎一个"烂"字了得&#65281;<br>
+&#12288;&#12288;不过&#65292;抱怨归抱怨&#65292;眼下暂时还没有合适的替代品&#65292;Google 阅读器还得接着用下去&#12290;为了不至于天天面对这么一个恶心的界面&#65292;俺发扬"自己动手丰衣足食"的DIY精神&#65292;亲自操刀修改阅读器的界面&#12290;有兴趣的同学&#65292;可以看看俺的经验分享&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;为啥要美化阅读器&#65311;</h2><br>
+&#12288;&#12288;对于老用户而言&#65292;新版的界面简直是惨不忍睹&#8212;&#8212;到处都是多余的空白&#65292;显得非常不紧凑&#12290;比如&#65306;文章的列表界面&#65292;间距也太大了&#12290;现在一屏能显示的帖子数只有原来的一半&#12290;这样一来&#65292;大大降低了阅读的效率&#65292;浪费的大伙儿的时间&#12290;<br>
+&#12288;&#12288;估计很多网友逆来顺受惯了&#12290;不管网站推出多么烂的界面&#65292;他们都默默忍受&#12290;但是&#65292;在当今 Web 盛行的互联网时代&#65292;普通用户是完全可以自己操刀修改网站界面滴&#65288;而且几乎&#12304;不需要&#12305;专业技术&#65289;&#65281;此中之奥妙&#65292;在于&#12304;GreaseMonkey&#12305;这一大杀器&#12290;<br>
+<br>
+<br>
+<h2>&#9733;GreaseMonkey 扫盲</h2><br>
+<h3>&#9671;GreaseMonkey 是啥玩意儿&#65311;</h3><br>
+&#12288;&#12288;GreaseMonkey 俗称"油猴"<img src="../../images/2011/11/-trXAUb61lyW1COfDwja_R0ZiTcZorz62AlBTXFiNYSPh18N1fk8w1pzBhQ2kD65Ae3jL1lYDM-cK3iPu1jJdDiVucQgT7ymFeNN4AMvAZ6XcwlmkyocZ0zfRrMaYmldJNg" width="64">&#65292;官网在"<a href="http://www.greasespot.net/" target="_blank" rel="nofollow">这里</a>"&#65292;维基百科的介绍在"<a href="https://zh.wikipedia.org/wiki/Greasemonkey" target="_blank" rel="nofollow">这里</a>"&#12290;它早先是 Firefox 的一款插件&#12290;但它可不是普通的插件&#65292;<b>它是插件的插件</b>&#12290;简单来说&#65292;你可以通过 JavaScript 脚本&#65288;以下简称&#8220;JS 脚本&#8221;&#65289;&#65292;来扩展它的功能&#12290;因此&#65292;只要 JS 脚本能搞定的事情&#65292;它都能搞定&#12290;而且&#65292;你可以指定某个脚本仅仅作用在某个 URL&#65288;某个网站&#65289;&#8212;&#8212;也就是把脚本跟网站绑定&#12290;这样一来&#65292;就可以专门针对某个网站的页面进行调整&#12290;<br>
+<br>
+<h3>&#9671;油猴能干啥&#65311;</h3><br>
+&#12288;&#12288;看到这里&#65292;肯定有人要问了&#65292;这些油猴脚本&#65292;都能干些啥事捏&#65311;俺举几个例子&#65306;<br>
+&#12288;&#12288;比如&#65292;某个网站的广告条太碍眼&#65292;你可以用 JS 脚本把广告条干掉&#12290;<br>
+&#12288;&#12288;比如&#65292;你喜欢到某个视频网站去看视频&#65292;但是这个视频网站没有下载按钮&#12290;于是你就可以用JS脚本给每个视频加上一个下载按钮&#65292;方便你下载到本地收藏&#12290;<br>
+<br>
+<h3>&#9671;不会写 JS 脚本&#65292;咋办&#65311;</h3><br>
+&#12288;&#12288;很多同学会担心&#65292;自己不懂得写JS脚本&#12290;其实大可不必害怕&#12290;因为油猴已经非常的普及&#65292;你能想到的大部分需求&#65292;早都已经有人&#65288;多半是老外&#65289;写好了&#65292;而且分享出来了&#12290;<br>
+&#12288;&#12288;在此&#65292;向列位看官隆重介绍&#65306;全球最大的&#65288;没有之一&#65289;油猴脚本收集站点&#8212;&#8212;<a href="http://userscripts.org/" target="_blank" rel="nofollow">UserScripts.org</a>&#12290;这上面的脚本数量&#65292;已经到了6位数&#12290;由于脚本太多&#65292;你第一次上去的时候&#65292;建议先看<a href="http://userscripts.org/tags" target="_blank" rel="nofollow">它的标签分类</a>&#12290;根据分类&#65292;就可以比较容易滴找到自己要的脚本&#12290;<br>
+<br>
+<h3>&#9671;支持哪些浏览器&#65311;</h3><br>
+&#12288;&#12288;前面说了&#65292;油猴早先是 Firefox 插件&#65292;自然是天生支持火狐&#12290;后来 Google 看到这玩意儿挺普及&#65292;就让 Chome 浏览器原生支持油猴脚本&#12290;也就是说&#65292;你无需安装额外插件&#65292;就可以让 Chrome 运行油猴脚本&#12290;Opera从 8.0 开始&#65292;貌似也兼容了油猴脚本&#65288;俺没试过&#65292;不知兼容性如何&#65289;&#12290;至于使用 IE 的同学&#65292;暂时无福享用了&#65288;建议尽早抛弃 IE 这种老土的浏览器&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;增强阅读器功能的脚本</h2><br>
+&#12288;&#12288;既然刚才提到了 UserScripts 网站&#65292;随便推荐几个脚本&#65292;可以为阅读器增加额外的功能&#12290;如果你常用 Google 阅读器&#65292;可以去尝试一下&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/9455" target="_blank" rel="nofollow">Google Reader Preview Enhanced</a></h3><br>
+&#12288;&#12288;这个脚本是专门对付那些没有全文输出的RSS&#65288;不输出全文的博客&#65292;非常讨厌&#65289;&#12290;当你碰到某个只输出摘要的博文&#65292;只要按一下快捷键&#65288;Shift+V&#65289;&#65292;该脚本就会在阅读器的正文窗口里&#65292;自动显示该博文的全部正文&#12290;有了它&#65292;你无需离开 Google Reader 就可以看只输出摘要的博客了&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/8782" target="_blank" rel="nofollow">Google Reader - Colorful List View</a></h3><br>
+&#12288;&#12288;此脚本会给文章列表中的每一个帖子着色&#12290;相同订阅源文章&#65292;会标注相同的颜色&#12290;当你选中某个文件夹&#65288;Folder&#65289; 时&#65292;就可以很清楚看出那些文章来自同一个订阅源&#12290;<br>
+&#12288;&#12288;补充一下&#65306;貌似这次改版后&#65292;此插件不灵了&#65292;也不晓得插件的作者啥时候出新版本&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/23671" target="_blank" rel="nofollow">Google Reader Filter</a></h3><br>
+&#12288;&#12288;看名称就知道&#65292;此脚本提供针对文章的过滤功能&#12290;你可以设置一些过滤规则&#65292;来决定哪些文章在列表中高亮显示&#65292;那些文章被排除&#65288;变灰&#65289;&#12290;另外&#65292;它还可以帮你隐藏重复的文章&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/21909" target="_blank" rel="nofollow">Google Reader Subscribers Count</a></h3><br>
+&#12288;&#12288;这个脚本会在窗口的右下角显示当前 RSS 的订阅者数量&#12290;<br>
+<br>
+<br>
+<h2>&#9733;优化阅读器界面的脚本</h2><br>
+&#12288;&#12288;除了上述这些增强功能的脚本&#65292;还有很多脚本是用来美化 Google Reader 界面的&#12290;这些脚本中&#65292;有些是历史悠久的&#65292;有些是昨天才发布的&#65288;专门针对改版后的丑陋界面&#65289;&#12290;顺便说一下&#65292;Google Reader 刚改版&#65292;就冒出一堆美化界面的脚本&#65292;可见这次改版非常不得人心&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/6415" target="_blank" rel="nofollow">Google Reader for wider screens</a></h3><br>
+&#12288;&#12288;这个脚本有些年头了&#65292;而且很小巧&#12290;它可以充分利用屏幕的空间来显示文章正文&#65292;如果是宽屏显示器&#65292;则效果更佳&#12290;以下是俺截的两张对比图&#65306;<br>
+<br>
+<center><img src="../../images/2011/11/N2hkIs3by-5b6mqcN2ITii6S9SE96nKq12dtTK8EBYXaGcq-YvecGstM8mlRRLGGf8adUFW0vm-jUo_gUdTHXBIPKLmyvL2yHHpRTYio3ayfWggUC9xvkPDTDlS_zP0qYC4" alt="不见图 请翻墙" width="75%"><br>
+&#65288;调整前的正文布局&#65289;</center><br>
+<center><img src="../../images/2011/11/8Zty3iECbcIYQPC2cCKQy4tmpJzvE2vlLGcVVpPS-7TOJGFbGhK4MQ7PeIkGj69k5qPx1k7RUFA-TrX1r5Ez7Pib68cvogIfzE2oISiilSS0PF8uqYxJqqfUtt6JjxwYoNk" alt="不见图 请翻墙" width="75%"><br>
+&#65288;调整后的正文布局&#65289;</center><br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/58577" target="_blank" rel="nofollow">Google Reader Absolutely Customizable</a></h3><br>
+&#12288;&#12288;这个脚本有一大坨代码&#65292;但是功能也挺多&#12290;它在阅读器的界面里&#65292;加入了一个定制菜单&#12290;通过此菜单&#65292;你可以凭自己的喜好&#65292;对很多界面元素进行调整或显示/隐藏&#12290;<br>
+&#12288;&#12288;以下是脚本作者提供的效果图&#65306;<br>
+<center><img src="../../images/2011/11/xrTR6vj599ClayJsTGN2AVhcsWnIU1S9-44NdL0pY6anWNJ0mBwgDb3sCnVWQ8x0OVyNitAkdiJxjzStMIqGsuggKVEO9FnUZQCeZvA1w6BzoXAGuY9k6--Uh176vesAxJy1" alt="不见图 请翻墙"><br>
+&#65288;定制菜单&#65289;</center><br>
+<center><img src="../../images/2011/11/dSOlQFlzRBIzjewg8vi2lr1FmRWBJcjHtaE9YDpxn1HTYmJFuJr1XzRjSDwV_cPAJWhO3DnGT47aAomiZKxtR6GsIMP3iy3PKhVWrea9jb0dZdbRhpnqfsHEyQ8nj9YwiM1E" alt="不见图 请翻墙"><br>
+&#65288;选项对话框&#65289;</center><br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/116850" target="_blank" rel="nofollow">Google Reader Demarginfier</a></h3><br>
+&#12288;&#12288;这是改版当天就推出的脚本&#65292;专门针对改版后的土B界面&#65288;此作者动手真快啊&#65289;&#12290;它可以压缩阅读器搜索条和工具条的高度&#12289;压缩文章列表的行高&#12289;压缩左边导航树的左边距&#12290;<br>
+<br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/116888" target="_blank" rel="nofollow">Google Reader - Compact Design</a></h3><br>
+&#12288;&#12288;又一个改版当天快速推出的脚本&#65292;功能跟前一个类似&#12290;同样能压缩阅读器搜索条和工具条的高度&#12289;压缩文章列表的行高&#12289;还能压缩左边导航书每个条目的行高&#65288;这个功能上面的脚本没有&#65289;&#65292;但是缺少压缩左边导航树的左边距的功能&#12290;<br>
+<br>
+<center><img src="../../images/2011/11/_lkg0zFy8Tz01UMwIa7YTXMf-hPnInJ5IJ7po0njhFWmfoqEKdJhZ_doG5vG4FgwCyinpOx1IYobq5m0HqWolGB1WhJV42UvCX0u07VO5OvLVDfB2Fn0XqdO06JuKZPIWVGZ" alt="不见图 请翻墙"><br>
+&#65288;脚本作者提供的效果图&#65289;</center><br>
+<h3>&#9671;<a href="http://userscripts.org/scripts/show/117128" target="_blank" rel="nofollow">GRSeven for Greasemonkey</a></h3><br>
+&#12288;&#12288;这可是咱天朝国产的脚本&#65292;也是专门针对改版后的土B界面&#12290;它的特色是&#65306;把界面顶部的搜索条和工具条合并掉&#65292;避免上方空间的浪费&#12290;<br>
+<br>
+<center><img src="../../images/2011/11/pN7KiqF4ukW2GanaqffKp5CCAzX_xHYUUeCzigtx62Ug2Nl91ttTzYOCgbjf21McmcJ3YkNa3h21y5HjWmeSYx_kPSqmUjCAAZfYR0_tLK_plgWvkQINNoADU0MUGo1xNpcE" alt="不见图 请翻墙"><br>
+&#65288;脚本作者提供的效果图&#65289;</center><br>
+<br>
+<h2>&#9733;自己动手美化阅读器</h2><br>
+&#12288;&#12288;请注意&#65292;本章节是留给那些富有 DIY 精神&#65292;并且略懂网页基础知识的网友&#12290;假如你对上述这些界面优化脚本都不满意&#65292;想自己动手写一个脚本来美化阅读器&#12290;那么&#65292;本章节对你应该有帮助&#12290;<br>
+&#12288;&#12288;反之&#65292;如果你对技术一窍不通&#65292;或者怕麻烦&#12289;或者没时间&#65292;请略过本章节&#12290;<br>
+<br>
+<h3>&#9671;如何美化&#65311;</h3><br>
+&#12288;&#12288;上述这些脚本对 Google Reader 的界面调整&#65292;说白了都是修改 CSS&#65288;层叠样式表&#65289;&#12290;在油猴脚本中&#65292;可以调用 <code>GM_addStyle</code> 函数&#65292;往当前页面加入一个新的样式表&#12290;如果你略懂 CSS&#65292;搞清楚这些脚本的代码应该对你来说就易如反掌&#12290;<br>
+<br>
+<h3>&#9671;调整正文宽度</h3><br>
+&#12288;&#12288;以下代码用于修改正文的显示宽度&#65292;让正文的宽度能充满屏幕&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.entry .entry-body, .entry .entry-title { max-width:100% !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<br>
+<h3>&#9671;压缩搜索条高度</h3><br>
+&#12288;&#12288;以下代码调整阅读器搜索条的高度&#65288;也就是阅读器上方有&#65306;Logo&#12289;搜索框&#12289;搜索按钮的那一行&#65289;&#12290;<br>
+&#12288;&#12288;代码中的 40px 和 6px 表示高度&#65288;像素为单位&#65289;&#65292;你可以根据自己喜好&#65292;微调这2个数字&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#top-bar { height:40px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#search { padding:6px 0px !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<h3>&#9671;压缩工具条高度</h3><br>
+&#12288;&#12288;以下代码调整工具条的高度&#65288;也就是阅读器上方包含&#8220;订阅&#12289;标为已读&#12289;供稿设置&#8221;等按钮的那一行&#65289;&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#viewer-header { height:40px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#lhn-add-subscription-section { height:40px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#lhn-add-subscription, #viewer-top-controls-container { margin-top:-15px !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<br>
+<h3>&#9671;压缩文章列表的行高</h3><br>
+&#12288;&#12288;新版界面的文章列表&#65292;行高大得离谱了&#65292;必须得调小&#12290;<br>
+&#12288;&#12288;如下代码可以搞定&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#entries { padding:0px !important; }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 1.2em 表示行高是字体高度的1.2倍&#12290;</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.collapsed { line-height:1.2em !important; padding:2px 0 !important; }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 设置列表左边星号的位置</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.entry-icons { top:12px !important }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 设置列表里文字标题的位置</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.entry-source-title { top:2px !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.entry-secondary { top:2px !important }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 设置列表右边&quot;打开原始URL&quot;图标的位置</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.entry-main .entry-original { top:12px !important }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<br>
+<h3>&#9671;压缩导航树的左边距</h3><br>
+&#12288;&#12288;导航树左边留了一大块空白&#65292;也不知要作甚&#65311;用如下代码压缩掉&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.section-minimize { left:0px !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#overview-selector, #lhn-selectors .selector, .folder .name.name-d-0, #sub-tree-header { padding-left:15px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.folder .folder .folder-toggle { margin-left:12px !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.folder .sub-icon, .folder .folder&amp;gt;a&amp;gt;.icon { margin-left:27px !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.folder .folder&amp;gt;ul .icon { margin-left:34px !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.folder .folder .name-text { max-width:160px; !important }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#reading-list-selector .label { display:inline !important }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<h3>&#9671;压缩导航树不同部分之间的间隙</h3><br>
+&#12288;&#12288;导航树由4部分组成&#65292;分别是&#65306;&#8220;主页&#8221;&#65288;Home&#65289;&#12289;&#8220;所有条目&#8221;&#65288;All items&#65289;&#12289;&#8220;探索&#8221;&#65288;Explore&#65289;&#12289;&#8220;订阅&#8221;&#65288;Subscriptions&#65289;&#12290;<br>
+&#12288;&#12288;这4块之间的间隙太大&#65292;用如下代码压缩&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.selectors-footer { margin-bottom:0px !important; padding-bottom:0px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;.lhn-section-footer { margin-bottom:0px !important; padding-bottom:0px !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<h3>&#9671;隐藏导航树的某些部分</h3><br>
+&#12288;&#12288;导航树的这4部分&#65292;通常是&#8220;订阅&#8221;用得最多&#65307;其它3部分如果用得少&#65292;嫌它们太占空间&#65292;可以用如下代码隐掉&#12290;<br>
+<div class="source"><pre><span class="c1">// 隐藏&#8220;主页&#8221;</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#overview-selector { display:none !important; }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 隐藏&#8220;所有条目&#8221;</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#lhn-selectors { display:none !important; }&quot;</span><span class="p">);</span>
+
+<span class="c1">// 隐藏&#8220;探索&#8221;</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#lhn-recommendations { display:none !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<h3>&#9671;调整导航树的宽度</h3><br>
+&#12288;&#12288;由于不同人的偏好及屏幕尺寸各有差异&#12290;因此&#65292;很多刁钻滴用户&#65288;比如俺&#65289;对导航树占的宽度不满意&#12290;<br>
+&#12288;&#12288;你可以用如下代码来调整&#12290;代码中的 240px 表示宽度&#65292;你可以根据喜好来调整&#12290;在这3行代码中&#65292;此数值要&#12304;保持一致&#12305;&#12290;<br>
+<div class="source"><pre><span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#nav, #nav * { max-width:240px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#nav { width:240px !important; }&quot;</span><span class="p">);</span>
+<span class="nx">GM_addStyle</span><span class="p">(</span><span class="s2">&quot;#chrome { margin-left:240px !important; }&quot;</span><span class="p">);</span>
+</pre></div><br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;今天说了这一大坨&#65292;也不知大伙儿有兴趣不&#65311;如果大伙儿对油猴的兴趣比较大&#65292;俺可以找时间再介绍其它一些实用的脚本&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2016/10/custom-firefox-theme-without-extension.html">无需任何插件或扩展&#65292;定制 Firefox 外观</a>&#12299;<br>
+&#12298;<a href="../../2019/07/Customize-Firefox.html">扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2011/11/greasemonkey-scripts-for-google-reader.html" id="OriginalPostUrl">https://program-think.blogspot.com/2011/11/greasemonkey-scripts-for-google-reader.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="47">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/709032645234317031?postID=709032645234317031&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/709032645234317031.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

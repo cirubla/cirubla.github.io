@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲操作系统虚拟机[6]&#65306;如何优化运行速度&#65311; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2014-09-10T22:42:00+08:00">2014年9月10日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：304条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲操作系统虚拟机[6]&#65306;如何优化运行速度&#65311;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;前几天聊到了<a href="../../2014/08/privacy-protection-9.html">对付流氓软件的几个招数</a>&#65292;其中最管用的一招是&#8220;操作系统虚拟机&#8221;&#12290;那篇博文发出后&#65292;有几个读者在博客留言中抱怨说&#65306;用了虚拟机之后&#65292;系统太卡了&#12290;所以今天来普及一些虚拟机的&#8220;运行速度优化&#8221;&#12290;<br>
+&#12288;&#12288;本文重点介绍&#12304;同时运行多个 VM 的速度优化&#12305;&#12290;俺会从&#8220;硬件选型&#8221;和&#8220;软件设置&#8221;两个角度分别来聊&#12290;如果你是第一次看<a href="../../2012/10/system-vm-0.html">本系列</a>&#65292;建议你先看完前面几篇&#65292;再看本文&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;CPU&#65288;中央处理器&#65289;的&#12304;虚拟化技术&#12305;</h2>
+<br>
+&#12288;&#12288;在虚拟机的速度优化中&#65292;&#8220;虚拟化技术&#8221;是非常重要滴&#65292;可惜又少有人了解&#12290;所以俺把它放在本文第一个章节&#12290;<br>
+<br>
+<h3>&#9671;啥是&#8220;虚拟化技术&#8221;&#65311;</h3>
+<br>
+&#12288;&#12288;&#8220;虚拟化技术&#8221;全称是&#8220;x86 硬件虚拟化技术&#8221;&#65292;维基百科的解释在&#8220;<a href="https://zh.wikipedia.org/wiki/X86%E8%99%9A%E6%8B%9F%E5%8C%96" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;为了打字省力&#65292;以下简称&#8220;VT&#8221;&#12290;<br>
+&#12288;&#12288;该技术是在&#12304;硬件&#12305;层面额外提供一些机制&#65292;这些机制仅仅用于&#8220;虚拟化&#8221;方面&#12290;如果你的电脑不是用来跑&#8220;虚拟机&#8221;&#65292;VT 技术对你而言毫无用处&#12290;<br>
+&#12288;&#12288;为啥要在硬件层面额外提供这样一种技术捏&#65311;因为 <b>x86 的体系结构&#65292;天生就&#12304;不适合&#12305;用来搞&#8220;操作系统虚拟化&#8221;</b>&#65288;个中缘由&#65292;在本文评论区有相关讨论&#65292;这里就不细谈了&#65289;但是最近10多年来&#65292;&#8220;虚拟化&#8221;是大势所趋&#12290;所以 Intel 和 AMD 都在自家的芯片上提供了适合&#8220;虚拟化&#8221;的扩展机制&#12290;对 Intel 芯片而言&#65292;称之为&#8220;Intel-VT&#8221;&#65288;也叫&#8220;VT-x&#8221;&#65289;&#65307;对 AMD 芯片而言&#65292;称之为&#8220;AMD-V&#8221;&#12290;<br>
+&#12288;&#12288;请注意&#65292;VT 只在部分型号的芯片上提供&#12290;也就是说&#65292;不论是 Intel 还是 AMD&#65292;都只有某些型号的芯片是支持 VT 滴&#12290;<br>
+<br>
+<h3>&#9671;VT 有啥用&#65311;</h3>
+<br>
+&#12288;&#12288;如果要从原理上阐述 VT 的用处&#65292;需要涉及到 x86 架构的设计及其缺陷&#65292;说来话长啊&#12290;考虑到篇幅&#65292;俺只举几个例子&#12290;<br>
+&#12288;&#12288;举例1&#65306;<br>
+&#12288;&#12288;有了 VT 之后&#65292;如果 Guest OS 中需要执行 CPU 的特权指令&#65292;虚拟机软件可以利用 VT 原生支持&#65288;硬件层面搞定&#65289;&#65307;如果没有 VT&#65292;碰到这种情况就只能靠软件模拟运行&#65288;<b>靠软件模拟&#65292;效率会差很多&#65281;</b>&#65289;&#12290;<br>
+&#12288;&#12288;很多同学抱怨电脑跑 VM 太慢&#65292;其中一部分人的原因就是&#8212;&#8212;CPU&#12304;不&#12305;支持 VT&#12290;<br>
+<br>
+&#12288;&#12288;举例2&#65306;<br>
+&#12288;&#12288;有了 VT 之后&#65292;你可以在&#8220;32位&#8221;的 Host OS 里面虚拟出&#8220;64位&#8221;的 Guest OS&#65307;若没有 VT 支持&#65292;就无法在&#8220;32位&#8221;上虚拟&#8220;64位&#8221;&#12290;<br>
+<br>
+<h3>&#9671;如何判断&#8220;VT 是否可用&#8221;&#65311;</h3>
+<br>
+&#12288;&#12288;首先&#65292;你应该去查一下自己的电脑是啥型号的&#65292;然后 Google 一下该型号的硬件配置&#65292;通常都可以在那些电脑行情网站&#65288;比如&#65306;太平洋电脑网&#12289;中关村在线&#65289;上找到该型号使用的 CPU 规格&#12290;在 CPU 规格中&#65292;通常就会提到这款 CPU 是否支持 VT&#12290;万一在 CPU 规格中没有提及是否支持 VT&#65292;你可以根据该 CPU 的详细型号&#65292;再到 Intel 或 AMD 的官网上查&#65292;肯定能查到相关说明&#12290;<br>
+&#12288;&#12288;假如你查到自己的 CPU 是支持 VT 的&#65292;还没完&#12290;你还得到操作系统里面检验一下&#65292;看 VT 在操作系统层面是否可见&#12290;<br>
+<br>
+&#12288;&#12288;<b>对于使用 Windows 的同学</b><br>
+&#12288;&#12288;Intel 和 AMD 各自都提供了专门的检测工具&#12290;不过俺还是推荐用微软提供的检测工具&#65288;Intel &#65286; AMD 通吃&#65289;&#12290;下载链接在&#8220;<a href="https://www.microsoft.com/en-us/download/details.aspx?id=592" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;该工具是绿色的&#65288;免安装&#65289;&#65292;在 Host OS 中运行它&#65292;就会提示你的系统是否支持 VT&#12290;<br>
+<br>
+&#12288;&#12288;<b>对于使用 Linux 的同学</b><br>
+&#12288;&#12288;请自行查看 Host OS 中的 <code>/proc/cpuinfo</code> 文件&#65288;命令如下&#65289;<br>
+对于 Intel 芯片&#65292;搜索 vmx 标志&#12290;<br>
+<pre class="shell">cat /proc/cpuinfo | grep vmx</pre>对于 AMD 芯片&#65292;搜索 svm 标志&#12290;<br>
+<pre class="shell">cat /proc/cpuinfo | grep svm</pre><br>
+<h3>&#9671;疑难解答</h3>
+<br>
+&#12288;&#12288;如果你上网查到自己的 CPU 支持 VT&#65292;但用微软的检测工具却显示不支持&#65292;那么很可能是你&#12304;没有&#12305;在 BIOS 中开启 VT 设置&#12290;<br>
+<br>
+&#12288;&#12288;如果你在 BIOS 中开启了 VT&#65292;但是微软的检测工具还是报告说&#8220;不支持 VT&#8221;&#65292;那么还有如下几种可能&#65306;<br>
+1. 有些电脑在系统启动时会锁定 VT 设置&#12290;所以你必须先&#12304;关机&#12305;&#65292;然后再开机并进入 BIOS 界面&#65292;再去修改 VT 设置&#12290;如果你只是&#12304;重启动系统&#12305;&#65292;没有进行&#12304;关机&#12305;操作&#65292;可能会导致 VT 的修改没生效&#12290;<br>
+2. 极少数便携式电脑在 BIOS 修改 VT 扩展之后&#65292;要进行&#12304;完全放电&#12305;&#65292;才能让修改生效&#12290;<br>
+3. 检查一下你的芯片驱动是否装对了<br>
+<br>
+<br>
+<h2>&#9733;&#12304;CPU&#12305;的并行能力</h2>
+<br>
+<h3>&#9671;名词解释</h3>
+<br>
+&#12288;&#12288;所谓的&#8220;并行&#8221;&#65288;parallel&#65289;&#65292;通俗而言就是&#65306;让 CPU 可以同时干多个事情&#12290;<br>
+&#12288;&#12288;CPU 的并行能力&#65292;主要通过三种技术来实现&#65306;多处理器&#65288;multi processor&#65289;&#12289;<a href="https://zh.wikipedia.org/wiki/%E5%A4%9A%E6%A0%B8%E5%BF%83%E8%99%95%E7%90%86%E5%99%A8" target="_blank" rel="nofollow">多核&#65288;multi core&#65289;</a>&#12289;<a href="https://zh.wikipedia.org/wiki/%E8%B6%85%E5%9F%B7%E8%A1%8C%E7%B7%92" target="_blank" rel="nofollow">超线程&#65288;hyper threading&#65289;</a>&#12290;<br>
+&#12288;&#12288;至于这三种的详细解释&#65292;俺就偷个懒&#65292;大伙儿自己去看维基百科吧&#12290;<br>
+<br>
+<h3>&#9671;几种并行技术的性能对比</h3>
+<br>
+&#12288;&#12288;这三种 CPU 的并行技术&#65292;其优缺点对比&#65288;尤其是前两种&#65289;&#65292;网上有不少口水战&#12290;客观地讲&#65292;在不同的使用场景&#65292;不同技术的表现也是不同滴&#12290;所以很难一概而论地说哪个技术更好&#12290;<br>
+&#12288;&#12288;在&#8220;多 VM 同时运行&#8221;的场景下&#65292;俺个人认为&#65306;<br>
+其它指标相同的情况下&#65292;&#8220;N 个单核的 CPU&#8221;优于&#8220;一个 N 核的CPU&#8221;<br>
+其它指标相同的情况下&#65292;&#8220;一个双核的单线程 CPU&#8221;优于&#8220;一个单核的超线程 CPU&#8221;&#65288;注&#65306;&#8220;超线程&#8221;通常指&#8220;双线程&#8221;&#65289;<br>
+<br>
+<h3>&#9671;购买时的考虑</h3>
+<br>
+&#12288;&#12288;如果你正打算采购一台电脑&#65292;并且计划在该电脑上跑多个 VM&#12290;从&#8220;性价比&#8221;的角度考虑&#65292;你应该挑选&#8220;单 CPU 多核&#8221;&#12290;<br>
+&#12288;&#12288;因为个人用的电脑&#65292;主板大都只支持&#12304;单个 CPU&#12305;&#65307;支持多 CPU 的电脑&#65292;价格要高出很多&#12290;所以在性价比考虑之下&#65292;只能退而求其次&#65292;选&#8220;单 CPU 多核&#8221;&#8212;&#8212;这是比较划算的方案&#12290;<br>
+&#12288;&#12288;至于应该买&#8220;几核&#8221;的 CPU&#65292;俺的建议是&#8212;&#8212;在你的钞票预算内&#65292;核心数&#12304;多多益善&#12305;&#12290;<br>
+<br>
+<h3>&#9671;配置时的考虑</h3>
+<br>
+&#12288;&#12288;主流的虚拟机软件&#65288;VMware 和 VirtualBox&#65289;都可以指定 Guest OS 使用的 CPU 数量&#12290;<br>
+&#12288;&#12288;对于 VirtualBox&#65292;它提供的界面上让你设置的是&#8220;虚拟 CPU 数&#8221;&#65288;对应的是&#8220;核心数&#8221;&#65289;&#12290;你设置的数量要&#12304;小于等于&#12305;你物理 CPU 的&#8220;总核心数&#8221;&#65288;即使是超线程的 core 也只算1个&#65289;&#12290;<br>
+&#12288;&#12288;对于 VMware&#65292;它提供的界面上可以让你设置&#8220;CPU 数&#8221;与&#8220;每 CPU 核心数&#8221;&#12290;此处的设置比 VirtualBox 复杂&#12290;大伙儿可以参考 VMware 官网的文档&#65288;链接在&#8220;<a href="https://kb.vmware.com/s/article/1010184" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;通常情况下&#65292;你只需设置为跟你的物理 CPU 的情况一致&#65292;就可以了&#12290;但是有些特殊情况&#65292;俺需要提醒一下&#12290;<br>
+&#12288;&#12288;VMware 下的特殊情况&#65306;<br>
+&#12288;&#12288;微软提供的某些 Windows 版本&#65292;会限制&#8220;可用 CPU 数&#8221;&#65288;这是微软的销售策略导致滴&#65289;&#12290;比如 Windows Server 2003 Standard Edition 限定了最多只能用4个 CPU&#65288;此处指&#12304;processor&#12305;&#65292;不是 core&#65289;&#65307;比如 WinXP 最多支持2个 CPU&#65288;也是指 processor&#65289;&#12290;如果你分配给 Guest OS 的 CPU&#65288;processor&#65289; 超过了该 Windows 的&#8220;CPU 上限&#8221;&#65292;那超出的部分就浪费啦&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#12304;内存&#12305;相关的优化</h2>
+<br>
+&#12288;&#12288;相比 CPU&#65292;内存方面没有太多讲究&#12290;<br>
+<br>
+<h3>&#9671;购买时的考虑</h3>
+<br>
+&#12288;&#12288;如果你正在考虑买电脑&#65292;并且你想跑多个 VM&#65292;在预算范围内尽量买内存大的&#65292;或者是买来之后自己加内存&#12290;<br>
+&#12288;&#12288;需要多大的内存&#65292;取决于你需要&#12304;同时运行&#12305;的 VM 数量&#65292;以及每个 VM 的用途&#12290;<br>
+&#12288;&#12288;如果你善于优化&#65292;即使不大的内存&#65292;也可以同时跑好几个 VM&#65288;本文后续章节会稍微聊一下 Guest OS 的优化&#65289;&#12290;<br>
+<br>
+<h3>&#9671;配置时的考虑</h3>
+<br>
+&#12288;&#12288;目前所有的虚拟机软件&#65292;都可以让你单独设定每个 Guest OS 的内存大小&#12290;<br>
+&#12288;&#12288;<b>给 Guest OS 配置内存&#65292;要恰到好处&#12290;</b><br>
+&#12288;&#12288;如果配得太小&#65292;可能会导致 Guest OS 频繁使用虚拟内存&#65292;然后虚存频繁换页&#65292;就会导致频繁的磁盘 I/O&#65292;自然就拖慢&#12304;整台电脑&#12305;的性能&#12290;<br>
+&#12288;&#12288;如果配得太大&#65292;可能会导致留给 Host OS 的内存太小&#65292;然后 Host OS 频繁使用虚存&#65292;同样会出现频繁的内存换页和磁盘 I/O&#12290;&#12304;整台电脑&#12305;的性能同样会被拖慢&#12290;<br>
+<br>
+<h3>&#9671;32位 vs 64位</h3>
+<br>
+&#12288;&#12288;如果电脑的物理内存&#12304;小于&#12305;4GB&#65292;你的 Host OS 可以装&#8220;32位&#8221;也可以装&#8220;64位&#8221;&#12290;俺通常建议想玩 VM 的同学装&#8220;64位&#8221;&#12290;因为装了&#8220;64位&#8221;之后&#65292;万一今后想扩展物理内存&#65292;就不存在 4GB 的限制&#12290;<br>
+&#12288;&#12288;如果电脑的物理内存&#12304;超过&#12305;4GB&#65292;你当然要直接上&#12304;64位&#12305;的操作系统&#12290;虽然从理论上讲&#65292;&#8220;32位&#8221;也可以玩转超过 4GB 的物理内存&#12290;不过捏&#65292;这需要通过一些旁门左道的技术&#65288;比如&#65306;<a href="https://zh.wikipedia.org/wiki/%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E6%89%A9%E5%B1%95" target="_blank" rel="nofollow">PAE/物理地址扩展</a>&#65289;&#12290;俺个人不建议大伙儿&#65288;尤其是技术菜鸟&#65289;去折腾这种旁门左道&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#12304;磁盘&#12305;相关的优化</h2>
+<br>
+<h3>&#9671;机械硬盘 VS 固态硬盘</h3>
+<br>
+&#12288;&#12288;&#8220;机械硬盘&#8221;大伙儿应该都比较熟悉了&#65292;俺就不介绍了&#12290;单说说新兴的&#8220;固态硬盘&#8221;&#65288;洋文缩写是 SSD&#65289;&#12290;<br>
+&#12288;&#12288;相比传统的硬盘&#65292;SSD 的&#12304;优点&#12305;很明显&#65292;至少有如下几个&#65306;<br>
+1. 读写速度飞快&#65288;尤其是读速度比机械硬盘快更多&#65289;<br>
+2. 无噪音<br>
+3. 无惧震动<br>
+4. 不发热<br>
+5. 低功耗<br>
+&#12288;&#12288;但是 SSD 的&#12304;缺点&#12305;同样明显&#65292;至少有如下几个&#65306;<br>
+1. 损坏后难恢复&#65288;相比机械硬盘&#65292;损坏前无预兆&#65292;一旦损坏就整块报废&#65289;<br>
+2. 写入次数很有限&#65288;这个可以通过&#8220;损耗均衡技术&#8221;来解决&#65289;<br>
+3. 价格<br>
+<br>
+&#12288;&#12288;俺个人觉得&#65306;多数情况下&#65292;&#12304;没有必要&#12305;刻意追求 SSD&#12290;基于性价比考虑&#65288;如今 SSD 的价格还是偏高&#65289;&#65292;花小钱升级内存比花大钱买 SSD 对性能的提升更明显&#12290;<br>
+&#12288;&#12288;因为普通人用电脑&#65292;操作的软件大都&#12304;不是&#12305;&#8220;磁盘 I/O 密集型&#8221;&#12290;比如你用浏览器上网&#65292;浏览器对磁盘的读写就非常非常少&#12290;比如你用 Office 处理文档&#65292;即使你设置了&#8220;每分钟自动保存&#8221;&#65292;对磁盘的读写依然是非常少的&#12290;<br>
+&#12288;&#12288;有些同学可能会问&#65306;自己天天下载电影&#65292;天天在电脑上播放&#65292;这样算不算&#8220;磁盘 I/O 密集型&#8221;&#65311;俺觉得这个都算不上&#12290;因为在线下载&#65292;瓶颈在网速&#65288;家用宽带也就 10Mbps 的数量级&#65292;SATA 的传输率是 Gbps 的数量级&#65289;&#12290;即使是播放本地高清视频文件&#65292;也远达不到磁盘传输的上限&#12290;<br>
+&#12288;&#12288;相对而言&#65292;如果你的内存足够大&#65292;就可以禁用操作系统的&#8220;虚拟内存&#8221;&#12290;如此一来就避免了虚存换页导致的&#8220;磁盘 I/O&#8221;&#8212;&#8212;在内存紧张的情况下&#65292;虚存交换导致的磁盘读写&#65292;是很惊人的&#12290;&#65288;下面的章节还会再提到&#8220;虚拟内存&#8221;的优化&#65289;<br>
+<br>
+<h3>&#9671;记得切换物理磁盘的&#12304;工作模式&#12305;</h3>
+<br>
+&#12288;&#12288;对于 PC 机而言&#65292;比较常见的硬盘接口有两种&#65306;一种是老式的 <a href="https://zh.wikipedia.org/wiki/ATA" target="_blank" rel="nofollow">PATA</a>&#65288;并行 ATA&#65292;也叫&#8220;IDE&#8221;&#65289;&#65292;另一种是新式的 <a href="https://zh.wikipedia.org/wiki/SATA" target="_blank" rel="nofollow">SATA</a>&#65288;串行 ATA&#65289;&#12290;如今新买的电脑&#65292;估计都已经是 SATA 接口了&#12290;<br>
+&#12288;&#12288;因为电脑厂商要考虑旧操作系统的兼任性&#65292;所以大多数 PC 机的 BIOS 设置中&#65292;都保留了一个&#8220;IDE&#8221;的兼容模式&#12290;在新买的电脑中&#65292;有的电脑 BIOS 默认设置是 ACHI&#65288;用于 SATA&#65289;&#65292;有的默认设置是 IDE&#12290;<br>
+&#12288;&#12288;如果你不确定的话&#65292;建议看一下你电脑的 BIOS 设置&#65292;看看硬盘的工作模式是哪个&#12290;如果依然是 IDE 模式&#65292;赶紧改成 ACHI 模式&#12290;因为 ACHI 模式才能完全发挥 SATA 接口的性能&#12290;<br>
+<br>
+<h3>&#9671;虚拟磁盘&#12304;格式&#12305;的选择</h3>
+<br>
+&#12288;&#12288;某些虚拟机软件同时支持多种虚拟磁盘格式&#65288;典型的就是 VirtualBox&#65292;支持好多种&#65289;&#12290;那么你在创建新的 Guest OS 时&#65292;应该选择哪种格式捏&#65311;俺的建议是&#65306;选择该虚拟机软件原生的格式&#12290;<br>
+&#12288;&#12288;以 VirtualBox 为例&#12290;<br>
+&#12288;&#12288;它同时支持 VDI&#12289;VMDK&#12289;VHD&#12289;HDD&#12289;QED 等多种格式&#12290;但是这些格式中&#65292;只有 VDI 是 VirtualBox&#12304;原生&#12305;支持滴&#8212;&#8212;所谓的&#8220;原生支持&#8221;就是说&#65292;这个 VDI 格式本身就是 VirtualBox 的开发团队设计的&#12290;所以&#65292;对 VirtualBox 的用户而言&#65292;如无特殊情况&#65292;尽量用它原生的 VDI 磁盘格式&#12290;<br>
+<br>
+&#12288;&#12288;下面是几款常见虚拟化软件&#12304;原生的&#12305;&#8220;虚拟磁盘格式&#8221;&#65306;<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>软件名称</th><th>原生磁盘格式</th></tr>
+<tr><td>VirtualBox</td><td>VDI</td></tr>
+<tr><td>各种 VMware</td><td>VMDK</td></tr>
+<tr><td>Virtual PC<br>
+Virtual Server</td><td>VHD</td></tr>
+<tr><td>QEMU</td><td>QED</td></tr>
+</tbody></table></center>
+<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;使用原生的磁盘格式&#65292;除了性能上的考虑&#65292;还有一个是基于&#8220;安全性&#8221;的考虑&#8212;&#8212;对虚拟机用户而言&#65292;虚拟磁盘承载了你的数据&#65292;是非常重要滴&#12290;<br>
+&#12288;&#12288;由于原生的磁盘格式就是&#8212;&#8212;虚拟化软件的开发团队自己设计的格式&#12290;所以对&#8220;原生格式&#8221;的支持&#65292;比较&#12304;不易&#12305;出故障和 Bug&#12290;<br>
+<br>
+<h3>&#9671;RAID 的考虑</h3>
+<br>
+&#12288;&#12288;如果你的电脑只有&#12304;一块&#12305;物理硬盘&#65292;请跳过本小节&#12290;<br>
+&#12288;&#12288;如果你的电脑中同时插了多块物理硬盘&#65292;可以考虑用 RAID 来提升硬盘的读写性能&#12290;<br>
+&#12288;&#12288;由于大部分网友的电脑都是&#12304;单&#12305;硬盘&#65292;俺就不展开细聊了&#12290;有此需求的同学可以参考如下博文&#65306;<br>
+&#12298;<a href="../../2020/06/Linux-Logical-Volume-Manager.html">扫盲 Linux 逻辑卷管理&#65288;LVM&#65289;&#8212;&#8212;兼谈 RAID 以及&#8220;磁盘加密工具的整合&#8221;</a>&#12299;<br>
+<br>
+<br>
+<h2>&#9733;优化&#8220;Guest OS 的内存占用&#8221;</h2>
+<br>
+<h3>&#9671;使用&#8220;更省内存&#8221;的操作系统</h3>
+<br>
+&#12288;&#12288;如今很多网友都用上 Win7&#12290;但是 Win7 的内存占用是比较大滴&#12290;如果你想在 VM 里面跑 Win7&#65292;建议你改用 Windows ThinPC&#12290;这是微软官方发布的版本&#65292;根据 Win7 进行精简&#65288;含 Win7 SP1&#65289;&#12290;它的系统安装盘小了很多&#65292;安装后的硬盘占用也小了很多&#65292;启动后的内存占用也小了很多&#12290;关于 ThinPC 的更多介绍&#65292;可以看俺之前的博文&#12298;<a href="../../2014/03/windows-xp-dead.html">Windows XP 大限已至&#8212;&#8212;要不要换系统&#65311;如何换&#65311;</a>&#12299;&#12290;<br>
+<br>
+&#12288;&#12288;如果你喜欢折腾技术&#65292;还可以用 Linux 作为 Guest OS&#12290;相比 Windows&#65292;Linux 的优点之一是&#65306;可以深度定制&#12290;通过定制&#65292;可以让它变得很轻量级&#65292;只占用很少的内存&#12290;如今已经有很多现成的&#8220;轻量级 Linux 发行版&#8221;&#65288;请看维基百科的<a href="https://en.wikipedia.org/wiki/Lightweight_Linux_distribution" target="_blank" rel="nofollow">这个链接</a>&#65289;&#65292;其中一些只要几十兆内存就可以正常运行&#12290;<br>
+&#12288;&#12288;不熟悉 Linux 的同学可以参考俺之前的博文&#12298;<a href="../../2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统</a>&#12299;&#12290;<br>
+<br>
+<h3>&#9671;使用&#8220;更省内存&#8221;的软件</h3>
+<br>
+&#12288;&#12288;比如说&#65292;如今网友们上网&#65292;经常会在浏览器中开启几十个标签页&#12290;当标签页开得很多时&#65292;浏览器占用的内存自然也猛增&#12290;但是不同的浏览器&#65292;差异还是很明显的&#12290;俺找到一篇今年&#65288;2014&#65289;的测评报告&#65288;<a href="https://www.ghacks.net/2014/01/02/chrome-34-firefox-29-internet-explorer-11-memory-use-2014/" target="_blank" rel="nofollow">英文原文</a>&#65292;<a href="http://www.iefans.net/ie11-chrome-34-firefox-29-neicun-zhanyong-ceshi/" target="_blank" rel="nofollow">中文翻译</a>&#65289;&#65292;对比了 Chrome 34&#12289;Firefox 29&#12289;IE 11&#12290;当开启 40 个标签页的情况下&#65292;Firefox 的内存占用最小&#65292;IE 最大&#12290;并且 IE 占用内存几乎是 Firefox 的2倍&#12290;<br>
+&#12288;&#12288;俺举这个例子是想说明&#8212;&#8212;选择性能更优秀的软件&#65292;会帮你节省很多内存&#12290;<br>
+<br>
+<h3>&#9671;禁用不需要的系统服务&#65288;service&#65289;</h3>
+<br>
+&#12288;&#12288;Windows 是面向傻瓜用户的&#65292;而且 Windows 的应用范围很广&#65288;从商务办公到居家打游戏&#65289;&#65292;所以它默认开启了很多系统服务&#12290;因为微软不确定这些服务是否会被用到&#65292;所以就把&#12304;可能用到&#12305;的服务&#65292;都设置为&#8220;自动&#8221;启动&#12290;<br>
+&#12288;&#12288;这样一来&#65292;确实方便了傻瓜用户&#65292;但是也导致默认的系统服务占用太多内存&#12290;所以你需要把那些你压根儿用不到的服务停掉&#65288;把启动方式修改为&#8220;手动&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;&#65288;至于哪些服务可以停掉&#65292;大伙儿如果感兴趣&#65292;再另外写一篇&#65289;<br>
+<br>
+<h3>&#9671;去掉不需要的启动项&#65288;auto run&#65289;</h3>
+<br>
+&#12288;&#12288;很多软件&#65288;尤其是流氓软件&#65289;喜欢在&#8220;启动项&#8221;里面加东西&#12290;有些启动项压根儿用不到&#65292;岂不是白白浪费内存&#65311;<br>
+&#12288;&#12288;所以你应该清理一下那些没啥用的启动项&#12290;<br>
+<br>
+<h3>&#9671;虚拟内存的设置</h3>
+<br>
+&#12288;&#12288;其实在刚才&#65292;俺已经提到了&#8220;虚拟内存&#8221;的话题&#12290;<br>
+&#12288;&#12288;&#8220;虚拟内存&#8221;简称&#8220;虚存&#8221;&#65292;洋文叫做&#8220;virtual memory&#8221;&#65292;维基百科的词条在&#8220;<a href="https://zh.wikipedia.org/wiki/%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;经常听到有人抱怨系统太卡&#12290;当系统运行变慢的时候&#65292;你观察一下系统的内存使用&#65292;然后再看一下电脑的硬盘灯&#12290;如果系统的内存使用已经很高&#65292;并且硬盘灯长亮&#12290;这通常说明系统在进行频繁的&#8220;虚存交换/虚存换页&#8221;&#12290;这个过程需要进行频繁的磁盘读写&#65292;从而拖慢了整个系统&#12290;于是你就觉得系统很卡&#12290;<br>
+&#12288;&#12288;关于&#8220;虚存&#8221;&#65292;俺的经验是&#65306;先把物理内存搞大&#65292;然后禁用虚存&#12290;由于物理内存足够&#65292;并且虚存被禁用&#65292;那么就不存在&#8220;虚存交换&#8221;&#65292;这可以降低很多的磁盘 I/O 过程&#12290;<br>
+&#12288;&#12288;套用到 VM 管理上&#8212;&#8212;你必须给每个 Guest OS 配置足够大的内存&#65292;然后在 Guest OS 里面禁用&#8220;虚存&#8221;&#65288;具体如何禁用&#65292;你自己去 Google 一下&#65289;&#12290;<br>
+&#12288;&#12288;<b>注意事项&#65306;</b><br>
+&#12288;&#12288;如果你要使用俺这个建议&#65292;要确保系统的内存是&#12304;足够大&#12305;滴&#65281;在禁用虚存的情况下&#65292;如果内存耗尽&#65292;可能会导致系统崩溃或者某个进程崩溃&#12290;<br>
+<br>
+<br>
+<h2>&#9733;杂项</h2>
+<br>
+&#12288;&#12288;在本文的最后&#65292;俺顺便列举一些杂七杂八的注意事项&#12290;<br>
+<br>
+<h3>&#9671;在 Guest OS 中安装虚拟化的相关驱动</h3>
+<br>
+&#12288;&#12288;<b>虽然这条放在&#8220;杂项&#8221;&#65292;但是这条很重要&#12290;</b><br>
+&#12288;&#12288;当你安装好 Guest OS 的操作系统之后&#65292;首先记得在这个 Guest OS 里面安装虚拟机软件的驱动&#12290;对于 VMware 而言&#65292;这玩意儿叫做&#8220;VMware Tools&#8221;&#65307;对 VirtualBox 而言&#65292;这玩意儿叫做&#8220;Guest Additions&#8221;&#12290;<br>
+&#12288;&#12288;装好之后&#65292;除了改善很多 GUI 方面的体验&#65288;比如&#8220;鼠标的无缝融合&#8221;&#65292;比如&#8220;改进 Guest 的屏幕分辨率&#8221;&#65289;&#65292;还可以改善其它的一些虚拟设备的性能&#12290;<br>
+<br>
+<h3>&#9671;3D 加速</h3>
+<br>
+&#12288;&#12288;如果你要运行一些涉及 3D 的应用&#65288;比如 3D 游戏&#65289;&#65292;要记得去 Guest OS 的设置界面&#65292;勾选&#8220;3D 加速&#8221;这个选项&#65288;VirtualBox 和 VMware 都有此选项&#65289;&#12290;<br>
+<br>
+<h3>&#9671;&#12304;禁止&#12305;Host OS 的杀毒软件扫描&#8220;虚拟磁盘文件&#8221;</h3>
+<br>
+&#12288;&#12288;Guest OS 的虚拟磁盘文件&#65292;通常都很大很大&#65288;相当于把 Guest OS 的整个硬盘内容放在一个文件中&#65289;&#12290;如果 Host OS 里面的杀毒软件尝试去扫描这些虚拟磁盘文件&#65292;由于文件太大&#65292;会导致扫描过程消耗非常多的磁盘 I/O&#65292;从而拖慢你整台电脑的性能&#12290;<br>
+&#12288;&#12288;所以&#65292;你必须对杀毒软件进行一些设置&#65292;禁止它去扫描那些存放 Guest OS 的目录&#12290;<br>
+<br>
+<br>
+<b><a href="../../2012/10/system-vm-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2014/09/system-vm-6.html" id="OriginalPostUrl">https://program-think.blogspot.com/2014/09/system-vm-6.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="304">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4834941176010029603?postID=4834941176010029603&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4834941176010029603.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

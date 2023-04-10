@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>对 OpenSSL 高危漏洞 Heartbleed 的感慨&#12289;分析和建议 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2014-04-11T16:12:00+08:00">2014年4月11日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：97条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              对 OpenSSL 高危漏洞 Heartbleed 的感慨&#12289;分析和建议
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;4月7日曝光的 Heartbleed 漏洞&#65288;编号CVE-2014-0160&#65289;已经在相关的 IT 领域&#65288;尤其是信息安全领域&#65289;造成很大的风波&#12290;在安全圈混了十多年&#65292;不写点啥有些说不过去&#12290;所以今天就这个话题&#65292;谈谈俺个人的观点&#65292;并给普通用户&#12289;程序员&#12289;开源社区&#12289;安全从业人员 分别提点建议&#12290;<a name='more'></a><br>
+<br>
+<center><img src="../../images/2014/04/JCDXhWmeg8kJcSWTxfbUxMugX1Ryo1gHdjNiLA-OYO_MVtFAVEs2BBFwi2BlhRhj2bD7UZeEByZZl9YxvL73JdaVEU7wD2pt0KVHlNLlEYIt8hMUV-Bdru0tW5pSPQAs4BC-" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;关于 Heartbleed 漏洞</h2><br>
+&#12288;&#12288;这个 Heartbleed&#65292;直译成中文就是&#8220;心脏出血&#8221;&#12290;听上去挺吓人滴&#65292;现实中也确实挺吓人滴&#12290;简而言之&#65292;这个漏洞足以载入史册&#12290;这几天&#65292;大伙儿正在经历信息安全历史上的一个重要时刻&#12290;或许你应该觉得荣幸 :)<br>
+&#12288;&#12288;关于这个漏洞的描述&#65292;请看中文维基百科的&#8220;<a href="https://zh.wikipedia.org/wiki/%E5%BF%83%E8%84%8F%E5%87%BA%E8%A1%80%E6%BC%8F%E6%B4%9E" target="_blank" rel="nofollow">这里</a>&#8221;&#65292;俺就不浪费口水了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;先发点感慨</h2><br>
+&#12288;&#12288;先发一通抱怨&#12290;不喜欢听俺抱怨的&#65292;请直接略过&#12290;<br>
+<br>
+<h3>&#9671;安全行业的耻辱</h3><br>
+&#12288;&#12288;对整个安全行业而言&#65292;这是巨大的耻辱&#12290;<br>
+&#12288;&#12288;OpenSSL 是安全行业内应用非常广泛的开源加密库&#12290;一个用来保护安全的软件包&#65292;本身居然出现如此严重的漏洞&#65288;导致内存信息泄漏&#65289;&#65292;实在太讽刺了&#12290;<br>
+&#12288;&#12288;耻辱的还不光是 OpenSSL&#8212;&#8212;就在一个月之前&#65292;GnuTLS 同样出现过高危漏洞&#65288;编号 CVE-2014-0092&#65289;&#12290;这么短的时间之内&#65292;涉及到加密的两个最常用的基础库接连爆出高危漏洞&#65292;俺不禁要问&#65306;整个安全行业的面子要往哪儿搁&#65311;<br>
+<br>
+<h3>&#9671;开源社区的耻辱</h3><br>
+&#12288;&#12288;对整个开源社区而言&#65292;这是巨大的耻辱&#12290;<br>
+&#12288;&#12288;OpenSSL 作为非常知名的开源项目之一&#65292;这么严重的漏洞居然两年后才曝光&#65288;2012年3月的稳定版就已经包含此漏洞&#65289;&#12290;难道关键模块的代码变更之后不进行&#12304;Code Review&#12305;&#65311;亦或是 Code Review 只是走过场&#65311;<br>
+<br>
+<br>
+<h2>&#9733;对该漏洞的风险评估</h2><br>
+&#12288;&#12288;该漏洞曝光前后&#65292;风险是不同滴&#12290;以下俺分别介绍&#12290;<br>
+&#12288;&#12288;下面会涉及两个术语&#8212;&#8212;&#8220;未公开漏洞&#8221;和&#8220;零日漏洞&#8221;&#8212;&#8212;两者的区别请看<a href="../../2010/08/howto-prevent-hacker-attack-4.html">俺之前的博文</a>&#12290;<br>
+<br>
+<h3>&#9671;漏洞曝光&#12304;之前&#12305;&#8212;&#8212;作为&#8220;未公开漏洞&#8221;</h3><br>
+&#12288;&#12288;目前已经有报道指出&#65292;在4月7日之前&#65292;这个漏洞就已经被骇客利用&#65288;报道在&#8220;<a href="http://arstechnica.com/security/2014/04/heartbleed-vulnerability-may-have-been-exploited-months-before-patch/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;另外&#65292;圈内也有小道消息流传&#65292;说某些攻击者早已拿到此漏洞并加以利用&#12290;<br>
+&#12288;&#12288;在这个阶段&#65292;知道漏洞的人很少&#12290;这时候&#65292;该漏洞属于&#8220;宝贵资源&#8221;&#65292;掌握它的人只会拿来攻击&#8220;高价值目标&#8221;&#12290;所以&#65292;如果你只是一个普通网友&#65292;或者只是一个小型网站&#65292;通常不用担心这个阶段的风险&#12290;<br>
+<br>
+<h3>&#9671;漏洞曝光&#12304;之后&#12305;&#8212;&#8212;作为&#8220;零日漏洞&#8221;</h3><br>
+&#12288;&#12288;4月7日那天&#65292;OpenSSL 发布了公告&#12290;发现漏洞的 CloudFlare 公司也发布了公告&#12290;于是这个漏洞瞬间传遍全球&#12290;几小时之内&#65292;大量的攻击工具应运而生&#65288;这个漏洞太容易利用了&#65289;&#12290;然后大量的&#8220;脚本小子&#8221;&#65288;洋文叫&#8220;script kiddie&#8221;&#65289;就拿着这些别人写好的工具&#65292;对大量的网站进行扫描&#12290;<br>
+&#12288;&#12288;由于时差的关系&#65292;以及某些大公司的官僚风气&#65292;很多网站来不及在第一时间升级 OpenSSL 这个软件包&#65288;这就是所谓的&#8220;零日风险&#8221;&#65289;&#12290;估计某些效率低下的公司&#65292;甚至到今天都还没升级&#12290;<br>
+&#12288;&#12288;在这个阶段&#65292;对于普通网友<br>
+假设你登录过某个网站<br>
+假设该网站没有及时升级 OpenSSL<br>
+假设该网站存储的是&#12304;明文密码&#12305; 或者 该网站只在&#12304;服务端&#12305;加密/Hash密码<br>
+假设在你登录期间正好有人利用该漏洞进行信息收集<br>
+如果上述几个条件&#12304;同时&#12305;成立&#65292;那么你的密码&#12304;有一定的概率&#12305;可能被攻击者收集到&#12290;<br>
+<br>
+<br>
+<h2>&#9733;对该漏洞的技术分析</h2><br>
+&#12288;&#12288;&#65288;本节聊的是该漏洞在技术层面的细节&#12290;对 C 语言了解不多的同学&#65292;请自行略过&#65292;以免浪费时间&#65289;<br>
+&#12288;&#12288;这个漏洞从本质上讲&#65292;就是&#8220;缓冲区溢出&#65288;buffer overflow&#65289;&#8221;&#12290;几乎所有这类漏洞的根源&#65292;都是由于程序员的疏忽&#8212;&#8212;对缓冲区涉及的相关&#8220;长度&#8221;没有仔细检查&#12290;<br>
+&#12288;&#12288;已经有老外写了详细的 Heartbleed 漏洞分析文档&#65288;洋文在&#8220;<a href="http://blog.existentialize.com/diagnosis-of-the-openssl-heartbleed-bug.html" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;对于懒得看长篇的同学&#65292;俺把精华摘录如下&#65306;<br>
+&#12288;&#12288;问题出在 OpenSSL 中的 ssl/d1_both.c 文件中的 dtls1_process_heartbeat 函数&#65288;看名称就知道该函数是干啥滴&#65289;&#12290;相关代码有如下&#65288;俺补了中文注释&#65289;<br>
+<div class="source"><pre><span class="kt">int</span> <span class="nf">dtls1_process_heartbeat</span><span class="p">(</span><span class="n">SSL</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">s3</span><span class="o">-&gt;</span><span class="n">rrec</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">*</span><span class="n">pl</span><span class="p">;</span>  <span class="c1">// p 指向对端发来的心跳数据包</span>
+    <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">hbtype</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">payload</span><span class="p">;</span>
+    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span> <span class="cm">/* Use minimum padding */</span>
+    <span class="p">......</span>
+    <span class="n">hbtype</span> <span class="o">=</span> <span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="p">;</span>  <span class="c1">// 心跳数据包的第0个字节&#65292;表示心跳包的类型</span>
+    <span class="n">n2s</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">payload</span><span class="p">);</span>  <span class="c1">// 后面2字节是长度&#12290;n2s 这个宏把这2字节取出为整型&#65292;然后指针移2字节</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>  <span class="c1">// 此时 p 指向第3个字节&#8212;&#8212;也就是对端提供的心跳包载荷</span>
+    <span class="p">......</span>
+    <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="o">*</span><span class="n">bp</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">OPENSSL_malloc</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">payload</span> <span class="o">+</span> <span class="n">padding</span><span class="p">);</span>  <span class="c1">// 多出的3字节用于存放类型和长度</span>
+    <span class="n">bp</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">;</span>
+    <span class="p">......</span>
+    <span class="o">*</span><span class="n">bp</span><span class="o">++</span> <span class="o">=</span> <span class="n">TLS1_HB_RESPONSE</span><span class="p">;</span>  <span class="c1">// 填充类型</span>
+    <span class="n">s2n</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">bp</span><span class="p">);</span>  <span class="c1">// 填充长度</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">bp</span><span class="p">,</span> <span class="n">pl</span><span class="p">,</span> <span class="n">payload</span><span class="p">);</span>  <span class="c1">// 填充回应包的载荷&#12304;亮点在这里&#12305;</span>
+</pre></div><br>
+&#12288;&#12288;如果对端发来的心跳包有猫腻&#8212;&#8212;包长度跟实际载荷不匹配&#65292;那么在发送回应包的时候&#65292;那句 memcpy 语句就会把心跳包之后的内存区块也一起 copy 进去&#65292;然后发给对端&#12290;内存信息就泄露了&#12290;<br>
+&#12288;&#12288;搞清楚问题的根源之后&#65292;补丁其实很简单&#8212;&#8212;只需加入2个判断语句&#65288;寥寥4行代码&#65289;&#12290;<br>
+<div class="source"><pre><span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">16</span> <span class="o">&gt;</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">s3</span><span class="o">-&gt;</span><span class="n">rrec</span><span class="p">.</span><span class="n">length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// 忽略长度为 0 的心跳包</span>
+<span class="n">hbtype</span> <span class="o">=</span> <span class="o">*</span><span class="n">p</span><span class="o">++</span><span class="p">;</span>
+<span class="n">n2s</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">payload</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">payload</span> <span class="o">+</span> <span class="mi">16</span> <span class="o">&gt;</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">s3</span><span class="o">-&gt;</span><span class="n">rrec</span><span class="p">.</span><span class="n">length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// 忽略长度与载荷不匹配的心跳包</span>
+<span class="n">pl</span> <span class="o">=</span> <span class="n">p</span><span class="p">;</span>
+</pre></div><br>
+<h2>&#9733;给普通用户的建议</h2><br>
+&#12288;&#12288;前面的&#8220;风险评估&#8221;已经分析了&#8212;&#8212;对于普通网友而言&#65292;你的风险主要在于&#8220;漏洞曝光之后那1-2天&#8221;&#65288;也就是&#8220;0day&#8221;导致的风险&#65289;&#12290;<br>
+&#12288;&#12288;从4月7日开始的这几天&#65288;尤其是4月8日和4月9日&#65289;&#65292;如果你曾经登录过某个重要的帐号&#65292;为了以防万一&#65292;改一下密码&#12290;国内的很多大网站&#65288;包括&#65306;电子邮件&#12289;电子商务&#12289;网银&#12289;社交网络&#12289;等等&#65289;都被发现有 Heartbleed 漏洞&#12290;<br>
+&#12288;&#12288;不过值得庆幸的是&#65292;Google 应该没事&#12290;根据 OpenSSL 官方的公告&#65288;链接在&#8220;<a href="http://www.openssl.org/news/secadv_20140407.txt" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#65292;漏洞的发现者之一 Neel Mehta 是 Google 的人&#12290;所以&#65292;俺非常确信&#65292;Google 的服务器肯定在4月7日之前就解决此问题了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;给程序员/架构师的建议</h2><br>
+<h3>&#9671;&#8220;多进程&#8221;在安全方面的优点</h3><br>
+&#12288;&#12288;刚开博的头一个季度&#65292;俺就发过一篇帖子&#12298;<a href="../../2009/02/multi-process-vs-multi-thread.html">架构设计&#65306;进程还是线程&#65311;是一个问题&#65281;</a>&#12299;&#65292;其中提到了多进程的若干优点&#12290;今天再来老调重弹&#65292;说说&#8220;多进程&#8221;在安全方面的优点&#12290;<br>
+&#12288;&#12288;<b>针对&#8220;缓冲区溢出&#8221;</b><br>
+&#12288;&#12288;绝大多数的&#8220;缓冲区溢出攻击&#8221;&#65292;都只对当前进程有效&#12290;如果你的系统切分成若干个进程&#65292;一旦不幸碰上这类攻击&#65292;顶多只有一个进程出问题&#8212;&#8212;不至于死得太难看&#12290;<br>
+&#12288;&#12288;不少程序员存在一个误解&#65306;以为只有 C/C++ 才会存在缓冲区溢出&#12290;其实不然&#12290;像 Java/Python 之类的&#65292;虽然没有原生的指针&#65292;虽然语言的虚拟机/解释器本身对缓冲区越界有严格的检查&#12290;但是不要忘了&#65306;这些语言的虚拟机/解释器本身也是用 C/C++ 来编写的&#12290;说不定虚拟机自己就有问题&#12290;<br>
+&#12288;&#12288;<b>针对&#8220;信息泄露&#8221;</b><br>
+&#12288;&#12288;这次的&#8220;Heartbleed漏洞&#8221;&#65292;从技术上讲属于&#8220;缓冲区溢出&#8221;类型&#65292;从逻辑讲属于&#8220;信息泄漏&#8221;类型&#12290;<br>
+&#12288;&#12288;如果整个系统切分成很多轻量级的进程&#65292;每个进程包含的内存信息自然就少了&#12290;一旦出现&#8220;信息泄漏&#8221;的漏洞&#65292;损失会小很多&#12290;<br>
+&#12288;&#12288;<b>针对&#8220;拒绝服务&#8221;</b><br>
+&#12288;&#12288;多进程除了可以降低上述两类的受伤程度&#65292;还可以降低&#8220;拒绝服务攻击&#8221;导致的受伤程度&#12290;<br>
+&#12288;&#12288;比如某些漏洞通过让&#8220;进程崩溃&#8221;来起到&#8220;拒绝服务&#8221;的效果&#12290;如果系统的架构是多进程的&#65292;并且相关进程具有一定的自我恢复机制&#65292;那么就可以降低这类攻击造成的伤害程度&#12290;<br>
+<br>
+<h3>&#9671;关于密码的&#8220;客户端加密/散列&#8221;</h3><br>
+&#12288;&#12288;如今比较成熟的网站&#65292;应该不会采用&#8220;明文&#8221;的方式存储用户密码了&#12290;很多程序员/架构师都明白&#65292;要把用户密码进行散列&#65288;Hash&#65289;之后再存储&#12290;但是这里面有一个细节&#65292;很多人忽略了&#12290;那就是&#65306;&#8220;服务端散列&#8221;vs&#8220;客户端散列&#8221;&#65311;<br>
+<br>
+&#12288;&#12288;<b>&#8220;服务端散列&#8221;和&#8220;客户端散列&#8221;的差异</b><br>
+&#12288;&#12288;所谓的&#8220;服务端散列&#8221;就是&#65306;用户输入密码之后&#65292;以明文的方式传送到服务端&#65292;然后在服务端进行散列&#65292;散列的结果保存到数据库&#12290;<br>
+&#12288;&#12288;所谓的&#8220;客户端散列&#8221;就是&#65306;用户输入密码之后&#65292;现在浏览器这端用 JavaScript 计算散列值&#65292;然后把算好的散列值传送到服务端&#65292;再保存到数据库&#12290;<br>
+<br>
+&#12288;&#12288;<b>HTTPS 可能出现的问题</b><br>
+&#12288;&#12288;到目前为止&#65292;大多数网站&#65288;包括很多大型网站&#65289;还是采用服务端散列&#12290;其实捏&#65292;&#8220;客户端散列&#8221;比&#8220;服务器散列&#8221;的安全性更好&#12290;为啥捏&#65311;<br>
+&#12288;&#12288;对于成熟的大型网站&#65292;虽然用户登录过程都是基于加密 HTTPS 传输&#12290;但是 HTTPS 不是绝对安全的&#12290;俺相信 HTTPS 协议本身的设计是很完备的&#65292;但是&#8220;协议没问题&#8221;不等于&#8220;整个HTTPS传输没问题&#8221;&#12290;整个 HTTPS 传输&#65292;可能出问题的环节如下&#65306;<br>
+&#12288;&#12288;<b>1. 软件可能出问题</b><br>
+&#12288;&#12288;比如这次的 Heartbleed 漏洞&#65292;就属于典型的&#8220;基础软件库出问题&#8221;<br>
+&#12288;&#12288;<b>2. 中间人攻击&#65288;比如证书出问题&#65289;</b><br>
+&#12288;&#12288;因为 HTTPS 的加密需要依赖于证书体系&#12290;如果证书体系出问题就没戏了&#12290;<br>
+&#12288;&#12288;说两种常见的可能性&#12290;<br>
+可能性之一&#65306;某个 CA 的根证书私钥被盗&#65292;那么盗用者就可以随意伪造CA证书&#12290;真实的案例是 2011年 DigiNotar 被入侵&#12290;<br>
+可能性之二&#65306;某个 CA 自己就不检点&#12290;最贴切的例子非 CNNIC 莫属&#12290;这方面的介绍请参见俺4年前的博文&#12298;<a href="../../2010/02/about-cnnic.html">CNNIC 干过的那些破事儿</a>&#12299;&#12289;&#12298;<a href="../../2010/02/remove-cnnic-cert.html">CNNIC 证书的危害及各种清除方法</a>&#12299;<br>
+<br>
+&#12288;&#12288;<b>&#8220;客户端散列&#8221;的优点</b><br>
+&#12288;&#12288;看完上述介绍&#65292;你应该明白&#65292;这几个环节出问题&#65292;都有可能让攻击者收集到传输过程中的&#12304;明文&#12305;密码&#12290;如果密码已经在客户端进行散列&#65292;那么风险就降低很多&#65288;但不是完全降为零&#65292;后面会提到&#65289;&#12290;<br>
+&#12288;&#12288;要采用&#8220;客户端散列&#8221;&#65292;有经验的开发人员会对密码进行&#12304;撒盐&#12305;的散列处理&#65292;并且精心选择合适的散列算法&#65288;速度足够慢&#65289;&#12290;如此一来&#65292;即使攻击者拿到散列结果&#65292;也非常非常难逆向推导出原始的密码&#12290;<br>
+<br>
+&#12288;&#12288;<b>&#8220;客户端散列&#8221;的局限性</b><br>
+&#12288;&#12288;&#65288;看到几条读者留言&#65292;补充了本小节&#65289;<br>
+&#12288;&#12288;1&#12289;&#8220;客户端加密/散列&#8221;并不能保证绝对的安全&#65288;&#8220;绝对安全&#8221;是不存在滴&#65289;&#12290;采用&#8220;客户端加密/散列&#8221;的前提是&#8212;&#8212;页面的JS代码一定采用可信任的方式传输&#65288;HTTPS传输&#65289;而不能采用明文的 HTTP 传输&#12290;因为 HTTP 传输过程&#65292;传输内容是可以被篡改的&#12290;如果采用 HTTP 明文传输&#65292;万一攻击者篡改了客户端的 JS 脚本&#65292;还是会导致密码泄漏&#12290;<br>
+&#12288;&#12288;2&#12289;HTTPS 通道出现的安全漏洞&#65292;大致可以分为两类&#65306;一类是攻击者可以窥探到传输内容&#65292;但无法修改传输内容&#65288;比如这次的 Heartbleed 漏洞属于此类&#65289;&#65307;还有一类是攻击者可以篡改内容&#65288;比如像 CNNIC 这类流氓 CA 就有条件做到这点&#65289;&#12290;对于前者&#65292;骇客无法突破&#8220;客户端加密&#8221;的防护&#65307;对于后者&#65292;骇客可以突破&#12290;<br>
+<br>
+<br>
+<h2>&#9733;给有志于成为黑客的同学的建议</h2><br>
+&#12288;&#12288;先声明&#65306;&#8220;黑客&#8221;与&#8220;骇客&#8221;是&#12304;完全不同&#12305;的两类人&#12290;俺之前发过一篇&#12298;<a href="../../2013/01/weekly-share-37.html">每周转载&#65306;关于黑客文化和黑客精神</a>&#12299;&#65292;或许有助于你了解两者的差异&#12290;<br>
+&#12288;&#12288;俺敢跟任何人打赌&#65292;OpenSSL 和 GnuTLS 的代码中&#65292;类似的低级错误还有好多&#12290;而且 GnuTLS 可能比 OpenSSL 还多&#12290;有志于成为黑客的同学&#65292;可以考虑去分析这俩的代码&#65292;找出其中的漏洞&#12290;<br>
+&#12288;&#12288;通过上面那段代码分析&#65292;你应该会意识到&#65306;这个漏洞本身并没有涉及到多么高深的 C 语法或技巧&#12290;那么&#65292;发现该漏洞的难点在哪里捏&#65311;俺觉得难在&#65306;<br>
+1. 对整体结构的把握<br>
+因为 OpenSSL 和 GnuTLS 的代码量还是比较庞大的&#12290;很少有人能把握整体的结构&#12290;<br>
+2. 对相关协议的了解<br>
+想通过看代码分析这两个软件的漏洞&#65292;你还需要对相关的协议很熟悉&#12290;比如这次的漏洞&#65292;就涉及到&#8220;心跳协议&#8221;的细节&#12290;<br>
+3. 耐心/恒心<br>
+同时具备上述两条的人本来就不多&#12290;然后捏&#65292;这些人还未必有足够的耐心去把整个代码&#65288;哪怕是其中某个模块的代码&#65289;通读一遍&#12290;<br>
+&#65288;第三点或许才是最难的&#65289;<br>
+<br>
+&#12288;&#12288;如果能够搞定上述三点&#65292;并且你的运气足够好&#65292;那么你有望独立发现一个高危漏洞&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议&#65288;系列&#65289;</a><br>
+<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止骇客入侵&#65288;系列&#65289;</a><br>
+<a href="../../2010/02/about-cnnic.html">CNNIC 干过的那些破事儿</a><br>
+<a href="../../2010/02/remove-cnnic-cert.html">CNNIC 证书的危害及各种清除方法</a><br>
+<a href="../../2013/01/weekly-share-37.html">每周转载&#65306;关于黑客文化和黑客精神</a><br>
+<a href="../../2009/02/multi-process-vs-multi-thread.html">架构设计&#65306;进程还是线程&#65311;是一个问题&#65281;</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2014/04/openssl-heartbleed.html" id="OriginalPostUrl">https://program-think.blogspot.com/2014/04/openssl-heartbleed.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="97">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/1378711348413028345?postID=1378711348413028345&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/1378711348413028345.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

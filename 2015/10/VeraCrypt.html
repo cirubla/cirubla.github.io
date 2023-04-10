@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 VeraCrypt&#8212;&#8212;跨平台的 TrueCrypt 替代品 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2015-10-10T11:48:00+08:00">2015年10月10日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：444条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 VeraCrypt&#8212;&#8212;跨平台的 TrueCrypt 替代品
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;这个长假前后出了不少新闻&#65292;除了&#8220;连环爆炸&#12289;TPP&#12289;诺贝尔医学奖&#8221;&#65292;还有一个信息安全方面的新闻&#8212;&#8212;TrueCrypt 被发现存在高危的安全漏洞&#12290;这些新闻中&#65292;TPP 的影响最大&#65292;但不是很紧迫&#12290;所以俺先发一篇博文聊聊 TrueCrypt 的替代品&#65288;这事儿比较紧急&#65289;&#12290;<br>
+<br>
+<h2>&#9733;引子</h2><br>
+<h3>&#9671;为啥到现在才介绍 TrueCrypt 的替代品</h3><br>
+&#12288;&#12288;当年&#65288;2014&#65289;TrueCrypt 死亡的时候&#65292;俺发过一篇&#12298;<a href="../../2014/06/truecrypt-dead.html">分析一下 TrueCrypt 之死&#65288;自杀 or 他杀&#65311;&#65289;&#65292;介绍一下应对措施</a>&#12299;&#12290;当时俺提到&#65306;<br>
+<blockquote>因为 TC 的源代码是公开的&#65292;任何人都可以拿它的代码克隆出一个新的磁盘加密工具&#12290;所以官网变脸之后&#65292;已经陆续出现了几个克隆&#65288;代码 fork&#65289;&#12290;假以时日&#65292;或许其中的某个克隆会再次成为主流&#12290;如果真这样的话&#65292;TC 就涅磐重生了&#12290;<br>
+提醒一下&#65306;如果你对安全性的要求比较高&#65292;短期内&#65288;至少1年之内&#65289;不要急着去用这些克隆的 TrueCrypt&#65288;这些克隆需要一定的时间才能成熟&#12289;稳定&#65289;&#12290;</blockquote>&#12288;&#12288;从&#8220;TrueCrypt 死亡&#8221;到现在已经过了大约一年半&#65292;再加上 TrueCrypt 又曝了高危安全漏洞&#12290;所以俺估摸着&#65306;是时候写一篇&#12304;扫盲教程&#12305;来介绍 TrueCrypt 的替代品了&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h3>&#9671;先说说 TrueCrypt 的安全漏洞</h3><br>
+&#12288;&#12288;这次的安全漏洞由 Google 的安全研究人员&#65288;James Forshaw&#65289;发现&#12290;共有2个漏洞&#65288;漏洞编号&#65306;CVE-2015-7358&#12289;CVE-2015-7359&#65289;&#65292;影响的是 Windows 平台&#65292;Linux 和 Mac OS X&#12304;不受影响&#12305;&#12290;<br>
+&#12288;&#12288;&#65288;因为该漏洞只影响 Windows 平台&#65292;这说明该漏洞与&#8220;加密盘格式&#8221;&#12304;无关&#12305;&#65289;<br>
+&#12288;&#12288;对技术感兴趣的同学&#65292;可以到&#8220;<a href="https://code.google.com/p/google-security-research/issues/detail?id=538" target="_blank" rel="nofollow">这里</a>&#8221;和&#8220;<a href="https://code.google.com/p/google-security-research/issues/detail?id=537" target="_blank" rel="nofollow">这里</a>&#8221;看这2个漏洞的详细描述&#12290;<br>
+&#12288;&#12288;顺便表扬一下 Google 的安全研究团队&#65292;确实有两下子&#12290;之前大名鼎鼎的&#8220;<a href="../../2014/04/openssl-heartbleed.html" target="_blank" rel="nofollow">Heartbleed 漏洞</a>&#8221;也是 Google 安全研究团队曝光的&#12290;<br>
+&#12288;&#12288;俺选择 Blogspot 作为博客平台&#65292;就是考虑到 Google 在安全方面的实力&#65307;<br>
+&#12288;&#12288;与之对比&#65292;WordPress 虽然功能很牛&#65292;市场份额排名第一&#65292;但是经常曝出安全漏洞&#65292;不适合俺这种政治危险分子&#12290;<br>
+<br>
+<br>
+<h2>&#9733;关于 VeraCrypt</h2><br>
+<center><img src="../../images/2015/10/VILcwWDdxVVlCVyVdRDVs_W3B-pPkkmPINa8BCA4DXfKyX24uZhBxRaLpYKsVD-OpppzectxcG_bdYf7t9v-qWq9MrlxArRn76sX3nFE9cA0UHdEo6IZzJ4jfOIZ8L2rlHRLQVhKQg" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;VeraCrypt 是从 TrueCrypt 派生出来的开源项目&#65292;成立于2013年6月&#12290;其官网在 <a href="https://www.veracrypt.fr/" target="_blank" rel="nofollow">https://www.veracrypt.fr/</a><br>
+&#12288;&#12288;它刚成立那会儿&#65292;TrueCrypt 尚未死亡&#65292;所以 VeraCrypt 没有吸引太多的注意力&#12290;TrueCrypt 死亡之后&#65292;VeraCrypt 的使用量开始多起来&#12290;<br>
+&#12288;&#12288;此次曝光了高危漏洞之后&#65292;VeraCrypt 很快就在8天之后&#65288;9月26日&#65289;发布了 1.15 版本&#65292;修复了该漏洞&#12290;此举令其曝光率大增&#12290;<br>
+&#12288;&#12288;俺之所以首先推荐 VeraCrypt&#65292;除了此次修复漏洞及时&#65292;还有一个原因&#8212;&#8212;其它替代品要么质量不如 VeraCrypt 成熟&#65292;要么功能不如 VeraCrypt 完备&#12290;<br>
+&#12288;&#12288;比如另一个名气比较大的替代品是 <a href="https://en.wikipedia.org/wiki/CipherShed" target="_blank" rel="nofollow">CipherShed</a>&#65292;目前还停留在&#8220;Pre-Alpha&#8221;阶段&#8212;&#8212;也就是说&#65292;连&#8220;Beta 品质&#8221;都没有达到&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何获取 VeraCrypt&#65311;</h2><br>
+&#12288;&#12288;建议直接从<a href="https://veracrypt.codeplex.com/" target="_blank" rel="nofollow">官网下载</a>&#65292;&#12304;不要&#12305;从其它第三方的软件网站下载&#65288;大伙儿要吸取&#8220;<a href="https://zh.wikipedia.org/wiki/XcodeGhost%E9%A3%8E%E6%B3%A2" target="_blank" rel="nofollow">XcodeGhost 事件</a>&#8221;的教训&#65289;&#12290;<br>
+&#12288;&#12288;目前 VeraCrypt 支持三大桌面操作系统&#65292;具体如下&#65306;<br>
+Windows&#65288;WinXP 或之后的版本&#65292;包括新出的 Windows 10&#65289;<br>
+Linux&#65288;内核主版本号大于等于 2.6&#65289;<br>
+Mac OS X&#65288;版本号大于等于 10.6&#65289;<br>
+&#12288;&#12288;对于 Windows 用户&#65292;下载的 exe 安装包自带数字签名&#65288;如何校验数字签名&#65292;请看<a href="../../2013/02/file-integrity-check.html">这篇博文</a>&#65289;&#12290;另外&#65292;其官网还附上了不同平台安装包的&#8220;SHA 散列校验值&#8221;和&#8220;PGP 签名&#8221;&#12290;如果你下载的是 Linux 或 Mac OS X 的安装包&#65292;下载完之后&#65292;也请校验一下&#65292;以防万一&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何安装 VeraCrypt&#65311;</h2><br>
+&#12288;&#12288;&#65288;考虑到大部分读者是 Windows 用户&#65292;为了节省口水&#65292;<b>本文后续章节只聊 Windows 下的 VeraCrypt&#12290;使用其它平台的同学&#65292;请依样画葫芦</b>&#65289;<br>
+&#12288;&#12288;安装前&#65292;先确保当前用户具有&#8220;管理员权限&#8221;&#12290;<br>
+&#12288;&#12288;双击下载好的安装包&#65288;就是那个 exe 文件&#65289;&#65292;然后一路点 next 就可以了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;VeraCrypt 功能概述</h2><br>
+&#12288;&#12288;下面开始聊功能&#65292;这是本文的重点&#65292;看仔细喽&#12290;<br>
+&#12288;&#12288;前面说了&#65292;VeraCrypt 是从 TrueCrypt 衍生出来的&#12290;所以其功能与 TrueCrypt 非常类似&#12290;关于 TrueCrypt 的功能介绍&#65292;俺已经写过一系列的傻瓜教程&#65292;包括如下&#65306;<br>
+&#12298;<a href="../../2011/05/recommend-truecrypt.html">TrueCrypt&#8212;&#8212;文件加密的法宝</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-2.html">TrueCrypt 使用经验[2]&#65306;关于加密盘的密码认证和 KeyFiles 认证</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-3.html">TrueCrypt 使用经验[3]&#65306;关于加密盘的破解和防范措施</a>&#12299;<br>
+&#12298;<a href="../../2013/10/truecrypt-4.html">TrueCrypt 使用经验[4]&#65306;关于隐藏卷的使用和注意事项</a>&#12299;<br>
+<br>
+&#12288;&#12288;&#65288;<b>如果你之前&#12304;没有&#12305;使用过 TrueCrypt&#65292;强烈建议你先看完上述这几篇扫盲教程</b>&#65289;<br>
+&#12288;&#12288;为了打字省力&#65292;那些与 TrueCrypt 类似的功能&#65292;俺就&#12304;不&#12305;介绍了&#12290;下面俺只聊 VeraCrypt 的&#12304;新增功能&#12305;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;设置界面语言</h2><br>
+&#12288;&#12288;考虑到某些网友是洋文菜鸟&#65292;先说一下如何配置界面的语言&#12290;<br>
+&#12288;&#12288;如果你打开 VeraCrypt 之后&#65292;界面是英文&#65292;先到主菜单中点击&#8220;Settings&#8221;&#65292;然后再点击&#8220;Language&#8221;菜单项&#65292;就会弹出一个选择语言的对话框&#65292;你把列表框的滚动条拉到底部&#65292;就会看到&#8220;简体中文&#8221;和&#8220;繁體中文&#8221;&#12290;具体截图如下&#65306;<br>
+<center><img src="../../images/2015/10/y7cF9avhexDGngDSVILoCR9QQ2PUZbjZIAVkEW48KupIJRYTN2tSnghFlbzPvGew7Q-OF_4uRePy3aDd7AvYPxB3ikTzN0LYCIdWSuQlV_U7mRqvbcYmAwkmcgr00895fWFSKWQGCg" alt="不见图 请翻墙"></center>&#65288;之所以出现2个&#8220;繁體中文&#8221;&#65292;是分别对应&#8220;港/台&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;选完中文之后&#65292;界面变为如下&#65306;<br>
+<center><img src="../../images/2015/10/FABE5dOfVuRa5e2DJiprEy3zHROK230JBlxmnZ3H9rlFvp01ivxnInss7Sn9wTJNprSqBNepdz73zCXbaasiCbEUmVsyTKe8IpBgbgtVxFo-5l4f_thloBQJU6fc1hTTk3SOjRrFNQ" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;支持的加密盘格式</h2><br>
+&#12288;&#12288;VeraCrypt 支持两种加密盘的格式&#65292;其中一种就是原先 TrueCrypt 使用的格式&#65292;另一种是 VeraCrypt 自己新创的格式&#12290;因此&#65292;如果你手头有原先 TrueCrypt 创建的加密盘&#65292;也可以用 VeraCrypt 直接挂载&#65288;mount&#65289;&#12290;<br>
+&#12288;&#12288;这两种格式的&#12304;唯一差异&#12305;在于&#8212;&#8212;VeraCrypt 的新格式支持 PIM 功能&#65288;关于此功能&#65292;待会儿介绍&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;为了防止混淆&#65292;再唠叨一下关于加密盘的类型&#65288;&#8220;类型&#8221;与&#8220;格式&#8221;是两个概念&#65292;别混淆了&#65289;&#12290;<br>
+&#12288;&#12288;TrueCrypt 支持两种类型的加密盘&#8212;&#8212;物理加密盘&#65288;加密分区&#12289;全盘加密&#65289;和虚拟加密盘&#65288;卷文件&#65289;&#65307;VeraCrypt 也支持这两种类型&#12290;<br>
+&#12288;&#12288;所以&#65292;排列组合之后&#65292;VeraCrypt 共支持如下4种&#65306;<br>
+旧格式&#65288;TrueCrypt 格式&#65289;的虚拟加密盘<br>
+旧格式&#65288;TrueCrypt 格式&#65289;的物理加密盘<br>
+新格式&#65288;VeraCrypt 格式&#65289;的虚拟加密盘<br>
+新格式&#65288;VeraCrypt 格式&#65289;的物理加密盘<br>
+<br>
+&#12288;&#12288;当你使用旧格式&#65288;TrueCrypt 格式&#65289;的加密盘&#65292;其操作方式与原先的 TrueCrypt 基本一样&#12290;<br>
+&#12288;&#12288;当你使用新格式&#65288;VeraCrypt 格式&#65289;的加密盘&#65292;你可以配置 PIM 参数&#65292;也可以不配置&#65288;此时用的是默认值&#65289;&#12290;这个 PIM 参数有助于提升加密盘的安全性&#8212;&#8212;主要是对抗&#8220;暴力破解&#8221;&#65288;本文后续章节会专门聊 PIM 功能&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;支持的加密算法和散列算法</h2><br>
+&#12288;&#12288;这方面&#65292;VeraCrypt 与 TrueCrypt 大同小异&#8212;&#8212;加密算法一样&#65292;散列算法多了一个 SHA-256&#12290;<br>
+&#12288;&#12288;更详细的介绍&#65292;请大伙儿自行翻阅前些年的博文&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;&#65292;俺就不浪费口水了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;加密盘的认证方式</h2><br>
+&#12288;&#12288;TrueCrypt 原先支持两种认证方式&#65306;&#8220;密码 &#65286; keyfiles&#8221;&#12290;这两种方式&#65292;VeraCrypt 也都支持&#12290;相关的介绍&#65292;请大伙儿自行翻阅前些年的博文&#12298;<a href="../../2013/08/truecrypt-2.html">TrueCrypt 使用经验[2]&#65306;关于加密盘的密码认证和 KeyFiles 认证</a>&#12299;&#65292;俺就不浪费口水了&#12290;<br>
+&#12288;&#12288;另外&#65292;VeraCrypt 还新增了一个 PIM 功能&#12290;从某种意义上讲&#65292;PIM 也可以算是一种认证方式&#65288;因为挂载加密盘到时候也需要它&#65289;&#12290;关于 PIM 功能&#65292;本文下面专门用一个章节来详述&#12290;<br>
+<br>
+<br>
+<h2>&#9733;创建加密盘</h2><br>
+&#12288;&#12288;跟 TrueCrypt 类似&#65292;会出现一个&#8220;向导界面&#8221;&#65292;引导你一步步完成加密盘的创建&#12290;开头几步跟 TrueCrypt 类似&#65292;俺就不贴图了&#12290;<br>
+&#12288;&#12288;到最后一步&#65292;稍微有点不同&#65292;俺来聊一下&#12290;<br>
+&#12288;&#12288;以下是向导最后一步的界面&#65292;此时你选好文件系统格式之后&#65292;直接点击&#8220;格式化&#8221;按钮&#12290;<br>
+<center><img src="../../images/2015/10/qj1rY_MELtSWPG-AwWgSRRAuvUfOSTUDq_XCve4aV9lUbq6BS4aq0jC7_gZNTWW0-XyGjeyXc4cTkwkJppYVsorHMGyeyzeSXSNnHbEbl7QGIyCU2OrSWunghAFtbfgycAoD3CRD8A" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;点击之后&#65292;你会发现进度条没有动静&#12290;因为 VeraCrypt 需要收集到足够多的随机信息&#65292;用来创建相关的加密密钥&#12290;<br>
+&#12288;&#12288;此时&#65292;你必须在当前这个窗口内&#65292;频繁并迅速地移动鼠标&#65288;随机移动&#65289;&#12290;大约四分之一柱香的功夫&#65292;就会出现进度条&#12290;<br>
+<center><img src="../../images/2015/10/e_MdtZaYbzMhwOAEnY5cgyj7Pd9bmZYry3HR1bhVZ7v8hIjVyRIfgMQxnh1QLYAqCzbza3toiKc4im2R9Kc2HqYPo-Rc2A4gp0aUFG8MnB7ngfCem-QShyBBQMk3iB9nVHgOkQv6eQ" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;出现进度条&#65292;说明已经开始格式化&#12290;格式化完成后&#65292;会提示你&#12290;<br>
+<center><img src="../../images/2015/10/h0SgjYN7nJBJpo7HPBREyxcfqMyLachIZsywJpKHolhTez0KZb39DJyLJ5lAhNWo-MRpmWjrqDu6KLNzA81tkBdfyx42-XOGaw4tBf49c188_OFhY2xdQAqaC27YAKNBPhuwfsh85w" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;挂载加密盘</h2><br>
+&#12288;&#12288;挂载加密盘的界面&#65292;跟 TrueCrypt 有点小区别&#8212;&#8212;多了两个复选框&#12290;<br>
+&#12288;&#12288;其中一个复选框是&#8220;TrueCrypt Mode&#8221;&#8212;&#8212;勾选它是为了挂载旧格式&#65288;TrueCrypt 格式&#65289;的加密盘&#12290;<br>
+<br>
+<center><img src="../../images/2015/10/x4XLr8XXOSK-DfTWRE2RlhAXKytd8ppKNI1HNVunQQUzQf579V2HFUVecovs0eTOEhHdbJnuYzbpEwMhPjKUmo9JH_d8u0ijAAXtlnutWGhKXgPhw7Zp9MeencZimYgGkBS-EUX5pQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/Q9YSw8LrGpYI3O-GOtHWjoirQLpwW-hVYpfbMDAAesgZG0VhXAxrFfcZWLFrmb2HBBLQqUkDULpzRZKVdrFHdLzB1X-Bz_hFWiafBV24wAnxEKykx5tYL5DBB39xvlDzreCUwcF91Q" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;另一个复选框是&#8220;Use PIM&#8221;&#8212;&#8212;这个复选框的作用&#65292;留到后面的章节介绍&#12290;<br>
+&#12288;&#12288;提醒一下&#65306;<br>
+&#12288;&#12288;VeraCrypt 挂载&#12304;新格式&#12305;加密盘的时候&#65292;你会明显感觉很慢&#12290;主要是因为 VeraCrypt 强化了安全性&#65288;具体的技术细节后面会提及&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;格式转换功能</h2><br>
+&#12288;&#12288;VeraCrypt 不但可以打开旧格式&#65288;TrueCrypt 格式&#65289;的加密盘&#65292;而且可以把旧格式转化为新格式&#65288;VeraCrypt 格式&#65289;&#12290;<br>
+&#12288;&#12288;转换过程很简单&#8212;&#8212;通过修改认证信息来进行&#12290;<br>
+&#12288;&#12288;也就是说&#65306;当你修改了某个旧格式加密盘的密码或者 keyfiles&#65292;修改成功之后&#65292;该加密盘就变为新格式了&#12290;<br>
+&#12288;&#12288;提醒&#65306;<b>该转换是&#12304;不可逆&#12305;的&#12290;也就是说&#65292;你无法用 VeraCrypt 把新格式转为旧格式&#12290;</b><br>
+<br>
+<br>
+<h2>&#9733;PIM 功能</h2><br>
+&#12288;&#12288;现在开始讲 PIM&#8212;&#8212;这是 VeraCrypt 新增的功能&#65292;因此俺就多费点口水&#12290;<br>
+&#12288;&#12288;所谓的 PIM 是洋文&#8220;Personal Iterations Multiplier&#8221;的缩写&#12290;通俗地说就是&#65306;你可以自定义&#8220;加密盘的头部密钥生成时的迭代次数&#8221;&#12290;这句话比较绕口&#65292;要想解释清楚&#65292;需要聊相关的技术实现机制&#65288;如下&#65289;&#12290;<br>
+<br>
+<h3>&#9671;技术实现机制</h3><br>
+&#12288;&#12288;&#65288;对技术细节&#12304;不&#12305;感兴趣的同学&#65292;就不用看俺的解释了&#12290;直接跳到下一节&#8220;VeraCrypt 相对 TrueCrypt 的改进&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;<b>加密盘格式简介</b><br>
+&#12288;&#12288;不论是新格式还是老格式&#65292;加密盘的数据大致可以分为两部分&#65306;&#8220;头部&#8221;和&#8220;数据区&#8221;&#12290;<br>
+&#12288;&#12288;所谓的&#8220;数据区&#8221;&#65292;存放的就是加密盘中文件系统的数据&#65288;通俗地说&#65292;就是你放到加密盘中的文件和目录的信息&#65289;<br>
+&#12288;&#12288;所谓的&#8220;头部&#8221;&#65288;header&#65289;&#65292;存放的是加密盘本身的一些信息&#12290;刚才提到的&#8220;数据区&#8221;&#65292;其加密的密钥叫&#8220;Master Key&#8221;&#65288;也叫&#8220;主密钥&#12289;数据区密钥&#8221;&#65289;&#65292;这个&#8220;Master Key&#8221;就是存储在加密盘头部的&#12290;此外&#65292;像&#8220;加密盘格式的版本号&#8221;&#12289;&#8220;是否有隐藏卷&#8221;等信息&#65292;也是存储在头部的&#12290;<br>
+<br>
+&#12288;&#12288;<b>&#8220;Header Key&#8221;的生成机制</b><br>
+&#12288;&#12288;头部包含了很多加密盘的关键信息&#65292;自然也是要加密的&#12290;那么加密头部的密钥从哪里来捏&#65311;这个&#8220;Header Key&#8221;&#65288;也叫&#8220;首密钥&#12289;头部密钥&#8221;&#65289;是根据你输入的认证信息&#65292;来生成的&#65288;提醒一下&#65292;认证信息有2种&#65306;密码 和 keyfile&#65289;&#12290;<br>
+&#12288;&#12288;VeraCrypt 采用&#8220;PBKDF2 算法&#8221;来生成&#8220;Header Key&#8221;&#65288;该算法的具体描述参见&#8220;<a href="https://en.wikipedia.org/wiki/PBKDF2" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;在生成&#8220;Header Key&#8221;的过程中&#65292;会采用你指定的散列算法进行 N 次迭代&#65292;以生成一个难以猜测的密钥&#12290;这个 N 就是前面所说的&#8220;迭代次数&#8221;&#12290;<br>
+&#12288;&#12288;每当用户要挂载某个加密盘&#65292;软件界面会提示用户输入&#8220;密码和 keyfile&#8221;&#12290;然后根据用户的输入&#65292;计算出&#8220;Header Key&#8221;&#65292;然后用这个密钥对加密的头部进行解密&#65288;解到内存中&#65289;&#12290;如果解密成功&#65292;就说明用户输入的是对的&#12290;反之&#65292;则提示用户输入错误&#12290;<br>
+<br>
+&#12288;&#12288;<b>为啥要&#8220;迭代 N 次&#8221;&#65311;</b><br>
+&#12288;&#12288;从上述可以看出&#65306;这个&#8220;迭代次数&#8221;越大&#65292;计算头部密钥的时间就越长&#65292;因此挂载加密盘的过程就越慢&#65307;表面上看&#65292;这是一个缺点&#12290;但其好处在于&#65306;如果某个攻击者想要采用暴力破解的方式对&#8220;头部&#8221;进行穷举解密&#65292;每次一次尝试也需要花很长时间&#65288;同样要迭代 N 次&#65289;&#12290;所以&#65292;当 N 足够大&#65292;暴力破解就变得&#12304;不可行&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;<b>&#8220;Header Key&#8221;与&#8220;Master Key&#8221;分离的好处</b><br>
+&#12288;&#12288;从上述可以看出&#65292;加密盘中存在两种密钥&#65306;&#8220;Header Key &#65286; Master Key&#8221;&#12290;为啥要搞出两种密钥捏&#65311;其中一个好处是为了方便用户修改密码&#12290;当用户修改加密盘的密码或 keyfile&#65292;只需要&#8220;重新加密头部&#8221;&#65292;数据区不用改动&#65288;因为&#8220;Master Key&#8221;&#12304;没有&#12305;发生变化&#65289;&#12290;<br>
+&#12288;&#12288;对于那些超大的加密盘&#65288;TB 级&#65289;&#65292;这个好处非常明显&#12290;<br>
+<br>
+<h3>&#9671;VeraCrypt 相对 TrueCrypt 的改进</h3><br>
+&#12288;&#12288;如果你刚才没有看技术细节的解释&#65292;直接跳到这里&#65292;你只需记住如下结论&#65306;<br>
+PIM 功能就是用来配置加密盘的某个&#8220;迭代次数&#8221;的&#12290;&#8220;迭代次数&#8221;越大&#65292;暴力破解就越难&#65307;同时&#65292;挂载加密盘也越慢&#12290;<br>
+<br>
+&#12288;&#12288;对于原先的 TrueCrypt&#65292;它的迭代次数是写死在程序代码中的&#12290;而且 TrueCrypt 使用的迭代次数偏小&#65288;这是 TrueCrypt 被批评的主要问题之一&#65289;&#12290;<br>
+&#12288;&#12288;到了开发 VeraCrypt 的时候&#65292;其开发团队把原先默认的迭代次数调大&#65288;大约增加了两到三个数量级&#65289;&#12290;迭代次数调大之后&#65292;就显著增加了&#8220;暴力破解&#8221;的难度&#12290;<br>
+&#12288;&#12288;此外&#65292;从 VeraCrypt 1.12 版本开始&#65292;在界面上提供了一个功能&#65292;允许用户自定义每个加密盘的&#8220;迭代次数&#8221;&#8212;&#8212;这就是下面要讲的&#8220;PIM 的用户界面&#8221;&#12290;<br>
+<br>
+<h3>&#9671;用户界面</h3><br>
+&#12288;&#12288;VeraCrypt 提供了相关的用户界面&#65292;让你可以自定义 PIM 数值的大小&#12290;前面说了&#65292;PIM 越大&#65292;暴力破解越难&#65307;但同时&#65292;挂载加密盘也越慢&#12290;由于不同的用户有不同的需求&#65292;所以&#65292;VeraCrypt 干脆提供一个界面让你自己设定 PIM 的大小&#12290;当然&#65292;如果你懒得设置&#65292;也可以直接用内置的默认值&#12290;<br>
+<br>
+&#12288;&#12288;<b>创建加密盘时</b><br>
+&#12288;&#12288;VeraCrypt 同样提供了&#8220;创建加密盘的向导&#8221;&#12290;该向导前面5步跟 TrueCrypt 是一样的&#65292;俺就略过不提&#12290;<br>
+&#12288;&#12288;下面是创建加密盘的向导界面第6步&#12290;如果你想使用 PIM 功能&#65292;需要勾选&#8220;Use PIM&#8221;这个复选框&#12290;<br>
+<center><img src="../../images/2015/10/A1dpt4OujJiZP6cBHmndcMgbkaykY66CPRb_AI5W2ILjrqrYQDGcN-uYlNGbpsIahElT9uKctdvVtl90Tr4tU5OFYTnA5fs-Hi2wHiX01mzUKuiC50Fr31GFZ-T4OHtbuqO0JwJNmA" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;下面是创建加密盘的向导界面第7步<br>
+&#12288;&#12288;如果第6步勾选了&#8220;Use PIM&#8221;&#65292;下一步就会让你输入 PIM 数值&#12290;<b>这个数值要牢记&#65292;其重要性等同于认证信息&#65288;密码 和 keyfile&#65289;&#12290;</b><br>
+&#12288;&#12288;&#65288;如果输入 0 或者不填写&#65292;则表示&#8212;&#8212;使用默认的 PIM 数值&#65289;<br>
+<center><img src="../../images/2015/10/SJVjTH7R73LcONTOQ-b4V684jT6heB4ueNSsBvModz8mW-AL26ICrXaC-A75QjwN9tcO6Yu83O4haMYq4n2LGp2bWTDJXB2pvi648x-4PWHIkhDaEoC-5YtY2_SgmVqcKmU6MeSCuA" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;如果你设置的密码过于简短&#65292;那么 VeraCrypt 会强制让你输入一个比较大的 PIM 数值&#65288;大于 485&#65289;&#12290;<br>
+<center><img src="../../images/2015/10/N1WiiQtMASwjArURp8d1HZfKBeN9HqePrwLTc-QZp1yvWW5MYNLbjW2o-dfu4SMDN1VTwjLhQCwkztEWt-1y5Iixj5GG3wIQG_xsRNggp_5xB7-d6AAmbfoWzbJxwHTD-bZIxAzy6Q" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;<b>挂载加密盘时</b><br>
+&#12288;&#12288;下面是挂载加密盘的界面&#12290;如果你创建加密盘的时候&#65292;指定了 PIM 数值&#65292;那么在挂载的时候&#65292;需要输入&#12304;相同的&#12305;PIM 数值&#12290;<b>如果输入的数值与创建时指定的 PIM 数值不一致&#65292;则挂载失败&#12290;</b><br>
+&#12288;&#12288;再次罗嗦一下&#65306;<b>一旦你在创建加密盘时设置了&#8220;PIM 数值&#8221;&#65292;&#12304;千万别忘了&#12305;&#8212;&#8212;忘记它的后果就如同忘记密码&#65281;</b><br>
+<br>
+<center><img src="../../images/2015/10/GtnE1AM8HURqEsa1PCLXV54QtxL8g1EI1t9fxYp6rRREfmTy-FLMuEEeYox_-xf65SWOybKkMlYodwIlmYUWQMhhf4tZYDnIJ2cmXr3LwrL1vOfz4i3Rba14wA5B70j46HAQNhZfAA" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/CgfQgzCnIShLTBqmcADRaw1G9fLOy7zKsKuiL0qnIY4JqLpbnFY-eKzR6vr4PdG1BYBP-zxtVLSikr0yVB7_MQrg6293Zl20wCFMK4DIujo8acWezLasbUuog8ilQouzCgWFEd4svg" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;&#8220;PIM 数值&#8221;与&#8220;迭代次数&#8221;的换算公式</h3><br>
+&#12288;&#12288;&#65288;如果你不关心技术细节&#65292;这个换算公式你可以不用看&#65289;<br>
+&#12288;&#12288;根据 VeraCrypt 的文档&#65292;PIM 根据如下公式换算成迭代次数&#12290;<br>
+1. 对于&#8220;系统加密分区&#8221;&#65306;<b>迭代次数 = PIM x 2048</b><br>
+2. 对于&#8220;虚拟加密盘&#8221;或者&#8220;非系统加密分区&#8221;&#65306;<b>迭代次数 = 15000 + (PIM x 1000)</b><br>
+<br>
+<br>
+<h2>&#9733;扩容功能</h2><br>
+&#12288;&#12288;另一个比较显著的新功能是&#8220;加密盘扩容&#8221;&#12290;原先的 TrueCrypt&#12304;没有&#12305;扩容功能&#8212;&#8212;如果你的加密盘&#65292;空间不够了&#65292;你不得不重新创建一个更大的加密盘&#65292;然后把原先加密盘的文件拷贝到新加密盘&#65288;步骤繁琐&#65289;&#12290;<br>
+&#12288;&#12288;如今有了这个扩容功能&#65292;你可以直接扩大原有加密盘的容量&#12290;<b>前提是&#65306;文件系统必须是 NTFS&#12290;</b><br>
+&#12288;&#12288;下面给出扩充操作的系列截图&#65288;共8张&#65289;&#65292;描述文字都标注在截图中了&#12290;<br>
+<br>
+<center><img src="../../images/2015/10/XD1GpTBWJNlHD7M9f-f7vEe3zrzVoZzHi6muM0Chl66bRLKFKTHouMGmLaBaJuilXpBw4OBrhJaWutF_EfQwHfs01h0yA_bRb6GGOUg5xsOdOf9IW11OdAW9cALanzQb8s3fzeucrQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/NKwNUc22fDNiJPtMQixLDfDuJ8fSCMhtZZgdNbcvvx01CVloqtPmuP5McVGQjw4Jbzk6NHOGdcwpXbNmb8FRZRMh337p4HypUzrT0e6ic9vVRjVHKNF6RSD4sk8HgP33EKRSZazc0A" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/RMfuuXekJnW0CphWoqPMuAQYhT5DIRPgl1LEsgHIGAvK3l_ZMrpF5u05fbQjTFDcX01AuBdNQ8-gY6a32l8ZT9TvIGJXBCvE_ke97pNsc2bjyhjSCmKJ3JxoFXtt-vZcS-wh1dvVPA" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/CR3Jb4Ylkl7TCgijbVmvKQ-gsUlM-QIYqpA11ifPMjU7ak-x0fgNql4aXjWU_2Gl1n-h80RgypgfxZqUnzmBE3VYDU2GI0lO_f5GaO6FwFi-uo5WKLP70SBHGgq8GqX9M_W0ghJEXQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/s_a8pugEtYIx1WQuogiy6nqo6ciWbyyCc2czbEg6H7UviEixhF2ZWPsQba1AjXlFGRD0ZbvKrU5msTvRNXL0_IROvEasK80rkOzgubdOsALUX9q3JxiFN7o5jE2eMFDzvRK0seKXBA" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/X-Aw3F_46w27YymAkFkqO1Wa8LIBLJod3dDLEo30jW3EVqrtQkV56lQ3Ysvmh5WYmXQAay-hlw25Nw7696Rp3ffmjBLM7NVTtmwrJYalUfy3cJcFtvsdDHokfICCA3RTZsiu9VStSQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/4mQjtExfAfcHaBMdNUSFo-zfxh2_TwRy_IkDg1lr7jChYaGxePaIPKGzeHTT0EZtG3G1MFRNe2rQ2iWuVlVSfPGq7qB-5qUkkBKERSZg83QItX0g7VMIVCUNKsvnmIDoke6Dw2bZnw" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/10/CrmnyBzbypS9DSzidnv31l55UoO12Esm87NFqoJflJWR2syGoYM3iEu0LquMt6cmOXPjRuiz5Jg5B-Q7tIRW14zg2NFu5Lh2o2MF5k1mZVoXnMRUPELDV1vAss9a9krLcqlHsGSEVA" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;如何防范加密盘被破解&#65311;</h2><br>
+&#12288;&#12288;下面这篇博文&#65292;其实已经包含在本文开头列出的 TrueCrypt 教程中&#12290;<br>
+&#12288;&#12288;<a href="../../2013/08/truecrypt-3.html">TrueCrypt 使用经验[3]&#65306;关于加密盘的破解和防范措施</a><br>
+&#12288;&#12288;因为这篇的内容比较重要&#65292;俺再次唠叨一下&#65306;<b>如果你对安全性的要求很高&#65292;一定要把上述这篇仔细看完&#12290;</b><br>
+<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;俺写这篇博文时&#65292;VeraCrypt 最新的是 1.16 版本&#12290;本文的截图就是根据这个版本制作的&#12290;<br>
+&#12288;&#12288;从截图中可以看出&#65292;某些界面还未彻底汉化&#12290;今后如果继续汉化&#65292;新版本的界面可能与本文的截图会略有不同&#12290;<br>
+&#12288;&#12288;另外&#65292;VeraCrypt 的开发比较活跃&#65292;今后多半还会增加新的功能&#12290;到时候俺会补充到这篇博文中&#12290;<br>
+&#12288;&#12288;大伙儿如果有啥疑问&#65292;欢迎到俺博客留言&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2011/05/recommend-truecrypt.html">TrueCrypt&#8212;&#8212;文件加密的法宝</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-1.html">TrueCrypt 使用经验[1]&#65306;关于加密算法和加密盘的类型</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-2.html">TrueCrypt 使用经验[2]&#65306;关于加密盘的密码认证和 KeyFiles 认证</a>&#12299;<br>
+&#12298;<a href="../../2013/08/truecrypt-3.html">TrueCrypt 使用经验[3]&#65306;关于加密盘的破解和防范措施</a>&#12299;<br>
+&#12298;<a href="../../2013/10/truecrypt-4.html">TrueCrypt 使用经验[4]&#65306;关于隐藏卷的使用和注意事项</a>&#12299;<br>
+&#12298;<a href="../../2014/06/truecrypt-dead.html">分析一下 TrueCrypt 之死&#65288;自杀 or 他杀&#65311;&#65289;&#8212;&#8212;兼谈应对措施</a>&#12299;<br>
+&#12298;<a href="../../2011/05/file-encryption-overview.html">文件加密的扫盲介绍</a>&#12299;<br>
+&#12298;<a href="../../2013/07/online-backup-virtual-encrypted-disk.html">文件备份技巧&#65306;组合&#8220;虚拟加密盘&#8221;与&#8220;网盘&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2019/02/Use-Disk-Encryption-Anti-Computer-Forensics.html">如何用&#8220;磁盘加密&#8221;对抗警方的&#12304;取证软件&#12305;和&#12304;刑讯逼供&#12305;&#65292;兼谈数据删除技巧</a>&#12299;<br>
+&#12298;<a href="../../2015/10/dm-crypt-cryptsetup.html">扫盲 dm-crypt&#8212;&#8212;多功能 Linux 磁盘加密工具&#65288;兼容 TrueCrypt 和 VeraCrypt&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2020/06/Linux-Logical-Volume-Manager.html">扫盲 Linux 逻辑卷管理&#65288;LVM&#65289;&#8212;&#8212;兼谈 RAID 以及&#8220;磁盘加密工具的整合&#8221;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2015/10/VeraCrypt.html" id="OriginalPostUrl">https://program-think.blogspot.com/2015/10/VeraCrypt.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="444">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/5736289124233883724?postID=5736289124233883724&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/5736289124233883724.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

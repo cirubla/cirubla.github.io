@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>博客界面升级&#65288;增加&#8220;界面定制&#8221;&#12289;&#8220;文章目录&#8221;&#12289;&#8220;自动刷评论&#8221;&#12289;&#8220;全屏显示&#8221;等&#65289; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2014-10-16T16:19:00+08:00">2014年10月16日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：363条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              博客界面升级&#65288;增加&#8220;界面定制&#8221;&#12289;&#8220;文章目录&#8221;&#12289;&#8220;自动刷评论&#8221;&#12289;&#8220;全屏显示&#8221;等&#65289;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;上个月底&#65292;俺把博客评论功能升级了一下&#65292;之后收集到不少热心读者的反馈&#12290;有的是帮俺测试并发现了一些隐蔽的 Bug&#65292;有的是提出一些界面改进的建议&#12290;于是俺就利用&#8220;十一假期&#8221;&#65292;把博客的界面做了一些改进&#65292;主要目的是&#8212;&#8212;增加大伙儿的&#12304;易用性&#12305;&#12290;<br>
+&#12288;&#12288;本来以为&#8220;十一假期&#8221;结束的时候&#65292;就能推出新界面&#12290;可惜俺还是太乐观了&#8212;&#8212;大部分修改工作一直到昨天才基本搞定&#12290;很多琐碎的细节修改&#65292;反而占据了很多时间&#12290;另外还花了不少时间测试&#8220;浏览器兼容性&#8221; :(<br>
+&#12288;&#12288;下面是每个新功能的逐一说明&#12290;<b>这次新增的&#12304;所有功能&#12305;&#65292;都需要浏览器支持 JavaScript 脚本</b>&#12290;换句话说&#65292;如果你的浏览器禁用了 JS 脚本&#65292;这些功能是用不了的&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;界面定制</h2><br>
+&#12288;&#12288;&#8220;十一期间&#8221;收集到的读者反馈&#65292;有一类让俺很头疼&#65292;那就是关于&#8220;界面字体的大小&#8221;&#12290;有的人嫌太小&#65292;有的人觉得正好&#12290;所以俺干脆做了一个&#8220;界面定制&#8221;的功能&#65292;让大伙儿自己去微调界面的元素&#65288;比如&#65306;字体&#65289;&#12290;<br>
+&#12288;&#12288;后来俺觉得&#65292;既然字体大小可以定制&#65292;干脆把其它选项也开放出来&#65292;让大伙儿自己定制&#12290;目前俺提供了如下几个选项&#65292;让读者定制&#65306;<br>
+1. &#8220;正文区&#8221;的字体大小<br>
+2. &#8220;评论区&#8221;的字体大小<br>
+3. &#8220;最新评论区&#8221;的字体大小<br>
+4. 是否开启&#8220;文章目录&#8221;&#65288;关于这个&#65292;下面会单独说&#65289;<br>
+5. 是否开启&#8220;自动刷新最新评论&#8221;&#65288;关于这个&#65292;下面会单独说&#65289;<br>
+6. BBCode 图片的显示方式&#65288;关于这个&#65292;下面会单独说&#65289;<br>
+7. 是否显示工具条&#65292;是否支持拖拽&#65288;关于这个&#65292;下面会单独说&#65289;<br>
+<br>
+&#12288;&#12288;如果你想先看一下定制界面&#65292;请猛击 <a href="../../p/options.html">https://program-think.blogspot.com/p/options.html</a><br>
+&#12288;&#12288;你可以在博客界面的不同地方看到 <img src="../../images/2014/10/-qH1f8q9gQ2c/VDyK-qD1MwI/AAAAAAAABDE/NQS-KMY3rgc/config_32x32.png" alt="界面定制"> 的图标&#65292;点击该图标就可以进入&#8220;界面定制&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;由于俺这个博客架设在 Google 的 Blogspot 博客平台上&#12290;该平台只提供客户端页面的定制功能&#65292;&#12304;不提供&#12305;服务器端的存储功能&#12290;如果要保存读者的配置选项&#65292;俺只能保存到浏览器的 cookie 中&#12290;<br>
+&#12288;&#12288;而&#8220;浏览器 cookie&#8221;会导致隐私方面的担忧&#65292;所以在上述定制界面&#65292;俺会事先征询你的同意&#65292;然后才会保存定制参数到你的浏览器 cookie 中&#12290;<br>
+<br>
+<br>
+<h2>&#9733;最新评论的&#12304;刷新&#12305;功能</h2><br>
+&#12288;&#12288;那些翻墙去浏览俺博客的网友&#65292;有很多是在博客留言&#65292;参与讨论的&#12290;对这些网友而言&#65292;需要经常看&#8220;最新评论&#8221;才知道别人的留言&#12290;<br>
+&#12288;&#12288;在没有提供&#8220;自动刷新&#8221;功能之前&#65292;这些网友需要依靠手动刷整个页面&#65292;才能看出是否有新的评论&#12290;<br>
+&#12288;&#12288;如今俺同时提供了&#8220;自动刷新&#8221;和&#8220;手动刷新&#8221;两种功能&#12290;<br>
+<br>
+&#12288;&#12288;<b>手动刷新</b><br>
+&#12288;&#12288;在&#8220;最新评论区&#8221;的上部增加了一排按钮&#65292;其中的 <img src="../../images/2014/10/-3Admj5-TKr4/VDZM273IoMI/AAAAAAAAA3k/6e-OBYZSbc4/s24/refresh_32x32.png" alt="刷新"> 表示&#8220;手动刷新&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>自动刷新</b><br>
+&#12288;&#12288;如果开启了&#8220;自动刷新&#8221;&#65292;&#8220;最新评论区&#8221;每个几分钟会自动抓取最新的评论&#65292;然后插入到&#8220;最新评论区&#8221;的上方&#65288;俺模仿了 Twitter 的刷新风格&#65289;&#12290;<br>
+&#12288;&#12288;刷新的时间间隔是可定制的&#65288;在刚才提到的&#8220;界面定制&#8221;中&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;最新评论的&#12304;tooltip&#12305;功能</h2><br>
+&#12288;&#12288;有些读者发的留言比较长&#65292;而&#8220;最新评论区&#8221;的界面空间不大&#12290;所以俺会对超过某个长度的评论进行截断&#12290;&#65288;在改版之前&#65289;如果要看整条评论&#65292;需要点击进入对应的博文&#12290;<br>
+&#12288;&#12288;如今俺提供了 tooltip 功能&#12290;对于被截断的评论&#65292;你把鼠标移动到该评论上方&#65292;会出现淡黄色的 toolip 提示框&#65292;里面包含该评论的全部内容&#12290;<br>
+&#12288;&#12288;当你把鼠标移走&#65292;这个 tooltip 会自动消失&#65292;不妨碍你阅读&#12290;<br>
+<br>
+<br>
+<h2>&#9733;文章目录</h2><br>
+&#12288;&#12288;大概在去年&#65292;就有读者建议俺提供这个功能&#12290;<br>
+&#12288;&#12288;开启了&#8220;文章目录&#8221;功能之后&#65292;当你打开某篇博文&#65292;会在博文的标题和正文之间&#65292;自动生成此文的内部目录结构&#65292;方便你直接点击跳转到某个章节&#65288;此功能对长篇博文尤其方便&#65289;&#12290;<br>
+&#12288;&#12288;大约从2010年开始&#65292;俺都会在博文内部使用&#8220;层级标题&#8221;&#12290;文章目录就是根据&#8220;层级标题&#8221;生成的&#12290;对于2010年之前的博文&#65292;因为文中没有使用&#8220;层级标题&#8221;&#65292;会导致&#8220;文章目录&#8221;无法生成&#65288;俺有空的话&#65292;把那些老博文也补上&#8220;层级标题&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;全屏显示</h2><br>
+&#12288;&#12288;俺在&#8220;正文区&#8221;的右上角放置了一个 <img src="../../images/2014/10/-xvmbNnFdxWU/VDx_uEPOw1I/AAAAAAAAA_s/-zd0eweSahg/maximize_32x32.png" alt="全屏显示"> 的按钮&#12290;点击此按钮就进入&#8220;全屏模式&#8221;&#12290;<br>
+&#12288;&#12288;在全屏模式下&#65292;会自动隐藏右侧栏&#65288;包括&#8220;最新评论&#8221;&#65289;&#65292;会自动隐藏当前博文的&#8220;评论区&#8221;&#65292;会自动隐藏博客标题&#65288;也就是最顶上那行大字&#8220;编程随想的博客&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;这个功能对于屏幕分辨率不够高的网友&#65292;应该有好处&#12290;而且&#65292;进入全屏模式之后&#65292;也方便你把博文打印出来&#12290;<br>
+&#12288;&#12288;另外&#65292;已经有热心读者更进一步提出了&#8220;Printer-Friendly&#8221;的建议&#12290;严格来讲&#65292;目前的&#8220;全屏模式&#8221;还不能算是&#8220;Printer-Friendly&#8221;&#12290;真要实现&#8220;Printer-Friendly&#8221;&#65292;还需要考虑很多细节&#12290;不知道有这个需求的读者多不多&#65311;<br>
+&#12288;&#12288;大伙儿还可以考虑一下&#65292;&#8220;评论区&#8221;或&#8220;最新评论区&#8221;是否需要全屏显示的功能&#65311;<br>
+<br>
+<br>
+<h2>&#9733;BBCode 图片的显示方式</h2><br>
+&#12288;&#12288;俺博客在2年前开始在评论中支持 BBCode 自定义语法&#12290;&#65288;没听说过的同学&#65292;请先看&#12298;<a href="../../2012/09/custom-blogger-comment.html">博客的评论功能升级&#65292;顺便分享一下实现方法</a>&#12299;&#65289;<br>
+&#12288;&#12288;这个功能是某个香港读者提出的&#65292;主要是基于安全性&#65288;隐私性&#65289;的考虑&#12290;<br>
+&#12288;&#12288;目前俺博客的评论功能支持用 BBCode 语法插入一些特殊的格式&#65288;超链接&#12289;粗体&#12289;斜体&#12289;图片&#65289;&#12290;由于任何人都可以发评论&#65292;并且在评论区中用 BBCode 插入图片&#12290;这时候可能会引发一些安全方面的担忧&#12290;<br>
+&#12288;&#12288;像港台的读者或者其它海外的读者&#65292;他们不需要翻墙&#65288;无代理&#65289;就可以直接访问俺的博客&#12290;在这种情况下&#65292;如果博客评论中有 BBCode 图片&#65292;浏览器会直接加载该图片&#65288;没有经过代理&#65289;&#12290;这时候&#65292;存放该图片的网站服务器&#65292;就可以看到访问者的&#8220;真实公网IP&#8221;&#65288;因为当中没有代理&#65289;&#12290;虽然 Google 服务器也可以看到访问者的 IP&#65292;但是 Google 公司是比较靠谱的&#12290;而存放图片的服务器&#65292;有可能来自于某些不靠谱的公司&#12290;<br>
+&#12288;&#12288;对于墙内的读者&#65292;因为需要翻墙访问俺的博客&#65292;所以就不存在这个风险&#12290;也就是说&#65306;Google 服务器看到的&#8220;访问者IP&#8221;是你用的代理服务器的 IP&#12290;如果评论中嵌入了 BBCode 图片&#65292;存放图片的网站服务器看到的&#8220;访问者IP&#8221;也是你用的代理服务器的 IP&#12290;<br>
+&#12288;&#12288;为了解决上述隐患&#65292;俺增加了一个定制选项&#8212;&#8212;BBCode 图片的显示方式&#12290;目前有三种可选参数&#65306;自动显示&#12289;手动显示&#12289;不显示&#12290;<br>
+&#12288;&#12288;所谓的&#8220;手动显示&#8221;就是&#65306;评论区不会自动显示图片&#65292;而是先显示图片的网址&#12290;如果你觉得这个网址对应的网站是靠谱的&#65292;再点击某个&#8220;加载图片&#8221;的按钮&#65292;把图片打开&#12290;<br>
+<br>
+<br>
+<h2>&#9733;悬浮工具条</h2><br>
+&#12288;&#12288;&#8220;十一假期&#8221;还没结束的时候&#65292;俺就增加了这个&#8220;悬浮工具条&#8221;&#12290;一开始加入的时候&#65292;还引发了某些热心读者的批评&#8212;&#8212;说这个工具条所处的位置不理想&#12290;<br>
+&#12288;&#12288;如今俺提供了这个工具条的定制参数&#12290;你可以设置&#8220;是否显示&#8221;&#12290;所以那些不喜欢工具条的读者&#65292;可以直接关闭它&#12290;<br>
+&#12288;&#12288;另外&#65292;还提供了&#8220;是否拖拽&#8221;的定制选项&#12290;如果开启&#8220;拖拽&#8221;功能&#65292;你可以把这个工具条拖到某个你认为理想的位置&#12290;并且每次拖拽之后&#65292;会自动保存工具条的位置&#12290;<br>
+&#12288;&#12288;俺使用&#8220;相对比例&#8221;来保存工具条的位置信息&#12290;也就是说&#65292;如果你的屏幕比例变化了&#65292;或者是窗口的大小变化了&#65292;工具条依然能处在合适的位置上&#12290;<br>
+<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;欢迎大伙儿继续提出各种合理化的建议&#65292;也欢迎大伙儿帮忙测试新功能&#12290;需要给出反馈的读者&#65292;请到俺博客留言&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+<a href="../../2014/12/custom-blogger-comment.html">博客评论功能升级&#65288;&#8220;未读&#8221;状态&#12289;按时间过滤&#65289;&#8212;&#8212;兼谈&#8220;为啥俺不用其它博客平台&#8221;</a><br>
+<a href="../../2014/09/custom-blogger-comment.html">博客评论功能升级&#65288;增加&#8220;留言过滤&#8221;&#12289;&#8220;200条之后自动加载&#8221;等&#65289;</a><br>
+<a href="../../2012/09/custom-blogger-comment.html">博客评论功能升级&#65288;引入 BBCode 语法&#65289;&#65292;顺便分享一下实现方法</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2014/10/custom-blogger-ui.html" id="OriginalPostUrl">https://program-think.blogspot.com/2014/10/custom-blogger-ui.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="363">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4931668895017545997?postID=4931668895017545997&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4931668895017545997.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何隐藏你的踪迹&#65292;避免跨省追捕[9]&#65306;从&#12304;时间角度&#12305;谈谈社会工程学的防范 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2017-06-29T22:27:00+08:00">2017年6月29日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：844条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何隐藏你的踪迹&#65292;避免跨省追捕[9]&#65306;从&#12304;时间角度&#12305;谈谈社会工程学的防范
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;距离前一篇博文有14天了&#12290;距离上一次评论区留言&#65288;本月20日&#65289;也有9天了&#12290;这些天俺在干啥捏&#65311;主要是重构评论区的代码&#65292;顺便优化一下性能&#12290;仔细的读者应该能感觉到界面上的一些小变化&#12290;后面俺会单独写一篇博文&#65292;聊聊近期对评论区的改造&#12290;<br>
+&#12288;&#12288;几天不出现&#65292;又有人在评论区散布谣言&#65288;说俺被捕了&#65289;&#12290;估计造谣的家伙也就是之前搞大规模刷屏的职业五毛&#12304;团队&#12305;&#12290;<br>
+&#12288;&#12288;职业五毛的造谣正好给了俺灵感&#8212;&#8212;今天来聊一下&#65306;俺为啥要时不时地静默一段时间&#65311;&#8212;&#8212;这其实是防范社会工程学风险的重要措施&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;关于本系列的说明</h2><br>
+&#12288;&#12288;话说本系列已经中断2年零2月&#8212;&#8212;对俺的懒惰&#65288;一贯挖坑不填&#65289;&#65292;再次表示严重抱歉 :(<br>
+&#12288;&#12288;除了俺的懒惰&#65292;还有一个原因是&#65306;&#65288;对于防跨省&#65289;技术方面已经聊得差不多了&#12290;所以要继续写的话&#65292;俺就要开始聊&#12304;非技术&#12305;的话题&#8212;&#8212;所谓的&#12304;非技术&#12305;也就是指&#12304;社会工程学&#12305;层面&#12290;<br>
+&#12288;&#12288;关于&#8220;社会工程学的防范&#8221;&#65292;这是一个很大的话题&#65292;而且相关的注意事项非常零散&#65292;俺一次性想不了那么全&#12290;所以捏&#65292;就分成几篇来写&#65292;每篇聊其中一个角度&#12290;今天这篇是头一篇&#65292;以&#12304;时间角度&#12305;作为切入点来进行探讨&#12290;<br>
+<br>
+&#12288;&#12288;对&#12304;社会工程学&#12305;相关的概念不太熟悉的同学&#65292;建议先看俺写的另一个系列&#12298;<a href="../../2009/05/social-engineering-0-overview.html">扫盲社会工程学</a>&#12299;&#65292;然后再来看本文以及本系列后续博文&#12290;<br>
+<br>
+<br>
+<h2>&#9733;名词解释</h2><br>
+&#12288;&#12288;首先来介绍几个相关术语&#12290;<br>
+<br>
+<h3>&#9671;在线时间</h3><br>
+&#12288;&#12288;这是本文重点要聊的核心概念&#12290;<br>
+&#12288;&#12288;从字面意义而言就是&#65306;在线活动留下的时间印迹&#12290;<br>
+&#12288;&#12288;如果要更严密地说&#65306;&#8220;在线时间&#8221;是时间轴上若干个线段的并集&#12290;每个线段表示一次在线活动&#12290;<br>
+<br>
+<h3>&#9671;网络身份</h3><br>
+&#12288;&#12288;在讨论&#8220;在线时间&#8221;这个概念的时候&#65292;一定要牢记&#65306;&#12304;&#8220;在线时间&#8221;是相对于&#8220;网络身份&#8221;而言的&#12305;&#12290;<br>
+&#12288;&#12288;啥意思捏&#65311;稍微解释一下&#65306;<br>
+&#12288;&#12288;每个人都可以有多个网络身份&#65292;不同的网络身份&#65292;其在线时间可以是不同滴&#12290;<br>
+<br>
+<h3>&#9671;&#12304;显式&#12305;在线时间 VS &#12304;隐式&#12305;在线时间</h3><br>
+&#12288;&#12288;顾名思义&#65292;&#12304;显式&#12305;就是指活动痕迹比较明显的&#65307;&#12304;隐式&#12305;则反之&#12290;<br>
+&#12288;&#12288;为了解释这两者的差别&#65292;以俺博客来举例&#12290;<br>
+&#12288;&#12288;当俺发出一篇博文&#65292;或者在评论区回复读者留言&#65292;这些活动都是很明显的&#65292;属于&#8220;&#12304;显式&#12305;在线时间&#8221;&#12290;<br>
+&#12288;&#12288;有时候&#65292;俺会去修改博客的界面代码&#65288;比如近期俺就在频繁修改&#8220;反刷屏代码&#8221;&#65289;&#12290;如果俺对代码的修改&#12304;没有&#12305;引起界面功能的变化&#65292;这种修改通常不会被读者感觉到&#12290;那么这种情况就算是&#8220;&#12304;隐式&#12305;在线时间&#8221;&#12290;<br>
+&#12288;&#12288;那么&#65292;&#12304;隐式&#12305;在线时间能否被刺探出来捏&#65311;接下来会聊到这个话题&#12290;<br>
+<br>
+<h3>&#9671;静默期</h3><br>
+&#12288;&#12288;没有网络活动的那些时间段&#65292;称之为&#8220;静默期&#8221;&#12290;<br>
+&#12288;&#12288;&#8220;静默期&#8221;相当于时间轴上那些线段之间的间隙&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;在线时间&#8221;会暴露哪些信息&#65311;</h2><br>
+&#12288;&#12288;即使不参照其它因素&#65292;仅仅观察某个网络身份的&#8220;在线时间&#8221;&#65292;就已经可以收集到对应自然人的信息&#12290;如果这个网络身份的活动非常频繁并且维持足够长的时间&#65292;收集到的信息就会很丰富&#65292;足以刻画出其背后那个自然人的详细特征&#12290;<br>
+&#12288;&#12288;下面举几个例子&#65306;<br>
+<br>
+&#12288;&#12288;<b>举例1&#65306;时区</b><br>
+&#12288;&#12288;这个是最容易想到的&#12290;如果某人上线很频繁或者在线活动的时间很长&#65292;那么就可以观察出此人的作息规律&#65288;人总是要睡觉的&#65289;&#65307;通过作息规律就可以猜测出大致的时区范围&#65288;&#177;2&#65289;&#12290;<br>
+&#12288;&#12288;比如说&#65306;早在前几年&#65292;某些有心的读者就通过俺回复评论的时间规律&#65292;判定俺在&#8220;东8区&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>举例2&#65306;省份</b><br>
+&#12288;&#12288;前几年&#65292;新疆经历了长时间的封网&#65288;物理断网&#65289;&#65292;时间跨度是&#65306;2009年7月~2010年5月&#12290;假设某个网友在 Twitter 上频繁发推&#12290;然后在2009年7月突然停止发推并持续至少10个月&#65292;那么有&#12304;很大概率&#12305;&#8212;&#8212;这个帐号背后的自然人位于新疆&#12290;<br>
+&#12288;&#12288;&#65288;请注意&#65306;俺说的是&#8220;很大概率&#8221;而不是&#8220;一定&#8221;&#65292;因为还存在其它小概率的情况&#65289;<br>
+<br>
+&#12288;&#12288;这方面的例子还有很多&#65292;大伙儿自己琢磨&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;网络身份&#8221;与&#8220;真实身份&#8221;的时间关联性/相关度</h2><br>
+&#12288;&#12288;前一个章节提及的&#8220;暴露信息量&#8221;&#65292;都还&#12304;不算严重&#12305;&#8212;&#8212;因为暴露出来的信息量比较小&#12290;<br>
+&#12288;&#12288;现在俺要来聊一下比较严重的情况&#12290;<br>
+<br>
+<h3>&#9671;一个反面案例</h3><br>
+&#12288;&#12288;为了形象一些&#65292;拿俺本人来&#12304;虚拟&#12305;一个反面案例&#12290;<br>
+&#12288;&#12288;假设俺很勤快&#65288;实际上俺很懒&#65289;&#65292;&#12304;每天&#12305;都在博客上回复读者留言&#65292;并坚持了很多年&#65288;实际上俺连续回复评论很少超过3天&#65289;&#12290;<br>
+&#12288;&#12288;由于博客的读者很多&#65292;俺身边的同事或朋友&#65292;也有人是读者&#12290;当然&#65292;一开始这些身边的同事或朋友&#65292;并不知道编程随想原来就是某某人&#12290;<br>
+&#12288;&#12288;现在&#65292;假设出现了突发的意外&#8212;&#8212;俺因为出车祸住院一周&#12290;于是就&#12304;没法&#12305;再如往常一样&#12304;每天&#12305;回复读者评论&#12290;<br>
+&#12288;&#12288;由于这个规律已经持续了 N 年&#65292;一旦出现中断就会给读者留下很深刻的印象&#12290;<br>
+&#12288;&#12288;那么&#65292;俺身边的这几个读者就会发现一个很严重的巧合&#65306;编程随想以往很有规律的活动突然中断一周&#65292;而身边的某某人正好也在&#12304;同一时间段&#12305;住院&#12290;<br>
+&#12288;&#12288;这种严重的巧合&#65292;足以导致身份暴露&#12290;<br>
+<br>
+&#12288;&#12288;&#65288;通过上述这个虚构的案例&#65292;你应该明白&#65306;两种身份的关联性意味着什么&#65289;<br>
+<br>
+<h3>&#9671;这个案例的本质</h3><br>
+&#12288;&#12288;上述案例之所以导致身份暴露&#65292;本质上可以归纳为如下几点&#65306;<br>
+1. 网络身份需要靠真实身份操作&#65288;这句是屁话&#65289;<br>
+2. 网络活动的规律性太强&#65288;规律性越强&#65292;一旦&#8220;打破规律&#8221;给人的印象就越深刻&#65289;<br>
+3. 意外事件导致网络身份和真实身份出现&#12304;同样的&#12305;&#8220;时间空档&#8221;&#65288;术语叫&#8220;高度相关性&#8221;&#65289;<br>
+<br>
+<br>
+<h2>&#9733;多个&#8220;网络身份&#8221;之间的时间相关性</h2><br>
+&#12288;&#12288;如果同一个&#8220;自然人&#8221;操作多个&#8220;网络身份&#8221;&#65292;这些网络身份之间也会存在与上述案例类似的时间相关性&#12290;<br>
+&#12288;&#12288;&#65288;具体的原理及例子差不多&#65292;俺就省点力&#65292;不浪费口水了&#65289;<br>
+<br>
+<br>
+<h2>&#9733;如何降低上述这2种相关性&#65311;</h2><br>
+&#12288;&#12288;像上述这样的反面案例&#65292;该如何防范捏&#65311;下面说说俺能想到的几点&#65288;俺想的不一定全&#65292;欢迎大伙儿补充&#65289;&#12290;<br>
+<br>
+<h3>&#9671;多人操作</h3><br>
+&#12288;&#12288;这是最容易想到的一招&#12290;<br>
+&#12288;&#12288;如果有多个自然人操作同一个网络帐号&#65292;即使某个自然人出现意外&#65292;其他人依然可以继续操作该帐号&#12290;于是对应的网络身份就&#12304;不会&#12305;因为意外事故而出现静默期&#12290;<br>
+<br>
+<h3>&#9671;自动机制</h3><br>
+&#12288;&#12288;&#8220;多人操作&#8221;的本质就是&#65306;几个人互相作为备胎&#12290;<br>
+&#12288;&#12288;另一个有点类似的招数是&#65306;用某种&#12304;自动机制&#12305;来作为备胎&#8212;&#8212;在无法进行人工操作的时候&#65292;依靠自动机制进行操作&#12290;<br>
+&#12288;&#12288;比如某些博客平台或 SNS 平台提供&#8220;自动发文&#8221;的机制&#12290;另外还有第三方的一些服务&#65288;比如 IFTTT&#65289;可以同时支持多种网络平台&#12290;<br>
+<br>
+<h3>&#9671;人为静默</h3><br>
+&#12288;&#12288;最后&#65292;隆重推出俺本人使用的招数&#8212;&#8212;人为制造&#12304;随机&#12305;&#8220;静默期&#8221;&#12290;<br>
+&#12288;&#12288;这个招数的好处在于&#65306;<br>
+1. &#12304;随机&#12305;出现的&#8220;静默期&#8221;会让网络身份的活动显得&#12304;没有规律&#12305;<br>
+2. 如果之前经常出现静默期&#65292;一旦真实身份因为意外而无法上线&#65292;这时候导致的静默期就&#12304;不会太显眼&#12305;<br>
+<br>
+<h3>&#9671;小结&#65306;上述几招的缺陷及对比</h3><br>
+&#12288;&#12288;<b>&#8220;多人操作&#8221;的&#12304;缺点&#12305;</b><br>
+1. 信任度的问题&#65288;像俺这种高危人士&#65292;没办法找到可信的人共同操作帐号&#65289;<br>
+2. 风格的问题&#65288;比如几个人写同一个博客&#65292;风格多半不一致&#8212;&#8212;读者会抗议&#65289;<br>
+<br>
+&#12288;&#12288;<b>&#8220;自动机制&#8221;的&#12304;缺点&#12305;</b><br>
+1. 自动机制能做的事情很有限&#65288;事先写好博文自动发是可以滴&#65292;回复读者评论就没办法&#8220;事先写好&#8221;&#65289;<br>
+2. 自动机制很容易被侦测/被识别&#65288;自动机制毕竟是&#8220;死&#8221;的&#65292;很难模拟活人&#65289;<br>
+<br>
+&#12288;&#12288;<b>&#8220;人为静默&#8221;的&#12304;缺点&#12305;</b><br>
+1. 会降低网络身份的效率&#65288;大概就这一个缺点&#65292;这个缺点俺可以接受&#65289;<br>
+<br>
+&#12288;&#12288;综上所述&#65292;在这3种防范措施中&#65292;俺选了最后一种&#12290;<br>
+<br>
+<br>
+<h2>&#9733;对&#8220;&#12304;隐式&#12305;在线时间&#8221;的探测</h2><br>
+&#12288;&#12288;说完身份相关性的风险&#65292;再来说说&#8220;侦测&#8221;的话题&#12290;<br>
+&#12288;&#12288;前面提到说&#65306;&#8220;&#12304;隐式&#12305;在线时间&#8221;的活动痕迹不那么明显&#12290;那么&#65292;是否有办法刺探出来捏&#65311;下面就来介绍几种探测的手段&#65288;只是举例&#65292;未必全&#65289;&#65292;然后再介绍防范的措施&#12290;<br>
+&#12288;&#12288;所有的刺探手段&#65292;都可以归纳为两大类&#65292;分别是&#65306;&#12304;主动型&#12305;和&#12304;被动型&#12305;&#12290;<br>
+<br>
+<h3>&#9671;被动探测</h3><br>
+&#12288;&#12288;所谓的&#8220;被动探测&#8221;&#65292;就是&#12304;被动&#12305;地收集目标对象的网络活动痕迹&#65288;尤其是那些比较隐蔽的痕迹&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b>举例1&#65306;</b><br>
+&#12288;&#12288;就拿前面的例子&#65288;俺修改博客代码&#65289;来说事儿&#12290;<br>
+&#12288;&#12288;如果某个有心人想要了解俺何时在修改博客代码&#65292;他/她完全可以写一个&#8220;页面抓取脚本&#8221;&#65292;循环抓取俺博客的页面&#65307;然后从抓取的页面中提取出其中的 JS 代码&#65307;最后再对比 JS 代码的&#12304;变化&#12305;&#65288;技术行话叫 diff&#65289;&#12290;一旦发现变化&#65292;就可以知道&#65306;俺在刚才的那个循环周期修改过博客代码&#12290;<br>
+<br>
+&#12288;&#12288;<b>举例2&#65306;</b><br>
+&#12288;&#12288;如果六扇门&#65288;公安&#12289;国安&#65289;想要收集某个目标对象的在线活动信息&#65292;并且目标对象使用的是&#12304;墙内的&#12305;网络服务&#12290;那么六扇门只需要找到对应的服务提供商&#65292;就可以从服务器上获得非常详细的帐号活动日志&#12290;<br>
+&#12288;&#12288;说到这里&#65292;补充一下&#65306;<br>
+&#12288;&#12288;通过&#12304;代理&#12305;的方式使用网络服务&#65292;可以隐藏自己真实的公网 IP&#65292;但是<b>&#12304;无法&#12305;隐藏自己的网络活动时间</b>&#12290;一旦使用&#12304;墙内&#12305;的网络服务&#65292;朝廷方面可以很容易地拿到任意帐号在服务器上的活动日志&#65292;从而获得该帐号的&#8220;在线时间信息&#8221;&#12290;<br>
+<br>
+<h3>&#9671;主动探测</h3><br>
+&#12288;&#12288;所谓的&#8220;主动探测&#8221;&#65292;就是&#12304;主动&#12305;发起一些行为&#65292;然后看目标对象是否会产生反应&#12290;<br>
+<br>
+&#12288;&#12288;<b>举例1&#65306;</b><br>
+&#12288;&#12288;如果目标对象有一个公开的邮箱&#65292;执行主动探测的家伙就可以往这个邮箱地址发试探性的 email&#65292;然后看看该邮件是否有&#12304;回信&#12305;&#65292;从而了解对象是否在线&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;这招是社会工程学的基本伎俩&#65289;<br>
+<br>
+&#12288;&#12288;顺便说一个稍微高级点的邮件技巧&#8212;&#8212;&#12304;不依赖回信&#12305;也能玩探测的把戏&#12290;<br>
+&#12288;&#12288;在发送的邮件中使用 HTML 格式&#65307;邮件正文中包含一个肉眼不易看见的小图片&#65288;大小为&#65306;1x1像素&#65289;&#65307;该图片位于邮件发送者自己控制的服务器上&#12290;<br>
+&#12288;&#12288;邮件接收者只要打开/查看这封信&#65292;就会导致图片被加载&#65292;那么在图片所在的服务器上就会留下一个访问记录&#12290;于是探测者就收集到了目标对象的在线时间了&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;这招是垃圾邮件发送者惯用的招数&#65292;通过这招&#65292;投放广告的商家就可以了解垃圾邮件有多大比例被受众打开/查看&#65289;<br>
+<br>
+&#12288;&#12288;<b>举例2&#65306;</b><br>
+&#12288;&#12288;再次拿俺博客来说事儿&#12290;<br>
+&#12288;&#12288;最近这几天&#65292;俺忙着改代码&#65292;没有去评论区回复读者留言&#65292;然后就看到好几条造谣的留言&#65292;用各种法子忽悠说俺被捕了&#12290;<br>
+&#12288;&#12288;职业五毛这么干&#65292;最容易想到的一个目的就是&#65306;制造恐慌气氛&#65307;但还有一个不太明显的目的&#65292;就是&#12304;激将法&#12305;&#8212;&#8212;通过各种造谣&#65292;看看俺是否会跳出来反驳&#65292;从而了解俺是否在线&#12290;<br>
+<br>
+<br>
+<h2>&#9733;对上述侦测手段的防范</h2><br>
+<h3>&#9671;选择&#12304;靠谱的&#12305;服务提供商</h3><br>
+&#12288;&#12288;俺要第 N 次唠叨&#65306;<br>
+&#12288;&#12288;高风险人士不要用&#12304;墙内的&#12305;服务&#12290;即使是&#12304;墙外的&#12305;&#65292;也要谨慎选择&#12290;不要用历史上有污点的公司提供的网络服务&#12290;<br>
+<br>
+<h3>&#9671;使用&#12304;非即时&#12305;的沟通方式</h3><br>
+&#12288;&#12288;即时性的沟通方式&#65288;比如&#65306;文字聊天&#12289;语音聊天&#65289;暴露的在线时间实在太多了&#12290;改为&#12304;非即时&#12305;的沟通方式可以大大降低在线活动的时间跨度&#12290;<br>
+&#12288;&#12288;比如俺以&#8220;编程随想&#8221;这个身份活动的时候&#65292;从来不用 IM&#12290;俺更倾向于用博客评论区或者邮件进行沟通&#65288;尤其是前者&#65289;&#12290;<br>
+<br>
+<h3>&#9671;小心留意&#12304;私密的&#12305;沟通方式</h3><br>
+&#12288;&#12288;前面俺提到了&#8220;基于 Email 的 主动探测&#8221;&#12290;除了 Email&#65292;还有 IM 以及 SNS 的私信&#65292;也都可以用来进行主动探测&#12290;<br>
+&#12288;&#12288;&#8220;Email&#12289;IM&#12289;私信&#8221;这几种沟通方式的共性就是&#12304;私密性&#12305;&#8212;&#8212;其沟通内容是不公开的&#12290;<br>
+&#12288;&#12288;表面上看&#65292;私密性的沟通好像更安全&#65307;其实不然&#8212;&#8212;这恰恰是个盲区&#12290;当网民在公开的场合&#65288;比如&#65306;BBS/论坛&#12289;评论区&#65289;发言反而会比较小心&#65292;而在私密的沟通时&#65292;更容易麻痹大意&#12290;<br>
+<br>
+&#12288;&#12288;说到这个话题&#65292;顺便分享俺的经验&#65306;<br>
+&#12288;&#12288;在上个月&#65288;5月&#65289;的博文&#12298;<a href="../../2017/05/my-blog-under-government-backed-attack.html">庆贺本博荣获&#12304;更高级别朝廷认证&#12305;&#8212;&#8212;谈谈近期的&#8220;帐号入侵&#12289;刷屏&#12289;钓鱼&#8221;</a>&#12299;中提到说&#65306;<br>
+<blockquote style="background-color:#DDD;">最近两三年&#65292;俺一直以&#12304;博客评论区&#12305;作为主要的沟通方式&#65292;邮件用得越来越少&#12290;今后还是会保持这个风格&#12290;</blockquote>&#12288;&#12288;当时分析了&#12304;技术&#12305;层面的理由&#65292;今天来说说&#12304;非技术&#12305;方面的理由&#65306;<br>
+&#12288;&#12288;由于博客评论区是公开的&#65292;而且还提供 RSS 输出&#12290;所以俺只需要用 RSS 阅读器订阅相应的 feed&#65292;就可以看到博客评论区&#12304;所有的留言&#12305;&#12290;这整个过程都&#12304;不需要登录 Google 帐号&#12305;&#12290;<br>
+&#12288;&#12288;换句话说&#65306;俺可以在彻底静默的情况下&#65292;了解读者与俺的沟通情况&#12290;<br>
+<br>
+<h3>&#9671;保持平常心</h3><br>
+&#12288;&#12288;前面俺提到了&#65306;基于&#8220;激将法&#8221;的主动探测&#12290;<br>
+&#12288;&#12288;要防范激将法&#65292;最彻底最根本的措施是&#65306;&#12304;调整好心态&#65292;保持平常心&#12305;&#12290;很多年轻人血气方刚&#65292;一激就跳出来了&#65292;说白了就是心态的问题&#12290;<br>
+<br>
+&#12288;&#12288;既然说到心态&#65292;顺便聊聊性格的重要性&#12290;<br>
+&#12288;&#12288;在安全界&#65288;包括国内和国外&#65289;有很多技术高手&#65292;其中某些人的技术水平比俺要好得多&#65292;但是却阴沟翻船了&#65292;为啥捏&#65311;<br>
+&#12288;&#12288;俺观察下来&#65292;大部分情况都是因为性格和心理问题&#8212;&#8212;要么太粗心&#12289;要么太冲动&#12289;要么太虚荣&#12289;要么太轻信......&#8212;&#8212;这其中的任何一种心理缺陷&#65292;都足以抵消掉&#12304;所有的&#12305;技术防范措施&#12290;<br>
+<br>
+<br>
+<b><a href="../../2010/04/howto-cover-your-tracks-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2017/06/howto-cover-your-tracks-9.html" id="OriginalPostUrl">https://program-think.blogspot.com/2017/06/howto-cover-your-tracks-9.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="844">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/2433693918249050464?postID=2433693918249050464&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/2433693918249050464.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

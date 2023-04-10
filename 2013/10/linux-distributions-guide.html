@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 Linux&#65306;如何选择发行版 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-10-31T23:59:00+08:00">2013年10月31日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：242条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 Linux&#65306;如何选择发行版
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;Linux 的发行版实在是太多了&#12290;初次接触 Linux 的同学&#65292;面对这么的发行版&#65292;估计会有点晕&#12290;所以&#65292;在写完&#12298;<a href="http://program-think.blogspot.com/2013/10/linux-newbie-guide.html">新手如何搞定 Linux 操作系统</a>&#12299;一文之后&#65292;俺接着来扫盲一下 Linux 的发行版&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;&#8220;内核&#8221;与&#8220;发行版&#8221;是啥关系&#65311;</h2>
+<br>
+&#12288;&#12288;对于新手而言&#65292;需要先搞清楚这两个概念&#65288;已经明白的同学&#65292;请跳过本章节&#65289;&#12290;<br>
+<br>
+<h3>&#9671;操作系统内核&#65288;OS kernel&#65289;</h3>
+<br>
+&#12288;&#12288;所谓的&#8221;操作系统内核&#8220;&#65292;通俗地说就是操作系统最核心最关键的部件&#12290;它负责一些最基本的工作&#65292;比如&#65306;管理硬件驱动&#12289;管理内存&#12289;管理文件系统&#12289;管理进程&#12289;等等&#12290;这些东西只要少了任何一样&#65292;整个操作系统就&#12304;没法&#12305;正常运转&#12290;<br>
+<br>
+<h3>&#9671;Linux 内核&#65288;Linux kernel&#65289;</h3>
+<br>
+&#12288;&#12288;Linux 作为操作系统&#65292;当然也有其内核&#12290;自问世以来&#65292;Linux 内核的开发工作一直是由 Linus&#65288;也就是 Linux 它爹&#65289;领导&#12290;Linus 对于 Linux 内核的意义&#65292;就如同乔布斯对于苹果的意义&#12290;<br>
+&#12288;&#12288;Linux 内核的特点是&#8212;&#8212;<b>非常彻底的&#12304;开放性&#12305;</b>&#12290;所谓的&#12304;开放性&#12305;包括如下几方面&#65306;<br>
+1. 任何人都可以随意获取&#65288;可以从 <a href="https://www.kernel.org/" target="_blank" rel="nofollow">Linux Kernel 官网</a>直接下&#65289;<br>
+2. 任何人都可以免费获取&#65288;完全不用花银子&#65289;<br>
+3. 任何人都可以参与开发&#65288;阿猫阿狗都可以向 Linux 社区提交代码&#65307;只要你提交的代码符合要求&#65292;就会被合并到内核主线&#65289;<br>
+<br>
+&#12288;&#12288;内核不是今天的重点&#65292;俺就点到为止&#12290;更多详细介绍&#65292;请参见维基百科的&#8220;<a href="https://zh.wikipedia.org/wiki/Linux%E5%86%85%E6%A0%B8" target="_blank" rel="nofollow">这个词条</a>&#8221;&#12290;<br>
+<br>
+<h3>&#9671;发行版&#65288;distribution&#65292;简称 distro&#65289;</h3>
+<br>
+&#12288;&#12288;前面说了&#65292;操作系统都有"内核"的概念&#65288;比如 Windows 也有其内核&#65289;&#12290;但如果你使用  Windows&#65292;通常感觉不到&#8220;内核&#8221;的存在&#12290;为啥捏&#65311;原因在于&#65306;微软是把 Windows   当作一个整体来发布的&#12290;对于普通用户而言&#65292;你拿到的是一个完整的操作系统&#65292;所以你感觉不到&#8220;内核&#8221;的存在&#12290;<br>
+&#12288;&#12288;而 Linux 不同于其它操作系统的地方在于&#65306;Linus 领导的开源社区只负责开发内核&#65292;不开发其它的东西&#65288;比如&#65306;运行库&#12289;图形界面&#12289;应用软件&#12289;等&#65289;&#12290;<br>
+&#12288;&#12288;这就引出一个问题&#8212;&#8212;光有一个赤裸裸的内核&#65292;用户是没法用的&#65288;就好比你光拿到一个汽车引擎&#65292;你是没法开车的&#65289;&#12290;为此&#65292;就有一大帮开源社区或商业公司&#65292;在这个裸露的内核外面&#65292;再包上一些东西&#65288;比如&#65306;运行库&#12289;应用软件&#65289;&#12290;经过这样包装之后&#65292;就成为&#8220;发行版&#8221;&#12290;<br>
+&#12288;&#12288;为啥 Linux 的发行版如此之多捏&#65311;前面俺说了&#65292;Linux 内核是彻底开放滴&#65292;随便什么阿猫阿狗都可以去 Linux 的官网下载到内核&#65292;然后自己折腾&#65288;定制&#65289;&#12290;如果定制完觉得满意&#65292;就可以拿到网上去发布&#65288;就成了一个新的发行版&#65289;&#12290;由于门槛如此之低&#65292;发行版自然就很多啦&#12290;<br>
+<br>
+<h3>&#9671;&#12304;内核+发行版&#12305;的模式&#65292;有啥好处&#65311;</h3>
+<br>
+&#12288;&#12288;刚才已经解释了 Linux 内核与发行版的关系&#12290;再来说说&#12304;内核+发行版&#12305;的模式&#65292;有啥好处&#12290;<br>
+&#12288;&#12288;首先表扬一下 Linus 同学&#65292;他当年作出的决定&#8212;&#8212;只开发内核&#65292;其它的一概不管&#8212;&#8212;真的是太有先见之明啦&#65281;<br>
+&#12288;&#12288;其一<br>
+&#12288;&#12288;在这种模式下&#65292;会有各种各样的发行版&#65292;正好可以覆盖千奇百怪的需求&#65307;<br>
+&#12288;&#12288;其二<br>
+&#12288;&#12288;&#12304;同质化&#12305;的发行版之间会产生&#12304;竞争&#12305;&#65292;最终只有优秀的发行版会存活&#65292;差劲的发行版会逐渐消亡&#8212;&#8212;这就是开源生态圈的&#8220;达尔文主义&#8221;&#12290;<br>
+&#12288;&#12288;如果用一个词来形容 Linux 的优点&#65292;那就是&#8212;&#8212;&#12304;<b>多元化</b>&#12305;&#12290;内核的开发是多元化滴&#65288;任何人都可以参与&#65289;&#65292;发行版也是多元化滴&#65288;任何人都可以搞发行版&#65289;&#12290;<br>
+&#12288;&#12288;对比一下其它的开源操作系统&#8212;&#8212;BSD系列&#12290;<br>
+&#12288;&#12288;BSD 系列中最有影响的是 <a href="https://zh.wikipedia.org/wiki/FreeBSD" target="_blank" rel="nofollow">FreeBSD</a>&#12290;说实话 FreeBSD 很优秀&#65281;但是 FreeBSD 的影响力远远小于 Linux&#12290;为啥捏&#65311;因为 FreeBSD 缺乏 Linux 这种多元化的风格&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何选择发行版&#65311;</h2>
+<br>
+&#12288;&#12288;前面说了一通屁话&#65292;现在切入正题&#12290;<br>
+&#12288;&#12288;因为 Linux 的发行版太多&#65292;如果要逐一介绍的话&#65292;都足以写一本大部头的书了&#12290;所以俺尝试从&#8220;分类&#8221;的角度来介绍&#12290;通过介绍不同维度的分类&#65292;帮助你从不同的视角看待各种发行版&#12290;<br>
+&#12288;&#12288;对发行版的各个视角都有所了解之后&#65292;你就可以过滤掉一大批不符合你要求的发行版&#12290;过滤完之后&#65292;或许就只剩下2~3个候选者&#65292;然后再逐一尝试&#12290;<br>
+<br>
+<h2>&#9733;&#12304;通用&#12305;发行版 VS &#12304;专用&#12305;发行版</h2>
+<br>
+&#12288;&#12288;所谓的&#8220;通用发行版&#8221;&#65292;顾名思义就是&#65306;这个发行版可以派上各种用场&#65307;反之&#65292;&#8220;专用发行版&#8221;是为特定用途设计&#65292;只能用于某些特定场合&#12290;<br>
+&#12288;&#12288;这两种各有优缺点&#8212;&#8212;通用发行版虽然用途广&#65292;但你需要自己做一些定制&#12290;专用发行版虽然用途单一&#65292;但很多软件和配置预先都帮你设置好了&#12290;<br>
+&#12288;&#12288;俺在&#12298;<a href="http://program-think.blogspot.com/2013/10/linux-newbie-guide.html">新手如何搞定 Linux 操作系统</a>&#12299;一文中强调了&#12304;成熟度&#12305;的重要性&#12290;所以&#65292;俺挑选几个成熟度比较高的通用发行版&#65286;专用发行版&#65292;大致介绍一下&#12290;<br>
+<br>
+<h3>&#9671;&#12304;通用&#12305;发行版</h3>
+<br>
+&#12288;&#12288;名气比较大的有如下几个&#65306;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Debian" target="_blank" rel="nofollow">Debian</a></b><br>
+Debian 完全靠社区维护&#65292;其特点是&#65306;非常强调"自由"的开源理念&#12290;它有很多衍生的发行版&#65288;比如 Ubuntu&#65289;&#65292;形成一个大家族&#12290;在 Linux 的众多家族中&#65292;Debian 家族是软件包最多的&#12290;<br>
+对于完全没有技术背景的同学&#65292;Debian 的门槛稍微有点高&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Fedora" target="_blank" rel="nofollow">Fedora</a></b><br>
+Fedora 来自 <a href="https://zh.wikipedia.org/wiki/Red_Hat_Linux" target="_blank" rel="nofollow">Red Hat Linux</a>&#12290;2003年的时候&#65292;Red Hat 公司决定不再维护面向桌面的 Red Hat Linux&#65292;改为专注于企业市场&#12290;就把原先的 Red Hat Linux 交给社区维护&#65292;成为 Fedora&#65288;原先的洋名叫&#8221;Fedora Core&#8220;&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/OpenSUSE" target="_blank" rel="nofollow">openSUSE</a></b><br>
+这是从 Slackware 衍生出来的发行版&#65292;原先属于 SuSE 公司的商业发行版&#65288;SUSE Linux&#65289;&#12290;2004年 SuSE 被 Novell 收购之后&#65292;Novell 把它移交给社区维护&#65292;改名叫 openSUSE&#12290;<br>
+它的一个特色功能是 YaST&#12290;这玩意儿类似 Windows 的控制面板&#65292;帮你搞定一大堆系统管理的杂事&#65288;比如&#65306;硬盘分区&#12289;软件升级&#12289;用户管理&#12289;网络配置&#12289;等等&#65289;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/ArchLinux" target="_blank" rel="nofollow">Arch Linux</a></b><br>
+这是一个白手起家的发行版&#65288;&#12304;不是&#12305;从其它发行版衍生&#65289;&#65292;比较适合于 DIY&#12290;默认装出来的系统近乎全裸&#65292;然后根据你的需要&#65292;安装自己喜欢的软件包&#12290;<br>
+它的设计理念是<a href="https://zh.wikipedia.org/wiki/KISS%E5%8E%9F%E5%88%99" target="_blank" rel="nofollow">KISS 原则</a>&#65292;追求简洁主义&#12290;定位于有技术背景的熟练用户&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Gentoo_Linux" target="_blank" rel="nofollow">Gentoo Linux</a></b><br>
+它跟前面提到的 Arch Linux 很像&#8212;&#8212;也是白手起家&#65292;也很适合于 DIY&#65292;也是定位于熟练用户&#12290;差别在于&#65292;它的 DIY 精神更加彻底&#12290;Gentoo 官网提供的软件包&#65292;&#12304;不是&#12305;二进制滴&#65292;全都以&#12304;源代码&#12305;形式提供&#12290;如果你要装某个软件&#65292;先从官网在线更新源代码&#65292;然后在&#12304;本地&#12305;&#65288;本机&#65289;编译成二进制的软件&#12290;你还可以根据自己的喜好&#65292;设置编译选项&#65292;以优化性能或安全性&#12290;<br>
+因为是在本地编译源代码&#65292;Gentoo 支持种类繁多的 CPU 类型&#12290;<br>
+假如你是程序员出身&#65288;尤其是 C/C++ 程序员&#65289;&#65292;建议你尝试一下 Gentoo&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Slackware" target="_blank" rel="nofollow">Slackware</a></b><br>
+在依然活着的发行版中&#65292;它是最古老滴&#65288;1993年问世&#65289;&#12290;它衍生出很多其它的发行版&#65288;比如前面提到的 openSUSE&#65289;&#65292;形成一个大家族&#12290;<br>
+Slackware也秉承<a href="https://zh.wikipedia.org/wiki/KISS%E5%8E%9F%E5%88%99" target="_blank" rel="nofollow">KISS原则</a>&#65292;偏好命令行而不是 GUI&#12290;所以&#65292;完全没有技术背景的同学&#65292;不太适合直接上手 Slackware&#12290;<br>
+<br>
+<h3>&#9671;面向&#12304;客户端&#12305;&#65288;桌面&#65289;的专用发行版</h3>
+<br>
+&#12288;&#12288;这类发行版&#65292;名气较大的有如下几个&#65288;这几款的门槛都比较低&#12290;适合于没有技术背景的新手&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Ubuntu" target="_blank" rel="nofollow">Ubuntu Desktop</a></b><br>
+衍生自 Debian&#65292;大概是影响力最大的桌面发行版了&#12290;Ubuntu 的发行版其实分&#8220;Server&#8221;和&#8220;Desktop&#8221;两种&#12290;一般说 Ubuntu 默认指的是 Ubuntu Desktop&#12290;<br>
+其美中不足之处是&#8212;&#8212;Ubuntu 本身是一家&#12304;商业&#12305;公司维护的&#12290;关于商业发行版的&#12304;缺点&#12305;&#65292;后面的章节会提到&#12290;<br>
+它以发布时间做版本号&#65288;比如&#65306;<code>13.10</code> 就是2013年10月发布&#65289;&#12290;每半年发布一个版本&#12290;<br>
+它的版本分两种&#65306;普通版本和长期支持版本&#65288;LTS&#65289;&#12290;LTS 会持续提供支持&#65288;补丁更新&#65289;长达几年&#65288;桌面版 3年&#65292;服务器版 5年&#65289;&#65292;普通版本只支持9个月&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Linux_Mint" target="_blank" rel="nofollow">Linux Mint</a></b><br>
+衍生自 Ubuntu Desktop&#65292;由社区维护&#65288;避免了商业公司的缺点&#65289;&#12290;在 <a href="http://distrowatch.com/" target="_blank" rel="nofollow">DistroWatch</a> 的浏览量排名中&#65292;经常排在第一名&#12290;<br>
+为啥它的排名这么高捏&#65311;其中一个原因是&#65306;它很强调&#12304;傻瓜化&#12305;的用户体验&#65292;所以吸引到不少人气&#12290;<br>
+它的发布周期是半年&#65288;类似于 Ubuntu&#65289;&#65292;每年的5月和11月出新版本&#12290;<br>
+它跟 Ubuntu 类似&#65292;也分普通版本和 LTS 版本&#12290;最近的一个 LTS 是 Linux Mint 13&#65292;2012年5月发布&#65292;支持到2017年4月&#12290;至于普通版本&#65292;支持6个月&#12290;<br>
+可选多种桌面环境&#65288;Cinnamon&#12289;Mate&#12289;KDE&#12289;Xfce&#12289;GNOME&#12289;LXDE&#12289;Fluxbox&#65289;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Elementary_%28%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%29" target="_blank" rel="nofollow">elementary OS</a></b><br>
+这款是从 Ubuntu 衍生滴&#65292;诞生于2011年&#12290;<a href="http://distrowatch.com/" target="_blank" rel="nofollow">DistroWatch</a> 的浏览量排名中&#65292;2012年还榜上无名&#65292;2013年已经排入前20位&#12290;<br>
+它的特点是&#65306;深度整合各种桌面应用&#12290;另外&#65292;因为是 Ubuntu 的衍生版&#65292;天然地兼容 Debian 家族的软件包&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Manjaro_Linux" target="_blank" rel="nofollow">Manjaro</a></b><br>
+这款是从 Arch Linux 衍生滴&#65292;诞生于2011年&#65288;与 elementary 是同龄人&#65289;&#12290;<br>
+在前面章节&#65292;俺提到了 Arch 的门槛比较高&#12290;这款发行版侧重于降低 Arch 的使用门槛&#65292;从而吸引了大量 Arch 的原有用户&#12290;<br>
+其官方默认支持的桌面是 Xfce &#65286; KDE&#12290;如果你不喜欢这两个桌面&#65292;可以使用社区支持的其它桌面&#65306;Gnome&#12289;LXDE&#12289;Enlightenment&#12289;MATE&#12289;Cinnamon...<br>
+<br>
+<h3>&#9671;面向&#12304;服务端&#12305;的专用发行版</h3>
+<br>
+&#12288;&#12288;这类发行版&#65292;比较有影响力的是&#65306;<a href="https://zh.wikipedia.org/wiki/Red_Hat_Enterprise_Linux" target="_blank" rel="nofollow">Red Hat Enterprise Linux</a>&#65288;简称 RHEL&#65289;&#12289;<a href="https://zh.wikipedia.org/wiki/CentOS" target="_blank" rel="nofollow">CentOS</a>&#65288;从 RHEL 衍生&#65289;&#12289;<a href="https://zh.wikipedia.org/wiki/Ubuntu" target="_blank" rel="nofollow">Ubuntu Server</a>&#65288;从 Debian 衍生&#65289;&#12289;等等&#12290;<br>
+&#12288;&#12288;考虑到本文是面向&#12304;个人&#12305;用户&#65292;这方面就不多聊啦&#12290;<br>
+<br>
+<h3>&#9671;面向&#12304;特殊用途&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;还有一些特殊用途的发行版&#65292;定位于比较小的细分市场&#65292;属于&#12304;小众的&#12305;发行版&#12290;这些小众发行版&#65292;&#8220;成熟度&#8221;不一定够&#12290;所以就不放在本章节&#65292;俺会在本文末尾统一介绍&#12290;<br>
+<br>
+<br>
+<h2>&#9733;版本发布 VS 滚动发布&#65288;无版本&#65289;</h2>
+<br>
+&#12288;&#12288;说到发布方式&#65292;大致上有两种风格&#65306;按版本发布 or 滚动发布&#12290;<br>
+&#12288;&#12288;按版本发布&#65292;大伙儿应该比较熟悉了&#8212;&#8212;Windows 和 Mac OS 都这么干&#65292;大部分 Linux 发行版也是这么干滴&#12290;<br>
+&#12288;&#12288;但是有少部分发行版采用滚动发布&#65292;典型的代表就是前面提到的 Arch Linux 和 Gentoo Linux&#12290;对于&#8220;滚动发布&#8221;的模式&#65292;&#12304;不&#12305;存在版本号&#65292;也&#12304;无需&#12305;重装系统&#12290;对于这类系统&#65292;你只需要安装一次&#65292;就可以无限期地用下去&#65288;除非发行版死亡 or 系统被你自己折腾坏了&#65289;&#12290;虽然不用重装系统&#65292;但你需要定期升级&#12290;通过定期升级来增加软件功能&#65292;并消除软件漏洞&#12290;<br>
+&#12288;&#12288;这两种发布方式&#65292;各有优缺点&#65292;很难说哪种更好&#12290;你可以根据自己的喜好&#65292;选择其中一种&#12290;<br>
+<br>
+<br>
+<h2>&#9733;保守型 VS 激进型</h2>
+<br>
+<h3>&#9671;&#12304;保守&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;这类发行版通常更在意系统和软件的稳定性/可靠性/安全性&#12290;为了做到这点&#65292;适当地牺牲了&#8220;新功能&#8221;&#12290;所以&#65292;它们通常都不会采用最新版本的内核或软件&#12290;而是采用不太新&#65292;但久经考验的版本&#12290;<br>
+&#12288;&#12288;一般来说&#65292;面向服务端的发行版都是&#8220;保守型&#8221;滴&#65288;比如 RHEL&#12289;CentOS&#65289;&#12290;<br>
+&#12288;&#12288;另外&#65292;在&#8220;通用发行版&#8221;中&#65292;Debian 是偏&#8220;保守&#8221;滴&#65307;而 Fedora 是偏&#8220;激进&#8221;滴&#12290;<br>
+<br>
+<h3>&#9671;&#12304;激进&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;这类发行版优先保证&#8220;新功能&#8221;&#12290;所以它们总是第一时间升级内核版本或软件版本&#12290;<br>
+&#12288;&#12288;采用滚动方式发布的 Linux&#65292;通常都是&#12304;激进型&#12305;滴&#65288;比如 Arch Linux&#12289;Gentoo Linux&#65289;&#12290;<br>
+<br>
+<h3>&#9671;如何权衡&#65311;</h3>
+<br>
+&#12288;&#12288;这两种风格&#65292;也很难说谁对谁错&#12290;关键看你的需求&#12290;如果你比较关注安全性&#65292;最好选用保守型的&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#12304;商业&#12305;发行版 VS &#12304;社区&#12305;发行版</h2>
+<br>
+&#12288;&#12288;制作发行版的组织&#65292;大体上可以分为两类&#8212;&#8212;商业公司 &#65286; 非营利组织&#12290;<br>
+&#12288;&#12288;说到这里&#65292;先澄清一个误区&#65306;<br>
+&#12288;&#12288;很多人有&#12304;偏见&#12305;&#65292;以为&#8220;非营利组织&#8221;的研发能力不如&#8220;商业公司&#8221;&#12290;<br>
+&#12288;&#12288;其实不然&#65281;<br>
+&#12288;&#12288;非营利组织也可以做出精品&#12290;你只需想想浏览器的例子&#65306;非营利组织开发的 Firefox 远远好于&#65288;头号软件公司&#65289;微软开发的&#8220;IE &#65286; Edge&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;对于这两者的选择&#65292;主要的考虑因素是&#65306;隐私&#12290;<br>
+&#12288;&#12288;商业发行版在隐私保护方面<b>不如</b>社区发行版&#12290;具体的分析请看&#12298;<a href="http://program-think.blogspot.com/2013/06/privacy-protection-1.html">如何保护隐私[1]&#65306;关于软件和服务的选择</a>&#12299;&#12290;这里就不再罗嗦了&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;Ubuntu 属于商业发行版&#65288;其后台是 <a href="https://zh.wikipedia.org/wiki/Canonical%E5%85%AC%E5%8F%B8" target="_blank" rel="nofollow">Canonical公司</a>&#65289;&#12290;Ubuntu 曾经在去年爆了一个丑闻&#65306;其桌面搜索功能存在隐私泄露风险&#65288;相关报道在&#8220;<a href="https://www.eff.org/deeplinks/2012/10/privacy-ubuntu-1210-amazon-ads-and-data-leaks" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;<br>
+&#12288;&#12288;俺的建议是&#65306;<br>
+&#12288;&#12288;<b>非常在意隐私的同学&#65292;最好用社区发行版&#12290;</b>如果你对隐私问题无所谓&#65292;那这项指标可以不考虑&#12290;<br>
+<br>
+<br>
+<h2>&#9733;一些特殊用途的发行版</h2>
+<br>
+&#12288;&#12288;下面列举若干特殊用途的 Linux 发行版&#12290;俺的接触面有限&#65292;介绍未必全面&#12290;大伙儿如有补充&#65292;欢迎到<a href="http://program-think.blogspot.com/2013/10/linux-distributions-guide.html">俺博客留言</a>&#12290;<br>
+<br>
+<h3>&#9671;针对&#12304;安全领域&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/BackTrack" target="_blank" rel="nofollow">BackTrack</a> / <a href="https://en.wikipedia.org/wiki/Kali_Linux" target="_blank" rel="nofollow">Kali</a></b><br>
+它衍生自 Ubuntu&#12290;在安全类的发行版中&#65292;它的名气很大&#12290;<br>
+它是面向懂安全的技术类用户&#65292;傻瓜用户不需要它&#12290;<br>
+该发行版中包含了大量的安全类工具&#65292;可以用来进行&#65306;入侵&#12289;信息收集&#12289;安全取证&#12289;安全评估&#12289;等等&#12290;<br>
+Kali 是 BackTrack 的后续发行版&#12290;它俩都出自 Offensive Security&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/The_Amnesic_Incognito_Live_System" target="_blank" rel="nofollow">Tails</a></b><br>
+Tails 是洋文&#8221;The Amnesic Incognito Live System&#8220;的缩写&#12290;它衍生自 Debian&#65292;设计目标是&#65306;保护隐私&#65292;加强上网的隐匿性&#12290;<br>
+在 Tails 里面上网&#65292;所有的流量都会经过 Tor 网络中转&#65288;没听说过 Tor 的同学&#65292;请看俺的<a href="../../2013/11/tor-faq.html">这篇博文</a>&#65289;&#12290;<br>
+它支持 LiveCD 或 LiveUSB&#65292;可以完全运行于内存中&#65292;以免在硬盘上留下你的上网痕迹&#12290;<br>
+引申阅读&#65306;对这款发行版&#65292;俺专门写过一篇教程&#65288;如下&#65289;<br>
+&#12298;<a href="../../2013/12/linux-tails-guide.html">扫盲 Tails&#8212;&#8212;专门强化隐匿性的 Linux 发行版</a>&#12299;<br>
+<br>
+&#12288;&#12288;<b><a href="https://www.whonix.org/" target="_blank" rel="nofollow">Whonix</a></b><br>
+这款工具采用双虚拟机进行隔离&#65288;一台充当网关&#65292;一台用于上网&#65289;&#65292;对外连接全部经过 TOR 网络中转&#12290;<br>
+上网的那个虚拟机即使遭遇入侵&#65288;比如被挂马&#65289;&#65292;你的公网 IP 也不会被入侵者看到&#12290;<br>
+如果你对这种玩法有兴趣&#65292;可以看俺的博文&#12298;<a href="http://program-think.blogspot.com/2013/01/howto-cover-your-tracks-6.html">如何隐藏你的踪迹&#65292;避免跨省追捕[7]&#65306;用虚拟机隐匿公网IP&#65288;原理介绍&#65289;</a>&#12299;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/Lightweight_Portable_Security" target="_blank" rel="nofollow">Lightweight Portable Security</a></b><br>
+这款发行版简称 LPS&#65292;是美国国防部为政府雇员量身打造的&#65292;专门用于强化安全性&#65292;防范某些国家的御用骇客&#12290;<br>
+它内置了加密工具&#65292;整个系统采用 LiveCD/LiveUSB 方式&#65292;完全运行于内存中&#65288;避免在硬盘里留下痕迹&#65292;防止泄密&#65289;<br>
+俺猜测&#65292;这款发行版很可能有美国国安局&#65288;NSA&#65289;的后门 :)<br>
+<br>
+<h3>&#9671;某些&#12304;迷你&#12305;&#65288;Mini&#65289;发行版</h3>
+<br>
+&#12288;&#12288;在&#12298;<a href="http://program-think.blogspot.com/2013/10/personal-it-infrastructure.html">磨刀不误砍柴功&#8212;&#8212;聊聊个人IT基础设施的完善</a>&#12299;一文&#65292;俺提到某些 Linux 发行版可以精简到很小&#65288;只有几十兆&#65289;&#65292;而且功能照样齐全&#12290;今天就来介绍一下&#12290;<br>
+&#12288;&#12288;估计有的同学会问&#65292;迷你 Linux 有啥用&#65311;用途还是不少滴&#12290;<br>
+比如&#65306;迷你型 Linux 因为很小&#65292;可以把整个系统放到内存中运行&#65292;所以速度飞快&#65288;内存的读写速度比硬盘至少快一个数量级&#65289;<br>
+比如&#65306;家中有古老的 PC&#65292;内存硬盘都很小&#65292;就可以装迷你发行版&#65288;废物利用&#65289;&#12290;<br>
+比如&#65306;早年买来的 U盘&#65292;可能只有 64兆&#12289;128兆&#12289;256兆&#65292;也可以在上面装迷你型的 Linux&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Puppy_Linux" target="_blank" rel="nofollow">Puppy Linux</a></b><br>
+这是比较老牌的迷你发行版&#65292;&#65288;截止写本文的2013年&#65289;已有10年历史&#12290;<br>
+说说它的特色&#65306;<br>
+其它的发行版&#65292;在 LiveCD 模式下是无法实现数据保存的&#12290;每次重新启动之后&#65292;之前对文件系统的修改都会消失&#12290;<br>
+但是 Puppy 牛B的地方在于&#65306;LiveCD 模式下也可以实现数据保存&#12290;前提是&#65306;电脑具有&quot;CD-R 或 DVD-R 光驱&quot;&#12290;只要有这种光驱&#65292;它就可以采用多段刻录的方式&#65292;把每次运行时修改过的数据刻录到光盘上&#65288;直到刻满为止&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/SLAX" target="_blank" rel="nofollow">SLAX</a></b><br>
+这款衍生自 Slackware&#12290;在迷你 Linux 中&#65292;这款算是比较庞大的&#65288;大约200兆&#65289;&#12290;虽然有点大&#65292;但是它具备了完善的国际化&#65288;含简体中文和繁体中文&#65289;&#12290;<br>
+它的一大特色是它的软件包管理方式&#12304;非常绿色&#12305;&#12290;你从官网下载到某个软件包之后&#65288;扩展名是 SB&#65292;别想歪了&#65289;&#65292;只需要把这个 SB 文件放到某个特定目录&#65292;然后启动系统&#65292;这个软件就可以用了&#65307;下次如果觉得这个软件不想要&#65292;只需要把那个 SB 文件删除&#65292;再启动系统&#65292;这个软件就彻底消失了&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Slitaz" target="_blank" rel="nofollow">SliTaz</a></b><br>
+这款就真的是&#8220;Mini&#8221;了&#65292;目前的4.0版本只有35兆&#12290;这么小的体积&#65292;竟然还包含了不少软件&#65288;比如 Firefox&#12289;多媒体编辑&#12289;等&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://zh.wikipedia.org/wiki/Tiny_Core_Linux" target="_blank" rel="nofollow">Tiny Core Linux</a></b><br>
+这款比 Slitaz 更小&#65292;包括几个不同的变种&#65306;<br>
+Micro Core&#8212;&#8212;只有8兆&#65292;但是没图形界面&#12290;<br>
+Tiny Core &#8212;&#8212;12兆&#65292;带图形界面&#12290;<br>
+Core Plus&#8212;&#8212;64兆&#65292;带有更多应用软件&#12290;<br>
+<br>
+<h3>&#9671;针对&#12304;数据恢复&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;有若干发行版是专门用来做数据恢复的&#12290;比如你不小心把系统格式化了&#65292;或者不小心把硬盘分区误删了&#12290;这类发行版就可以派上用场&#12290;因为是用来做数据恢复&#65292;所以这类发行版都具备 LiveCD 的能力&#8212;&#8212;数据恢复的时候&#65292;用光盘引导&#65292;可以避免对硬盘的&#12304;写操作&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/SystemRescueCD" target="_blank" rel="nofollow">SystemRescueCD</a></b><br>
+这是从 Gentoo 衍生出来的&#65292;从名称就可以看出&#65292;是用来做系统应急修复的&#12290;<br>
+它内置了若干有用的系统工具&#65292;比如&#65306;分区工具&#12289;文件系统工具&#12289;数据恢复工具&#12289;Windows 注册表修改工具&#12289;等等&#12290;<br>
+它本身就提供图形界&#65288;包括浏览器&#65289;&#65292;便于你在修复过程中&#65292;上网查资料&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/Trinity_Rescue_Kit" target="_blank" rel="nofollow">Trinity Rescue Kit</a></b><br>
+这款有点像 SystemRescueCD&#65292;不过只有命令行界面&#12290;但是它内置了病毒扫描工具&#12290;<br>
+这个发行版不够活跃&#65292;两年没出新版本了&#12290;<br>
+<br>
+<h3>&#9671;面向&#12304;多媒体&#12305;的发行版</h3>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/Ubuntu_Studio" target="_blank" rel="nofollow">Ubuntu Studio</a></b><br>
+衍生自 Ubuntu&#65292;面向多媒体制作&#65292;内置了许多 图像/音频/视频 的相关软件&#12290;<br>
+它采用实时内核&#65288;real-time kernel&#65289;&#65292;以提高处理视频/音频的性能&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="https://en.wikipedia.org/wiki/Mythbuntu" target="_blank" rel="nofollow">Mythbuntu</a></b><br>
+衍生自 Ubuntu&#65292;类似于 Windows Media Center<br>
+<br>
+<br>
+<h2>&#9733;总结</h2>
+<br>
+&#12288;&#12288;Linux 发行版太杂&#65292;导致本文写得比较长&#12290;时间仓促&#65292;某些发行版没来得及介绍&#12290;欢迎大伙儿补充&#12290;有说得不对的地方&#65292;也欢迎拍砖&#12290;<br>
+&#12288;&#12288;最后&#65292;来做一下总结发言&#65306;<br>
+<br>
+<h3>&#9671;&#12304;无&#12305;技术背景的新手</h3>
+<br>
+&#12288;&#12288;建议先尝试那几款&#8220;面向桌面&#8220;的发行版&#12290;这几款的用户数都比较大&#65292;门槛都比较低&#65292;上手相对容易&#12290;用了一段时间之后&#65292;如果你自认为比较熟练了&#65292;想要继续&#8221;折腾&#8220;&#65292;再考虑&#8212;&#8212;是否尝试那几款&#8221;通用发行版&#8220;&#12290;<br>
+<br>
+<h3>&#9671;&#12304;有&#12305;技术背景的新手</h3>
+<br>
+&#12288;&#12288;你可以先尝试&#8221;面向桌面&#8220;的发行版&#65292;也可以直接尝试那几款&#8221;通用发行版&#8220;&#12290;<br>
+&#12288;&#12288;在&#8221;通用发行版&#8220;中&#65292;Gentoo 和 Arch 的难度&#12304;大于&#12305;Debian&#12289;Fedora&#12289;openSUSE&#12290;喜欢折腾的&#65292;有 Geek 精神的同学&#65292;建议玩玩 Gentoo 和 Arch&#12290;折腾过这两款发行版&#65292;会让你对 Linux 系统有更深入的了解&#12290;<br>
+&#12288;&#12288;再补充一下&#65306;Gentoo 和 Arch 虽然门槛高&#65292;但是这两款发行版的文档都非常齐全&#12290;洋文不好的同学&#65292;顺便可以锻炼一下阅读能力&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="http://program-think.blogspot.com/2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统</a>&#12299;<br>
+&#12298;<a href="../../2019/11/POSIX-TUI-from-TTY-to-Shell-Programming.html">扫盲 Linux&#65286;UNIX 命令行&#8212;&#8212;从&#8220;电传打字机&#8221;聊到&#8220;shell 脚本编程&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2013/12/linux-tails-guide.html">扫盲 Tails&#8212;&#8212;专门强化隐匿性的 Linux 发行版</a>&#12299;<br>
+&#12298;<a href="../../2017/03/Why-Linux-Is-More-Secure-Than-Windows-and-macOS.html">为什么桌面系统装 Linux 可以做到更好的安全性&#65288;相比 Windows &#65286; macOS 而言&#65289;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/10/linux-distributions-guide.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/10/linux-distributions-guide.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="242">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/449366449153721021?postID=449366449153721021&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/449366449153721021.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲文件完整性校验&#8212;&#8212;关于散列值和数字签名 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-02-12T23:02:00+08:00">2013年2月12日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：94条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲文件完整性校验&#8212;&#8212;关于散列值和数字签名
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;近期有网友在博客中留言&#65292;希望俺介绍散列值校验文件的知识&#12290;所以俺干脆写一篇&#8220;文件完整性校验&#8221;的扫盲教程&#12290;由于本文是扫盲性质&#65292;尽量不涉及太技术化的内容&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;啥是&#8220;完整性校验&#8221;&#65311;</h2><br>
+&#12288;&#12288;所谓的&#8220;完整性校验&#8221;&#65292;顾名思义&#65292;就是检查文件是否完整&#12290;那么&#65292;什么情况下会导致文件不完整捏&#65311;大概有如下几种情况&#12290;<br>
+<br>
+&#12288;&#12288;<b>1. 感染病毒</b><br>
+&#12288;&#12288;比方说你的系统中了病毒&#65292;病毒感染了某个软件安装包或者某个可执行程序&#12290;那么该文件的完整性就被破坏了&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 植入木马/后门</b><br>
+&#12288;&#12288;还有一种文件不完整的情况&#65292;是被别有用心的人植入木马或后门&#12290;比方说某些国内的软件下载站点&#65292;它们提供的 Windows 安装光盘镜像已经被安置了后门&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 传输故障</b><br>
+&#12288;&#12288;这种情况主要发生在网络下载时&#12290;因为网络传输是有可能发生误码的&#65288;传输错误&#65289;&#65292;另外还有可能下载到快结束的时候断线&#65288;没下载全&#65289;&#12290;这些情况都会导致你下载的文件不完整&#12290;<br>
+&#12288;&#12288;如今的上网环境相比当年的 Modem 拨号&#65292;已经有明显改善&#12290;所以这种情况应该不多见了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;散列算法&#65288;哈希算法&#65289;扫盲</h2><br>
+<h3>&#9671;什么是&#8220;散列算法/哈希算法&#8221;&#65311;</h3><br>
+&#12288;&#12288;这里所说的&#8220;散列&#8221;是一种计算机算法&#65292;洋文叫做 Hash&#65292;有时候也根据音译称为哈希&#12290;<br>
+&#12288;&#12288;散列算法可以把&#12304;任意尺寸&#12305;的数据&#65288;原始数据&#65289;转变为一个&#12304;固定尺寸&#12305;的&#8220;小&#8221;数据&#65288;叫&#8220;散列值&#8221;或&#8220;摘要&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;摘要长度</h3><br>
+&#12288;&#12288;对于某个具体的散列算法&#65292;得到的散列值长度总是固定的&#12290;散列值的长度又称&#8220;摘要长度&#8221;&#12290;<br>
+&#12288;&#12288;以下是常见散列算法的摘要长度<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr style="background:lightgrey;"><th>散列算法</th><th>散列值比特数</th><th>散列值字节数</th></tr>
+<tr><td>CRC32</td><td>32</td><td>4</td></tr>
+<tr><td>MD5</td><td>128</td><td>16</td></tr>
+<tr><td>SHA1</td><td>160</td><td>20</td></tr>
+<tr><td>SHA256</td><td>256</td><td>32</td></tr>
+<tr><td>SHA512</td><td>512</td><td>64</td></tr>
+</tbody></table></center><br>
+<h3>&#9671;散列算法的特色</h3><br>
+&#12288;&#12288;<b>1. 不可逆性</b><br>
+&#12288;&#12288;从刚才的描述看&#65292;散列似乎有点像压缩&#12290;其实捏&#65292;散列算法跟压缩算法是完全不同滴&#12290;压缩算法是可逆的&#65288;可以把压缩后的数据再还原&#65289;&#65292;而&#12304;<b>散列算法是不可逆的</b>&#12305;&#12290;<br>
+&#12288;&#12288;还有一些人把散列算法称为&#8220;加密算法&#8221;&#65292;这也是不对的&#12290;因为加密算法是可逆的&#65288;&#8220;加密&#8221;的&#12304;逆操作&#12305;就是&#8220;解密&#8221;&#65289;&#65292;而散列算法是&#12304;不可逆&#12305;的&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 确定性</b><br>
+&#12288;&#12288;通过某种散列算法&#65292;分别对两个原始数据计算散列值&#12290;如果算出来的散列值不同&#65292;那么可以 100% 肯定这两段数据是不同的&#8212;&#8212;这就是&#8220;确定性&#8221;&#12290;<br>
+&#12288;&#12288;但反过来&#65292;如果这两段数据的散列值相同&#65292;则只能说&#65292;这两段数据&#12304;<b>非常可能</b>&#12305;相同&#12290;所谓的&#8220;非常可能&#8221;&#65292;就是说&#65292;还达不到百分百&#12290;具体原因&#65292;请看下一节&#8220;散列函数的可靠性&#8221;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;关于散列算法的&#12304;可靠性&#12305;</h2><br>
+<h2>&#9671;何为&#8220;散列碰撞&#8221;&#65311;</h2><br>
+&#12288;&#12288;刚才说了&#65292;存在非常小的可能性&#65292;导致两段不同的原始数据&#65292;计算出相同的散列值&#12290;这种情况称之为&#8220;散列碰撞&#8221;或&#8220;散列冲突&#8221;&#12290;<br>
+<br>
+<h3>&#9671;碰撞的类型</h3><br>
+&#12288;&#12288;散列碰撞的类型&#65292;大体上有两种&#65306;<br>
+<br>
+&#12288;&#12288;<b>1. 随机碰撞</b><br>
+&#12288;&#12288;随机碰撞就像买彩票中大奖&#65292;完全是出于小概率的偶然因素&#8212;&#8212;你碰巧遇见两个不同的数据&#65288;文件&#65289;&#65292;具有相同的散列值&#12290;<br>
+&#12288;&#12288;理论上讲&#65292;任何散列算法都存在随机碰撞的可能性&#65292;只是可能性有大有小&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 人为碰撞</b><br>
+&#12288;&#12288;人为碰撞就是说&#65292;有人&#65288;通常是恶意的攻击者&#65289;故意制造散列碰撞&#65292;以此来骗过&#8220;基于散列值的完整性校验&#8221;&#12290;<br>
+<br>
+<h3>&#9671;如何避免碰撞</h3><br>
+&#12288;&#12288;<b>1. 对于随机碰撞</b><br>
+&#12288;&#12288;要避免随机碰撞&#65292;很简单&#65292;只需要选择摘要长度足够长的散列算法&#12290;<br>
+&#12288;&#12288;拿前面举的3个例子&#12290;<br>
+&#12288;&#12288;CRC32 的摘要长度是&#8220;32bit&#8221;&#65292;也就说&#65292;最多可以表示&#8220;2的32次方&#8221;这么多种可能性&#65288;也就是几十亿&#65292;数量级相当于地球总人口&#65289;&#12290;表面上看貌似很大&#65292;其实还不够大&#12290;比如当前互联网上的页面总数就已经大大超过&#8220;几十亿&#8221;&#12290;如果对每个页面计算 CRC32 散列&#65292;会碰到很多重复&#65288;碰撞&#65289;&#12290;<br>
+&#12288;&#12288;而 MD5 的摘要长度是&#8220;128bit&#8221;&#65292;也就是&#12304;2的128次方&#12305;&#12290;这个数字足够大了&#12290;通俗地说&#65292;从宇宙诞生到宇宙毁灭&#65292;你都未必有机会碰见 MD5 的&#12304;随机碰撞&#12305;&#12290;而 SHA1 的摘要长度是&#8220;160bit&#8221;&#65292;那就更不用说了&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 对于人为碰撞</b><br>
+&#12288;&#12288;想避免人为碰撞&#65292;要同时兼顾两个因素&#8212;&#8212;散列算法的摘要长度&#12289;散列算法的优秀程度&#12290;&#8220;摘要长度&#8221;刚才已经解释了&#12290;光说一下&#8220;算法的优秀程度&#8221;&#12290;<br>
+&#12288;&#12288;如果某个散列算法有缺陷&#65288;不够优秀&#65289;&#65292;那么攻击者就可以比较容易地构造出两个&#12304;不同的&#12305;原始数据&#65292;但却拥有&#12304;相同的&#12305;散列值&#12290;如此一来&#65292;就可以骗过基于散列算法的完整性检查&#12290;<br>
+&#12288;&#12288;典型的例子就是 MD5&#8212;&#8212;该算法在过去10多年里曾经非常流行&#65292;但是前几年被发现存在严重缺陷&#12290;所以&#65292;MD5 虽然&#8220;随机碰撞&#8221;的概率非常非常低&#65292;但&#8220;人为碰撞&#8221;的概率可&#12304;不低&#12305;&#12290;如果你比较注重安全性&#65292;&#12304;不要&#12305;再使用 MD5 进行完整性校验&#12290;<br>
+<br>
+&#12288;&#12288;再补充一下&#65306;<br>
+&#12288;&#12288;随着硬件计算能力的提升&#65292;即便是 SHA1 也开始变得&#12304;不&#12305;安全了&#65288;参见如下博文中的<q>密码学相关</q>章节&#65289;&#12290;今后 SHA1 会逐步被 SHA256 或 SHA512 替代&#12290;<br>
+&#12298;<a href="../../2019/07/Security-News.html">近期安全动态和点评&#65288;2019年2季度&#65289;</a>&#12299;<br>
+<br>
+<br>
+<h2>&#9733;散列值校验的方法&#8212;&#8212;使用网站提供的软件散列值</h2><br>
+&#12288;&#12288;如今&#65292;大伙儿的安全意识越来越高了&#12290;相应的&#65292;很多知名的软件&#65292;除了在官网上提供下载&#65292;还会相应提供下载软件的散列值&#12290;当你下载好某个软件之后&#65292;先在自己电脑里计算一下散列值&#65292;然后跟官方网站提供的散列值对比一下&#12290;如果散列值一样&#65292;通常就说明没问题&#12290;<br>
+<br>
+&#12288;&#12288;<b>举例&#65306;Firefox 浏览器的散列校验</b><br>
+&#12288;&#12288;打开如下链接&#65292;就可以看到 Firefox 某个版本的 SHA1 列表&#65288;把网址中的 <code>版本号</code> 三个字替换为具体的&#12304;三段式&#12305;版本号&#65292;比如<code>18.0.2</code>&#65289;&#12290;这个列表很长&#65292;包括各种语言&#65292;各个平台&#12290;为了方便起见&#65292;你可以先算好 SHA1 散列值&#65292;然后到里面搜索该散列值<br>
+<pre>https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/版本号/SHA1SUMS</pre><br>
+&#12288;&#12288;某些菜鸟读者可能会问&#65306;如何在自己电脑上计算某个软件的散列值&#65311;<br>
+&#12288;&#12288;这就需要看下一个章节&#12290;<br>
+<br>
+<br>
+<h2>&#9733;散列值校验的方法&#8212;&#8212;使用客户端工具计算散列值</h2><br>
+&#12288;&#12288;前面说完了校验的流程&#65292;最后再说一下校验的工具&#12290;<br>
+&#12288;&#12288;考虑到大部分读者是 Windows 用户&#65292;俺介绍一下微软官方的 FCIV&#65288;洋文全称是&#8220;File Checksum Integrity Verifier&#8221;&#65289;&#12290;这是一个小巧&#12289;绿色&#12289;免费的命令行工具&#65292;下载页面在&#8220;<a href="https://support.microsoft.com/kb/841290/" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;因为是命令行工具&#65292;你需要先运行 CMD&#65292;出现 Windows 的命令行界面&#65288;黑窗口&#65289;之后&#65292;在其中使用该工具&#12290;下面是 FCIV 功能简介&#12290;<br>
+<br>
+<h3>&#9671;计算单个文件</h3><br>
+&#12288;&#12288;比如你有一个微软的系统安装光盘镜像&#65292;位于 <code>C:\download\Windows.iso</code> 那么&#65292;用如下命令可以计算该文件的 SHA1 散列值<br>
+<pre class="shell">fciv -sha1 C:\download\Windows.iso</pre><br>
+<h3>&#9671;批量计算某个目录</h3><br>
+&#12288;&#12288;FCIV 支持批量计算某个目录下的文件散列值&#12290;比方说&#65292;可以用如下命令可以计算 <code>C:\download</code> 目录下的每一个文件的 SHA1<br>
+<pre class="shell">fciv -sha1 C:\download\</pre><br>
+<h3>&#9671;批量计算并存储&#65292;供前后对比</h3><br>
+&#12288;&#12288;比如 <code>C:\download</code> 目录下有很多文件&#12290;俺想知道过一段时间之后&#65292;这些文件是否被改过&#12290;那么&#65292;可以先用如下命令&#65292;把该目录中所有文件的 SHA1 散列都存储到某个 XML 格式的文件中&#65288;本例中&#65292;俺假设保存的文件是当前目录的 <code>hash.xml</code>&#65292;你也可以保存到其它文件名&#65289;<br>
+<pre class="shell">fciv -sha1 C:\download\ -xml hash.xml</pre><br>
+&#12288;&#12288;过了一段时间后&#65292;你可以用如下命令&#65292;就可以看出哪些文件被修改过&#12290;<br>
+<pre class="shell">fciv -sha1 C:\download\ -xml hash.xml -v</pre><br>
+<br>
+<h2>&#9733;啥是&#8220;数字签名&#8221;&#65311;</h2><br>
+&#12288;&#12288;所谓的&#8220;数字签名&#8221;&#65292;通俗来说&#65292;就是采用某种技术手段来证明某个信息确实是由某个机构&#65288;或某个人&#65289;发布的&#12290;因为其用途有点类似于传统的手写签字&#65292;所以称之为&#8220;数字签名&#8221;&#12290;<br>
+&#12288;&#12288;数字签名的技术实现需要依赖于&#8220;非对称加密技术&#8221;和&#8220;数字证书体系&#8221;&#12290;关于&#8220;非对称加密技术&#8221;&#65292;考虑到篇幅&#65292;今天就不展开了&#65307;关于&#8220;数字证书&#8221;&#65292;3年前写过一篇扫盲&#65288;在&#8220;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">这里</a>&#8221;&#65289;&#65292;有兴趣的同学可以瞧一瞧&#65292;这里就不再啰嗦了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Windows 平台的&#8220;数字签名&#8221;</h2><br>
+&#12288;&#12288;数字签名有很多种&#65292;大伙儿比较常见的是 Windows 平台下的数字签名&#12290;如今大型 IT 公司&#65288;比如&#8220;微软&#12289;Google&#12289;苹果&#8221;等&#65289;或者是知名开源组织发布的 Windows 软件&#65292;安装文件通常都内置数字签名&#12290;所以俺着重介绍 Windows 平台的数字签名该如何校验&#12290;<br>
+<br>
+<h3>&#9671;利用资源管理器验证单个文件</h3><br>
+&#12288;&#12288;大概从 Windows 2000开始&#65292;Windows 就支持在某个文件尾部附加数字签名&#65292;并且 Windows 的资源管理器内置了对数字签名的校验功能&#12290;<br>
+&#12288;&#12288;下面俺通过几个截图&#65292;简单介绍一下&#65306;如何在资源管理器中验证数字签名&#12290;<br>
+<br>
+&#12288;&#12288;比如&#65292;俺手头有一个 Firefox 的安装文件&#65288;带有数字签名&#65289;&#12290;当俺查看该文件的属性&#65292;会看到如下的界面&#12290;眼神好的同学&#65292;会注意到到上面有个&#8220;<b>数字签名</b>&#8221;的标签页&#12290;如果没有出现这个标签页&#65292;就说明该文件没有附带数字签名&#12290;<br>
+<center><img src="../../images/2013/02/7yTWIB51d7IDQdJbkci9h7WasV2KtT3wv1GQHp7jpwDgqgoWuCrR0AN-RBKPpPIKhRJ3X-BW3NgpkSNDk_Pktcc2AKEAj37K6Ykddgrklvseb9D8yxRFX0psAtvXlqpK_4ByoSxd" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;选择该标签页&#65292;出现如下界面&#12290;<br>
+&#12288;&#12288;顺便说一下&#65292;某些数字签名中没有包含&#8220;邮件地址&#8221;&#65292;那么这一项会显示&#8220;不可用&#8221;&#65307;同样的&#65292;某些数字签名没有包含&#8220;时间戳&#8221;&#65292;也会显示&#8220;不可用&#8221;&#12290;不要紧张&#65292;这里显示的&#8220;不可用&#8221;跟数字签名的有效性<b>没关系</b>&#12290;<br>
+<center><img src="../../images/2013/02/RnomEwHFwXYoQL2Ydk9N5WSlVG70Ie09qf2NvCCLcEKItHd-XDMwuB4_tYUFrabuTJxD5AXImyFX6zN_37KJgconsKwcWjgB1s7yS1QuIexm65HMempZvf5WQIXyYookguyc7Rvr" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;一般来说&#65292;签名列表中&#65292;有且仅有一个签名&#12290;选中它&#65292;点&#8220;<b>详细信息</b>&#8221;按钮&#12290;跳出如下界面&#65306;<br>
+&#12288;&#12288;通常这个界面会显示一行字&#65306;<b>该数字签名正常</b>&#65288;图中红圈标出&#65289;&#12290;如果有这行字&#65292;就说明该文件从出厂到你手里&#65292;中途没有被篡改过&#65288;是原装滴&#12289;是纯洁滴&#65289;&#12290;<br>
+<center><img src="../../images/2013/02/wkK-RA1vVQf7t_T2KtsyknIF_3yvjTwWaQwAYoI2A1DUtf8bfcOoGLcusTueaZJ1g4L6kN3Ng-4vMdC2Ra9P_hmyhqEoY_7Fziu8O2Z6TFXBwtaPLkkAzfWrv4snlFgDiIjauTv0" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;如果该文件被篡改过了&#65288;比如&#65292;感染了病毒&#12289;被注入木马&#65289;&#65292;那么对话框会出现一个警告提示&#65306;<b>该数字签名无效</b>&#65288;图中红圈标出&#65289;&#65292;界面如下&#12290;一旦出现数字签名无效&#65292;那这个文件就不要再使用了&#12290;<br>
+<center><img src="../../images/2013/02/CB8Nl5udCNWWFTdgk3ZMkNEhmsZjvs9DngaNt0GEgzfpuPu9tCufvlLPJ13jpEyDSZtlTnPZ1DvmzxirIA4-TWIQUEG-KNOWJ5os6HriDq7kjjng85qBnbdz4VQmgZ4T-jloNFON" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;利用命令行工具批量验证</h3><br>
+&#12288;&#12288;用上面的图形化界面进行验证&#65292;比较傻瓜化&#12290;但有一个缺点&#8212;&#8212;如果你要验证的文件比较多&#65292;一个一个去点对话框&#65292;手会抽筋滴&#12290;所以&#65292;俺再介绍一下命令行的工具&#65292;适合进行批量验证&#12290;<br>
+&#12288;&#12288;这个命令行工具就是微软官网提供的&#12304;SigCheck&#12305;&#65292;由大名鼎鼎的 SysInternals 出品&#65288;SysInternals 已经被微软收购&#65289;&#12290;跟前面提到的 FCIV 类似&#65292;它也是一个小巧&#12289;绿色&#12289;免费的命令行工具&#65292;下载页面在&#8220;<a href="https://docs.microsoft.com/sysinternals/downloads/sigcheck" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;使用如下命令&#65292;可以批量检查某个目录下&#65288;包括多层嵌套子目录&#65289;的所有可执行程序&#65292;并且把&#8220;无签名&#8221;或者&#8220;签名无效&#8221;的文件列出来&#12290;<br>
+<pre class="shell">sigcheck -u -e -s 某个目录的路径名</pre>&#12288;&#12288;先提醒一下&#65306;<br>
+&#12288;&#12288;检查数字签名的有效性本身就比较慢&#65292;如果目录下的文件很多&#65292;你要有足够的耐心等它运行完毕&#12290;<br>
+<br>
+&#12288;&#12288;稍微补充一下&#65292;这个 SigCheck 命令还顺便提供了散列值&#65288;命令格式如下&#65289;&#65292;该功能可替代 FCIV 的头两个功能&#65292;可惜无法替代 FCIV 的第三个功能&#12290;<br>
+<pre class="shell">sigcheck -h 某个&#12304;目录&#12305;的路径名
+sigcheck -h 某个&#12304;文件&#12305;的路径名
+</pre><br>
+<br>
+<h2>&#9733;PGP/GPG 的数字签名</h2><br>
+&#12288;&#12288;刚才聊了 Windows 平台滴&#12290;但是&#65292;切莫以为只有 Windows 平台才提供数字签名&#8212;&#8212;其它的数字签名工具还有好几种&#12290;名气比较大的数字签名工具当属 PGP/GPG&#12290;这两个缩写就像绕口令&#65292;很容易搞混&#12290;PGP 是商业软件&#65292;而 GPG 是 GnuPG 的缩写&#65292;是 GNU 的开源项目&#12290;后者是前者的开源替代品&#65292;两者的功能基本兼容&#12290;<br>
+&#12288;&#12288;这俩玩意儿的功能很强悍&#65292;校验数字签名对它俩只是小菜一碟&#12290;考虑到大伙儿平时较少碰到 GPG 的签名&#65292;俺今天就偷懒一下&#65292;暂不介绍&#12290;以后如果有空&#65292;再专门写一篇帖子介绍 PGP/GPG 的各种功能和使用场景&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止黑客入侵</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">数字证书及 CA 的扫盲介绍</a>&#12299;<br>
+&#12298;<a href="../../2011/05/file-encryption-overview.html">文件加密的扫盲介绍</a>&#12299;<br>
+&#12298;<a href="../../2019/02/Use-Disk-Encryption-Anti-Computer-Forensics.html">如何用&#8220;磁盘加密&#8221;对抗警方的&#12304;取证软件&#12305;和&#12304;刑讯逼供&#12305;&#65292;兼谈数据删除技巧</a>&#12299;<br>
+&#12298;<a href="../../2019/07/Security-News.html">近期安全动态和点评&#65288;2019年2季度&#65289;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/02/file-integrity-check.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/02/file-integrity-check.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="94">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/864434823129709398?postID=864434823129709398&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/864434823129709398.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

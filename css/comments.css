@@ -1,0 +1,297 @@
+#comments {
+  margin-left: 30px !important;
+}
+
+/*--@ Label @--*/
+#comments #comments-label {
+  font-size: 140% !important;
+}
+
+/*--@ Loading info @--*/
+#comments #comments-loading {
+  width: 100%;
+  text-align: left;
+}
+#comments #comments-loading #progress-label {
+  position: absolute;
+  left: 50%;
+  margin-left: -20px;
+  top: 50%;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/*--@ Warning info @--*/
+#comments #comments-warning {
+  font-size: 125%;
+  font-weight: bold;
+}
+
+/*--@ Toolbar @--*/
+#comments #comments-toolbar {
+  text-align: right;
+}
+#comments #comments-toolbar span {
+  padding: 0px 12px;
+}
+#comments #comments-toolbar .filter-time-range {
+  margin-top: 20px;
+}
+#comments #comments-toolbar .filter-time-range select {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+}
+
+/*--@ Dropdown menu @--*/
+#comments .menubar {
+  display: inline-block !important;
+}
+#comments .ui-menu {
+  font-size: 100% !important;
+  text-align: left;
+  white-space: nowrap !important;
+  z-index: 256;
+}
+#comments .ui-menu-icon {
+  display: none;
+}
+#comments .ui-menu-item a {
+  color: #0066FF;
+  text-decoration: none;
+  padding: 0px 10px;
+}
+#comments .ui-menu.dropdown {
+  text-align: center !important;
+  background-color: transparent !important;
+  background: none !important;
+  border-style: none !important;
+}
+
+/*--@ Thread @--*/
+#comments #comment-holder {
+  display: none;  /* temporary hide */
+}
+
+#comments .comment-thread ol {
+  list-style-type: none !important;
+}
+
+#comments li.comment .comment-block {
+  background: transparent;
+  background-color: LightGray;
+  padding: 10px !important;
+  border: 3px solid Silver;
+  border-radius: 10px;
+  margin-left: 60px !important;
+}
+#comments li.comment .comment-block.match {
+  border-color : CadetBlue !important;
+}
+#comments li.comment .comment-block.unread {
+  background-color: Snow !important;
+}
+#comments li.comment .comment-block.current {
+  border-color: DodgerBlue !important;
+}
+#comments li.comment.spam .comment-block {
+  background-color: DarkGray !important;
+  border-color: DarkGray !important;
+}
+
+#comments li.comment.sub {
+  padding: 0px !important;
+}
+#comments li.comment.sub .comment-block {
+  border: 2px solid Silver;
+}
+
+/*--@ Restore hidden comments @--*/
+#comments li.restore {
+  text-align: center;
+  margin: 15px 0px;
+}
+
+/*--@ Button of expand/collapse @--*/
+#comments .comment-replies.thread-expanded .comment-thread {
+  display: block;
+}
+#comments .comment-replies.thread-expanded .thread-toggle {
+  width: 60px !important;
+  height: 18px !important;
+  background: url(https://lh4.googleusercontent.com/-4ERG2oTbBto/VCLpPtQq6TI/AAAAAAAAAwY/McjQoGb27Hs/expanded.png) no-repeat scroll 0px 3px transparent;
+}
+#comments .comment-replies.thread-expanded .thread-toggle:after {
+  content: "折叠";
+  float: right;
+  color: Gray;
+}
+#comments .comment-replies.thread-collapsed .comment-thread {
+  display: none;
+}
+#comments .comment-replies.thread-collapsed .thread-toggle {
+  width: 60px !important;
+  height: 18px !important;
+  background: url(https://lh6.googleusercontent.com/-75fy7CaLijk/VCLpob33T4I/AAAAAAAAAwo/N5ANIayhyfU/collapsed.png) no-repeat scroll 0px 3px transparent;
+}
+#comments .comment-replies.thread-collapsed .thread-toggle:after {
+  content: "展开";
+  float: right;
+  color: Gray;
+}
+
+/*--@ Comment header @--*/
+#comments .comment-header {
+  overflow: hidden;
+  padding-bottom: 8px;
+}
+#comments .comment-header .star {
+  font-size: 80%;
+  color: DeepPink;
+  margin-left: 10px;
+}
+#comments .comment-header cite.user {
+  font-style: normal !important;
+}
+#comments .comment-header cite.blog-author a {
+  border-bottom: 2px solid !important;
+}
+#comments .comment-header cite.blog-author a:hover {
+  text-decoration: none !important;
+}
+#comments .comment-header .datetime {
+  margin-left: 40px !important;
+}
+#comments .comment-header .hot {
+  float: right;
+  text-align: right;
+  font-size: 115%;
+  color: DeepPink;
+  margin-left: 15px;
+}
+#comments .comment-header .counter {
+  float: right;
+  text-align: right;
+  font-size: 125%;
+  margin-left: 15px;
+}
+#comments li.comment.sub .comment-header .counter {
+  font-size: 100%;
+}
+
+/*--@ Button of actions @--*/
+#comments .comment-actions {
+  height: 30px;
+  padding-top: 8px;
+}
+#comments .comment-actions .reply-btn,
+#comments .comment-actions .blog-admin,
+#comments .comment-actions .menubar {
+  margin-right: 20px;
+}
+#comments .comment-actions .add-btn {
+  float: right;
+  margin-left: 20px;
+}
+#comments .comment-actions .mark-spam {
+  float: right;
+  padding-top: 5px;
+}
+#comments .comment-actions .go-level-current,
+#comments .comment-actions .go-level-up,
+#comments .comment-actions .go-level-down,
+#comments .comment-actions .go-level {
+  float: right;
+  margin-left: 10px;
+}
+#comments .comment-actions .go-level-up,
+#comments .comment-actions .go-level-down {
+  font-size: 125%;
+}
+#comments .comment-actions .go-level {
+  width: 75px;
+  height: 30px;
+  font-family: "Courier New", Courier, monospace;
+  line-height: 30px;
+}
+#comments .comment-actions .go-level > option.spam {
+  background-color: Gray;
+}
+#comments .comment-actions .add-btn,
+#comments .comment-actions .reply-btn {
+  font-weight: bold;
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+#comments .comment-actions.top {  /* at page bottom */
+  font-size: 125%;
+  margin: 40px 0px;
+}
+#comments .comment-actions.top .add-btn {  /* at page bottom */
+  float: left;
+  margin-left: 0px;
+}
+
+/*--@ Comment content @--*/
+#comments .comment-content {
+  overflow: hidden;
+  position: relative !important;
+  background-color: inherit !important;
+}
+
+/*--@ Deleted or banned comment @--*/
+#comments .comment-content .deleted-comment,
+#comments .comment-content .banned-comment {
+  font-style: italic !important;
+  color: Gray !important;
+  background-color: inherit !important;
+}
+
+/*--@ BBcode @--*/
+#comments .comment-content a[target="_blank"] {
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}
+#comments .comment-content .bbcode img {
+  border: 1px solid Black;
+}
+#comments .comment-content .bbcode img.icon {
+  max-width: 128px;
+  max-height: 96px;
+}
+#comments .comment-content .quote {
+  background-color: LightSteelBlue;
+}
+#comments .comment-content div.quote {
+    margin: 0em 2em;
+}
+#comments .comment-content del {
+  color: Gray;
+}
+
+/*--@ Image of avatar @--*/
+#comments .avatar-image-container,
+#comments .avatar-image-container img {
+  width: 48px !important;
+  height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border: none !important;
+}
+
+/*--@ Editor @--*/
+#comments .comment-form,
+#comments iframe#comment-editor {
+  display: none !important;
+}
+
+/*--@ Button of 'load more' @--*/
+#comments .loadmore {
+  display: none !important;
+}
+
+/*--@ Comment footer @--*/
+#comments .comment-footer {
+  display: none !important;
+}
+

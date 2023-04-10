@@ -1,0 +1,51 @@
+#tweets {
+  margin-right: 30px;
+}
+
+#tweets .comments-toolbar,
+#tweets .comments-auto-load,
+#tweets .comments-content,
+#tweets .comments-warning {
+  padding-bottom: 6px;
+}
+
+#tweets .comments-content .comment-block {
+  padding: 12px 0px;
+}
+#tweets .comments-content .comment-block.ignore {
+  background-color: Silver;
+}
+
+/*--@ Comment header @--*/
+#tweets .comments-content .comment-header img.avatar {
+  width: 36px;
+  height: 36px;
+  max-width: 36px;
+  max-height: 36px;
+  border: none;
+}
+#tweets .comments-content .comment-header cite.author {
+  font-style: normal;
+  font-size: 100%;
+  font-weight: bold;
+  margin: 0px 18px;
+}
+#tweets .comments-content .comment-header cite.author.blog-author {
+  border-bottom: 1px solid !important;
+}
+
+#tweets .comments-content .comment-header .datetime {
+  font-size: 80%;
+  font-style: italic;
+  color: Gray;
+}
+
+#tweets .comments-content .comment-article {
+  padding: 5px 0px;
+}
+
+/*--@ Comment text @--*/
+#tweets .comments-content .comment-text a[target="_blank"] {
+  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  padding-right: 13px;
+}

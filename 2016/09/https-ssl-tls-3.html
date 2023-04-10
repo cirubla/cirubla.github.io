@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 HTTPS 和 SSL/TLS 协议[3]&#65306;密钥交换&#65288;密钥协商&#65289;算法及其原理 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2016-09-30T15:47:00+08:00">2016年9月30日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：354条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a>  <a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a>  <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 HTTPS 和 SSL/TLS 协议[3]&#65306;密钥交换&#65288;密钥协商&#65289;算法及其原理
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;先插播一个好消息&#65306;<br>
+&#12288;&#12288;本月初俺发了一篇&#12298;<a href="../../2016/09/About-WoSign.html" target="_blank" rel="nofollow">老流氓 CNNIC 的接班人&#8212;&#8212;聊聊&#8220;沃通/WoSign&#8221;的那些破事儿</a>&#12299;&#12290;前2天看到新闻说&#65292;Mozilla 组织&#65288;Firefox&#65289;已经把沃通的根证书加入黑名单了&#65292;为期一年&#12290;一年之后看它的表现再决定是否永久性屏蔽&#12290;<br>
+&#12288;&#12288;对这种流氓公司&#65292;就应该给它点颜色看看&#65288;老实说&#65292;俺还觉得处罚偏轻了&#65289;<br>
+<br>
+<hr>
+&#12288;&#12288;本系列的<a href="../../2014/11/https-ssl-tls-2.html">前一篇</a>&#65292;咱们聊了&#8220;密钥交换的难点&#8221;以及&#8220;证书体系&#8221;的必要性&#12290;今天这篇来介绍一下实战中使用的&#8220;密钥协商算法&#8221;&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;密钥交换/协商机制要达到啥&#12304;目的&#12305;&#65311;</h2>
+<br>
+&#12288;&#12288;<a href="../../2014/11/https-ssl-tls-2.html">前一篇</a>介绍了 SSL/TLS 的身份认证机制&#12290;这个机制是为了防止攻击者通过&#12304;篡改&#12305;网络传输数据&#65292;来假冒身份&#65292;以达到&#8220;中间人攻击/MITM&#8221;的目的&#12290;<br>
+&#12288;&#12288;而今天要聊的&#8220;密钥协商机制&#8221;是&#65306;&#65288;在身份认证的前提下&#65289;如何规避&#12304;偷窥&#12305;的风险&#12290;<br>
+&#12288;&#12288;通俗地说&#65292;即使有攻击者在偷窥你与服务器的网络传输&#65292;客户端&#65288;client&#65289;依然可以利用&#12304;密钥协商机制&#12305;与服务器端&#65288;server&#65289;商量出一个用来加密的密钥&#65288;也称&#8220;会话密钥&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;密钥交换/协商机制的几种&#12304;类型&#12305;</h2>
+<br>
+&#12288;&#12288;俺总结了一下&#65292;大致有如下几种类型&#65306;<br>
+<br>
+<h3>&#9671;类型1&#8212;&#8212;依靠&#12304;非&#12305;对称加密算法</h3>
+<br>
+&#12288;&#12288;原理&#65306;<br>
+&#12288;&#12288;拿到公钥的一方先生成随机的会话密钥&#65292;然后利用公钥加密它&#65307;再把加密结果发给对方&#65292;对方用私钥解密&#65307;于是双方都得到了会话密钥&#12290;<br>
+<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;<a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)" target="_blank" rel="nofollow">RSA</a><br>
+<br>
+<h3>&#9671;类型2&#8212;&#8212;依靠专门的密钥交换算法</h3>
+<br>
+&#12288;&#12288;原理&#65306;<br>
+&#12288;&#12288;这个原理比较复杂&#65292;一两句话说不清楚&#65292;待会儿聊到 DH 的那个章节会详谈&#12290;<br>
+<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="nofollow">DH 算法</a>及其变种<br>
+<br>
+<h3>&#9671;类型3&#8212;&#8212;依靠通讯双方事先已经共享的&#8220;秘密&#8221;</h3>
+<br>
+&#12288;&#12288;原理&#65306;<br>
+&#12288;&#12288;既然双方已经有共享的秘密&#65288;这个&#8220;秘密&#8221;可能已经是一个密钥&#65292;也可能只是某个密码/password&#65289;&#65292;只需要根据某种生成算法&#65292;就可以让双方产生相同的密钥&#65288;并且密钥长度可以任意指定&#65289;<br>
+<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;<a href="https://en.wikipedia.org/wiki/Pre-shared_key" target="_blank" rel="nofollow">PSK</a> 和 <a href="https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol" target="_blank" rel="nofollow">SRP</a>&#65288;可能很多同学没听过这俩玩意儿&#12290;别担心&#65292;本文后续部分有介绍&#65289;<br>
+<br>
+<br>
+<h2>&#9733;基于&#12304;RSA&#12305;的密钥协商</h2>
+<br>
+<h3>&#9671;概述</h3>
+<br>
+&#12288;&#12288;这大概是 SSL 最古老的密钥协商方式&#8212;&#8212;早期的 SSLv2 只支持一种密钥协商机制&#65292;就是它&#65281;<a href="../../2014/11/https-ssl-tls-2.html">&#65288;前一篇&#65289;介绍身份认证重要性</a>的时候&#65292;也是拿 RSA 来演示&#12290;<br>
+&#12288;&#12288;&#65288;再次唠叨&#65289;<a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)" target="_blank" rel="nofollow">RSA</a> 是一种&#12304;非&#12305;对称加密算法&#12290;在本系列<a href="../../2014/11/https-ssl-tls-1.html">第1篇</a>的背景知识介绍中&#65292;已经聊过这种算法的特点&#8212;&#8212;加密和解密用使用&#12304;不同的&#12305;密钥&#12290;并且&#8220;非对称加密算法&#8221;既可以用来做&#8220;加密/解密&#8221;&#65292;还可以用来做&#8220;数字签名&#8221;&#12290;<br>
+<br>
+<h3>&#9671;密钥协商的步骤</h3>
+<br>
+&#12288;&#12288;&#65288;下列步骤只阐述原理&#12290;具体的协议细节&#65292;等到本系列的后续几篇再讲&#65289;<br>
+<br>
+1. 客户端连上服务端<br>
+2. 服务端发送 CA 证书给客户端<br>
+3. 客户端验证该证书的可靠性<br>
+4. 客户端从 CA 证书中取出公钥<br>
+5. 客户端生成一个随机密钥 k&#65292;并用这个公钥加密得到 k'<br>
+6. 客户端把 k' 发送给服务端<br>
+7. 服务端收到 k' 后用自己的私钥解密得到 k<br>
+8. 此时双方都得到了密钥 k&#65292;协商完成&#12290;<br>
+<br>
+<h3>&#9671;如何防范偷窥&#65288;嗅探&#65289;</h3>
+<br>
+&#12288;&#12288;攻击方式1<br>
+&#12288;&#12288;攻击者虽然可以监视网络流量并拿到公钥&#65292;但是&#12304;无法&#12305;通过公钥推算出私钥&#65288;这点由 RSA 算法保证&#65289;<br>
+<br>
+&#12288;&#12288;攻击方式2<br>
+&#12288;&#12288;攻击者虽然可以监视网络流量并拿到 k'&#65292;但是攻击者没有私钥&#65292;&#12304;无法解密&#12305; k'&#65292;因此也就无法得到 k<br>
+<br>
+<h3>&#9671;如何防范篡改&#65288;假冒身份&#65289;</h3>
+<br>
+&#12288;&#12288;攻击方式1<br>
+&#12288;&#12288;如果攻击者在第2步篡改数据&#65292;伪造了证书&#65292;那么客户端在第3步会发现&#65288;这点由证书体系保证&#65289;<br>
+<br>
+&#12288;&#12288;攻击方式2<br>
+&#12288;&#12288;如果攻击者在第6步篡改数据&#65292;伪造了k'&#65292;那么服务端收到假的k'之后&#65292;解密会失败&#65288;这点由 RSA 算法保证&#65289;&#12290;服务端就知道被攻击了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;基于&#12304;DH&#12305;的密钥协商</h2>
+<br>
+<h3>&#9671;概述</h3>
+<br>
+&#12288;&#12288;DH 算法又称&#8220;Diffie&#8211;Hellman 算法&#8221;&#12290;这是两位数学牛人的名称&#65292;他们创立了这个算法&#12290;该算法用来实现&#12304;安全的&#12305;&#8220;密钥交换&#8221;&#12290;它可以做到&#8212;&#8212;&#8220;通讯双方在完全没有对方任何预先信息的条件下通过不安全信道创建一个双方共享的私有密钥&#8221;&#12290;这句话比较绕口&#65292;通俗地说&#65292;可以归结为两个优点&#65306;<br>
+1. 通讯双方事先&#12304;不&#12305;需要有共享的秘密&#12290;<br>
+2. 用该算法协商密码&#65292;即使协商过程中被别人全程偷窥&#65288;比如&#8220;网络嗅探&#8221;&#65289;&#65292;偷窥者也&#12304;无法&#12305;知道协商得出的密钥是啥&#12290;<br>
+<br>
+&#12288;&#12288;但是 DH 算法本身也有缺点&#8212;&#8212;它&#12304;不&#12305;支持认证&#12290;也就是说&#65306;它虽然可以对抗&#8220;偷窥&#8221;&#65292;却无法对抗&#8220;篡改&#8221;&#65292;自然也就无法对抗&#8220;中间人攻击/MITM&#8221;&#65288;在本系列的<a href="../../2014/11/https-ssl-tls-2.html">前一篇</a>&#65292;俺已经强调过了&#8212;&#8212;缺乏身份认证&#65292;&#12304;必定会&#12305;遭到&#8220;中间人攻击/MITM&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;为了避免遭遇 MITM 攻击&#65292;DH 需要与其它签名算法&#65288;比如 <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)" target="_blank" rel="nofollow">RSA</a>&#12289;<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank" rel="nofollow">DSA</a>&#12289;<a href="https://en.wikipedia.org/wiki/Elliptic_Curve_DSA" target="_blank" rel="nofollow">ECDSA</a>&#65289;配合&#8212;&#8212;靠签名算法帮忙来进行身份认证&#12290;当 DH 与 RSA 配合使用&#65292;称之为&#8220;DH-RSA&#8221;&#65292;与 DSA 配合则称为&#8220;DH-DSA&#8221;&#65292;以此类推<br>
+&#12288;&#12288;反之&#65292;如果 DH &#12304;没有&#12305;配合某种签名算法&#65292;则称为&#8220;DH-ANON&#8221;&#65288;ANON 是洋文&#8220;匿名&#8221;的简写&#65289;&#12290;此时会遭遇&#8220;中间人攻击/MITM&#8221;&#12290;&#65288;具体的中间人攻击手法&#65292;可以参见本系列<a href="../../2014/11/https-ssl-tls-2.html">前一篇</a>&#65289;<br>
+<br>
+&#12288;&#12288;关于该算法的更多介绍&#65292;可以参见维基百科&#65288;<a href="https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange" target="_blank" rel="nofollow">这个条目</a>&#65289;&#12290;<br>
+<br>
+<h3>&#9671;数学原理</h3>
+<br>
+&#12288;&#12288;&#65288;如果你属于那种&#8220;看了数学公式就犯晕的人&#8221;&#65292;可以直接略过本小节&#65292;不影响你看后续的章节&#65289;<br>
+<br>
+&#12288;&#12288;从概念上讲&#65306;DH 依赖的是&#65306;求解&#8220;离散对数问题&#8221;的复杂性&#12290;具体的算法如下&#65306;<br>
+&#12288;&#12288;通讯双方&#65288;张三&#12289;李四&#65289;需要先约定好算法参数&#65288;algorithm parameters&#65289;&#65306;一个素数 p 作为模数&#65292;一个素数 g 作为基数&#65288;g 也称为&#8220;生成元&#8221;&#65289;&#12290;这两个算法参数是可以对外公开滴&#12290;<br>
+&#12288;&#12288;对于张三而言&#65292;需要先想好一个秘密的自然数 a 作为私钥&#65288;不能公开&#65289;&#65292;然后计算 <code>A = g<sup>a</sup> mod p</code> 作为自己的公钥&#65288;可以公开&#65289;&#12290;<br>
+&#12288;&#12288;对李四而言也类似&#65292;先想好一个秘密的自然数 b 作为私钥&#65288;不能公开&#65289;&#65292;然后计算 <code>B = g<sup>b</sup> mod p</code> 作为自己的公钥&#65288;可以公开&#65289;&#12290;<br>
+&#12288;&#12288;张三和李四互相交换各自的公钥&#12290;<br>
+&#12288;&#12288;然后张三计算出 <code>k = B<sup>a</sup> mod p</code>&#65292;李四计算出 <code>k = A<sup>b</sup> mod p</code><br>
+<br>
+&#12288;&#12288;该算法至少确保了如下几点&#65306;<br>
+1. 张三和李四分别计算出来的 k 必定是一致的<br>
+2. 张三和李四都无法根据已知的数来推算出对方的私钥&#65288;张三无法推算出 b&#65292;李四无法推算出 a&#65289;<br>
+3. 对于一个旁观者&#65288;偷窥者&#65289;&#65292;虽然能看到 p&#65292;g&#65292;A&#65292;B&#65292;但是无法推算出 a 和 b&#65288;就是说&#65292;旁观者无法推算出双方的私钥&#65289;&#65292;自然也无法推算出 k<br>
+<br>
+&#12288;&#12288;<b>举例</b><br>
+&#12288;&#12288;前面说得都是符号&#65292;比较抽象&#12290;下面拿具体数字举例&#65306;<br>
+假设约定的算法参数&#65306;模数是 <code>97</code>&#65292;基数是 <code>3</code><br>
+张三用的私钥是 <code>6</code>&#65292;李四用的私钥是 <code>21</code>&#65292;用 python 代码演示如下&#65288;注&#65306;python 语言用&#8220;两个连续星号&#8221;表示&#8220;幂运算&#8221;&#65292;用百分号表示&#8220;取模运算&#8221;&#65289;&#65306;<br>
+<br>
+<div class="source"><pre><span class="n">p</span> <span class="o">=</span> <span class="mi">97</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">21</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">**</span><span class="n">a</span><span class="p">)</span> <span class="o">%</span> <span class="n">p</span>
+<span class="n">B</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">**</span><span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">p</span>
+
+<span class="k">print</span><span class="p">((</span><span class="n">B</span><span class="o">**</span><span class="n">a</span><span class="p">)</span> <span class="o">%</span> <span class="n">p</span><span class="p">)</span>  <span class="c"># 此处输出 47</span>
+<span class="k">print</span><span class="p">((</span><span class="n">A</span><span class="o">**</span><span class="n">b</span><span class="p">)</span> <span class="o">%</span> <span class="n">p</span><span class="p">)</span>  <span class="c"># 此处输出 47</span>
+</pre></div><br>
+&#12288;&#12288;最后打印出来的两个 <code>47</code> 就是双方都计算出了&#12304;相同的&#12305;结果&#65288;这个数值可以用作之后的&#8220;会话密钥&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;上面因为是举例&#65292;用的数字都比较小&#12290;在实战中需要注意如下几点&#65292;以降低被攻击的风险&#12290;<br>
+1. <code>p</code> 必须是质数且足够大&#65288;&#12304;至少&#12305;300位&#65289;<br>
+2. <code>a</code> 与 <code>b</code> 也要足够大&#65288;&#12304;至少&#12305;100位&#65289;&#65292;且必须是随机生成&#12290;<br>
+3. <code>g</code> 必须是质数&#65292;&#12304;不&#12305;需要很大&#65292;比如 2 或 3 或 5 都可以&#12290;<code>g</code> 如果太大并&#12304;不能&#12305;显著提升安全性&#65292;反而白白浪费了性能&#12290;<br>
+<br>
+<h3>&#9671;密钥协商的步骤</h3>
+<br>
+&#12288;&#12288;&#65288;下列步骤只阐述原理&#12290;具体的协议细节&#65292;等到本系列的后续几篇再讲&#65289;<br>
+<br>
+1. 客户端先连上服务端<br>
+2. 服务端生成一个随机数 s 作为自己的私钥&#65292;然后根据算法参数计算出公钥 S&#65288;算法参数通常是固定的&#65289;<br>
+3. 服务端使用某种签名算法把&#12304;算法参数&#65288;模数 p&#65292;基数 g&#65289;和服务端公钥 S&#12305;作为一个整体进行签名<br>
+4. 服务端把&#12304;算法参数&#65288;模数 p&#65292;基数 g&#65289;&#12289;服务端公钥S&#12289;签名&#12305;发送给客户端<br>
+5. 客户端收到后验证签名是否有效<br>
+6. 客户端生成一个随机数 c 作为自己的私钥&#65292;然后根据算法参数计算出公钥 C<br>
+7. 客户端把 C 发送给服务端<br>
+8. 客户端和服务端&#65288;根据上述 DH 算法&#65289;各自计算出 k 作为会话密钥<br>
+<br>
+<h3>&#9671;如何防范偷窥&#65288;嗅探&#65289;</h3>
+<br>
+&#12288;&#12288;嗅探者可以通过监视网络传输&#65292;得到算法参数&#65288;模数 p&#65292;基数 g&#65289;以及双方的公钥&#65292;但是&#12304;无法&#12305;推算出双方的私钥&#65292;也&#12304;无法&#12305;推算出会话密钥&#65288;这是由 DH 算法在数学上保证的&#65289;<br>
+<br>
+<h3>&#9671;如何防范篡改&#65288;假冒身份&#65289;</h3>
+<br>
+&#12288;&#12288;攻击方式1<br>
+&#12288;&#12288;攻击者可以第4步篡改数据&#65288;修改算法参数或服务端公钥&#65289;&#12290;但因为这些信息已经进行过数字签名&#12290;篡改之后会被客户端发现&#12290;<br>
+<br>
+&#12288;&#12288;攻击方式2<br>
+&#12288;&#12288;攻击者可以在第7步篡改客户端公钥&#12290;这步没有签名&#65292;服务端收到数据后不会发现被篡改&#12290;但是&#65292;攻击者篡改之后会导致&#8220;服务端与客户端生成的会话密钥&#12304;不一致&#12305;&#8221;&#12290;在后续的通讯步骤中会发现这点&#65292;并导致通讯终止&#12290;<br>
+&#12288;&#12288;&#65288;本系列的后续几篇讲具体协议的时候会提到&#65306;协议初始化/握手阶段的末尾&#65292;双方都会向对方发送一段&#8220;验证性的密文&#8221;&#65292;这段密文用各自的会话密钥进行&#12304;对称&#12305;加密&#65292;如果双方的会话密钥不一致&#65292;这一步就会失败&#65292;进而导致握手失败&#65292;连接终止&#65289;<br>
+<br>
+<br>
+<h2>&#9733;DH 的变种&#8212;&#8212;基于&#12304;椭圆曲线&#12305;的 ECDH</h2>
+<br>
+&#12288;&#12288;DH 算法有一个变种&#65292;称之为 ECDH&#65288;全称是&#8220;Elliptic Curve Diffie-Hellman&#8221;&#65289;&#12290;维基条目在&#8220;<a href="https://en.wikipedia.org/wiki/Elliptic_Curve_Diffie-Hellman" target="_blank" rel="nofollow">这里</a>&#8221;<br>
+&#12288;&#12288;它与 DH 类似&#65292;差别在于&#65306;<br>
+DH 依赖的是&#8212;&#8212;求解&#8220;离散对数问题&#8221;的困难&#12290;<br>
+ECDH 依赖的是&#8212;&#8212;求解&#8220;椭圆曲线离散对数问题&#8221;的困难&#12290;<br>
+<br>
+&#12288;&#12288;ECDH 的数学原理比 DH 更复杂&#12290;考虑到本文读者大都&#12304;不是&#12305;数学系出身&#65292;俺就不展开啦&#12290;<br>
+&#12288;&#12288;ECDH 跟 DH 一样&#65292;也是&#12304;不支持&#12305;认证滴&#8212;&#8212;同样需要与其它签名算法&#65288;比如 <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)" target="_blank" rel="nofollow">RSA</a>&#12289;<a href="https://en.wikipedia.org/wiki/Digital_Signature_Algorithm" target="_blank" rel="nofollow">DSA</a>&#12289;<a href="https://en.wikipedia.org/wiki/Elliptic_Curve_DSA" target="_blank" rel="nofollow">ECDSA</a>&#65289;配合&#12290;<br>
+<br>
+<br>
+<h2>&#9733;基于&#12304;PSK&#12305;的密钥协商</h2>
+<br>
+<h3>&#9671;概述</h3>
+<br>
+&#12288;&#12288;PSK 是洋文&#8220;Pre-Shared Key&#8221;的缩写&#12290;顾名思义&#65292;就是&#12304;预先&#12305;让通讯双方共享一些密钥&#65288;通常是&#12304;对称加密&#12305;的密钥&#65289;&#12290;所谓的&#12304;预先&#12305;&#65292;就是说&#65292;这些密钥在 TLS 连接尚未建立之前&#65292;就已经部署在通讯双方的系统内了&#12290;<br>
+&#12288;&#12288;这种算法用的不多&#65292;它的好处是&#65306;<br>
+1. 不需要依赖公钥体系&#65292;不需要部属 CA 证书&#12290;<br>
+2. 不需要涉及非对称加密&#65292;TLS 协议握手&#65288;初始化&#65289;时的性能好于前述的 RSA 和 DH&#12290;<br>
+&#12288;&#12288;更多介绍可以参见维基百科&#65292;链接在&#8220;<a href="https://en.wikipedia.org/wiki/Pre-shared_key" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+<br>
+<h3>&#9671;密钥协商的步骤</h3>
+<br>
+&#65288;由于 PSK 用的不多&#65292;下面只简单介绍一下步骤&#65292;让大伙儿明白其原理&#65289;<br>
+<br>
+&#12288;&#12288;在通讯&#12304;之前&#12305;&#65292;通讯双方已经预先部署了若干个共享的密钥&#12290;<br>
+&#12288;&#12288;为了标识多个密钥&#65292;给每一个密钥定义一个唯一的 ID<br>
+&#12288;&#12288;协商的过程很简单&#65306;客户端把自己选好的密钥的 ID 告诉服务端&#12290;<br>
+&#12288;&#12288;如果服务端在自己的密钥池子中找到这个 ID&#65292;就用对应的密钥与客户端通讯&#65307;否则就报错并中断连接&#12290;<br>
+<br>
+<h3>&#9671;如何防范偷窥&#65288;嗅探&#65289;</h3>
+<br>
+&#12288;&#12288;使用这种算法&#65292;在协商密钥的过程中交换的是密钥的标识&#65288;ID&#65289;而&#12304;不是&#12305;密钥本身&#12290;<br>
+&#12288;&#12288;就算攻击者监视了全过程&#65292;也无法知晓密钥啥&#12290;<br>
+<br>
+<h3>&#9671;如何防范篡改&#65288;假冒身份&#65289;</h3>
+<br>
+&#12288;&#12288;PSK 可以单独使用&#65292;也可以搭配签名算法一起使用&#12290;<br>
+&#12288;&#12288;对于单独使用<br>
+&#12288;&#12288;如果攻击者篡改了协商过程中传送的密钥 ID&#65292;要么服务端发现 ID 无效&#65288;协商失败&#65289;&#65292;要么服务端得到的 ID 与客户端不一致&#65292;在后续的通讯步骤中也会发现&#65292;并导致通讯终止&#12290;<br>
+&#12288;&#12288;&#65288;本系列的后续几篇讲具体协议的时候&#65292;会提到&#65306;协议初始化/握手阶段的末尾&#65292;双方都会向对方发送一段&#8220;验证性的密文&#8221;&#65292;这段密文用各自的会话密钥进行&#12304;对称&#12305;加密&#65292;如果双方的会话密钥不一致&#65292;这一步就会失败&#65292;进而导致握手失败&#65292;连接终止&#65289;<br>
+<br>
+&#12288;&#12288;对于搭配签名算法<br>
+&#12288;&#12288;如果攻击者篡改了协商过程中传送的密钥 ID&#65292;验证签名会失败<br>
+<br>
+<h3>&#9671;补充说明</h3>
+<br>
+&#12288;&#12288;PSK 与 RSA 具有某种相似性&#8212;&#8212;既可以用来搞&#8220;密钥协商&#8221;&#65292;也可以用来搞&#8220;身份认证&#8221;&#12290;<br>
+&#12288;&#12288;所以&#65292;PSK 可以跟 DH&#65288;及其变种&#65289;进行组合&#12290;例如&#65306;DHE-PSK&#12289;ECDHE-PSK<br>
+&#12288;&#12288;关于 PSK 的更多细节&#65292;可以参见 <a href="https://tools.ietf.org/html/rfc4279" target="_blank" rel="nofollow">RFC4279</a><br>
+<br>
+<br>
+<h2>&#9733;基于&#12304;SRP&#12305;的密钥协商</h2>
+<br>
+<h3>&#9671;概述</h3>
+<br>
+&#12288;&#12288;SRP 是洋文&#8220;Secure Remote Password&#8221;的缩写&#12290;这个算法有点类似于刚才提到的 PSK&#8212;&#8212;只不过 client/server 双方共享的是比较人性化的密码&#65288;password&#65289;而不是密钥&#65288;key&#65289;&#12290;该算法采用了一些机制&#65288;盐/salt&#12289;随机数&#65289;来防范&#8220;嗅探/sniffer&#8221;或&#8220;字典猜解攻击&#8221;或&#8220;重放攻击&#8221;&#12290;<br>
+&#12288;&#12288;这个算法应该用得很少&#8212;&#8212;OpenSSL 直到2012年才开始支持该算法&#12290;所以俺这里就不展开了&#12290;有兴趣的同学可以去看 <a href="https://tools.ietf.org/html/rfc2945" target="_blank" rel="nofollow">RFC2945</a> 的协议描述&#12290;<br>
+<br>
+<h3>&#9671;密钥协商的步骤</h3>
+<br>
+&#12288;&#12288;&#65288;由于 SRP 用的不多&#65292;俺偷懒一下&#65292;略去此小节&#65289;<br>
+<br>
+<br>
+<h2>&#9733;扫盲一下&#12304;前向保密&#12305;&#65288;PFS&#65289;</h2>
+<br>
+<h3>&#9671;&#12304;回溯性破解&#12305;及其危险性</h3>
+<br>
+&#12288;&#12288;从技术上讲&#65292;攻击者如果能够对通讯双方进行&#12304;嗅探&#12305;&#65292;也就能够把通讯双方的传输数据存储下来&#12290;如果攻击者比较牛逼&#65292;以至于能拿到通讯双方的私钥&#65292;那就&#12304;有可能&#12305;根据私钥推导出会话密钥&#65292;从而解密之前存储的历史数据&#12290;<br>
+&#12288;&#12288;有些同学可能会问&#65306;攻击者如何拿到私钥捏&#65311;<br>
+&#12288;&#12288;&#12304;常见&#12305;的情况有如下几种&#65306;<br>
+场景1&#8212;&#8212;入侵双方的操作系统&#65288;搞定了操作系统&#65292;自然就能搞定系统中存储的私钥&#65289;&#65307;<br>
+场景2&#8212;&#8212;利用协议&#12304;设计&#12305;的漏洞&#65288;能达到这种水准的&#65292;通常是 NSA 之类的国家队&#65292;养了足够多的密码学大牛&#65289;<br>
+场景3&#8212;&#8212;利用协议&#12304;实现&#12305;的安全漏洞&#65288;比如前几年惊艳全球的&#8220;<a href="../../2014/04/openssl-heartbleed.html">心脏滴血漏洞</a>&#8221;&#65292;&#12304;有可能&#12305;会导致私钥泄漏&#12290;协议本身没问题&#65292;是 OpenSSL 的&#12304;代码实现&#12305;出了 bug&#65289;<br>
+场景4&#8212;&#8212;通过<a href="../../2009/05/social-engineering-0-overview.html">社会工程学</a>&#65288;比如政府部门可以直接要求本国的网站交出私钥&#65289;&#12290;<br>
+<br>
+<h3>&#9671;容易遭受回溯破解的密钥协商算法</h3>
+<br>
+&#12288;&#12288;本文前面提到了几种密钥交换/协商算法&#65292;如下这几种&#12304;特别容易&#12305;遭到&#8220;回溯破解&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>RSA</b><br>
+&#12288;&#12288;攻击者事先存储了通讯的密文&#65288;历史数据&#65289;&#12290;<br>
+&#12288;&#12288;由于 RSA 的私钥是稳定的&#65288;长期不变&#65289;&#12290;假设有一天&#65292;攻击者拿到了 RSA 的私钥&#65292;就可以用这个私钥解密握手过程的密文&#65292;从而得到会话密钥&#65288;session key&#65289;&#65292;然后用会话密钥解密会话的密文&#65292;得到会话的明文&#12290;<br>
+<br>
+&#12288;&#12288;<b>PSK&#65288;Pre-Shared Key&#65289;</b><br>
+&#12288;&#12288;攻击者事先存储了通讯的密文&#65288;历史数据&#65289;&#12290;<br>
+&#12288;&#12288;由于双方共享的 key 是稳定的&#65288;长期不变&#65289;&#12290;如果有一天&#65292;攻击者拿到了通讯双方共享的 key&#65292;就可以用这个 key 解密握手过程的密文&#65292;从而得到会话密钥&#65288;session key&#65289;&#65292;然后用会话密钥解密会话的密文&#65292;得到会话的明文&#12290;<br>
+<br>
+&#12288;&#12288;<b>SRP&#65288;Secure Remote Password&#65289;</b><br>
+&#12288;&#12288;攻击者事先存储了通讯的密文&#65288;历史数据&#65289;&#12290;<br>
+&#12288;&#12288;由于双方共享的 password &#65286; salt 是稳定的&#65288;长期不变&#65289;&#12290;如果有一天&#65292;攻击者拿到了通讯双方共享的 password 和 salt&#65292;就可以用来解密握手过程的密文&#65292;从而得到会话密钥&#65288;session key&#65289;&#65292;然后用会话密钥解密会话的密文&#65292;得到会话的明文&#12290;<br>
+<br>
+<h3>&#9671;解决方法&#8212;&#8212;&#8220;前向保密/完美正向加密&#8221;</h3>
+<br>
+&#12288;&#12288;相比前面这几种密钥协商算法&#65292;DH 和 ECDH 是比较能抗&#8220;回溯破解&#8221;滴&#12290;为啥这么说捏&#65311;下面解释&#65306;<br>
+&#12288;&#12288;对于 DH 算法&#65292;通讯双方握手需要生成各自的私钥&#65288;前面提到的整数 a 和 b&#65289;&#65292;然后根据 DH 算法计算得出会话密钥&#12290;换句话说&#65292;会话密钥依赖于双方的私钥 a 与 b&#12290;DH 算法的优势在于&#8212;&#8212;双方的私钥&#65288;a &#65286; b&#65289;是可以&#12304;动态生成&#12305;滴&#65281;<br>
+&#12288;&#12288;为了对抗&#8220;回溯性破解&#8221;&#65292;可以强制要求双方每次都生成&#12304;随机的&#12305;私钥&#12290;而且每次生成的两个私钥用完就丢弃&#65288;销毁&#65289;&#12290;如此一来&#65292;攻击者就难以破解过往的历史数据&#12290;DH 算法经过如此改良之后叫做 DHE&#65288;追加的字母 E 表示&#12304;ephemeral&#12305;&#65289;&#12290;<br>
+&#12288;&#12288;与 DH 类似&#65292;ECDH 也可以做类似的改良&#65292;变成 ECDHE&#65292;以对抗&#8220;回溯破解&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;能够对抗&#8220;回溯破解&#8221;的密钥交换算法&#65292;被称为&#8220;前向保密&#8221;&#65292;洋文叫&#8220;forward secrecy&#8221;&#65292;缩写为 FS&#12290;它还有另一个称呼&#8212;&#8212;&#8220;完美正向加密&#8221;&#65288;洋文是&#8220;perfect forward secrecy&#8221;&#65292;缩写为 PFS&#65289;&#12290;关于这方面的更多介绍&#65292;可以参见维基百科&#65288;链接在&#8220;<a href="https://en.wikipedia.org/wiki/Forward_secrecy" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;各种算法组合的&#12304;一览表&#12305;</h2>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>算法组合</th><th>密钥交换</th><th>身份认证</th><th>是否会遭遇<br>
+中间人攻击</th><th>是否具备<br>
+前向保密</th><th>SSL 2.0</th><th>SSL 3.0</th><th>TLS 1.0</th><th>TLS 1.1</th><th>TLS 1.2</th><th>TLS 1.3</th></tr>
+<tr><td>RSA</td><td>RSA</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>DH-RSA</td><td>DH</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>DH-DSA</td><td>DH</td><td>DSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>DHE-RSA</td><td>DHE</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td></tr>
+<tr><td>DHE-DSA</td><td>DHE</td><td>DSA</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>ECDH-RSA</td><td>ECDH</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>ECDH-ECDSA</td><td>ECDH</td><td>ECDSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>ECDHE-RSA</td><td>DHE</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td></tr>
+<tr><td>ECDHE-ECDSA</td><td>DHE</td><td>ECDSA</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td></tr>
+<tr><td>PSK</td><td>PSK</td><td>PSK</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>PSK-RSA</td><td>PSK</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>DHE-PSK</td><td>DHE</td><td>PSK</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>ECDHE-PSK</td><td>DHE</td><td>PSK</td> <td style="background:lightgreen;">否</td><td style="background:lightgreen;">是</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>SRP</td><td>SRP</td><td>SRP</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>SRP-RSA</td><td>SRP</td><td>RSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:darkgrey;">&#65311;</td></tr>
+<tr><td>SRP-DSA</td><td>SRP</td><td>DSA</td> <td style="background:lightgreen;">否</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>DH-ANON</td><td>DH</td><td style="background:red;">无</td> <td style="background:red;">是</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+<tr><td>ECDH-ANON</td><td>ECDH</td><td style="background:red;">无</td> <td style="background:red;">是</td><td style="background:lightpink;">否</td> <td style="background:white;">否</td><td style="background:white;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:white;">否</td></tr>
+</tbody></table></center>
+<br>
+&#12288;&#12288;&#65288;注&#65306;2018年8月&#65292;TLS 1.3 正式发布&#12290;俺又对本文略作补充&#65289;<br>
+<br>
+<br>
+<b><a href="../../2014/11/https-ssl-tls-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2016/09/https-ssl-tls-3.html" id="OriginalPostUrl">https://program-think.blogspot.com/2016/09/https-ssl-tls-3.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="354">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/1194439097064502173?postID=1194439097064502173&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/1194439097064502173.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何防止黑客入侵[2]&#65306;攻击者如何搞定你的口令/密码&#65311; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2010-06-15T23:25:00+08:00">2010年6月15日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：7条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何防止黑客入侵[2]&#65306;攻击者如何搞定你的口令/密码&#65311;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;在<a href="../../2010/06/howto-prevent-hacker-attack-1.html">上一个帖子</a>&#65292;俺强调了高权限用户的潜在风险&#12290;接下来&#65292;咱要介绍一下&#65292;和口令相关的安全话题&#12290;毕竟在大伙儿的日常生活中&#65292;口令的使用是必不可少滴&#12290;<br>
+&#12288;&#12288;考虑到和口令相关的内容较多&#65292;俺分两部分来说&#65306;今天首先揭露攻击者的种种伎俩&#65307;下一帖再详述应对的措施&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;使用密码的场合&#65288;密码的类型&#65289;</h2><br>
+&#12288;&#12288;为了便于后面的叙述&#65292;俺有必要先总结一下&#65292;使用口令的几种场合&#12290;<br>
+&#12288;&#12288;针对这几种不同的场合&#65292;攻击者会采取不同的攻击手法&#65307;因此&#65292;大伙儿也要采取针对性的防范手法&#12290;<br>
+<br>
+<h3>&#9671;操作系统用户的口令</h3><br>
+&#12288;&#12288;这种场合应该好理解&#12290;目前主流的操作系统都具有口令验证的用户登录机制&#12290;<br>
+<br>
+<h3>&#9671;各种网络应用的口令</h3><br>
+&#12288;&#12288;随着网络&#65288;尤其是 Web&#65289;的普及&#65292;这种场合越来越多&#12290;比如&#65306;电子邮件&#65288;Email&#65289;&#12289;即时通讯&#65288;IM&#65289;&#12289;论坛&#65288;BBS&#65289;&#12289;上网炒股&#12289;等&#65292;都需要有用户口令认证&#12290;<br>
+<br>
+<h3>&#9671;各种本地应用程序的口令</h3><br>
+&#12288;&#12288;此种场合可能不如网络应用的口令那么常见&#12290;比如&#65306;用口令加密的压缩文件&#12289;用口令加密的 Office 文档&#12289;PGP 密钥的口令&#12289;Outlook 设置的启动口令......<br>
+<br>
+<h3>&#9671;其它</h3><br>
+&#12288;&#12288;除了上述3种类型&#65292;其它那些比较少见&#12289;杂七杂八的&#65292;统统归为其它&#12290;比如&#65306;BIOS 的开机口令&#12290;<br>
+<br>
+<br>
+<h2>&#9733;攻击者如何通过技术手段搞定的你的密码&#65311;</h2><br>
+&#12288;&#12288;前面列举了密码的不同使用场合&#12290;接着咱要介绍一下&#65306;攻击者会利用哪些技术手段&#65292;攻破你的密码&#12290;<br>
+<br>
+<h3>&#9671;木马盗取</h3><br>
+&#12288;&#12288;如果你的电脑已经被攻击者安装了木马&#65292;那你的一举一动有可能都会被监视&#12290;在这种情况下&#65292;你在这台电脑上输入的任何密码&#65292;都将会被攻击者获取&#12290;所以&#65292;这种情况是很危险滴&#8212;&#8212;不管是哪种类型的密码&#65292;都可能被盗&#12290;<br>
+&#12288;&#12288;至于如何防止自己的计算机被植入木马&#65292;&#12304;不是&#12305;本帖的重点&#12290;俺会在<a href="../../2010/06/howto-prevent-hacker-attack-0.html">本系列</a>后续的帖子中专门介绍木马的防范&#12290;<br>
+<br>
+<h3>&#9671;弱密码猜解</h3><br>
+&#12288;&#12288;所谓的&#8220;弱密码猜解&#8221;&#65292;就是说&#65306;如果你的密码比较弱&#65292;攻击者就容易猜出来&#12290;这种攻击手法&#65292;对于操作系统用户口令&#12289;网络应用口令&#12289;本地应用口令&#65292;统统适用&#12290;<br>
+&#12288;&#12288;而且攻击者在盗取口令的时候&#65292;通常会先尝试进行弱口令猜测&#12290;为啥捏&#65311;因为大部分用户都不太具有安全意识&#65292;口令都会比较简单&#65288;比较弱&#65289;&#12290;并且&#65292;根据&#12304;<a href="../../2009/02/80-20-principle-0-overview.html">二八原理</a>&#12305;&#65292;绝大多数的傻瓜用户会使用极少数的弱口令&#12290;所以&#65292;攻击者先把最流行的那些个弱口令挨个试验一遍&#65292;没准就已经成功了&#12290;<br>
+&#12288;&#12288;为了让大伙明白弱口令的严重程度&#65292;来看看2009年底的&#8220;<a href="https://www.cnbeta.com/articles/100093.htm" target="_blank" rel="nofollow">一个案例</a>&#8221;&#12290;<br>
+&#12288;&#12288;话说国外一个小有名气的交友网站&#65288;RockYou&#65289;被黑客攻破&#12290;里面大约3260万用户数据被盗&#12290;更加杯具的是&#65292;RockYou 采用明文方式存储用户的口令&#12290;因此&#65292;这3260万用户的口令也统统暴露鸟&#12290;后来有好事者把被盗的用户口令拿来分析一番&#12290;结果发现&#65292;有相当多的用户在使用一些极其弱智的口令&#12290;<br>
+&#12288;&#12288;用的最多的 TOP 10 分别是&#65306;<br>
+<blockquote style="font-family:Courier,monospace;">1.  123456<br>
+2.  12345<br>
+3.  123456789<br>
+4.  password<br>
+5.  iloveyou<br>
+6.  princess<br>
+7.  rockyou<br>
+8.  1234567<br>
+9.  12345678<br>
+10.  abc123</blockquote>&#12288;&#12288;据说名列第一的口令&#65288;123456&#65289;有30万人使用&#65292;真是不看不知道&#65292;一看吓一跳啊&#65281;<br>
+<br>
+<h3>&#9671;暴力破解</h3><br>
+&#12288;&#12288;除了对弱密码进行猜解&#65292;攻击者还可以通过穷举的的方式&#65292;破解中等强度的密码&#12290;所谓的穷举法&#65292;就是把所有可能的字母/数字的组合都试验一遍&#65292;直到找到正确的密码&#12290;<br>
+&#12288;&#12288;现在 CPU 的计算能力日新月异&#65292;尤其是多核 CPU/GPU 普及之后&#65292;暴力破解的效果会越来越好&#12290;你的密码必须&#12304;很强&#12305;&#65292;才能彻底消除暴力的风险&#12290;<br>
+&#12288;&#12288;由于这种攻击手法&#65292;需要进行成千上万次的试错&#65292;所以比较适合针对本地应用的口令&#65288;比如破解加密的压缩文件&#65289;&#65292;而不太适合对网络应用进行在线口令破解&#12290;<br>
+&#12288;&#12288;在下一个帖子&#65292;俺会介绍&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-3.html">如何构造安全的口令/密码</a>&#12299;&#12290;<br>
+<br>
+<h3>&#9671;网络传输截获&#65288;嗅探&#65289;</h3><br>
+&#12288;&#12288;在这种方式下&#65292;攻击者会通过&#12304;嗅探&#12305;的方式&#65292;分析你的上网数据&#12290;如果你在上网过程中&#65292;存在明文传输的口令&#65292;就会被截获&#12290;<br>
+&#12288;&#12288;非安全专业的网友&#65292;可能不太明白什么是&#8220;嗅探&#8221;&#65292;俺来稍微解释一下&#12290;攻击者会利用某些嗅探软件&#65292;收集网络上传输的所有数据&#12290;这个过程好比电话窃听&#12290;嗅探软件类似于窃听器&#65307;你的上网数据类似于电话的通话内容&#12290;<br>
+&#12288;&#12288;这几年&#65292;随着现在无线网络&#65288;WiFi&#65289;的普及&#65292;网络嗅探的风险大大增加&#65292;列位看官切不可掉以轻心哦&#12290;<br>
+<br>
+<h3>&#9671;客户端截获</h3><br>
+&#12288;&#12288;所谓&#8220;客户端截获&#8221;&#65292;通常是针对网络应用的口令而言&#12290;举几个例子&#12290;<br>
+&#12288;&#12288;举例1&#65306;<br>
+&#12288;&#12288;很多网友上网时&#65292;为了免去输入口令的麻烦&#65292;会让浏览器帮忙记住口令&#12290;通常浏览器会把这些口令保存在某个文件中&#65288;可能以明文方式&#65292;也可能以密文方式&#65289;&#12290;如果某天你的电脑中了木马&#65292;那么木马程序有可能会盗走这个保存口令的文件&#12290;然后攻击者就可以通过分析该文件&#65292;破解出你保存过的所有网络应用的口令&#12290;<br>
+&#12288;&#12288;举例2&#65306;<br>
+&#12288;&#12288;如果你是软件公司的开发人员&#65292;多半你会使用某种源代码版本管理工具&#65288;比如 SVN&#12289;CVS&#12289;等&#65289;&#12290;为了免去每次操作时输入口令的麻烦&#12290;通常开发人员会让这些客户端软件记住用户名和口令&#12290;如果哪天你中了木马&#65292;或者笔记本电脑被盗&#65292;那么攻击者同样可以破解你保存下来的口令&#65292;进而用你的身份盗取源代码&#12290;<br>
+<br>
+<h3>&#9671;服务端截获</h3><br>
+&#12288;&#12288;和&#8220;客户端截获&#8221;方式相对的&#65292;还有&#8220;服务端截获&#8221;&#12290;具体是啥意思捏&#65311;俺来解释一下&#12290;<br>
+&#12288;&#12288;凡是利用口令进行验证的软件系统&#65292;都需要存储和口令相关的信息&#12290;否则的话&#65292;软件系统就无法验证用户输入的口令&#12290;如果攻击者能够拿到这些口令的关联信息&#65292;那他/她就有可能分析出口令是啥&#12290;<br>
+&#12288;&#12288;&#65288;如果你不是搞 IT 专业滴&#65292;下面这段可能看不太明白&#12290;不过没关系&#65292;不影响你理解后续章节&#65289;<br>
+&#12288;&#12288;简而言之&#65292;通常有三种方式来存储口令的关联信息&#65306;1&#12289;存储口令的明文&#65307;2&#12289;存储口令经过加密后的密文&#65307;3&#12289;存储口令的散列值&#12290;<br>
+&#12288;&#12288;第一种方式是最土鳖的&#65292;稍微先进一些的系统&#65292;都不这么干了&#12290;后面两种方式&#65292;虽然看不到明文&#65292;但是攻击者还是有可能通过某种技术手段&#65292;反推出口令的明文&#12290;具体细节&#65292;本文就不再多说了&#12290;<br>
+&#12288;&#12288;那攻击者如何获得存储在软件系统的口令关联信息捏&#65311;其实前面提到的 RockYou 网站的杯具&#65292;就是一个很好的例子&#12290;俺再举另一个例子&#12290;<br>
+&#12288;&#12288;比如说&#65306;某个 Linux/Unix 服务器存在安全漏洞&#65292;攻击者利用此漏洞搞到了 <code>/etc/shadow</code> 文件&#12290;那么攻击者就可以采用上述提到的暴力破解的招数&#65292;攻破该服务器上所有强度较弱的口令&#12290;<br>
+<br>
+<br>
+<h2>&#9733;攻击者如何通过&#12304;非技术&#12305;手段搞定的你的密码&#65311;</h2><br>
+&#12288;&#12288;说完了技术手段&#65292;自然就得再说说&#12304;非&#12305;技术手段&#12290;所谓的非技术手法&#65292;也就是社会工程学手法&#65288;关于社会工程学的扫盲&#65292;请看&#8220;<a href="../../2009/05/social-engineering-0-overview.html">这里</a>&#8221;&#65289;&#12290;用于盗取密码的社会工程学手法&#65292;大概有如下几种&#12290;<br>
+<br>
+<h3>&#9671;偷窥</h3><br>
+&#12288;&#12288;偷窥是最简单的一种社会工程学攻击手法&#12290;虽然简单&#65292;但是有效&#12290;比如很多盗取银行卡的家伙&#65292;就是偷窥的手法&#65292;得到被害人的银行卡密码&#12290;<br>
+<br>
+<h3>&#9671;网络钓鱼&#65288;phishing&#65289;</h3><br>
+&#12288;&#12288;另外一个骗取口令的方式&#65292;就是通过网络钓鱼&#12290;比如某些攻击者&#65292;会伪造一个银行的网站&#12290;其界面和真实的网站一模一样&#12290;然后通过某种方式&#65288;比如&#65306;虚假链接&#12289;欺诈邮件&#12289;DNS 欺骗 ...&#65289;&#65292;引诱你到这个网站上&#12290;由于假网站和真网站的界面很像&#65292;你可能信以为真&#65292;然后在假网站中输入你的用户名和密码&#12290;<br>
+&#12288;&#12288;有些高明的钓鱼网站&#65292;会采用类似Web代理的技巧&#65306;把你的所有输入操作&#65292;转而提交给真网站&#65307;然后把真网站输出的界面&#65292;再转回给受害者看&#12290;这样的话&#65292;受害者就跟在真实网站进行插作&#65292;没啥区别&#65292;不易看出破绽&#12290;<br>
+&#12288;&#12288;更多关于网络钓鱼的介绍&#65292;可以参见维基百科的&#8220;<a href="https://zh.wikipedia.org/wiki/%E9%92%93%E9%B1%BC%E5%BC%8F%E6%94%BB%E5%87%BB" target="_blank" rel="nofollow">这个页面</a>&#8221;&#12290;<br>
+<br>
+<h3>&#9671;分析</h3><br>
+&#12288;&#12288;如果攻击者对你比较了解&#65292;那么他有可能通过深入的分析&#65292;攻破你的口令防护&#12290;<br>
+&#12288;&#12288;有木有觉得很神奇&#65311;很匪夷所思&#65311;其实这种招数很常见&#65292;且不算太难&#12290;俺来举个例子&#12290;<br>
+&#12288;&#12288;相信很多网友都用过电子邮箱的找回口令功能&#12290;当你口令遗忘之后&#65292;可以通过回答事先预设的问题&#65292;来找回口令&#12290;很多不太专业的用户&#65292;预设的问题都很简单&#65288;比如&#65306;你的手机号是多少&#65311;比如&#65306;你的生日是哪天&#65311;&#65289;&#12290;对于这类过于简单的问题&#65292;攻击者可以很容易地找到答案&#65292;从而窃取到你的邮箱口令&#12290;<br>
+<br>
+<h3>&#9671;欺骗</h3><br>
+&#12288;&#12288;最近几年&#65292;通过电话诈骗&#65292;骗取银行卡密码的案例越来越多&#12290;这种作案手法&#65292;就属于社会工程学中&#65292;&#8220;欺骗&#8221;的范畴&#12290;其实在IT领域&#65292;某些黑客也会利用这种手法来获取口令&#12290;具体的一些欺骗的伎俩&#65292;可以参见俺之前的&#8220;<a href="../../2009/05/social-engineering-0-overview.html">社会工程学系列</a>&#8221;帖子&#12290;<br>
+<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;介绍到这里&#65292;列位看官对黑客盗取口令的手法&#65292;应该有一个初步的认识了&#12290;本系列的下一个帖子&#65292;具体介绍<a href="../../2010/06/howto-prevent-hacker-attack-3.html">如何构造安全的口令/密码</a>&#12290;<br>
+<br>
+<br>
+<b><a href="../../2010/06/howto-prevent-hacker-attack-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2010/06/howto-prevent-hacker-attack-2.html" id="OriginalPostUrl">https://program-think.blogspot.com/2010/06/howto-prevent-hacker-attack-2.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="7">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/6570903031866125981?postID=6570903031866125981&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/6570903031866125981.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

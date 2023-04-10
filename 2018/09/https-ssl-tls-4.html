@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 HTTPS 和 SSL/TLS 协议[4]&#65306;历史版本的演变及 Record 协议的细节 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2018-09-04T23:54:00+08:00">2018年9月4日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：240条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 HTTPS 和 SSL/TLS 协议[4]&#65306;历史版本的演变及 Record 协议的细节
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;俺一直在等 TLS 1.3 定稿&#65288;之所以这么期待&#65292;因为 1.3 是一次&#12304;大&#12305;升级&#65289;&#12290;<br>
+&#12288;&#12288;前些天&#65288;2018年8月&#65289;&#65292;IETF 终于发布了 <a href="https://tools.ietf.org/html/rfc8446" target="_blank" rel="nofollow">RFC 8446</a>&#65292;标志着 TLS 1.3 协议大功告成&#12290;于是俺就来继续完成本系列的后面几篇&#12290;<br>
+&#12288;&#12288;本系列的<a href="../../2016/09/https-ssl-tls-3.html">前一篇</a>&#65292;咱们聊了&#8220;密钥交换/密钥协商&#8221;的相关算法&#12290;从这篇开始&#65292;会逐步谈及协议的细节&#65292;今天就从 Record 协议说起&#12290;由于恰逢 TLS 1.3 新鲜出炉&#65292;俺也顺便聊聊 SSL/TLS 历史上几个版本的演变及差异&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;名词解释</h2>
+<br>
+&#12288;&#12288;对于本文会涉及到的几个专业术语&#65292;先放上相应的解释&#12290;<br>
+<br>
+<h3>&#9671;块加密算法</h3>
+<br>
+&#12288;&#12288;&#8220;块加密算法&#8221;又称&#8220;分组加密算法&#8221;&#65292;洋文叫做&#8220;Block Cipher&#8221;&#65292;相关的维基百科链接在&#8220;<a href="https://en.wikipedia.org/wiki/Block_cipher" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;顾名思义&#65292;就是这类加密算法要求&#65306;被加密的明文数据必须分成&#12304;相同大小&#12305;的若干坨&#65288;每一坨的大小称为&#12304;块长度&#12305;&#65289;&#12290;<br>
+&#12288;&#12288;以目前流行的对称加密算法 AES 为例&#12290;AES 的&#12304;块长度&#12305;是&#8220;128 比特&#8221;&#65288;16字节&#65289;&#12290;也就是说&#65292;AES 要求被加密的明文必须是&#12304;128位&#12305;的整数倍&#12290;<br>
+&#12288;&#12288;由于&#12304;块加密算法&#12305;对明文的长度有要求&#65292;所以用这类算法对明文数据进行加密之前&#65292;要先进行&#12304;补齐&#12305;&#8212;&#8212;在明文数据末尾追加一些垃圾数据&#65292;使之达到&#12304;块长度&#12305;的整数倍&#12290;<br>
+<br>
+<h3>&#9671;流加密算法</h3>
+<br>
+&#12288;&#12288;与&#8220;块加密算法&#8221;相对应的是&#8220;流加密算法&#8221;&#65292;洋文叫做&#8220;Stream Cipher&#8221;&#65292;相关的维基百科页面在&#8220;<a href="https://en.wikipedia.org/wiki/Stream_cipher" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;与&#8220;块加密算法&#8221;最大的差别在于&#8212;&#8212;流加密算法对明文数据的长度&#12304;没有&#12305;要求&#65288;可以是任意字节数&#65289;&#12290;<br>
+&#12288;&#12288;典型的流加密算法是 <a href="https://en.wikipedia.org/wiki/RC4" target="_blank" rel="nofollow">RC4</a>&#65288;顺便提一句&#65306;RC4 里面的 R 也就是 RSA 的那个 R&#65289;<br>
+<br>
+<h3>&#9671;MAC&#65288;消息认证码&#65289;</h3>
+<br>
+&#12288;&#12288;MAC 是洋文&#8220;Message Authentication Code&#8221;的缩写&#65292;维基百科的介绍在&#8220;<a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;这玩意儿是通讯及密码学的常见的概念&#8212;&#8212;用 MAC 算法来确保某个信息在传输的过程中&#12304;没有&#12305;被篡改&#12290;<br>
+&#12288;&#12288;说到这儿&#65292;某些聪明的同学已经联想到&#12304;散列函数&#12305;&#8212;&#8212;用散列函数计算出来的哈希值确实可以用来作为 MAC&#12290;这种基于哈希&#65288;HASH&#65289;的&#8220;消息验证代码&#8221;也称作&#8220;HMAC&#8221;&#12290;不了解哈希算法的同学可以看这篇博文&#65306;&#12298;<a href="../../2013/02/file-integrity-check.html">扫盲文件完整性校验&#8212;&#8212;关于散列值和数字签名</a>&#12299;<br>
+<br>
+<h3>&#9671;MAC 的几种搞法</h3>
+<br>
+&#12288;&#12288;常见的有如下3种&#12290;俺从维基百科剽窃了对应的流程图&#65292;大伙儿看图就明白其原理&#65292;省得俺浪费力气打字了&#12290;<br>
+<br>
+&#12288;&#12288;<b>Encrypt-then-MAC&#65288;EtM&#65289;</b><br>
+<center><img src="../../images/2018/09/ZQkpnuTEiUkPvn2psD0gPxtUbENwZP1onhRNDCb2F7JAovU6bGFTBwu20aop2R4WFlwWx0Hd-B0meLWd8xKHhRFzisfxSO0Epf8oeNK8w0Q6pwcLgTLVqDZrVlLa01V46i6ZaGHus50" alt="不见图 请翻墙"><br>
+&#65288;先加密明文得到密文&#65292;再根据密文计算 MAC&#65292;最后把密文与 MAC 合并成一坨&#65289;</center>
+<br>
+&#12288;&#12288;<b>Encrypt-and-MAC&#65288;E&#65286;M&#65289;</b><br>
+<center><img src="../../images/2018/09/BKYtLQ_do3AKtTYeI-Atao5MztF_PLPvjdsv4TVPneDWJGZZ6RVFq7QqaTMF-ulgEnupLr8IJCB989gnXGEomqSxPqupKky6xOrWwqs3Vhk7qeqQHGkoiCDI8cxGwmkZT9HCFTgMsp0" alt="不见图 请翻墙"><br>
+&#65288;对明文加密得到密文&#65292;对明文计算 MAC&#65292;最后把密文与 MAC 合并成一坨&#65289;</center>
+<br>
+&#12288;&#12288;<b>MAC-then-Encrypt&#65288;MtE&#65289;</b><br>
+<center><img src="../../images/2018/09/SUX0koVBgoYe2zey_lL1ptgiFtyTgHHXfrKi2AwSl3cELjk9ObToDlPUODdugOOsPKFbK-jzBFPmwT2fZlEpJIMOj44TS2p8EHOVWVoeWtZ3F_cQrkU4lOobrIb4o3dhdWlNHseog74" alt="不见图 请翻墙"><br>
+&#65288;对明文计算 MAC&#65292;把明文与 MAC 合并成一坨&#65292;然后一起加密&#65289;</center>
+<br>
+<h3>&#9671;AE&#65288;带认证的加密&#65289;</h3>
+<br>
+&#12288;&#12288;传统的加密算法只负责实现&#12304;保密性&#12305;&#65292;而不负责&#12304;完整性&#12305;&#12290;这么说有点抽象&#65292;俺举个例子&#65306;<br>
+&#12288;&#12288;假设你把一段明文 P 加密为一段密文 C&#65292;通过网络把 C 发送给另一个人&#12290;中途如果被攻击者篡改了&#65288;把 C 修改为 C'&#65289;&#65292;那么接收方收到 C' 之后&#65292;还是可以正常进行解密操作&#65288;当然&#65292;解密之后得到的就不再是 P 了&#65292;而是得到一段无意义的数据&#65289;<br>
+&#12288;&#12288;为了解决上述弊端&#65292;业界引入 AE&#65288;Authenticated Encryption&#65289;算法的概念&#12290;也就是说&#65292;AE 算法不但能做到&#12304;保密性&#12305;还可以做到&#12304;完整性&#12305;&#12290;<br>
+&#12288;&#12288;刚才扫盲的三种 MAC 实现方式&#65292;&#12304;从理论上讲&#12305;就可以算 AE 啦&#12290;但上述那三种 MAC 的实现方式有个弊端&#8212;&#8212;&#12304;解密&#12305;的一方还要自己进行 MAC 的验证操作&#12290;这种搞法既麻烦又增加额外风险&#12290;比如说&#65306;写解密代码的程序猿/程序媛万一太粗心忘记进行验证&#65292;岂不前功尽弃&#65311;<br>
+<br>
+<h3>&#9671;&#12304;真正的&#12305;AE</h3>
+<br>
+&#12288;&#12288;为了避免上述提到的弊端&#65292;密码学界那帮专家又捣鼓出一些新的算法&#65288;比如 CCM&#12289;GCM&#65289;&#12290;这些算法可以在解密的同时验证数据的有效性&#65292;而且这些算法也&#12304;不&#12305;需要再额外存储一个独立的 MAC 数据&#12290;<br>
+&#12288;&#12288;本文后续部分提及的 AE&#65292;如果没有特别说明&#65292;就是指这类&#12304;真正的&#12305;AE&#12290;<br>
+&#12288;&#12288;知名的那些 AE 算法&#65292;可以组合现有的加密算法&#12290;比如说&#65306;从 TLS 1.2 开始引入的 GCM 和 CCM&#65292;这两个 AE 算法都可以组合 AES128 与 AES256 加密算法&#12290;<br>
+&#12288;&#12288;组合现有加密算法的好处不光是避免重新发明轮子&#65292;而且还可以充分利用硬件加速&#12290;比如 AES 作为对称加密的标准算法&#65292;某些芯片&#65288;比如 Intel/AMD&#65289;会把 AES 算法直接做成 CPU 指令&#65292;以实现硬件加速&#12290;<br>
+<br>
+<h3>&#9671;AEAD</h3>
+<br>
+&#12288;&#12288;AEAD 是洋文&#8220;Authenticated Encryption with Associated Data&#8221;的缩写&#65292;普通话叫做&#8220;带关联数据的认证加密&#8221;&#12290;简而言之&#65292;AEAD 是 AE 的变种&#12290;为了方便理解&#65292;俺再来找个栗子&#65306;<br>
+&#12288;&#12288;比如说在网络通讯中&#65292;数据包的&#12304;头部&#12305;必须是明文且保证完整性&#65307;而数据包的&#12304;载荷&#12305;既要加密&#65288;保密性&#65289;又要保证完整性&#12290;这时候 AEAD 算法就派上用场啦&#8212;&#8212;数据包的&#12304;头部&#12305;就是 AEAD 算法里面的&#12304;关联数据&#12305;&#12290;<br>
+<br>
+<h3>&#9671;前向保密 / 完美正向加密&#65288;forward secrecy&#65289;</h3>
+<br>
+&#12288;&#12288;在本系列的前一篇&#12298;<a href="../../2016/09/https-ssl-tls-3.html">密钥交换&#65288;密钥协商&#65289;算法及其原理</a>&#12299;&#65292;俺已经补充了一个章节&#65292;简单扫盲了一下&#8220;回溯性破解&#8221;与&#8220;前向保密&#8221;的概念&#12290;<br>
+&#12288;&#12288;所以这里就不再浪费口水啦&#12290;<br>
+<br>
+<br>
+<h2>&#9733;SSL/TLS 历史版本的演变及差异</h2>
+<br>
+&#12288;&#12288;趁着 TLS 1.3 正式发布的大好时机&#65292;简单扫盲一下 SSL/TLS 各个版本的差异&#12290;<br>
+<br>
+<h3>&#9671;SSL 1.0</h3>
+<br>
+&#12288;&#12288;在本系列的<a href="../../2014/11/https-ssl-tls-1.html">第一篇</a>&#65292;俺曾经提到&#65306;SSL 是上世纪90年代中期&#65292;由<a href="https://zh.wikipedia.org/wiki/%E7%B6%B2%E6%99%AF" target="_blank" rel="nofollow">网景公司</a>设计的&#12290;早期设计者是网景公司的 <a href="https://en.wikipedia.org/wiki/Taher_Elgamal" target="_blank" rel="nofollow">Taher Elgamal</a>&#65288;一位埃及的密码学家&#65289;&#12290;此人也被誉为&#8220;SSL 它爹&#8221;&#12290;<br>
+&#12288;&#12288;SSL 1.0 &#12304;从没&#12305;正式发布过&#65292;所以业界对它了解不多&#12290;之所以没有正式发布&#65292;据说是设计完之后发现了若干严重的安全缺陷&#65292;就不好意思再拿出来丢人现眼&#12290;<br>
+<br>
+<h3>&#9671;SSL 2.0</h3>
+<br>
+&#12288;&#12288;SSL 2.0 是 1995 年正式发布滴&#65292;坦率地说&#65292;协议设计比较粗糙&#12290;<br>
+&#12288;&#12288;比如俺在前一篇介绍过&#8220;密钥交换算法&#8221;和&#8220;身份认证算法&#8221;&#12290;在这两方面&#65292;SSL 2.0 都仅仅支持 RSA 这一种算法&#12290;<br>
+&#12288;&#12288;另一个值得吐槽之处是&#65306;SSL 2.0&#12304;没有&#12305;考虑到&#8220;前向保密&#8221;&#65288;洋文是&#8220;<a href="https://en.wikipedia.org/wiki/Forward_secrecy" target="_blank" rel="nofollow">forward secrecy</a>&#8221;&#65289;&#65292;因此会遭遇&#12304;回溯性破解&#12305;的风险&#12290;&#65288;关于&#8220;前向保密&#8221;与&#8220;回溯性破解&#8221;&#65292;请看本文开头的名词解释&#65289;<br>
+<br>
+<h3>&#9671;SSL 3.0</h3>
+<br>
+&#12288;&#12288;SSL 2.0 发布之后不久&#65292;又被发现若干安全漏洞&#12290;所以又赶紧在 1996 年发布了 SSL 3.0 版本&#12290;&#65288;接连两个版本都不太灵光&#65292;看来&#8220;SSL 它爹&#8221;的水平实在令人不敢恭维&#65289;<br>
+&#12288;&#12288;这个 3.0 版本可以说是另起炉灶&#8212;&#8212;换了几个密码学专家&#65292;&#12304;重新设计&#12305;了 SSL 协议&#12290;所以 SSL 3.0 相比 SSL 2.0 有很大差别&#12290;<br>
+&#12288;&#12288;关于 SSL 3.0 的权威技术规范&#65292;可以参见 <a href="https://tools.ietf.org/html/rfc6101" target="_blank" rel="nofollow">RFC 6101</a><br>
+<br>
+&#12288;&#12288;请允许俺稍微跑题一下&#65306;<br>
+&#12288;&#12288;重新设计 SSL 3.0 的那些专家&#65292;为首的是来自斯坦福大学的 <a href="https://en.wikipedia.org/wiki/Paul_Kocher" target="_blank" rel="nofollow">Paul Kocher</a>&#8212;&#8212;此人堪称密码学奇才&#65292;SSL 3.0 发布的那年&#65288;1996&#65289;&#65292;他才23岁&#65288;回想俺23岁的时候&#65292;在密码学方面是只菜鸟&#65292;真是情何以堪&#65289;&#12290;<br>
+&#12288;&#12288;在同一年&#65292;他还发表了篇论文&#65292;描述了一种&#12304;全新的&#12305;密码学攻击方式&#8212;&#8212;<a href="https://en.wikipedia.org/wiki/Timing_attack" target="_blank" rel="nofollow">timing attack</a>&#65288;基于时间因素的边信道攻击&#65289;&#12290;这种攻击手法的原理&#65292;说起来并不算复杂&#65292;但很有创意&#65292;之前从来没人想到过&#12290;<br>
+<br>
+<h3>&#9671;TLS 1.0</h3>
+<br>
+&#12288;&#12288;TLS 1.0 是 1999 年发布滴&#65292;技术规范参见 <a href="https://tools.ietf.org/html/rfc2246" target="_blank" rel="nofollow">RFC 2246</a>&#12290;<br>
+&#12288;&#12288;为啥从 SSL 改名为 TLS 捏&#65311;主要是安全性在 Web 世界中越来越重要&#65292;因此 <a href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1%E7%BB%84" target="_blank" rel="nofollow">IETF</a> 组织急需把 SSL 的协议&#12304;标准化&#12305;&#65292;为了以示区别&#65292;另外起个名字叫 TLS&#65288;洋文&#8220;Transport Layer Security&#8221;的缩写&#65289;&#12290;<br>
+&#12288;&#12288;虽然协议名改了&#65292;但其实 TLS 1.0 与 SSL 3.0 的差别不大&#12290;这点从协议版本号也可以看出来&#8212;&#8212;TLS 1.0 内部的协议版本号其实是&#12304;3.1&#12305;&#12290;<br>
+<br>
+<h3>&#9671;TLS 1.1</h3>
+<br>
+&#12288;&#12288;TLS 1.1 是 2006 年发布滴&#65292;技术规范是 <a href="https://tools.ietf.org/html/rfc4346" target="_blank" rel="nofollow">RFC 4346</a>&#12290;<br>
+&#12288;&#12288;发布该版本的主要动机是&#65306;修补 CBC&#65288;<a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher-block_chaining_(CBC)" target="_blank" rel="nofollow">cipher-block chaining</a>&#65289;相关的漏洞&#65292;以防范某些攻击&#65288;比如&#8220;<a href="https://en.wikipedia.org/wiki/Padding_oracle_attack" target="_blank" rel="nofollow">padding oracle attack</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;在 1.1 版本&#65292;原有的&#8220;&#12304;隐式&#12305;初始化向量&#8221;改为&#8220;&#12304;显式&#12305;初始化向量&#8221;&#65292;修正了 CBC 方式下填充数据的缺陷&#12290;<br>
+<br>
+<h3>&#9671;TLS 1.2</h3>
+<br>
+&#12288;&#12288;TLS 1.2 是 2008 年发布滴&#65292;技术规范是 <a href="https://tools.ietf.org/html/rfc5246" target="_blank" rel="nofollow">RFC 5246</a>&#12290;<br>
+&#12288;&#12288;相比 TLS 1.1 的变化如下&#65306;<br>
+<blockquote>
+支持 <a href="https://en.wikipedia.org/wiki/AEAD_block_cipher_modes_of_operation" target="_blank" rel="nofollow">AEAD</a> 加密模式&#65288;参见 <a href="https://tools.ietf.org/html/rfc5116" target="_blank" rel="nofollow">RFC 5116</a>&#65289;<br>
+加密算法废弃了 DES&#12289;DES40&#12289;IDEA&#12289;RC2<br>
+HMAC 增加了 SHA256</blockquote>
+<br>
+<h3>&#9671;TLS 1.3</h3>
+<br>
+&#12288;&#12288;俺写本文时&#65292;TLS 1.3 刚刚新鲜出炉没几天&#65288;2018年8月&#65289;&#65292;其技术规范是 <a href="https://tools.ietf.org/html/rfc8446" target="_blank" rel="nofollow">RFC 8446</a>&#12290;<br>
+&#12288;&#12288;从2008到2018&#65292;真所谓&#8220;十年磨一剑&#8221;&#12290;目前看来&#65292;这个 1.3 版本是一次雄心勃勃的升级&#65292;相对 TLS 1.2 加了不少东西&#65292;也删了不少东西&#12290;考虑到篇幅&#65292;俺挑几个主要的来说说&#65306;<br>
+<blockquote>
+首先要表扬的是&#65306;TLS 1.3 完善了 SNI&#65288;<a href="https://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank" rel="nofollow">Server Name Identification</a>&#65289;扩展&#65292;非常有利于翻墙工具借助&#12304;依附的自由&#12305;对抗网络封锁&#65307;<br>
+其次是强制使用&#8220;完美正向加密&#65288;PFS&#65289;&#8221;&#65292;所以很多做不到 PFS 的密钥协商算法在 TLS 1.3 规范中被无情地抛弃了&#65288;比如&#65306;RSA&#12289;静态 DH&#12289;静态 ECDH...&#65289;&#65307;<br>
+传统的 HMAC 也被无情地抛弃了&#65292;今后只使用 AEAD 方式来保障完整性&#65288;关于 AEAD&#65292;请看本文开头的名词解释&#65289;&#65307;<br>
+原有的对称加密算法只保留 AES&#65288;3DES&#12289;RC4 废弃&#65289;&#65292;另增加 <a href="https://en.wikipedia.org/wiki/ChaCha20" target="_blank" rel="nofollow">CHACHA20</a> 流加密算法&#65307;<br>
+压缩特性被废除&#65288;以消除 <a href="https://en.wikipedia.org/wiki/CRIME" target="_blank" rel="nofollow">CRIME 攻击</a>的风险&#65289;&#65307;<br>
+初始握手的过程有&#12304;很大&#12305;的改变&#65288;这个等下一篇再聊&#65289;<br>
+......</blockquote>
+<br>
+<br>
+<h2>&#9733;Record 协议概述</h2>
+<br>
+&#12288;&#12288;很多介绍 SSL/TLS 的文章都把 record 协议给忽略了&#12290;可能这些文章的作者觉得 record 协议不太重要&#12290;但俺本着&#8220;高度负责任&#8221;的心态&#65292;觉得还是有必要跟大伙儿聊一下&#12290;<br>
+&#12288;&#12288;SSL/TLS 协议在通讯的过程中会把需要传输的数据分成一坨一坨的&#65292;每次都只发送或接收一坨&#12290;在洋文中&#65292;每一坨称作一个 record&#12290;下面要聊的&#8220;Record 协议&#8221;&#65292;就是用来定义这个 record 的格式&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Record 协议的结构</h2>
+<br>
+&#12288;&#12288;Record 协议比较简单&#65292;主要结构见下表&#65306;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>字段名称</th><th>字段长度</th><th>备注</th></tr>
+<tr><td>类型</td><td>1字节</td><td> </td></tr>
+<tr><td>版本</td><td>2字节</td><td>TLS 1.3 废弃&#65292;仅留作向下兼容</td></tr>
+<tr><td>载荷长度</td><td>2字节</td><td> </td></tr>
+<tr><td>消息</td><td>0~N 字节</td><td> </td></tr>
+<tr><td>消息认证码</td><td>0~N 字节</td><td>TLS 1.3 不需要该字段</td></tr>
+<tr><td>填充</td><td>0~N 字节</td><td> </td></tr>
+</tbody></table></center>
+<br>
+<h3>&#9671;类型&#65288;type&#65289;</h3>
+<br>
+&#12288;&#12288;&#8220;类型&#8221;字段是个枚举值&#65292;协议允许的有效值参见下表&#65288;对表格中的每种类型&#65292;后续小节会有详细介绍&#65289;<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>十六进制</th><th>十进制</th><th>含义</th><th>备注</th></tr>
+<tr><td>0x14</td><td>20</td><td>ChangeCipherSpec&#65288;切换到加密方式&#65289;</td><td>TLS 1.3 废弃</td></tr>
+<tr><td>0x15</td><td>21</td><td>Alert&#65288;告警&#65289;</td><td> </td></tr>
+<tr><td>0x16</td><td>22</td><td>Handshake&#65288;握手&#65289;</td><td> </td></tr>
+<tr><td>0x17</td><td>23</td><td>Application&#65288;应用层数据&#65289;</td><td> </td></tr>
+<tr><td>0x18</td><td>24</td><td>Heartbeat&#65288;心跳&#65289;</td><td>始于 TLS 1.3</td></tr>
+</tbody></table></center>
+<br>
+<h3>&#9671;版本&#65288;version&#65289;</h3>
+<br>
+&#12288;&#12288;&#8220;版本&#8221;字段含两个字节&#65292;分别表示&#65306;主版本号 &#65286; 次版本号&#12290;其有效值如下&#65306;<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>主版本号</th><th>次版本号</th><th>含义</th></tr>
+<tr><td>0x2</td><td>0x0</td><td>SSL 2.0</td></tr>
+<tr><td>0x3</td><td>0x0</td><td>SSL 3.0</td></tr>
+<tr><td>0x3</td><td>0x1</td><td>TLS 1.0</td></tr>
+<tr><td>0x3</td><td>0x2</td><td>TLS 1.1</td></tr>
+<tr><td>0x3</td><td>0x3</td><td>TLS 1.2</td></tr>
+</tbody></table>
+&#65288;注&#65306;从 TLS 1.3 版本开始&#65292;&#8220;版本&#8221;字段已经被废弃&#65292;仅用于向后兼容&#65289;</center>
+<br>
+<h3>&#9671;长度&#65288;length&#65289;</h3>
+<br>
+&#12288;&#12288;&#8220;长度&#8221;字段含两个字节&#65292;表示载荷长度&#12290;<br>
+&#12288;&#12288;对于&#12304;明文&#12305;的 record&#65292;&#12304;没有&#12305;&#8220;消息认证码&#8221;字段&#65292;也&#12304;没有&#12305;&#8220;填充&#8221;字段&#8212;&#8212;&#8220;载荷长度&#8221;也就是消息的长度&#12290;<br>
+&#12288;&#12288;对于&#12304;加密&#12305;的 record&#8212;&#8212;&#8220;载荷长度&#8221;是&#8220;消息&#12289;消息验证码&#12289;填充&#8221;三者的长度之和&#12290;<br>
+&#12288;&#12288;SSL/TLS 协议规定了长度字段最多只能表示 <code>0~16384</code> 字节&#65288;注&#65306;<code>2<sup>14</sup> = 16384</code>&#65289;&#12290;<br>
+<br>
+<h3>&#9671;消息&#65288;message&#65289;</h3>
+<br>
+&#12288;&#12288;每个 record 的&#8220;消息&#8221;字段的内容取决于&#8220;类型&#8221;字段&#12290;关于这个&#8220;消息&#8221;字段&#65292;待会儿再聊&#12290;<br>
+<br>
+<h3>&#9671;消息认证码&#65288;MAC&#65289;</h3>
+<br>
+&#12288;&#12288;关于 MAC 这个概念&#65292;参见本文开头部分的名词解释&#65292;此处不再浪费口水&#12290;<br>
+&#12288;&#12288;在 SSL/TLS 协议中&#65292;MAC 对于明文的 record 没有意义&#65288;为啥没意义&#65292;请自行思考&#65289;&#12290;<br>
+&#12288;&#12288;对于&#12304;加密&#12305;的 record&#65292;要分两种情况&#65306;<br>
+其一&#65292;如果是&#12304;传统的&#12305;块加密与流加密&#65292;会带有额外的 MAC&#65307;<br>
+其二&#65292;如果使用 AEAD 加密模式&#65292;其本身已经内置了&#12304;完整性&#12305;的校验&#65292;不需额外的 MAC&#12290;<br>
+&#12288;&#12288;前面提到&#65292;AEAD 是从 TLS 1.2 开始引入&#65292;到了 TLS 1.3 就&#12304;只支持&#12305;AEAD 啦&#12290;所以 TLS 1.3 &#12304;没有&#12305;MAC 部分&#12290;<br>
+<br>
+&#12288;&#12288;SSL/TLS 各个版本实现&#12304;完整性&#12305;的方式&#65292;参见如下表格&#65306;<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"><th>算法</th><th>SSL 2.0</th><th>SSL 3.0</th><th>TLS 1.0</th><th>TLS 1.1</th><th>TLS 1.2</th><th>TLS 1.3</th></tr>
+<tr><td>HMAC-MD5</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightpink;">否</td></tr>
+<tr><td>HMAC-SHA1</td><td style="background:lightpink;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td><td style="background:lightpink;">否</td></tr>
+<tr><td>HMAC-SHA256</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightgreen;">是</td><td style="background:lightpink;">否</td></tr>
+<tr><td>AEAD</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightpink;">否</td><td style="background:lightgreen;">是</td><td style="background:lightgreen;">是</td></tr>
+</tbody></table></center>
+<br>
+<h3>&#9671;填充&#65288;padding&#65289;</h3>
+<br>
+&#12288;&#12288;只有当 record 是加密的&#65292;并且使用的加密算法属于&#12304;块加密算法&#12305;&#65292;才会使用&#8220;填充&#8221;字段&#12290;<br>
+<br>
+<br>
+<h2>&#9733;各种类型 Record 简介</h2>
+<br>
+&#12288;&#12288;从 Record 协议的头部类型字段可以看出&#65292;总共有5种类型的 Record&#12290;下面简单说一下&#65306;<br>
+<br>
+<h3>&#9671;握手&#65288;Handshake&#65289;</h3>
+<br>
+&#12288;&#12288;Record 协议的&#8220;类型&#8221;字段为 <code>22</code>&#65288;<code>0x16</code>&#65289;&#65292;表示这条 record 是 Handshake 类型&#12290;<br>
+&#12288;&#12288;&#8220;握手&#8221;的意思就是&#8212;&#8212;通讯双方初次打交道&#65292;需要交换一些初始化的信息&#12290;<br>
+&#12288;&#12288;对于 SSL/TLS 协议&#65292;为了建立起&#12304;可靠的&#12305;加密信道&#65292;通讯双方需要在握手的过程交换很多信息&#65288;加密算法&#12289;压缩算法&#12289;MAC 算法&#12289;等等&#65289;&#12290;所以这个握手的过程是比较复杂滴&#65292;需要耗费很多口水&#12290;俺留到本系列的下一篇&#65292;专门来聊&#8220;握手的细节&#8221;&#12290;<br>
+&#12288;&#12288;由于握手的过程&#65292;加密信道尚未建立&#65292;所以用来进行握手的 record 是&#12304;明文&#12305;滴&#65292;并且也&#12304;没有&#12305;&#8220;MAC&#8221;字段及&#8220;填充&#8221;字段&#12290;<br>
+<br>
+<h3>&#9671;切换到加密方式&#65288;ChangeCipherSpec&#65289;</h3>
+<br>
+&#12288;&#12288;Record 协议的&#8220;类型&#8221;字段为 <code>20</code>&#65288;<code>0x14</code>&#65289;&#65292;表示这条 record 是 ChangeCipherSpec 类型&#12290;<br>
+&#12288;&#12288;这个 ChangeCipherSpec 也是跟握手过程相关滴&#65292;留到下一篇&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;从 TLS 1.3 版本开始&#65292;ChangeCipherSpec 类型的 record 已经被废弃&#65292;仅用于向后兼容&#65289;<br>
+<br>
+<h3>&#9671;应用层数据&#65288;Application&#65289;</h3>
+<br>
+&#12288;&#12288;Record 协议的&#8220;类型&#8221;字段为 <code>23</code>&#65288;<code>0x17</code>&#65289;&#65292;表示这条 record 是 Application 类型&#12290;<br>
+&#12288;&#12288;也就是说&#65292;这条 record 的载荷部分存放的是上层&#65288;应用层&#65289;协议的数据&#12290;既然传输的是上层数据&#65292;肯定得是&#12304;加密&#12305;滴&#65281;但不一定有&#8220;MAC&#8221;字段&#12290;要看具体的 SSL/TLS 版本&#65288;如下&#65289;&#65306;<br>
+1. 对于 TLS 1.1 及之前的版本&#65292;总是使用 HMAC 进行完整性校验&#65292;所以总是含有&#8220;MAC&#8221;字段&#12290;<br>
+2. 对于 TLS 1.2&#65292;如果握手之后采用 AEAD 加密模式&#65292;就没有 MAC&#65307;反之&#65292;则有 MAC&#12290;<br>
+3. 对于 TLS 1.3 及之后的版本&#65292;只支持 AEAD&#65292;&#12304;不&#12305;再有&#8220;MAC&#8221;字段&#12290;<br>
+&#12288;&#12288;另外&#65292;在 TLS 1.2 及&#12304;之前&#12305;的版本中&#65292;还支持&#8220;对应用层数据进行压缩&#8221;&#12290;本来俺还想聊聊这方面的实现细节&#12290;但是 TLS 1.3 已经&#12304;废弃&#12305;了压缩选项&#65288;为了防 <a href="https://en.wikipedia.org/wiki/CRIME" target="_blank" rel="nofollow">CRIME 攻击</a>&#65289;&#65292;恐怕未来版本也不会再有压缩选项了&#12290;搞得俺也没积极性来聊这个话题了 :(<br>
+<br>
+<h3>&#9671;告警&#65288;Alert&#65289;</h3>
+<br>
+&#12288;&#12288;Record 协议的&#8220;类型&#8221;字段为 <code>21</code>&#65288;<code>0x15</code>&#65289;&#65292;表示这条 record 是 Alert 类型&#12290;<br>
+&#12288;&#12288;这种类型的 record 用来发送警告或出错信息&#12290;<br>
+&#12288;&#12288;在通讯的过程&#65288;包括握手过程&#65289;中&#65292;有时候某一方会发现不对劲&#65288;比如收到的数据出现缺失或错误&#65289;&#65292;这时候就要发送一条 Alert 类型的 record 给对方&#12290;<br>
+&#12288;&#12288;不对劲的情况分为两种&#65292;洋文分别称之为 Warning 和 Fatal&#12290;两者的差别在于&#65306;<br>
+<blockquote>
+Warning 表示通讯出现&#12304;不稳定&#12305;的情况&#65288;这种&#8220;不稳定&#8221;通常是&#12304;可恢复&#12305;滴&#65289;<br>
+Fatal 表示通讯出现&#12304;不可靠&#12305;的情况&#65288;比如&#65306;证书失效&#12289;数据被篡改&#12290;这种&#8220;不可靠&#8221;通常是&#12304;不可恢复&#12305;滴&#65289;</blockquote>
+&#12288;&#12288;如果不对劲的情况属于 Warning&#65292;通讯可能会继续也可能会断开&#65307;如果不对劲的情况属于 Fatal&#65292;通讯会在发送 Alert 之后立即断开&#12290;<br>
+&#12288;&#12288;这种类型的 record&#65292;其&#8220;消息&#8221;字段仅有2字节&#65292;头一个字节表示告警的&#8220;级别/Level&#8221;&#65288;1表示 warning&#65292;2表示 fatal&#65289;&#65307;后一个字节表示具体的描述&#65288;有一个对照表&#65292;用不同的整数表示不同的情况&#65289;&#12290;<br>
+&#12288;&#12288;如果在握手&#12304;之后&#12305;发送告警&#65292;此时双方已经建立起加密信道&#65292;则告警 record 的&#8220;消息&#8221;字段是&#12304;密文&#12305;的&#12290;<br>
+&#12288;&#12288;如果在握手&#12304;之前&#12305;发送告警&#65292;此书尚未建立加密信道&#65292;则告警 record 的&#8220;消息&#8221;字段是&#12304;明文&#12305;的&#12290;<br>
+<br>
+<h3>&#9671;心跳&#65288;Heartbeat&#65289;</h3>
+<br>
+&#12288;&#12288;Record 协议的&#8220;类型&#8221;字段为 <code>24</code>&#65288;<code>0x18</code>&#65289;&#65292;表示这条 record 是 Heartbeat 类型&#12290;<br>
+&#12288;&#12288;这种类型的 record 用来发送心跳信息&#12290;<br>
+&#12288;&#12288;所谓的&#12304;心跳&#12305;&#65292;主要用来确认&#8220;通讯的对端&#8221;依然正常&#12290;在 SSL/TLS 连接建立之后&#65292;有可能在某些情况下出现&#12304;通讯空闲&#12305;&#65288;上层的协议在某个时间段没有数据传输&#65289;&#12290;这时候就需要依靠&#12304;心跳机制&#12305;来判断对方是否还活着&#12290;<br>
+&#12288;&#12288;由于&#8220;心跳&#8221;的传输是在加密信道建立&#12304;之后&#12305;&#65292;所以&#8220;心跳&#8221;的 record 也是加密滴&#12290;<br>
+&#12288;&#12288;关于这个心跳机制的技术细节&#65292;请参见 RFC6520&#65288;链接在&#8220;<a href="https://tools.ietf.org/html/rfc6520" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;这个心跳协议的 RFC 发布于2012年&#65288;晚于2008年的 TLS 1.2&#65289;&#65292;因此目前只有 TLS 1.3 版本才支持它&#12290;<br>
+<br>
+<br>
+<b><a href="../../2014/11/https-ssl-tls-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2018/09/https-ssl-tls-4.html" id="OriginalPostUrl">https://program-think.blogspot.com/2018/09/https-ssl-tls-4.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="240">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/5500653612086817137?postID=5500653612086817137&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/5500653612086817137.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

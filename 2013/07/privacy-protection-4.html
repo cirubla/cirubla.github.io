@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何保护隐私[4]&#65306;关于浏览器的基本防范&#65288;下&#65289; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-07-22T23:59:00+08:00">2013年7月22日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：58条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何保护隐私[4]&#65306;关于浏览器的基本防范&#65288;下&#65289;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;本系列的上一篇介绍了 Cookie 相关的知识&#12290;今天这篇把浏览器剩余的几个常见话题聊一下&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;如何隔离浏览器&#65311;</h2><br>
+<h3>&#9671;为啥要隔离浏览器&#65311;</h3><br>
+&#12288;&#12288;举例1<br>
+&#12288;&#12288;你经常使用 Gmail&#65292;并且依赖于 Gmail 的自动登录功能&#12290;这种情况下&#65292;你就&#12304;不能&#12305;禁用 <code>google.com</code> 域名对应的 cookie&#65288;禁用了就无法自动登录&#65289;&#12290;但是&#65292;如果你不禁用 <code>google.com</code> 域名对应的 cookie&#65292;当你使用 Google 的搜索功能时&#65292;Google 会知道你的搜索偏好&#65288;这涉及到隐私&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;举例2<br>
+&#12288;&#12288;虽然浏览器插件会导致隐私问题&#65288;本系列<a href="../../2013/06/privacy-protection-2.html">前面的博文</a>有提到&#65289;&#65292;但有些浏览器插件是你不得不安装的&#12290;比如你想看在线视频&#65292;不得不装 Flash 插件&#65307;比如你使用网银&#65292;不得不安装某些登录的控件&#12290;<br>
+<br>
+&#12288;&#12288;当你学会了&#12304;浏览器隔离&#12305;这个招数&#65292;就可以搞定上述难题&#65292;鱼和熊掌兼得&#12290;下面&#65292;俺分别介绍几种不同的隔离方法&#12290;<br>
+<br>
+<h3>&#9671;多浏览器</h3><br>
+&#12288;&#12288;这是最简单的隔离方法&#8212;&#8212;使用不同类型的浏览器&#65288;比如同时 Firefox 和 Chrome&#65289;&#12290;<br>
+&#12288;&#12288;对于刚才的第一个例子&#12290;你可以在&#8220;A浏览器&#8221;里面登录 Gmail&#65292;并允许&#8220;A浏览器&#8221;存储 <code>google.com</code> 域名的 cookie&#65307;然后你用&#8220;B浏览器&#8221;进行 Google 搜索&#12290;<br>
+&#12288;&#12288;只要你能确保&#8212;&#8212;从来不在&#8220;B浏览器&#8221;中登录任何 Google 帐号&#65292;那么&#8220;B浏览器&#8221;的 cookie 中就&#12304;不会有&#12305;你的用户标识&#12290;所以你用&#8220;B浏览器&#8221;进行 Google 搜索的时候&#65292;Google 不知道你是谁&#12290;<br>
+<br>
+<h3>&#9671;多实例</h3><br>
+&#12288;&#12288;但是有些用户就喜欢某款浏览器&#65292;不喜欢混用&#12290;那就可以考虑&#8220;多实例&#8221;的招数&#12290;目前的三大浏览器中&#65292;Firefox 和 Chrome 支持多实例&#65292;IE 不支持&#12290;啥是多实例捏&#65311;稍微解释一下&#12290;<br>
+&#12288;&#12288;所谓的浏览器多实例&#65292;洋文称之为&#8220;Multiple Profiles&#8221;&#12290;<br>
+&#12288;&#12288;不论是 Firefox 还是 Chrome&#65292;默认安装的时候&#65292;只有一个实例&#65288;Profile&#65289;&#12290;和浏览器相关的各种信息&#65292;包括&#65306;插件&#12289;扩展&#12289;外观&#65288;皮肤&#65289;&#12289;页面缓存&#12289;cookie&#12289;等等&#65292;都存储在这个实例中&#12290;<br>
+&#12288;&#12288;反之&#65292;如果使用多实例&#65292;每个实例都具有独立的插件&#12289;独立的扩展&#12289;独立的外观&#65288;皮肤&#65289;&#12289;独立的页面缓存&#12289;独立的 cookie&#12289;等等&#12290;不同实例之间是相对隔离的&#65292;不会互相影响&#12290;<br>
+&#12288;&#12288;对于 Chrome&#65292;要特别提醒一下&#65306;<br>
+&#12288;&#12288;Chrome 同时支持&#8220;Multiple Profiles&#8221;和&#8220;Multiple Accounts&#8221;&#12290;千万别把这两者搞混了&#12290;即使你配置了多个 Accounts&#65292;依然在同一个实例里&#65288;有兴趣的同学可以看 chromium 官网的&#8220;<a href="https://www.chromium.org/developers/creating-and-using-profiles" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;关于多实例的配置&#65292;一年前写&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止黑客入侵</a>&#12299;系列的时候&#65292;已经介绍过了&#65288;请翻墙看&#8220;<a href="../../2012/09/howto-prevent-hacker-attack-6.html#multi_profile">这里</a>&#8221;&#65289;&#65292;今天就不再浪费口水了&#12290;<br>
+<br>
+<h3>&#9671;多用户</h3><br>
+&#12288;&#12288;万一你喜欢的浏览器是 IE&#65292;而 IE 又不支持&#8220;多实例&#8221;&#65292;咋办捏&#65311;招数还是有滴&#65292;那就是&#12304;多用户&#12305;&#12290;<br>
+&#12288;&#12288;你可以创建多个操作系统用户&#65292;然后在不同的操作系统用户中分别运行同一款浏览器&#12290;所有主流的操作系统都会对系统用户的资源进行隔离&#12290;所以&#65292;你在不同的操作系统用户中运行的浏览器&#65292;也是互相隔离的&#65288;包括&#8220;插件&#12289;扩展&#12289;书签&#12289;浏览历史&#12289;cookie&#12289;缓存&#8221;&#65292;都不会互相影响&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;如果你用的是 Windows 操作系统&#65292;可以使用&#8220;快速用户切换&#8221;的功能&#65292;在不同用户的桌面之间切换&#12290;但是有个缺点&#65306;一次只能看到某一个用户运行的桌面&#65292;其它用户运行的软件看不到&#12290;其实有一个小技巧&#65292;可以在同一个桌面运行多个用户的软件&#12290;具体请看<a href="../../2012/09/howto-prevent-hacker-attack-6.html#multi_user">这篇博文</a>中的&#8220;多用户浏览器共享同一个桌面的技巧&#8221;&#12290;<br>
+<br>
+<h3>&#9671;多虚拟机</h3><br>
+&#12288;&#12288;大部分场合用上述三招基本就能搞定了&#12290;但有捏&#65292;有时你会碰到一些比较变态的网银控件&#65292;一定要用系统管理员才能安装&#65292;有的控件甚至做到了&#8220;驱动级&#8221;&#12290;对于这种变态的控件&#65292;即使用&#8220;多用户&#8221;的隔离方案&#65292;也行不通了&#12290;这时候只能用&#12304;多虚拟机&#12305;来隔离&#12290;<br>
+<br>
+&#12288;&#12288;&#8220;多虚拟机&#8221;的方案&#65292;说起来挺简单&#8212;&#8212;就是安装多个操作系统虚拟机&#65292;把浏览器安装到虚拟机中&#12290;利用虚拟机来进行隔离&#65292;每个虚拟机就如同一台单独的电脑&#65292;这种隔离性&#65292;比前面三个方案更加彻底&#12290;如果你不熟悉操作系统虚拟机&#65292;请先看俺写的&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;系列博文&#12290;<br>
+<br>
+<br>
+<a name="dnt"> </a><br>
+<h2>&#9733;DNT&#65288;Do Not Track&#65289;</h2><br>
+&#12288;&#12288;说完了浏览器的隔离&#65292;再来说几个杂项&#12290;首先说说 DNT 这玩意儿&#12290;<br>
+<br>
+<h3>&#9671;DNT 是啥&#65311;</h3><br>
+&#12288;&#12288;DNT 是洋文 Do Not Track 的缩写&#65292;中文译作&#8220;请勿追踪&#8221;&#12290;它最早是由 Mozilla 的一个工程师在 2009 发明的&#65292;如今已经成为 W3C 的标准&#12290;截至2012年底&#65292;所有主流的浏览器都已支持 DNT 标准&#12290;<br>
+<br>
+<h3>&#9671;DNT 的原理</h3><br>
+&#12288;&#12288;这玩意儿说白了没啥技术含量&#65292;其原理大致如下&#65306;<br>
+&#12288;&#12288;如果你在浏览器中启用了 DNT&#65292;那么浏览器每次访问网站的时候&#65292;会在 HTTP 请求的 header 部分加入一个 DNT 的标识&#12290;网站的服务器接收到这个 HTTP 请求&#65292;看到此标识&#65292;就知道该用户不希望被追踪&#12290;<br>
+&#12288;&#12288;如果这个网站遵循 W3C 的规范&#8212;&#8212;当它看到这个 DNT 标识&#65292;就&#12304;不&#12305;应该使用 cookie 或诸如此类的手段来追踪用户的行为&#65307;反之&#65292;如果这个网站&#12304;不&#12305;遵循 DNT 规范&#65292;它就会直接无视 HTTP 请求中的 DNT 标识&#12290;<br>
+<br>
+<h3>&#9671;DNT 有用吗&#65311;</h3><br>
+&#12288;&#12288;通过上述介绍你应该可以看出&#65306;DNT 技术并不是一项很保险的防范措施&#12290;DNT 要起作用需要靠网站方面&#12304;自觉配合&#12305;&#12290;如果你访问的网站比较流氓&#65292;不愿意配合这个规范&#65292;那你的 DNT 设置就形同虚设&#12290;<br>
+&#12288;&#12288;所以&#65292;DNT 是一个有点鸡肋的功能&#65292;不能全指望它&#65292;但&#8220;启用&#8221;总比&#8220;不启用&#8221;要好&#65288;至少没啥坏处&#65289;&#12290;虽然遵循该规范的&#8220;老实&#8221;网站很少&#65292;但如果你访问的网站正好是&#8220;老实&#8221;的&#65292;启用 DNT 就能禁止该网站对你的追踪&#12290;<br>
+<br>
+<br>
+<a name="user_agent"> </a><br>
+<h2>&#9733;User Agent</h2><br>
+<h3>&#9671;&#8220;User Agent&#8221;是啥&#65311;</h3><br>
+&#12288;&#12288;浏览器方面还有一个涉及到隐私的因素&#65292;而且不太为人所知&#65292;那就是&#8220;User Agent&#8221;&#12290;<br>
+&#12288;&#12288;浏览器的 UserAgent 是用来标识客户端的信息&#65288;包括 浏览器的类型和版本&#12289;操作系统类型和版本&#12289;等等&#65289;&#12290;浏览器向网站发起 HTTP 请求时&#65292;会在 HTTP header 中加入 User Agent 信息&#12290;<br>
+<br>
+<h3>&#9671;&#8220;User Agent&#8221;有啥用&#65311;</h3><br>
+&#12288;&#12288;因为 User Agent 标识了浏览器客户端的信息&#65292;网站拿到这些信息之后&#65292;就可以针对客户端的不同&#65292;发送针对性的网页&#12290;比方说&#65292;如果客户端是移动设备&#65288;屏幕较小&#65289;&#65292;就发送针对小尺寸屏幕的网页&#12290;<br>
+&#12288;&#12288;从这里的介绍可以看出&#65292;User Agent 本身是有用的&#12290;<br>
+<br>
+<h3>&#9671;&#8220;User Agent&#8221;有啥隐私问题&#65311;</h3><br>
+&#12288;&#12288;但是&#65292;有些浏览器的 User Agent 写得太详细了&#12290;这就导致&#65306;很多额外的客户端信息也通过 User Agent 提交到 Web 服务端&#12290;网站拿到这么详细的信息&#65292;就可以知道你操作系统和浏览器的很多细节&#12290;另外&#65292;User Agent 越详细&#65292;&#8220;独特性&#8221;就越明显&#12290;那么网站就可以利用 User Agent&#65292;&#12304;<b>大致猜测</b>&#12305;某些页面访问是否来自同一个人&#12290;<br>
+<br>
+&#12288;&#12288;放几个比较详细的 User Agent 给大伙儿瞻仰一下&#65306;<br>
+&#65288;某个 IE&#65289;<br>
+<blockquote>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 2.0.50727; SLCC2; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; Zune 4.0; Tablet PC 2.0; InfoPath.3; .NET4.0C; .NET4.0E)</blockquote>&#65288;某个 Opera&#65289;<br>
+<blockquote>Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.13) Gecko/20101213 Opera/9.80 (Windows NT 6.1; U; zh-tw) Presto/2.7.62 Version/11.01</blockquote>&#65288;某个腾讯浏览器&#65289;<br>
+<blockquote>Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; QQPinyin 686; QQDownload 661; GTB6.6; TencentTraveler 4.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506&#65289;</blockquote>&#12288;&#12288;想知道自己浏览器的 User Agent 长啥样&#65311;猛击下面这个网址就可以看到了&#12290;<br>
+<a href="http://www.useragentstring.com/" target="_blank" rel="nofollow">http://www.useragentstring.com/</a><br>
+<br>
+<h3>&#9671;要不要修改&#8220;User Agent&#8221;&#65311;</h3><br>
+&#12288;&#12288;对于大部分网友而言&#65292;如果对隐私方面的要求不高&#65292;没必要修改 User Agent&#12290;目前为止&#65292;User Agent 的隐私问题不如 cookie 严重&#12290;所以隐私要求不高的网友&#65292;先学会清除 cookie 的招数&#12290;<br>
+&#12288;&#12288;但如果你对隐私的要求比较高&#65292;可以考虑修改自己浏览的默认 User Agent&#65292;伪造一个假的&#12290;<br>
+<br>
+<h3>&#9671;如何修改&#8220;User Agent&#8221;&#65311;</h3><br>
+&#12288;&#12288;要想避免 User Agent 泄漏隐私&#65292;简单的办法就是修改浏览器的&#8220;默认 User Agent&#8221;<br>
+&#12288;&#12288;俺简单说一下三大浏览器如何修改默认的 User Agent&#65306;<br>
+<br>
+&#12288;&#12288;<b>Firefox</b><br>
+&#12288;&#12288;通过定制 Firefox&#65292;创建一个新的配置项&#65292;其&#8220;名称&#8221;是 <code>general.useragent.override</code>&#65292;其&#8220;值&#8221;就是&#8220;新的 User Agent&#8221;&#12290;<br>
+&#12288;&#12288;定制 Firefox 的方法参见博文&#65306;&#12298;<a href="../../2019/07/Customize-Firefox.html">扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221;</a>&#12299;&#12290;<br>
+<br>
+&#12288;&#12288;<b>Chrome</b><br>
+&#12288;&#12288;在 Chrome 的启动参数中加上 <code>--user-agent="XXX"</code><br>
+&#12288;&#12288;这个 XXX 就是新的 User Agent&#12290;&#65288;可以在快捷方式中追加命令行的启动参数&#65289;<br>
+<br>
+&#12288;&#12288;<b>IE</b><br>
+&#12288;&#12288;用 regedit 打开注册表&#65292;编辑键值 <code>HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\User Agent</code><br>
+&#12288;&#12288;输入新的 User Agent<br>
+<br>
+<h3>&#9671;&#8220;User Agent&#8221;改成啥样比较好&#65311;</h3><br>
+&#12288;&#12288;用上述方式&#65292;可以伪造你浏览器的 User Agent&#12290;那么&#65292;伪装的 User Agent 该如何写捏&#65311;<br>
+&#12288;&#12288;前面俺说了&#65306;&#8220;User Agent&#8221;越&#12304;独特&#12305;就越容易被追踪&#12290;所以&#65292;当你要伪造自己的&#8220;User Agent&#8221;&#65292;当然是改成比较&#12304;大众化&#12305;的&#12290;下面这3个链接包含了三大浏览器&#12304;常见的&#12305;User Agent&#65292;供大伙儿参考&#12290;<br>
+<a href="http://www.useragentstring.com/pages/useragentstring.php?name=Firefox" target="_blank" rel="nofollow">Firefox 的 User Agent</a><br>
+<a href="http://www.useragentstring.com/pages/useragentstring.php?name=Chrome" target="_blank" rel="nofollow">Chrome 的 User Agent</a><br>
+<a href="http://www.useragentstring.com/pages/useragentstring.php?name=Internet+Explorer" target="_blank" rel="nofollow">IE 的 User Agent</a><br>
+&#12288;&#12288;你可以把自己浏览器的 User Agent 伪装成另外的两种之一&#12290;<br>
+<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;用了三篇博文&#65292;大致把浏览器&#12304;常见的&#12305;隐私问题介绍了一遍&#12290;大伙儿如果还有其它补充&#65292;或者有其它疑问&#65292;欢迎到本文留言&#12290;俺会尽量给予解答&#12290;<br>
+&#12288;&#12288;本系列的下一篇&#65292;俺来<a href="../../2014/01/privacy-protection-5.html">扫盲一下&#8220;浏览器指纹&#8221;</a>&#12290;<br>
+<br>
+<br>
+<a href="../../2013/06/privacy-protection-0.html#index" target="_blank">回到本系列的目录</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/07/privacy-protection-4.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/07/privacy-protection-4.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="58">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/8843526109266064329?postID=8843526109266064329&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/8843526109266064329.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

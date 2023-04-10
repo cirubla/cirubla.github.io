@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何防止黑客入侵[6]&#65306;Web相关的防范&#65288;中&#65289; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2012-09-08T23:02:00+08:00">2012年9月8日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：115条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何防止黑客入侵[6]&#65306;Web相关的防范&#65288;中&#65289;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;在本系列的<a href="../../2012/08/howto-prevent-hacker-attack-5.html">前一篇</a>聊了些基础性的东西&#65292;包括&#65306;常见的攻击手法&#12289;如何选择浏览器和插件&#12290;今天&#65292;俺继续介绍几个相对高级一点的话题&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;如何防范浏览器和插件的漏洞&#65311;</h2><br>
+&#12288;&#12288;在前一篇已经告诉大伙儿&#8220;如何选择浏览器&#8221;&#12290;但是光知道这个是不够滴&#65281;因为浏览器也是软件&#65292;只要是软件就可能会出现漏洞&#65288;包括安全漏洞&#65289;&#12290;<br>
+&#12288;&#12288;即使你按照俺的建议&#65292;选择 Firefox 或 Chrome 作为日常的浏览器&#65292;也&#12304;无法完全避免&#12305;浏览器自身出漏洞的问题&#12290;而且浏览器的漏洞中&#65292;有一些是没有补丁的高危漏洞&#65288;包括&#8220;未公开漏洞&#8221;&#65286;&#8220;零日漏洞&#8221;&#65292;俺在<a href="../../2010/08/howto-prevent-hacker-attack-4.html">前面的帖子</a>里介绍过&#65289;&#12290;因为没有补丁&#65292;所以这类高危漏洞就特别危险&#12290;这就引出了第一个问题&#65306;<b>如何防范浏览器的漏洞&#65311;</b><br>
+&#12288;&#12288;另外&#65292;在浏览器插件中&#65292;Flash 插件既是最危险的插件&#65292;也是使用最广的插件&#12290;这就引出了第二个问题&#65306;<b>如何安全地使用危险的插件&#65311;</b><br>
+&#12288;&#12288;要解决上述2个问题&#65292;可以使用同一个原则&#65292;那就是&#65306;&#12304;<b>对浏览器进行隔离</b>&#12305;&#12290;具体的隔离方式有很多种&#65292;今天俺由浅入深&#65292;分别介绍一下&#12290;<br>
+<br>
+<a name="multi_browser"> </a><br>
+<h2>&#9733;&#8220;多浏览器&#8221;的方案</h2><br>
+<h3>&#9671;操作步骤</h3><br>
+&#12288;&#12288;这招是最简单的&#8212;&#8212;就是在一台电脑上安装多款&#12304;不同内核&#12305;的浏览器&#12290;具体步骤俺就不多说了&#65292;节约点口水&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;<b>1. 解决网银的问题</b><br>
+&#12288;&#12288;前面提到了国内网银依赖于 IE 的问题&#12290;但是 IE 的安全性又不如 Firefox 和 Chrome&#65292;咋办捏&#65311;最简单的办法就是同时安装两款浏览器&#65288;比如 IE + Firefox&#65289;&#12290;平时你上网的时候&#65292;用 Firefox&#65292;需要用网银&#65292;则改用 IE&#12290;<br>
+&#12288;&#12288;由于你仅仅在使用网银的时候&#65292;才开启 IE&#65292;大大降低了 IE 被入侵的机会&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 解决跨站脚本&#65288;XSS&#65289;的问题</b><br>
+&#12288;&#12288;使用多种浏览器&#65292;还可以帮你解决跨站脚本攻击的问题&#12290;<br>
+&#12288;&#12288;单纯的XSS攻击&#65292;主要是依赖 JavaScript&#12290;而 JavaScript 只能在浏览器进程内起作用&#65292;无法跨浏览器进程&#12290;所以&#65292;如果你同时使用 A B 两款浏览器&#12290;如果 A 浏览器发送 XSS 攻击&#65292;通常不会影响到 B 浏览器&#12290;除非这个 XSS 攻击结合了浏览器漏洞或插件漏洞&#12290;那么&#65292;多款浏览器是否能防范浏览器漏洞和插件漏洞捏&#65311;请看往下看&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 部分解决高危插件&#65288;Flash&#65289;的使用问题</b><br>
+&#12288;&#12288;俺在<a href="../../2012/08/howto-prevent-hacker-attack-5.html">上一篇</a>提到了利用 Flash 入侵 Gmail 的案例&#12290;<br>
+&#12288;&#12288;比方说&#65292;你同时用 Firefox 和 Chrome&#12290;其中 Firefox 安装 Flash&#65292;用来上普通的网站&#65307;而 Chrome 不装或禁用 Flash&#65292;专门用来上 Google 的相关服务器&#65288;比如 Gmail&#65289;&#12290;<br>
+&#12288;&#12288;某天&#65292;你收到一封恶意的邮件&#65292;该邮件会利用 Flash 的漏洞来入侵用户的电脑&#12290;幸运的是&#65292;你用来访问 Gmail 的 Chrome 上没有 Flash 插件&#65288;被禁用&#65289;&#65292;于是攻击者的阴谋没有得逞 :-)<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;<b>1. 无法彻底解决浏览器漏洞和插件漏洞的问题</b><br>
+&#12288;&#12288;细心的读者会注意到&#65292;刚才那个小节的标题是<q>部分解决高危插件&#65288;Flash&#65289;的问题</q>&#12290;为啥俺要特地强调&#12304;部分解决&#12305;捏&#65311;因为浏览器的漏洞和插件的漏洞有很多种&#12290;有些漏洞只是让浏览器崩溃&#65292;无伤大雅&#65307;而有些漏洞可以导致在本地执行代码&#65292;并且能进一步植入木马&#12290;一旦你碰到后者&#65292;即使你采用&#8220;多种浏览器&#8221;的方式&#65292;也抵挡不住&#12290;<br>
+&#12288;&#12288;某些天真的网友可能会问&#65306;浏览器厂商和插件厂商不是会升级补丁吗&#65311;但是问题在于&#65292;有少数一些漏洞是没有补丁的&#12290;为啥会这样捏&#65311;请看本系列上一篇&#12298;<a href="../../2010/08/howto-prevent-hacker-attack-4.html">安全漏洞的基本防范</a>&#12299;&#65292;里面介绍了"未公开漏洞"和"零日漏洞"&#12290;<br>
+&#12288;&#12288;不过别担心&#65292;俺后面还会介绍更高级的招数&#65292;来防范这种情况&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 灵活性不够</b><br>
+&#12288;&#12288;对于&#8220;多浏览器&#8221;的方案&#65292;还有一个缺点是不够灵活&#12290;<br>
+&#12288;&#12288;因为你要为每一种用途安装一款浏览器&#65292;如果你的用途比较多&#65288;比如&#65306;上网银&#12289;普通浏览&#12289;Web 邮箱&#12289;看视频&#65289;&#65292;就要装好几款&#12290;<br>
+&#12288;&#12288;另外&#65292;有些用户就喜欢某一款浏览器&#65292;你让这些用户装好几款浏览器&#65292;他们会觉得不爽&#12290;<br>
+&#12288;&#12288;对于&#8220;灵活性不够&#8221;的缺点&#65292;大伙儿可以参考接下来要介绍的第二招&#8212;&#8212;&#8220;多实例&#8221;的方案&#12290;<br>
+<br>
+<a name="multi_profile"> </a><br>
+<h2>&#9733;&#12304;多实例&#12305;的方案</h2><br>
+<h3>&#9671;什么是浏览器的多实例&#65311;</h3><br>
+&#12288;&#12288;所谓的浏览器多实例&#65292;有时候也称之为&#8220;Multiple Profiles&#8221;&#12290;<br>
+&#12288;&#12288;不论是 Firefox 还是 Chrome&#65292;默认安装的时候&#65292;只有一个实例&#65288;Profile&#65289;&#12290;和浏览器相关的各种信息&#65292;包括&#65306;插件&#12289;扩展&#12289;外观&#65288;皮肤&#65289;&#12289;页面缓存&#12289;cookie&#12289;等等&#65292;都存储在这个实例中&#12290;<br>
+&#12288;&#12288;反之&#65292;如果使用多实例&#65292;每个实例都具有独立的插件&#12289;独立的扩展&#12289;独立的外观&#65288;皮肤&#65289;&#12289;独立的页面缓存&#12289;独立的 cookie&#12289;等等&#12290;不同实例之间是相对隔离的&#65292;&#12304;不会&#12305;互相影响&#12290;<br>
+&#12288;&#12288;对于 Chrome&#65292;再特别提醒一下&#65306;<br>
+&#12288;&#12288;Chrome 同时支持&#8220;Multiple Profiles&#8221;与&#8220;Multiple Accounts&#8221;&#12290;但别把这两者搞混了&#12290;即使你配置了多个 Accounts&#65292;依然在&#12304;同一个&#12305;实例里&#12290;<br>
+<br>
+<h3>&#9671;操作步骤</h3><br>
+&#12288;&#12288;多实例的配置&#65292;很多人不晓得&#12290;所以俺详细说一下&#12290;考虑到 Windows 用户居多&#65292;俺以 Windows 举例&#12290;Linux 和 Mac OS 的操作步骤大同小异&#12290;<br>
+<br>
+&#12288;&#12288;<b>多实例的 Firefox</b><br>
+<br>
+&#12288;&#12288;对于 Windows 上的 Firefox&#65292;Profile 都放置于 <code>%APPDATA%\Mozilla\Firefox\Profiles</code> 目录下&#12290;<br>
+&#12288;&#12288;假设你想创建一个&#12304;全新的&#12305;Firefox 实例&#65292;可以通过如下命令行来启动 Firefox&#12290;<br>
+<pre class="shell">"<b>{PATH}</b>\firefox.exe" -P "<b>XXXX</b>" -no-remote</pre>&#12288;&#12288;上述命令中&#65292;<code>{PATH}</code> 表示你的 Firefox 的&#12304;安装目录&#12305;&#12290;<code>XXXX</code> 表示你要创建的&#12304;实例名&#12305;&#65288;实例名可以是任意字母组合&#65292;你也可以把 <code>XXXX</code> 改成其它名称&#65289;&#12290;<br>
+&#12288;&#12288;运行完上述命令&#65292;Firefox 会启动出一个名叫 <code>XXXX</code> 的实例&#12290;与此同时&#65292;在 <code>%APPDATA%\Mozilla\Firefox\Profiles</code> 下会多出一个名叫 <code>XXXX</code> 的目录&#12290;<br>
+&#12288;&#12288;按照上述方式依样画葫芦&#65292;你就可以启动出任意多个 Firefox 实例&#12290;为了省事&#65292;你可以把上述命令行做成一个快捷方式&#65292;放到桌面上&#65292;免得每次都敲键盘&#12290;<br>
+&#12288;&#12288;另外&#65292;Firefox 还提供了一个多实例的管理界面&#65292;用如下命令可以调出该界面&#12290;<br>
+<pre class="shell">"<b>{PATH}</b>\firefox.exe" -p</pre><br>
+&#12288;&#12288;<b>多实例的 Chrome</b><br>
+<br>
+&#12288;&#12288;Chrome 类似于 Firefox&#65292;也可以通过命令行启动新的实例&#12290;<br>
+&#12288;&#12288;对于 Windows 上的 Chrome&#65292;由于 Chrome 安装的时候没让选安装目录&#65292;所以其&#12304;<b>exe 的安装目录固定如下</b>&#12305;&#65306;<br>
+<br>
+Windows 7 或 Vista  系统<br>
+<code>C:\Users\<b>{USER}</b>\AppData\Local\Google\Chrome\Application\chrome.exe</code><br>
+Windows XP 系统<br>
+<code>C:\Documents and Settings\<b>{USER}</b>\Local Settings\Application Data\Google\Chrome\Application\chrome.exe</code><br>
+&#12288;&#12288;上述的 <code>{USER}</code> 表示你的 Windows 用户名<br>
+<br>
+&#12288;&#12288;找到 <code>chrome.exe</code> 之后&#65292;接下来&#65292;你需要创建一个目录&#65292;用来存放新创建的实例&#12290;比方说&#65292;你用的是这个目录&#65306; <code>X:\XXXX\</code><br>
+&#12288;&#12288;然后&#65292;通过如下命令启动 Chrome&#65292;就可以创建出新实例<br>
+<br>
+Vista 或 Windows 7 系统<br>
+<pre class="shell">C:\Users\<b>{USER}</b>\AppData\Local\Google\Chrome\Application\chrome.exe&#160;--user-data-dir="<b>X:\XXXX\</b>"</pre>Windows XP 或 Win 2003 系统<br>
+<pre class="shell">C:\Documents and Settings\<b>{USER}</b>\Local Settings\Application Data\Google\Chrome\chrome.exe --user-data-dir="<b>X:\XXXX\</b>"</pre><br>
+&#12288;&#12288;按照上述方式依样画葫芦&#65292;你就可以创建出任意多个 Chrome 实例&#12290;为了省事&#65292;你可以把上述命令行做成一个快捷方式&#65292;放到桌面上&#65292;免得每次都敲键盘&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;<b>1. 解决跨站脚本&#65288;XSS&#65289;的问题</b><br>
+&#12288;&#12288;这个优点跟&#8220;多浏览器&#8221;方案是类似的&#12290;俺就不再啰嗦了&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 部分解决高危插件&#65288;Flash&#65289;的使用问题</b><br>
+&#12288;&#12288;这个优点跟&#8220;多浏览器&#8221;方案是类似的&#12290;俺就不再啰嗦了&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 灵活性高</b><br>
+&#12288;&#12288;与&#8220;多浏览器&#8221;的方案相比&#65292;&#8220;多实例&#8221;的方案明显灵活多了&#12290;因为 Firefox 和 Chrome 可以创建出任意多个实例&#65288;只要你的硬盘够大&#65292;想建几个实例都行&#65289;&#12290;而且&#65292;这个方案可以满足某些 Firefox 粉丝或 Chrome 粉丝的个人偏好&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;<b>1. 无法彻底解决浏览器漏洞的问题</b><br>
+&#12288;&#12288;在这方面&#65292;&#8220;多实例方案&#8221;与&#8220;多浏览器方案&#8221;具有共同的缺陷&#8212;&#8212;无法抵御具有&#12304;本地代码执行&#12305;的高危漏洞&#12290;包括浏览器漏洞和插件漏洞都有可能出现这类高危漏洞&#12290;<br>
+&#12288;&#12288;那么&#65292;该咋办捏&#65292;请看下一节&#8212;&#8212;&#8220;多用户&#8221;的方案&#12290;<br>
+<br>
+<a name="multi_user"> </a><br>
+<h2>&#9733;&#12304;多用户&#12305;的方案</h2><br>
+&#12288;&#12288;前面提到的两种方案&#65292;都无法防范某些浏览器或插件的高危漏洞&#12290;因为这些高危漏洞会导致在本地执行攻击代码&#65292;并有可能植入木马&#12290;现在&#65292;俺来介绍第三种方案&#8212;&#8212;多用户方案&#12290;此方案可以防范<b>大部分</b>在本地执行的攻击代码&#12290;<br>
+&#12288;&#12288;先说明一下&#65292;此处的&#8220;用户&#8221;指的是&#12304;操作系统用户&#12305;&#12290;<br>
+<br>
+<h3>&#9671;某些高危漏洞为啥很危险&#65311;</h3><br>
+&#12288;&#12288;俺前面反复提到&#8220;导致本地执行攻击代码的漏洞&#8221;&#12290;这样的漏洞是非常非常危险的&#12290;为啥捏&#65311;俺简单扫盲一下&#12290;<br>
+&#12288;&#12288;如果你的浏览器或者浏览器插件具有这类漏洞&#65292;当你访问某个恶意网页时&#65292;如果该恶意网页能够利用此漏洞&#65292;就可以在你的本地的操作系统中执行攻击代码&#12290;由于这个攻击代码是在浏览器的进程内触发的&#65292;所以该攻击代码就具有当前用户所具有的权限&#12290;<br>
+&#12288;&#12288;比方说&#65292;如今大部分网友都用 Windows 上网&#12290;并且&#65292;这些网友都是以&#8220;系统管理员&#8221;的身份使用浏览器&#12290;一旦碰到这类漏洞时&#65292;本地的攻击代码也同时具有了&#8220;系统管理员权限&#8221;&#12290;有了这么高的权限&#65292;攻击代码可以为所欲为&#12290;<br>
+&#12288;&#12288;某些网友可能会问&#65306;那不用管理员身份上网&#65292;是不是就没事了&#65311;<br>
+&#12288;&#12288;俺只能说&#65292;用低权限的用户身份&#65288;比如 Windows 里面的&#8220;Users 组&#8221;&#65289;上网&#65292;相对于用管理员身份上网&#65292;会好一些&#12290;但是捏&#65292;还是有问题&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;即使你用低权限用户上网&#65292;一旦遭遇这类漏洞&#65292;攻击代码还是有可能植入木马&#12290;然后捏&#65292;这个木马有可能会查找你电脑上的各种私密文件&#65288;比如你的裸照&#65289;&#12290;然后木马会把这些私密文件发送给木马的主人&#12290;<br>
+<br>
+&#12288;&#12288;从上述例子可见&#65292;用低权限的用户上网&#65292;&#12304;不能&#12305;彻底解决问题&#12290;所以&#65292;俺隆重推出第三种方案&#8212;&#8212;多用户方案&#12290;<br>
+<br>
+<h3>&#9671;啥是&#8220;多用户方案&#8221;捏&#65311;</h3><br>
+&#12288;&#12288;如今的桌面操作系统&#65292;无论是 Windows 还是 Linux 或 Mac OS&#65292;都可以创建多个操作系统用户&#65292;并且这多个用户可以同时运行程序&#12290;如果你用过 WinXP 的快速用户切换&#65292;应该对此深有体会&#12290;<br>
+&#12288;&#12288;多用户方案的关键在于&#65306;<br>
+&#12288;&#12288;你需要创建一个或多个&#12304;低权限&#12305;的&#8220;上网用户&#8221;&#65288;所谓低权限&#65292;必须低于你当前使用的用户权限&#65289;&#12290;这些&#8220;上网用户&#8221;专门用来访问各种网站&#12290;<br>
+&#12288;&#12288;假使你不幸访问了恶意网页&#65292;遭遇本地执行的攻击代码&#65292;问题也不大&#12290;因为这些上网用户的权限很低&#65292;所以它们触发的攻击代码&#65292;权限也很低&#12290;因此攻击代码就比较难钻空子&#12290;一般来说&#65292;对&#8220;上网用户&#8221;的权限限制得越严格&#65292;攻击代码就越难有作为&#12290;<br>
+<br>
+<h3>&#9671;操作步骤</h3><br>
+&#12288;&#12288;<b>1. 创建上网用户</b><br>
+&#12288;&#12288;如何在桌面系统中创建新的用户&#65292;大家应该都会吧&#65311;不会的同学&#65292;请看&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-1.html">避免使用高权限用户</a>&#12299;一文的相关章节&#12290;上网用户可以只创建一个&#65292;也可以创建多个&#12290;具体建几个&#65292;看你的需求&#12290;<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;假如你非常看重网银的安全&#65292;可以创建两个上网用户&#65292;一个专门用来访问网银&#65292;一个专门用来上其它网站&#12290;<br>
+&#12288;&#12288;提醒一下&#65306;在这些上网用户的环境中&#65292;除了浏览器&#65292;其它啥软件都&#12304;别&#12305;装&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 设置上网用户的权限</b><br>
+&#12288;&#12288;再啰嗦一次&#65292;上网用户的权限&#65292;一定要低于你目前使用的用户权限&#12290;<br>
+&#12288;&#12288;以 Windows 为例&#65306;<br>
+在 Windows 中&#65292;常见的用户组的权限大小分别是&#65306;<b>&#8220;Administrators 组&#8221; &#65310; &#8220;Power Users 组&#8221; &#65310; &#8220;Users 组&#8221; &#65310; &#8220;Guest 组&#8221;</b>&#12290;<br>
+如果你平时用&#8220;Administrators 组&#8221;的用户&#65292;那么可以把上网用户设置为&#65306;&#8220;Power User&#8221;或&#8220;User&#8221;或&#8220;Guest&#8221;<br>
+如果你平时用&#8220;Power Users 组&#8221;的用户&#65292;那么上网用户就只能设置为 User 或 Guest&#12290;<br>
+以此类推......<br>
+&#65288;如果你想了解这些用户组之间的权限差异&#65292;可以参考本系列的第一个帖子&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-1.html">避免使用高权限用户</a>&#12299;&#65289;<br>
+<br>
+&#12288;&#12288;提醒一下&#65306;<br>
+&#12288;&#12288;Guest 用户组的权限是最低&#65292;低得难以想象&#12290;所以&#65292;从安全角度而言&#65292;把上网用户设置为&#8220;Guest 组&#8221;是最安全滴&#12290;但是&#65292;也是最麻烦滴&#12290;你需要进行好多设置&#8212;&#8212;否则的话&#65292;你可能连浏览器都跑不起来&#12290;<br>
+&#12288;&#12288;所以&#65292;除非你对 Windows 系统比较熟悉&#65292;否则的话&#65292;俺&#12304;不&#12305;建议使用&#8220;Guest 组&#8221;的权限&#12290;比较理想的权限是&#8220;Users 组&#8221;&#12290;这个组的权限也比较低&#65292;但是用起来不麻烦&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 设置文件目录的访问控制权限&#65288;ACL&#65289;</b><br>
+&#12288;&#12288;每个人的电脑中&#65292;都会有某几个目录是用来存放你的敏感个人资料的&#12290;<br>
+&#12288;&#12288;你必须设置这些目录的访问控制权限&#65288;简称 ACL&#65289;&#65292;设置为&#65306;&#8220;上网用户&#8221;所在的组&#12304;<b>不允许读写</b>&#12305;&#12290;这样一来&#65292;你可以把自己那些敏感的&#65292;私密的文件&#65288;比如自己的裸照&#65289;&#65292;都通过上述 ACL 保护起来&#12290;即使&#8220;上网用户&#8221;遭遇高危漏洞的攻击&#65292;本地执行的攻击代码也&#12304;难以拿到&#12305;你的隐私&#65288;俺说"难以拿到"&#65292;意思就是说&#65292;还是有可能滴&#65292;但是可能性很小&#65292;后面会解释&#65289;&#12290;<br>
+&#12288;&#12288;顺便提醒一下&#65306;对于 Windows 系统&#65292;只有使用 NTFS 格式的分区&#65292;才支持 ACL&#12290;FAT32 格式的分区是不支持滴&#65281;<br>
+&#12288;&#12288;如果你是个菜鸟&#65292;不懂得如何设置文件及目录的 ACL&#65292;没关系&#65281;Google 一下&#65292;你就知道&#12290;<br>
+<br>
+&#12288;&#12288;<b>4. 多用户浏览器共享同一个桌面的技巧</b><br>
+&#12288;&#12288;你可以直接用 Windows 提供的&#8220;快速用户切换&#8221;&#12290;对于 Windows 系统&#65292;从 WinXP 开始就提供了"快速用户切换"的功能&#12290;用它来切换用户还是很方便滴&#12290;但是这招有一个缺点&#65306;你一次只能看到某一个用户运行的软件&#65292;其它用户运行的软件看不到&#12290;<br>
+&#12288;&#12288;不过没关系&#65292;还有一个小技巧&#65292;可以让你在同一个桌面中&#65292;运行不同用户的软件&#65288;包括浏览器&#65289;&#12290;<br>
+&#12288;&#12288;假设你创建了 A &#65286; B 两个用户&#12290;其中 A 是主用户&#65292;用来完成你日常的工作&#65307;B 是上网用户&#12290;那么你可以先登录&#8220;A用户&#8221;&#65292;然后在&#8220;A用户&#8221;的桌面上创建一个浏览器的快捷方式&#12290;&#65288;如何创建快捷方式&#65292;就不用俺手把手教了吧&#65289;<br>
+&#12288;&#12288;用鼠标选中该快捷方式&#65292;在快捷菜单&#65288;右键菜单&#65289;中&#65292;选择&#8220;属性&#8221;菜单项&#12290;出现如下对话框&#12290;<br>
+<center><img src="../../images/2012/09/G7iCvdIjvzNzNLP-G0vIx1TUWoquHyB1250xkyEHN-yWMR1pDiCx_BBF8hPyXLCaRyp_3fuz0tXVVxNm5cb4dQpGezCDaS0_cl4LZV6wwGnw5icjZK81l3bmdmVv" alt="不见图 请翻墙"></center><br>
+在该对话框中&#65292;点&#8220;高级&#8221;按钮&#12290;出现如下对话框&#12290;把&#8220;以其他用户身份运行&#8221;选项打勾&#65292;就可以啦&#12290;<br>
+<center><img src="../../images/2012/09/X47byUOJ2PtD7Smq9ArZdUFPjBjrCgrkY9lYSdWnTB7RIHUq1ByRDxtDL9v09Nk5eACHC4RzZDcV0RT9-adVQ77RxwGOqACe0YPpC_UgOEsSX4bp85kbWWlKwFJn" alt="不见图 请翻墙"></center><br>
+之后&#65292;如果你想在&#8220;A用户&#8221;的桌面上运行&#8220;B用户&#8221;的浏览器&#65292;只需点击该快捷方式&#65292;就会弹出如下对话框&#12290;然后输入&#8220;B用户&#8221;的用户名/口令&#65292;就能以&#8220;B用户&#8221;的身份运行浏览器&#12290;<br>
+<center><img src="../../images/2012/09/vULI8x0WJ0XStJdYnN3G-t4Dj_Pr0YTzB-vyOVnANH04M2I6UXVOs49EJDwBS0Ba6Rq9pc0-JcekxJvrIrWh7mr2CzTGnVMr6LFAsQFlLf7w479G9PLEQWSW3-Ia" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;刚才介绍的是图形界面的配置&#12290;对于习惯于命令行的 IT 专业人员&#65292;还可以用命令行的方式启动指定用户的某个进程&#12290;Linux 系统和 Mac OS 系统有 <code>su</code> 或 <code>sudo</code> 命令&#65307;Windows 系统有 <code>runas</code> 命令&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;<b>1. 解决跨站脚本&#65288;XSS&#65289;的问题</b><br>
+&#12288;&#12288;这个优点跟前两种方案类似&#65292;俺就不再啰嗦了&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 解决高危插件&#65288;Flash&#65289;的使用问题</b><br>
+&#12288;&#12288;这个优点跟前两种方案类似&#65292;俺就不再啰嗦了&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 防范各种浏览器漏洞</b><br>
+&#12288;&#12288;正如刚才提到的&#8212;&#8212;前两种方案&#65288;多浏览器&#12289;多实例&#65289;无法防御浏览器及插件的某些高危漏洞&#65288;具备本地执行攻击代码的漏洞&#65289;&#12290;而&#8220;多用户方案&#8221;可以大大降低这类漏洞的危害性&#12290;使得攻击代码只能威胁到&#8220;上网用户&#8221;本身&#65292;而不会威胁到其它操作系统用户&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;<b>1. 初始配置稍嫌麻烦</b><br>
+&#12288;&#12288;相比前面两种方案&#65292;这个方案的&#12304;初始配置&#12305;比较麻烦&#12290;而且你要分清楚哪个用户是用来干啥的&#12290;不过捏&#65292;一旦用久了&#65292;习惯了&#65292;也就不觉得麻烦了&#12290;<br>
+<br>
+&#12288;&#12288;<b>2.&#160;无法防范极个别高明的攻击者</b><br>
+&#12288;&#12288;&#8220;多用户方案&#8221;之所以可以隔离攻击代码&#65292;是因为如今所有主流的桌面操作系统&#65292;都能够在操作系统层面&#65292;对不同的系统用户进行隔离&#12290;因为有操作系统层面的隔离&#65292;所以才限制了攻击代码的危害性&#12290;<br>
+&#12288;&#12288;但是&#65292;操作系统层面的隔离&#65292;也不是百分之百可靠滴&#12290;不要忘了&#65292;操作系统本身也是软件&#65292;也可能出现安全漏洞&#12290;在操作系统的安全漏洞中&#65292;有一类漏洞叫做&#8220;权限提升漏洞&#8221;&#65288;简称&#8220;提权漏洞&#8221;&#65289;&#12290;所谓的&#8220;提权漏洞&#8221;&#65292;顾名思义&#65292;就是能够提升&#12304;当前执行代码&#12305;的权限&#12290;比方说&#65292;本来攻击代码没有管理员权限&#65292;通过"提权漏洞"&#65292;就可以拿到管理员权限&#12290;<br>
+&#12288;&#12288;如果你的操作系统本身存在&#8220;提权漏洞&#8221;&#65292;同时你的浏览器或者插件存在&#8220;能够在本地执行代码的漏洞&#8221;&#65292;那么&#65292;高明的攻击者就有可能把这两者组合起来&#65292;对你的系统进行组合攻击&#12290;<br>
+&#12288;&#12288;不过大伙儿别担心&#8212;&#8212;要实现这类组合攻击&#65292;需要同时掌握&#12304;未公开的&#12305;浏览器或插件漏洞&#65292;并且还要有&#12304;未公开的&#12305;操作系统提权漏洞&#65288;俺在<a href="http://program-think.blogspot.com/2010/08/howto-prevent-hacker-attack-4.html">前面的帖子</a>里介绍过&#65292;&#8220;未公开漏洞&#8221;总是比&#8220;零日漏洞&#8221;更危险&#65289;&#12290;另外&#65292;攻击者还需要做很多准备工作&#65292;才能诱使你访问到恶意网页&#12290;一般的入侵者根本没有这个本事&#65292;也没有耐心去搞这些&#12290;反之&#65292;有这个本事又有这个耐心的入侵者&#65292;通常不会拿这种招数去入侵普通网友&#65288;这么做简直是大材小用&#65289;&#12290;所以&#65292;如果你只是一个普通的网友&#65292;在前面三个方案中挑选一个&#65292;即可&#12290;<br>
+<br>
+&#12288;&#12288;估计有些好奇的同学会打听了&#12290;什么样的入侵者具有这种实力&#65311;什么样的人会成为他们的目标&#65311;<br>
+&#12288;&#12288;由于本文的篇幅已经很长了&#65292;俺稍微调一下列位看官的胃口&#65292;在&#12298;Web相关的防范&#65288;下&#65289;&#12299;再来八卦这些&#65292;同时也介绍一下比&#8220;多用户方案&#8221;更高级的方案&#12290;虽然这种方案很多人用不到&#65292;但俺还是会写出来&#65292;就当满足一下大伙儿的好奇心 :-)<br>
+<br>
+<br>
+<b><a href="../../2010/06/howto-prevent-hacker-attack-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2012/09/howto-prevent-hacker-attack-6.html" id="OriginalPostUrl">https://program-think.blogspot.com/2012/09/howto-prevent-hacker-attack-6.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="115">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/5167729474941440412?postID=5167729474941440412&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/5167729474941440412.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

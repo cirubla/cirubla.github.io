@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>吐槽一下 Windows 的安全漏洞&#8212;&#8212;严重性超乎想象 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2017-04-10T21:59:00+08:00">2017年4月10日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：560条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              吐槽一下 Windows 的安全漏洞&#8212;&#8212;严重性超乎想象
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;先插播一个&#8220;广而告之&#8221;&#12290;<br>
+&#12288;&#12288;<a href="../../2017/03/Why-Linux-Is-More-Secure-Than-Windows-and-macOS.html">上一篇博文</a>的评论数突破&#12304;一千&#12305;大关&#12290;感谢热心读者的捧场 :)<br>
+&#12288;&#12288;参与讨论的读者增多了之后&#65292;俺再次提醒大伙儿&#65306;网上的沟通要注意素质&#65292;理性讨论&#65292;避免过于情绪化&#12290;另外&#65292;要避免逻辑谬误的陷阱&#65288;参见&#12298;<a href="../../2011/03/logical-fallacies.html">扫盲逻辑谬误</a>&#12299;&#65289;&#12290;<br>
+&#12288;&#12288;评论数猛增也暴露出之前未发现的一个&#8220;评论区的 Bug&#8221;&#12290;经过几位热心读者的大力支持&#65288;帮俺测试&#65289;&#65292;该 bug 已经在前天修复&#12290;在此&#65292;向这几位热心读者郑重地表示感谢&#65281;<br>
+<br>
+<br>
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;前一篇博文&#12298;<a href="../../2017/03/Why-Linux-Is-More-Secure-Than-Windows-and-macOS.html">为什么桌面系统装 Linux 可以做到更好的安全性&#65288;相比 Windows &amp; macOS 而言&#65289;</a>&#12299;发出后&#65292;不出所料&#65292;引发了一些争议&#12290;<br>
+&#12288;&#12288;有些读者提的批评意见&#65292;指出了俺博文某些地方不严密&#65292;俺表示感谢&#65292;并且也在博文中加了补充说明&#65288;以免引起误解&#65289;&#12290;<br>
+&#12288;&#12288;但也有些读者的留言&#65292;给人感觉是替微软&#8220;洗地&#8221;的&#12290;<br>
+&#12288;&#12288;比如 131楼37单元 的评论说&#65288;下面是原话&#65289;&#65306;<br>
+<blockquote>linux平均的漏洞寿命是5年&#65288;Kees Cook&#65289;&#65292;COW漏洞更是存在了9年才被修复&#12290;很难想象windows会拖这么久&#12290;</blockquote><br>
+&#12288;&#12288;当俺看到该评论的&#12304;最后一句&#12305;&#65292;不禁哑然失笑&#8212;&#8212;Windows 的安全漏洞之多&#65292;在安全业界是有目共睹滴&#65307;Windows 安全漏洞潜伏时间之长&#65292;在业界也是有目共睹滴&#12290;<br>
+&#12288;&#12288;俺写上一篇博文的时候&#65292;主要是介绍 Linux&#65288;桌面系统&#65289;相对于 Windows 和 macOS 的安全优势&#12290;当时想给微软留点面子&#65292;所以没怎么狠批 Windows 的安全问题&#12290;如今有人跳出来洗地&#65292;俺就借这个机会&#65292;抖一下 Windows 的阴暗面&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;事先声明</h2><br>
+&#12288;&#12288;为了严密性&#65292;避免有人抬杠&#65292;俺先说明一下&#65306;本文讨论的是用于&#12304;桌面&#12305;的 Windows 系统&#12290;<br>
+&#12288;&#12288;服务端的 Windows&#12289;手机端的 Windows&#12289;嵌入设备的 Windows&#65292;均&#12304;不在&#12305;本文讨论范围&#12290;<br>
+<br>
+<br>
+<h2>&#9733;预备知识</h2><br>
+<h3>&#9671;何为&#8220;漏洞&#8221;&#65311;</h3><br>
+&#12288;&#12288;关于这个概念的解释&#65292;请参见&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止黑客入侵</a>&#12299;系列的第4篇&#65288;链接在&#8221;<a href="../../2010/08/howto-prevent-hacker-attack-4.html">这里</a>&#8220;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;何为&#8220;安全漏洞&#8221;&#65311;</h3><br>
+&#12288;&#12288;&#65288;同上&#65289;<br>
+<br>
+<h3>&#9671;何为&#8220;补丁&#8221;&#65311;</h3><br>
+&#12288;&#12288;&#65288;同上&#65289;<br>
+<br>
+<h3>&#9671;啥是&#8220;漏洞的潜伏期&#8221;&#65311;</h3><br>
+&#12288;&#12288;从漏洞开始引入软件的这个时间点&#65292;一直到漏洞被曝光&#65288;被公开&#65289;的时间点&#65292;中间这个时期是&#8220;潜伏期&#8221;&#12290;漏洞一旦被曝光&#65288;被公开&#65289;&#65292;软件厂商&#65288;开发软件的公司/组织&#65289;通常会发布补丁&#65292;用于修复此漏洞&#12290;<br>
+&#12288;&#12288;在潜伏期&#65292;由于漏洞尚未被公开&#65292;因此也就&#12304;没有&#12305;补丁&#65307;但是&#65292;有可能某些黑客/骇客已经发现了该漏洞&#65292;于是这帮人就可以在&#12304;没有补丁的情况下&#12305;&#65292;充分利用该漏洞&#12290;<br>
+&#12288;&#12288;可以这么说&#65306;可供利用的&#8220;未公开漏洞&#8221;&#65288;处于潜伏期的漏洞&#65289;是攻击者的天堂&#12290;<br>
+<br>
+<h3>&#9671;&#12304;不要&#12305;混淆&#8220;未公开漏洞&#8221;和&#8220;零日漏洞&#8221;</h3><br>
+&#12288;&#12288;&#8220;零日漏洞&#8221;&#65292;洋文也叫&#65306;&#8220;Zero-Day 或 0-Day&#8221;&#12290;<br>
+&#12288;&#12288;&#8220;未公开漏洞&#8221;和&#8220;零日漏洞&#8221;&#65292;概念上是完全不同滴&#65292;危险性也是完全不同滴&#8212;&#8212;&#8220;未公开漏洞&#8221;更危险&#12290;<br>
+&#12288;&#12288;关于这两者的区别&#65292;请看&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止黑客入侵</a>&#12299;系列的第4篇&#65288;链接在&#8220;<a href="../../2010/08/howto-prevent-hacker-attack-4.html">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;啥是&#8220;CVE&#8221;&#65311;</h3><br>
+&#12288;&#12288;CVE 是洋文&#8220;Common Vulnerabilities and Exposures&#8221;的缩写&#12290;<br>
+&#12288;&#12288;通俗地说&#65306;这是全球最大&#12289;最权威&#12289;最有影响力的漏洞库&#12290;由美国的非营利组织 MITRE 负责维护和运营&#12290;几乎每一个曝光的操作系统漏洞&#65288;不论是 Windows 家族还是 Linux 家族&#12289;mac 家族&#12289;BSD 家族&#65289;&#65292;通常都有对应的 CVE 编号&#12290;<br>
+&#12288;&#12288;在 CVE 漏洞库中&#65292;每一个漏洞都分配一个唯一的编号&#65292;形式如&#65306;CVE-YYYY-NNNN&#12290;其中的 YYYY 是四位数的年份&#65292;NNNN 是四位数的递增编号&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Windows 安全漏洞举例&#8212;&#8212;对最近2个自然年的统计</h2><br>
+&#12288;&#12288;为了体现本文的说服力&#65292;俺以&#12304;事实说话&#12305;&#12290;<br>
+&#12288;&#12288;下面列出的漏洞&#65292;&#12304;全部来自微软官网&#12305;&#12290;也就是说&#65292;这些安全漏洞全部都是微软自己承认滴&#12290;这些漏洞波及&#65288;影响&#65289;的范围&#65292;也都是微软官方承认滴&#12290;<br>
+&#12288;&#12288;考虑到俺只是一介屁民&#65292;时间和精力很有限&#65292;俺不可能把微软官网历史上所有的安全漏洞都汇总一遍&#12290;所以俺挑选了最近的2个&#12304;完整自然年&#12305;&#65292;作为举例&#8212;&#8212;分别是 2016 和 2015&#12290;<br>
+<br>
+<h3>&#9671;2016年</h3><br>
+&#12288;&#12288;<b>微软在该年度发布了&#12304;153个&#12305;安全公告</b>&#65288;全部清单在&#8220;<a href="https://technet.microsoft.com/library/security/mt674627.aspx" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;请原谅俺的耐心和精力有限&#65292;只列出&#12304;前20个&#12305;&#65288;算是抽样&#65289;&#12290;<br>
+&#12288;&#12288;注&#65306;<br>
+&#12288;&#12288;下面列出的安全公告是该年度的前20条&#65292;都是在年初曝光的&#12290;那年的最新版本是 Win 10&#12290;&#65288;&#8220;Windows Server 2016&#8221;要到2016年&#12304;下半年&#12305;才发布&#65289;<br>
+&#12288;&#12288;在2016年上半年&#65292;仍然提供支持的最老版本是 Windows Vista&#12290;<br>
+&#12288;&#12288;因此&#65292;下列的漏洞&#65292;如果影响范围是&#12304;从 Vista 到 Win10&#12305;&#65292;那么这个漏洞就是&#12304;全系列漏洞&#12305;&#8212;&#8212;影响了&#65288;漏洞曝光时&#65289;所有的 Windows 版本&#12290;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr><th>微软安全公告</th><th>漏洞数</th><th>漏洞的 CVE 号</th><th>漏洞类型</th><th>漏洞所在模块</th><th>潜伏期</th><th>影响范围</th><th>描述</th></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-001" target="_blank" rel="nofollow">MS16-001</a></td><td>2</td><td>CVE-2016-0002<br>
+CVE-2016-0005</td><td><span style="color:red;">远程执行代码</span></td><td>IE 浏览器</td><td><span style="color:red;">10年</span></td><td>从 IE7 到 IE11<br>
+&#65288;对应系统版本&#65289;从 Vista 到 Win8.1</td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 IE 访问&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-002" target="_blank" rel="nofollow">MS16-002</a></td><td>2</td><td>CVE-2016-0003<br>
+CVE-2016-0024</td><td><span style="color:red;">远程执行代码</span></td><td>Edge 浏览器</td><td>1年</td><td>Edge<br>
+&#65288;对应系统版本&#65289;Win10</td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 Edge 访问&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-003" target="_blank" rel="nofollow">MS16-003</a></td><td>1</td><td>CVE-2016-0002</td><td><span style="color:red;">远程执行代码</span></td><td>VBS 脚本引擎</td><td><span style="color:red;">10年</span></td><td>从 VBS 5.7 到 5.8<br>
+&#65288;对应系统版本&#65289;从 Vista 到 Windows Server 2008 R2</td><td>攻击者构造特定网页&#65288;嵌入特定的 VBS 脚本&#65289;&#65292;如果受害者使用的 IE 含有上述版本的 VBS 引擎&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-004" target="_blank" rel="nofollow">MS16-004</a></td><td>4</td><td>CVE-2016-0010<br>
+CVE-2016-0012<br>
+CVE-2016-0017<br>
+CVE-2016-0035</td><td><span style="color:red;">远程执行代码</span></td><td>Office</td><td><span style="color:red;">9年</span></td><td>从 Office 2007 到 2016</td><td>攻击者构造特定文档&#65288;Excel&#12289;PowerPoint&#65289;&#65292;当受害者用上述版本的 Office 打开&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-005" target="_blank" rel="nofollow">MS16-005</a></td><td>2</td><td>CVE-2016-0008<br>
+CVE-2016-0009</td><td><span style="color:red;">远程执行代码</span></td><td>内核的 GDI32 模块<br>
+内核的 Win32k.sys 模块</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win8.1</td><td>攻击者构造特定网页&#65292;不论受害者用哪种浏览器访问&#65292;都会中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-006" target="_blank" rel="nofollow">MS16-006</a></td><td>1</td><td>CVE-2016-0034</td><td><span style="color:red;">远程执行代码</span></td><td>Silverlight</td><td>5年</td><td>Silverlight 5</td><td>攻击者构造特定网页&#65292;当受害者的浏览器安装了上述版本的 Silverlight&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-007" target="_blank" rel="nofollow">MS16-007</a></td><td>6</td><td>CVE-2016-0014<br>
+CVE-2016-0015<br>
+CVE-2016-0016<br>
+CVE-2016-0018<br>
+CVE-2016-0019<br>
+CVE-2016-0020</td><td><span style="color:red;">远程执行代码</span><br>
+<span style="color:maroon;">本地提升权限</span><br>
+安全特性绕过</td><td>内核的动态库加载<br>
+DirectShow<br>
+RDP&#65288;远程桌面&#65289;</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者可以构造特定文件&#65292;当受害者打开该文件会引发 DirectShow 的堆溢出&#65288;缓冲区溢出&#65289;并执行恶意代码&#12290;<br>
+攻击者可以构造特定的动态库&#65292;当受害者的系统加载该动态库会中招&#65292;攻击代码可以提升到管理员权限&#12290;<br>
+攻击者可以利用 RDP 的漏洞在没有密码的情况下登录</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-008" target="_blank" rel="nofollow">MS16-008</a></td><td>2</td><td>CVE-2016-0006<br>
+CVE-2016-0007</td><td><span style="color:maroon;">本地提升权限</span></td><td>内核</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win8.1</td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-009" target="_blank" rel="nofollow">MS16-009</a></td><td>13</td><td>CVE-2016-0041<br>
+CVE-2016-0059<br>
+CVE-2016-0060<br>
+CVE-2016-0061<br>
+CVE-2016-0062<br>
+CVE-2016-0063<br>
+CVE-2016-0064<br>
+CVE-2016-0067<br>
+CVE-2016-0068<br>
+CVE-2016-0069<br>
+CVE-2016-0071<br>
+CVE-2016-0072<br>
+CVE-2016-0077</td><td><span style="color:red;">远程执行代码</span><br>
+<span style="color:maroon;">本地提升权限</span></td><td>IE 浏览器</td><td><span style="color:red;">10年</span></td><td>从 IE9 到 IE11<br>
+&#65288;对应系统版本&#65289;从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 IE 访问&#65292;就中招&#12290;<br>
+这次公告包含大量 IE 浏览器的缓冲区溢出漏洞&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-010" target="_blank" rel="nofollow">MS16-010</a></td><td>-</td><td>-</td><td>-</td><td>Exchange Server</td><td>-</td><td>-</td><td>&#65288;这个是关于服务端软件的漏洞&#65292;与本文无关&#65289;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-011" target="_blank" rel="nofollow">MS16-011</a></td><td>4</td><td>CVE-2016-0060<br>
+CVE-2016-0061<br>
+CVE-2016-0062<br>
+CVE-2016-0080</td><td><span style="color:red;">远程执行代码</span></td><td>Edge 浏览器</td><td>1年</td><td>Edge<br>
+&#65288;对应系统版本&#65289;Win10</td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 Edge 访问&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-012" target="_blank" rel="nofollow">MS16-012</a></td><td>2</td><td>CVE-2016-0046<br>
+CVE-2016-0058</td><td><span style="color:red;">远程执行代码</span></td><td>PDF Library<br>
+Windows Reader</td><td>3年</td><td>从 Win8.1 到 Win10</td><td>攻击者构造特定文档&#65292;当受害者用上述版本的 Reader 打开&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-013" target="_blank" rel="nofollow">MS16-013</a></td><td>1</td><td>CVE-2016-0038</td><td><span style="color:red;">远程执行代码</span></td><td>Windows Journal</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定的 Journal 文档&#65292;当受害者打开&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-014" target="_blank" rel="nofollow">MS16-014</a></td><td>4</td><td>CVE-2016-0040<br>
+CVE-2016-0041<br>
+CVE-2016-0042<br>
+CVE-2016-0049</td><td><span style="color:red;">远程执行代码</span><br>
+<span style="color:maroon;">本地提升权限</span></td><td>内核</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-015" target="_blank" rel="nofollow">MS16-015</a></td><td>6</td><td>CVE-2016-0022<br>
+CVE-2016-0039<br>
+CVE-2016-0052<br>
+CVE-2016-0053<br>
+CVE-2016-0055<br>
+CVE-2016-0056</td><td><span style="color:red;">远程执行代码</span></td><td>Office</td><td><span style="color:red;">9年</span></td><td>从 Office 2007 到 2016</td><td>攻击者构造特定文档&#65288;Word&#12289;Excel&#65289;&#65292;当受害者用上述版本的 Office 打开&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-016" target="_blank" rel="nofollow">MS16-016</a></td><td>1</td><td>CVE-2016-0051</td><td><span style="color:maroon;">本地提升权限</span></td><td>WebDAV</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-017" target="_blank" rel="nofollow">MS16-017</a></td><td>1</td><td>CVE-2016-0036</td><td><span style="color:maroon;">本地提升权限</span></td><td>RDP&#65288;远程桌面&#65289;</td><td><span style="color:red;">7年</span></td><td>从 Win7 到 Win10</td><td>如果受害者的系统开启了远程桌面服务&#65292;攻击者通过远程桌面登录到该系统之后&#65292;可以利用此漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-018" target="_blank" rel="nofollow">MS16-018</a></td><td>1</td><td>CVE-2016-0048</td><td><span style="color:maroon;">本地提升权限</span></td><td>内核 Win32k.sys 模块</td><td><span style="color:red;">10年</span></td><td>从 Vista 到 Win8.1</td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-019" target="_blank" rel="nofollow">MS16-019</a></td><td>2</td><td>CVE-2016-0033<br>
+CVE-2016-0047</td><td>拒绝服务</td><td>dotNet Framework</td><td><span style="color:red;">10年</span></td><td>从 dotNet Framework 2.0 到 4.6<br>
+&#65288;对应系统版本&#65289;从 Vista 到 Win10<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定的 XSLT 文档&#65292;当受害者打开会导致系统崩溃&#12290;<br>
+&#65288;.Net Framework 2.0 发布于2006年&#65292;漏洞的潜伏期从那年起算&#65289;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS16-020" target="_blank" rel="nofollow">MS16-020</a></td><td>-</td><td>-</td><td>-</td><td>Active Directory</td><td>-</td><td>-</td><td>&#65288;这个是关于服务端软件的漏洞&#65292;与本文无关&#65289;</td></tr>
+</tbody></table></center><br>
+<h3>&#9671;2015</h3><br>
+&#12288;&#12288;<b>微软在该年度发布了&#12304;135个&#12305;安全公告</b>&#65288;全部清单在&#8220;<a href="https://technet.microsoft.com/library/security/dn903755.aspx" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;请原谅俺的耐心和精力有限&#65292;只整理出&#12304;前20个&#12305;&#65288;算是抽样&#65289;&#12290;<br>
+&#12288;&#12288;注&#65306;<br>
+&#12288;&#12288;下面列出的安全公告是该年度的前20条&#65292;都是在年初曝光的&#12290;此时的最新版本是 Win 8.1&#12290;&#65288;&#8220;Windows 10 和 Windows Server 2016&#8221;要到2015年&#12304;下半年&#12305;才发布&#65289;<br>
+&#12288;&#12288;在2015年上半年&#65292;仍然提供支持的最老版本是 Windows 2003&#12290;<br>
+&#12288;&#12288;因此&#65292;下列的漏洞&#65292;如果影响范围是&#12304;从 Win2003 到 Win8.1&#12305;&#65292;那么这个漏洞就是&#12304;全系列漏洞&#12305;&#8212;&#8212;影响了&#65288;漏洞曝光时&#65289;所有的 Windows 版本&#12290;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr><th>微软安全公告</th><th>漏洞数</th><th>漏洞的 CVE 号</th><th>漏洞类型</th><th>漏洞所在的模块</th><th>潜伏期</th><th>影响范围</th><th>描述</th></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-001" target="_blank" rel="nofollow">MS15-001</a></td><td>1</td><td>CVE-2015-0002</td><td><span style="color:maroon;">本地提升权限</span></td><td>内核的 ahcache.sys 模块</td><td><span style="color:red;">6年</span></td><td>从 Win7 到 Win8.1</td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-002" target="_blank" rel="nofollow">MS15-002</a></td><td>1</td><td>CVE-2015-0014</td><td><span style="color:red;">远程执行代码</span></td><td>Telnet 服务</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果受害者的系统启用了 telnet 服务&#65292;攻击者远程连上 telnet 的 TCP 端口后&#65292;可以利用该漏洞执行恶意代码&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-003" target="_blank" rel="nofollow">MS15-003</a></td><td>1</td><td>CVE-2015-0004</td><td><span style="color:maroon;">本地提升权限</span></td><td>User Profile 服务</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-004" target="_blank" rel="nofollow">MS15-004</a></td><td>1</td><td>CVE-2015-0016</td><td><span style="color:maroon;">本地提升权限</span></td><td>WebProxy 模块</td><td><span style="color:red;">9年</span></td><td>从 Vista 到 Win8.1</td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-005" target="_blank" rel="nofollow">MS15-005</a></td><td>1</td><td>CVE-2015-0006</td><td>安全特性绕过</td><td>NLA 服务</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>当攻击者与受害者处于同一个网络&#65288;domain&#65289;&#65292;攻击者可以利用此漏洞进行 DNS/LDAP 欺骗&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-006" target="_blank" rel="nofollow">MS15-006</a></td><td>1</td><td>CVE-2015-0001</td><td>安全特性绕过</td><td>WER&#65288;错误报告&#65289;</td><td>3年</td><td>从 Win8 到 Win8.1</td><td>攻击者需要先登录到系统中&#65292;然后利用此漏洞可以读取任何进程的内存&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-007" target="_blank" rel="nofollow">MS15-007</a></td><td>-</td><td>-</td><td>-</td><td>Network Policy Server</td><td>-</td><td>-</td><td>&#65288;这个是关于服务端软件的漏洞&#65292;与本文无关&#65289;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-008" target="_blank" rel="nofollow">MS15-008</a></td><td>1</td><td>CVE-2015-0011</td><td><span style="color:maroon;">本地提升权限</span></td><td>内核 mrxdav.sys 模块</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-009" target="_blank" rel="nofollow">MS15-009</a></td><td>41</td><td>涉及的漏洞太多<br>
+不逐一列出 CVE</td><td><span style="color:red;">远程执行代码</span><br>
+拒绝服务</td><td>IE 浏览器</td><td><span style="color:red;">14年</span></td><td>从 IE6 到 IE11<br>
+<span style="color:red;">&#12304;IE 全系列漏洞&#12305;</span><br>
+&#65288;对应系统版本&#65289;从 Win2000 到 Win8.1</td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 IE 访问&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-010" target="_blank" rel="nofollow">MS15-010</a></td><td>6</td><td>CVE-2015-0003<br>
+CVE-2015-0010<br>
+CVE-2015-0057<br>
+CVE-2015-0058<br>
+CVE-2015-0059<br>
+CVE-2015-0060</td><td><span style="color:maroon;">本地提升权限</span><br>
+<span style="color:red;">远程执行代码</span></td><td>内核 Win32k.sys 模块</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定网页&#65292;内含特定的 TrueType 字体&#12290;不论受害者用哪种浏览器访问&#65292;都会中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-011" target="_blank" rel="nofollow">MS15-011</a></td><td>1</td><td>CVE-2015-0008</td><td><span style="color:red;">远程执行代码</span></td><td>Group Policy</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>如果攻击者掌握了某个&#8220;主域控制器&#8221;&#65292;可以通过构造特定的&#8220;域策略&#8221;并下发&#65292;所有加入该域的主机都会中招&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-012" target="_blank" rel="nofollow">MS15-012</a></td><td>3</td><td>CVE-2015-0063<br>
+CVE-2015-0064<br>
+CVE-2015-0065</td><td><span style="color:red;">远程执行代码</span></td><td>Office</td><td><span style="color:red;">8年</span></td><td>从 Office 2007 到 2013</td><td>攻击者构造特定文档&#65288;Word&#12289;Excel&#65289;&#65292;当受害者用上述版本的 Office 打开&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-013" target="_blank" rel="nofollow">MS15-013</a></td><td>1</td><td>CVE-2014-6362</td><td>安全特性绕过</td><td>Office</td><td><span style="color:red;">8年</span></td><td>从 Office 2007 到 2013</td><td>该漏洞可以让攻击者绕过 ASLR&#65288;地址空间布局随机化&#65289;&#65292;有助于后续进行&#8220;远程执行代码&#8221;的攻击</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-014" target="_blank" rel="nofollow">MS15-014</a></td><td>1</td><td>CVE-2015-0009</td><td>安全特性绕过</td><td>Group Policy</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者可以利用此漏洞进行&#8220;中间人攻击&#8221;&#65292;篡改&#8220;主域控制器&#8221;下发的组策略&#65292;使得&#8220;域成员主机&#8221;收到的组策略变得缺乏安全性&#12290;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-015" target="_blank" rel="nofollow">MS15-015</a></td><td>1</td><td>CVE-2015-0062</td><td><span style="color:maroon;">本地提升权限</span></td><td>内核</td><td><span style="color:red;">8年</span></td><td>从 Win7 到 Win8.1</td><td>如果攻击者有机会在受害者的系统中执行代码&#65292;就可以利用该漏洞提升到&#8220;管理员权限&#8221;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-016" target="_blank" rel="nofollow">MS15-016</a></td><td>1</td><td>CVE-2015-0061</td><td>信息泄漏</td><td>图形组件</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定的网页或文档&#65288;其中嵌入特定的 TIFF 图片&#65289;&#65292;当受害者打开该网页或文档&#65292;就中招&#65288;攻击者可以获取某些进程的内存&#65289;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-017" target="_blank" rel="nofollow">MS15-017</a></td><td>-</td><td>-</td><td>-</td><td>VMM Server&#65288;虚拟机管理服务器&#65289;</td><td>-</td><td>-</td><td>&#65288;这个是关于服务端软件的漏洞&#65292;与本文无关&#65289;</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-018" target="_blank" rel="nofollow">MS15-018</a></td><td>9</td><td>CVE-2015-0056<br>
+CVE-2015-0099<br>
+CVE-2015-0100<br>
+CVE-2015-01622<br>
+CVE-2015-01623<br>
+CVE-2015-01624<br>
+CVE-2015-01625<br>
+CVE-2015-01626<br>
+CVE-2015-01634</td><td><span style="color:red;">远程执行代码</span></td><td>IE 浏览器</td><td><span style="color:red;">14年</span></td><td><br>
+从 IE6 到 IE11<br>
+<span style="color:red;">&#12304;IE 全系列漏洞&#12305;</span><br>
+&#65288;对应系统版本&#65289;从 Win2000 到 Win8.1</td><td>攻击者构造特定网页&#65292;当受害者用上述版本的 IE 访问&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-019" target="_blank" rel="nofollow">MS15-019</a></td><td>1</td><td>CVE-2015-0032</td><td><span style="color:red;">远程执行代码</span></td><td>VBS 脚本引擎</td><td><span style="color:red;">12年</span></td><td>从 VBS 5.6 到 5.8<br>
+&#65288;对应系统版本&#65289;从 Win2003 到 Windows Server 2008 R2</td><td>攻击者构造特定网页&#65288;嵌入特定的 VBS 脚本&#65289;&#65292;如果受害者使用的 IE 含有上述版本的 VBS 引擎&#65292;就中招</td></tr>
+<tr><td><a href="https://technet.microsoft.com/library/security/MS15-020" target="_blank" rel="nofollow">MS15-020</a></td><td>2</td><td>CVE-2015-0081<br>
+CVE-2015-0096</td><td><span style="color:red;">远程执行代码</span></td><td>WTS&#65288;文本服务&#65289;<br>
+内核的动态库加载</td><td><span style="color:red;">12年</span></td><td>从 Win2003 到 Win8.1<br>
+<span style="color:red;">&#12304;全系列漏洞&#12305;</span></td><td>攻击者构造特定的网页或文档&#65292;当受害者打开该网页或文档&#65292;就中招<br>
+攻击者可以构造特定的远程共享目录或者USB盘&#65292;当受害者用&#8220;资源管理器&#8221;访问该共享目录或U盘&#65292;就中招</td></tr>
+</tbody></table></center><br>
+<br>
+<h2>&#9733;关于 Windows 安全漏洞的&#8220;潜伏期&#8221;&#8212;&#8212;实际情况比统计表中看到的更长</h2><br>
+&#12288;&#12288;在微软官方的安全公告中&#65292;明确指出&#65306;生命周期已经结束&#65288;已经终止支持&#65289;的 Windows 版本&#65292;是&#12304;不会&#12305;出现在安全公告中的&#12290;<br>
+&#12288;&#12288;考虑到这点&#65292;所以俺上面列出的&#8220;潜伏期&#8221;总是&#12304;偏小&#12305;滴&#12290;<br>
+&#12288;&#12288;为啥捏&#65311;俺来解释一下&#65306;<br>
+&#12288;&#12288;假设有一个 WinXP 的安全漏洞&#65292;一直遗留在 Windows 内核中&#65292;一直到 2016年 才被发现&#12290;此时&#65292;微软的安全公告列出的受影响系统&#65292;只会包含&#65306;从 Windows Vista 一直到 Win10&#12290;而不会有 WinXP 和 Win2003&#12290;因为在 2016年&#65292;这两个系统已经终止支持&#12290;<br>
+&#12288;&#12288;对该漏洞&#65292;俺如果根据微软的安全公告计算潜伏期&#65292;&#65288;由于微软公布的信息不足&#65289;俺只能从 Vista 开始算起&#12290;得出的计算结果是 <b>10年</b>&#65288;Vista 是2006年发布&#65289;&#65307;但实际上&#65292;这个漏洞的潜伏期是 <b>15年</b>&#65288;应该从 2001年 发布 WinXP 开始算起&#65289;&#12290;<br>
+&#12288;&#12288;但即使这样&#65288;由于信息不足而导致计算出的&#8220;潜伏期&#8221;偏小&#65289;&#65292;你也会发现&#65306;Windows 的安全漏洞&#65292;潜伏期都很长&#12290;<br>
+<br>
+&#12288;&#12288;为了方便跟漏洞列表中的&#8220;潜伏期&#8221;作对照&#65292;俺列出各个 Windows 版本的生命周期&#12290;<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr><th>操作系统版本</th><th>发布时间</th><th>终止支持时间</th></tr>
+<tr><td>Windows 2000</td><td>2000年2月</td><td>2010年7月</td></tr>
+<tr><td>Windows XP</td><td>2001年10月</td><td>2014年4月</td></tr>
+<tr><td>Windows Server 2003</td><td>2003年4月</td><td>2015年7月</td></tr>
+<tr><td>Windows Vista</td><td>2006年11月</td><td>2017年4月</td></tr>
+<tr><td>Windows Server 2008</td><td>2008年2月</td><td>2020年1月</td></tr>
+<tr><td>Windows 7</td><td>2009年7月</td><td>2020年1月</td></tr>
+<tr><td>Windows Server 2008 R2</td><td>2009年7月</td><td>2020年1月</td></tr>
+<tr><td>Windows 8</td><td>2012年10月</td><td>2023年1月</td></tr>
+<tr><td>Windows Server 2012</td><td>2012年10月</td><td>2023年10月</td></tr>
+<tr><td>Windows 8.1</td><td>2013年10月</td><td>2023年1月</td></tr>
+<tr><td>Windows Server 2012 R2</td><td>2013年10月</td><td>2023年10月</td></tr>
+<tr><td>Windows 10</td><td>2015年7月</td><td>2026年10月</td></tr>
+<tr><td>Windows Server 2016</td><td>2016年9月</td><td>2027年1月</td></tr>
+</tbody></table></center><br>
+<br>
+<h2>&#9733;为啥 IE 浏览器的漏洞特别危险&#65311;</h2><br>
+&#12288;&#12288;浏览器相关的漏洞&#65292;特别危险&#8212;&#8212;因为攻击者可以构造一个&#8220;挂马的网页&#8221;&#65292;当你访问这个页面就会中招&#12290;<br>
+&#12288;&#12288;这种情况下&#65292;很多安全工具是&#12304;无法&#12305;帮助防范的&#65292;原因如下&#65306;<br>
+1. 因为你的浏览器总是要上网的&#65292;所以你的防火墙&#65292;不论设置了多么严格的规则&#65292;也&#12304;无法&#12305;防范这类&#8220;基于 Web 的攻击&#8221;&#12290;<br>
+2. 如果攻击者利用的是&#12304;未公开&#12305;漏洞&#65292;你安装的杀毒软件很可能&#12304;无法&#12305;防范&#12290;因为杀毒软件是基于&#12304;事后收集&#12305;来形成杀毒软件的特征库&#12290;针对未公开漏洞的攻击代码&#65292;尚未进入它们的特征库&#12290;<br>
+3. 很多杀毒软件吹嘘他们具有&#8220;基于行为识别的防范机制&#8221;&#12290;这大部分都是用来进行市场营销宣传的噱头&#65292;其效果令人怀疑&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#65288;在 Windows 上&#65289;改用其它浏览器上网&#65292;并&#12304;不能&#12305;消除 IE 的危险性</h2><br>
+&#12288;&#12288;很多读者看了上面一段&#65292;吓坏了&#12290;他们肯定在想&#65292;要换一个浏览器&#65292;别再用 IE 了&#12290;<br>
+&#12288;&#12288;但是俺想提醒你一下&#65306;<b>&#65288;在 Windows 上&#65289;IE 是无处不在滴&#65292;即使你改用其它浏览器&#65288;比如 Chrome/Firefox&#65289;&#65292;依然存在 IE 的风险&#12290;</b><br>
+&#12288;&#12288;下面俺来解释一下&#8212;&#8212;为啥&#12304;IE 是无处不在滴&#12305;&#12290;<br>
+&#12288;&#12288;从上世纪90年代的 Win98 一直到 Win10&#65288;2015年发布&#65289;&#65292;IE 都是内置&#65288;捆绑&#65289;到 Windows 中的&#12290;你&#12304;没办法&#12305;从 Windows 中&#12304;彻底移除&#12305;IE&#12290;没法移除也就算了&#65292;但是有很多软件会依赖 IE 的组件来处理 Web 内容&#12290;这种情况下&#65292;能针对 IE 的攻击代码&#65292;通常也可以攻击这些&#8220;调用了 IE 的软件&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;举个&#8220;邮件客户端依赖 IE&#8221;的例子&#65306;<br>
+&#12288;&#12288;当你用 Outlook 或 Outlook Express 收邮件&#65292;如果你收到的邮件内容是基于 HTML 的&#65288;这很常见&#65289;&#65292;那么 Outlook/Outlook Express 会调用 IE 相应的组件来渲染这些含有 HTML 内容的邮件&#12290;不光是 Outlook 或 Outlook Express&#65292;其它一些&#12304;第三方&#12305;的邮件客户端软件&#65292;也会依赖 IE 的组件来渲染 HTML 内容的邮件&#12290;这种做法很普遍&#65292;因为 IE 是 Windows 的标配&#65292;对那些开发邮件客户端的程序员来说&#65292;这么干是最省事儿的&#65288;俺也做过 Windows 程序猿&#65292;很清楚这种玩法&#65289;&#12290;<br>
+&#12288;&#12288;在这种情况下&#65292;如果 IE 存在未公开漏洞&#65292;攻击者就可以通过给你发&#65288;HTML 格式的&#65289;邮件&#65292;来利用这个漏洞&#65292;从而让你中招&#12290;<br>
+<br>
+&#12288;&#12288;再举个&#8220;Office 依赖 IE&#8221;的例子&#65306;<br>
+&#12288;&#12288;用 Windows 的同学&#65292;俺相信 95% 以上都装了 Office&#12290;不管你平时是否需要文字处理&#65292;反正 Office 基本上是 Windows 的标配&#12290;<br>
+&#12288;&#12288;假设 IE 的 Web 引擎存在某个&#12304;未公开的&#12305;缓冲区溢出漏洞&#65292;可以导致&#8220;执行代码&#8221;&#12290;那么攻击者可以在网上提供一个 Word 格式&#65288;doc/docx&#65289;的文档&#65288;或者通过邮件/IM 等方式分发这个文档&#65289;&#65292;文档中包含基于 HTML 的 Web 内容&#12290;这段 HTML 是精心构造的&#65292;可以利用 IE 的上述漏洞&#12290;那么&#65292;当你拿到这个文档并双击打开&#65292;此时 Windows 会启动 Word 来加载该文档&#65292;Word 发现文档中有 Web 内容&#65292;会调用 IE 的引擎来渲染&#65292;于是你就中招了&#12290;由于这个漏洞可以导致&#8220;执行代码&#8221;&#65292;那么攻击者可以在你的系统中安装一个木马&#12290;之后就可以玩很多花样啦 :(<br>
+<br>
+<br>
+<h2>&#9733;更要命的是&#8212;&#8212;IE 浏览器的安全漏洞还特别多</h2><br>
+&#12288;&#12288;某个专门研究 IE 的御用骇客说过一句话&#65288;大意是&#65289;&#65306;IE 的漏洞之多&#65292;就像筛子一样&#12290;<br>
+&#12288;&#12288;看完俺下面的统计数字&#65292;你就能体会&#8212;&#8212;此话一点不夸张&#12290;<br>
+<br>
+&#12288;&#12288;在俺整理的这40个公告中&#65292;累计漏洞数 129 个&#65292;&#8220;浏览器相关&#8221;的漏洞占了很大比例&#65306;<br>
+65个是 IE 浏览器本身的漏洞<br>
+6个是 Edge 浏览器本身的漏洞<br>
+6个是 其它模块的漏洞&#65288;但可以通过 IE 或 Edge 触发&#65289;<br>
+<br>
+&#12288;&#12288;也就是说&#65292;在俺抽样的40个安全公告中&#65292;浏览器相关的漏洞&#65288;77个&#65289;&#65292;占了漏洞总数的比例是 59.6%&#12290;而这些浏览器相关的漏洞&#65292;类型是&#12304;远程执行代码&#12305;又占了很大比例&#12290;这种类型的漏洞是最危险的&#65288;没有之一&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;可能有些同学会怀疑&#65306;俺抽样的这40个安全公告&#65292;在统计学上有偏差&#12290;<br>
+&#12288;&#12288;那俺还可以再告诉你另一批数据&#65288;更吓人&#65289;&#8212;&#8212;几乎每一个月&#65292;都会有 IE 相关的安全公告&#65292;而且 IE 的公告披露的漏洞往往很多&#65288;通常在十个左右&#65289;&#12290;下面拿 2016年 来举例&#65306;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="3"><tbody>
+<tr><th>安全公告编号</th><th>发布时间</th><th>IE 漏洞数</th></tr>
+<tr><td>MS16-009</td><td>2月</td><td>13个</td></tr>
+<tr><td>MS16-023</td><td>3月</td><td>13个</td></tr>
+<tr><td>MS16-037</td><td>4月</td><td>6个</td></tr>
+<tr><td>MS16-051</td><td>5月</td><td>5个</td></tr>
+<tr><td>MS16-063</td><td>6月</td><td>10个</td></tr>
+<tr><td>MS16-084</td><td>7月</td><td>14个</td></tr>
+<tr><td>MS16-095</td><td>8月</td><td>9个</td></tr>
+<tr><td>MS16-104</td><td>9月</td><td>10个</td></tr>
+<tr><td>MS16-118</td><td>10月</td><td>11个</td></tr>
+<tr><td>MS16-142</td><td>11月</td><td>6个</td></tr>
+<tr><td>MS16-144</td><td>12月</td><td>8个</td></tr>
+</tbody></table></center><br>
+&#12288;&#12288;看完上述表格&#65292;你是否联想到&#8212;&#8212;像筛子一样多的漏洞&#65311;而且这还只是 IE 相关的漏洞&#65292;Edge 还&#12304;没有&#12305;算在内哦&#12290;<br>
+&#12288;&#12288;在安全圈混了这么多年&#65288;20年大概有了&#65289;&#65292;俺的印象是&#65306;IE 总是不停地不停地曝光高危漏洞&#65288;远程执行代码&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;八卦一下&#65306;为啥 IE 这么烂&#65311;</h2><br>
+&#12288;&#12288;&#65288;本章节是八卦&#65292;不想看八卦的请自行略过&#65289;<br>
+&#12288;&#12288;凭良心说&#65292;微软是一家不错的公司&#65307;微软的程序员&#65292;平均素质也不算差&#12290;那为啥 IE 这么烂捏&#65311;<br>
+&#12288;&#12288;考虑到篇幅已经很长&#65292;下面俺简单聊一下&#65306;<br>
+<br>
+<h3>&#9671;1. Web 引擎本来就很难写</h3><br>
+&#12288;&#12288;Web 浏览器需要依靠 Web 引擎来渲染网页&#12290;网页是用 HTML 编写的&#12290;HTML 的语法很灵活&#65292;本来就很难处理&#65307;而很多网站的写手&#65288;Web 程序员&#65289;写出来的网页甚至都没有严格遵循 HTML 语法&#12290;浏览器的引擎需要尽量智能地处理这些不规范的 HTML 语法&#12290;<br>
+&#12288;&#12288;HTML 还允许嵌入样式表&#65288;CSS&#65289;和脚本&#65288;JavaScript&#65289;&#12290;而 JS 脚本的语法又是出了名的灵活&#12290;因此&#65292;写一个浏览器的 JS 引擎也是蛮有难度滴&#65288;Google 的 V8 引擎能获得如此高的赞誉&#65292;就是因为 JS 引擎难写&#65289;<br>
+<br>
+<h3>&#9671;2. IE 的开发团队曾经出现长期断档</h3><br>
+&#12288;&#12288;如果你观察 IE 版本的历史&#65292;会发现 IE6 之后停滞了长达 5年 才发布了 IE7&#12290;<br>
+&#12288;&#12288;据说 IE6 发布之后&#65292;微软把整个 IE 团队都解散了&#65292;只留少数几个人负责改 bug&#12290;因为当时的微软领导层觉得 IE6 作为浏览器已经很完善了&#65292;而且浏览器这个产品本身没有利润&#65292;不值得投入太多人&#12290;<br>
+&#12288;&#12288;&#65288;这是微软领导层的严重失策&#65289;<br>
+&#12288;&#12288;这个决策造成了整个团队严重的断档&#12290;等到后来重启 IE7 的开发&#65292;新加入的程序员&#65292;很多都没有经手过前面的开发&#65292;完全不知道原有的代码中留下哪些&#8220;坑&#8221;&#65288;技术陷阱&#65289;&#12290;<br>
+&#12288;&#12288;&#65288;如果你曾经管理过程序员团队&#65292;对上述这种情况应该深有体会&#65289;<br>
+&#12288;&#12288;有些天真的同学会问&#65306;老团队虽然解散了&#65292;应该还会有文档留下来啊&#12290;新团队可以通过文档了解情况嘛&#12290;<br>
+&#12288;&#12288;这么问的同学&#65292;多半属于&#8220;图样图森破&#8221;&#12290;当软件项目复杂到一定程度&#65292;你就不要指望文档是完备的&#12290;在这种软件项目里&#65292;有相当比例的文档&#65292;要么不全&#65292;要么不够新&#65288;与代码脱节&#65289;&#65292;要么是错的&#12290;这不是一两家公司的个案&#65292;这是整个软件行业的通病&#12290;<br>
+<br>
+<h3>&#9671;3. 过于陈旧的架构</h3><br>
+&#12288;&#12288;目前 IE 使用的 Trident 引擎是在 1997年 引入 IE4 的&#65288;20年之前哦&#65289;&#12290;1997年是什么年代&#65292;年青的程序员可能没体会&#12290;俺正好借这个机会倚老卖老一下&#12290;<br>
+&#12288;&#12288;&#65288;据说 IE 是用 C++ 写的&#65292;俺就拿 C++ 来举例&#65289;那时候&#65292;C++ 尚未标准化&#65288;第一次标准化是 C++98&#65289;&#12290;以现在的眼光看&#65292;那年头简直就是 C++ 的洪荒年代&#12290;<br>
+&#12288;&#12288;虽然俺没有看过 IE 的源代码&#65292;但是可以合理地猜测&#65306;在那么久远的年代&#65292;设计一个全新的软件&#65288;浏览器在当时算是新事物&#65289;&#65292;而且这个软件的需求又超复杂&#65288;参见前面提及的&#8220;Web 引擎复杂度&#8221;&#65289;&#65292;设计出来的架构&#65292;其水平会好到哪里去&#65311;<br>
+<br>
+<h3>&#9671;4. &#65288;对旧架构&#65289;只敢修修补补&#65292;不敢大改</h3><br>
+&#12288;&#12288;在长达二十年的时间里&#65292;硬件环境有了巨大变化&#65288;多核多CPU&#65289;&#65292;Web 标准也有了巨大的变化&#65288;更灵活更复杂了&#65289;&#12290;为了适应环境的变化&#65292;IE 的 Trident 引擎早就应该动一些&#8220;大手术&#8221;&#65292;对架构作一些大的调整&#12290;但是前面说过&#65292;IE6 之后&#65292;开发团队出现长达5年的断档&#65288;团队被解散&#65289;&#12290;IE7 之后的那帮 IE 团队的程序员&#65292;全都是新人&#65288;此处的&#8220;新人&#8221;是指&#65306;对老代码不熟&#65289;&#12290;所以俺猜测&#65306;他们只敢在旧的架构上修修补补&#65292;不敢动&#8220;大手术&#8221;&#12290;&#65288;如果你在大公司待过&#65292;一定明白&#65306;多做多出错&#65292;少做少出错&#65292;不做不出错&#65289;<br>
+<br>
+<br>
+<h2>&#9733;IE 这么烂&#65292;那你能指望 Edge 吗&#65311;</h2><br>
+&#12288;&#12288;前面费了这么多口水聊 IE&#65292;下面用三句话概括一下&#65306;<br>
+从 Win98 到 Win10&#65288;甚至下一代的 WinXX&#65289;&#65292;IE 都是无处不在滴&#65288;很多软件会调用 IE 组件&#65289;&#65307;<br>
+从 Win98 到 Win10&#65288;甚至下一代的 WinXX&#65289;&#65292;IE 都是&#12304;无法&#12305;彻底移除滴&#65307;<br>
+IE 的代码很烂&#65292;相关的漏洞非常多&#12290;<br>
+<br>
+&#12288;&#12288;前几年&#65292;微软高调推出全新的浏览器&#8220;Microsoft Edge&#8221;&#12290;为啥微软要另起炉灶&#65311;除了外部的因素&#65288;市场营销策略&#65289;&#65292;内部因素恐怕就是俺刚才分析的原因&#8212;&#8212;IE 已经老朽不堪&#65292;难以维护了&#12290;<br>
+&#12288;&#12288;估计有些同学在默默指望着&#65306;用 Edge 彻底替代老朽不堪的 IE&#12290;俺劝这些同学别抱太大期望&#12290;<br>
+&#12288;&#12288;前面已经提到&#65306;很多 Windows 上的应用软件&#65288;包括微软自己的软件以及第三方软件&#65289;重度依赖 IE 组件&#12290;出于兼容性的考虑&#65292;微软不可能在短期内彻底抛弃 IE&#12290;也就是说&#65306;在很长时间内&#65292;IE 会与 Edge 并存&#65288;Win10 就是一个例证&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;最后&#65292;稍微聊一下&#65306;Windows 的&#12304;树大招风&#12305;</h2><br>
+&#12288;&#12288;最后来提一下&#8220;树大招风&#8221;引发的风险&#12290;<br>
+&#12288;&#12288;在&#12304;桌面系统&#12305;的市场份额中&#65292;Windows 是毫无疑问的老大&#12290;所以&#65292;各种黑客与骇客&#65292;都会花很多精力来研究如何去入侵 Windows 系统&#12290;这就是所谓的&#8212;&#8212;树大招风&#12290;<br>
+&#12288;&#12288;关于&#8220;树大招风&#8221;这点&#65292;应该没有太大争议&#12290;俺之所以单独写这个章节&#65292;是想&#12304;反驳&#12305;前一篇博文的某条读者留言&#12290;<br>
+&#12288;&#12288;该读者认为&#65306;御用骇客针对的是高价值目标&#65292;而高价值目标用 Linux 的比较多&#65292;所以御用骇客会花更多精力研究 Linux 的漏洞&#65292;这就导致&#8212;&#8212;使用 Linux 反而容易碰到&#8221;被利用的未公开漏洞&#8220;&#12290;<br>
+<br>
+&#12288;&#12288;<b>下面是俺的&#12304;反驳&#12305;&#65306;</b><br>
+&#12288;&#12288;上述这个推理过程&#65292;第一个前提&#65288;&#8220;御用骇客&#8221;主要针对&#8220;高价值目标&#8221;&#65289;&#65292;是正确滴&#12290;错误发生在第二个前提&#65288;高价值目标用 Linux 的比较多&#65289;&#12290;<br>
+&#12288;&#12288;这个读者混淆了两个不同的概念&#65306;&#8220;高价值目标&#8221;&#65286;&#8220;技术高手&#8221;&#65288;&#8220;高价值目标&#8221;不一定是&#8220;技术高手&#8221;&#65292;&#8220;技术高手&#8221;也不一定是&#8220;高价值目标&#8221;&#65289;<br>
+&#12288;&#12288;俺借此机会给大伙儿介绍一下&#65292;天朝御用骇客心目中的高价值目标&#65292;大概是哪些&#65306;<br>
+<blockquote>重要的外国政治人物<br>
+重要的民运人士&#12289;政治异议人士<br>
+外国政府机构&#65288;尤其是涉密机构&#65289;的雇员<br>
+国外敏感企业&#65288;尤其是军工企业&#65289;的雇员<br>
+从事&#8220;分离运动/独立运动&#8221;的少数民族组织</blockquote>&#12288;&#12288;上述这些高价值目标&#65292;难道他们会去玩 Linux&#65311;NO&#65292;他们的桌面系统依然是以 Windows 为主&#65292;其次是 macOS&#12290;所以很自然的&#65292;朝廷的御用骇客&#65292;也是以 Windows 漏洞的研究为主&#65292;macOS 为辅&#12290;&#65288;当然也有御用骇客在研究 Linux 漏洞&#65292;但他们在 Linux 上的投入&#65292;远不如 Windows&#65292;也不如 macOS&#65289;<br>
+<br>
+<br>
+<h2>&#9733;结论</h2><br>
+&#12288;&#12288;所以俺早在 N年前 就一直劝周围的同事和朋友&#65292;把日常使用的系统切换成别的&#65288;Linux&#12289;BSD&#12289;macOS 都要&#12304;远远好于&#12305;Windows&#65289;&#12290;<br>
+&#12288;&#12288;切换系统并没有你想象的那么困难&#12290;得益于虚拟化软件&#65292;你可以先在某个虚拟系统中使用 Linux 或 macOS&#65292;慢慢适应&#65292;然后慢慢过渡&#12290;接下来&#65292;俺会写一些关于 Linux 的扫盲教程&#65292;帮助技术菜鸟在虚拟机中玩转 Linux&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2010/06/howto-prevent-hacker-attack-0.html">如何防止黑客入侵</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2017/03/Why-Linux-Is-More-Secure-Than-Windows-and-macOS.html">为什么桌面系统装 Linux 可以做到更好的安全性&#65288;相比 Windows &#65286; macOS 而言&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统&#65311;</a>&#12299;<br>
+&#12298;<a href="../../2013/10/linux-distributions-guide.html">扫盲 Linux&#65306;如何选择发行版&#65311;</a>&#12299;<br>
+&#12298;<a href="../../2020/03/VirusTotal-Tricks.html">在线查毒工具 VirusTotal 的 N 种玩法&#8212;&#8212;从&#8220;误报/漏报&#8221;聊到&#8220;攻击者对它的利用&#8221;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2017/04/Security-Vulnerabilities-in-Windows.html" id="OriginalPostUrl">https://program-think.blogspot.com/2017/04/Security-Vulnerabilities-in-Windows.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="560">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/2805857187667892185?postID=2805857187667892185&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/2805857187667892185.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>如何保护隐私[9]&#65306;如何限制桌面软件的流氓行为&#65311; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2014-08-30T21:43:00+08:00">2014年8月30日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：255条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              如何保护隐私[9]&#65306;如何限制桌面软件的流氓行为&#65311;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;在本系列的前一篇&#65292;介绍了&#8220;<a href="../../2014/08/privacy-protection-8.html">流氓的桌面软件有哪些替代品</a>&#8221;&#12290;今天主要介绍一下&#65292;如何对付那些&#8220;&#12304;缺乏替代品&#12305;的流氓软件&#8221;&#65288;比如&#65306;QQ&#12289;迅雷&#65289;&#12290;<br>
+&#12288;&#12288;本文会逐一介绍5种不同的方案&#65292;供大伙儿参考&#12290;在本文末尾会总结每种方案分别适用哪些情况&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;方案1&#65306;用流氓软件的&#12304;Web 版本&#12305;进行替代</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;某些流氓软件的开发商&#65292;除了开发桌面客户端版本&#65292;有时候也会提供&#8220;Web 版本&#8221;&#12290;在这种情况下&#65292;咱们就可以拿&#8220;Web 版本&#8221;来取代桌面版本&#12290;<br>
+<br>
+<h3>&#9671;举例</h3><br>
+&#12288;&#12288;比如&#65306;疼逊公司提供了一个 Web QQ&#12290;那么你就可以用 Web QQ 来替代桌面版的 QQ&#65307;<br>
+&#12288;&#12288;比如&#65306;很多网盘提供商同时提供网盘的&#8220;Web 操作界面&#8221;和&#8220;桌面客户端&#8221;&#12290;那么你就可以&#65306;只用 Web 界面操作网盘&#65292;不安装桌面客户端&#12290;<br>
+<br>
+<h3>&#9671;不同&#8220;Web 应用&#8221;的安全性等级</h3><br>
+&#12288;&#12288;基于 Web 的应用软件&#65292;有好几种不同的类型&#65292;在隐私方面的安全性也各不相同&#12290;下面逐一介绍&#12290;在下面的介绍中&#65292;会提及&#8220;浏览器扩展&#8221;和&#8220;浏览器插件&#8221;&#12290;如果你搞不清楚这两者的差别&#65292;先看之前的&#8220;<a href="../../2012/08/howto-prevent-hacker-attack-5.html">这篇博文</a>&#8221;&#65292;其中有一段文字是&#8220;&#9671;插件和扩展的区别&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>纯 Web</b><br>
+&#12288;&#12288;所谓的&#8220;纯 Web&#8221;&#65292;就是说只用到 HTML&#12289;JavaScript脚本&#12289;CSS 样式&#12290;除此之外&#65292;没有用到其它其它东西&#12290;<br>
+&#12288;&#12288;这种形式的 Web 应用是最安全的&#12290;对于这种形式&#65292;JS 脚本运行在浏览器内置的脚本沙箱中&#65292;它对文件系统的访问是受限的&#12290;换句话说&#65292;&#12304;无法&#12305;随意操作电脑本地的文件系统&#12290;<br>
+<br>
+&#12288;&#12288;<b>使用了&#8220;扩展/extension&#8221;技术</b><br>
+&#12288;&#12288;浏览器扩展能干的事情&#65292;比&#8220;纯 Web&#8221;更多&#12290;多出来的功能主要是&#65306;能够操作本地的文件系统&#12290;假设你安装了一个不怀好意的扩展&#65292;理论上它是可以读取你本地的某些敏感文件并通过 Web 方式&#65288;HTTP方式&#65289;发送出去&#12290;<br>
+&#12288;&#12288;提醒一下&#65306;并不是所有的浏览器都支持&#8220;扩展&#8221;机制&#12290;<br>
+<br>
+&#12288;&#12288;<b>使用了&#8220;插件/plugin&#8221;技术</b><br>
+&#12288;&#12288;&#8220;插件&#8221;比&#8220;扩展&#8221;牛逼的地方在于&#65292;插件是本地代码&#65288;也叫&#8220;原生代码&#8221;&#65289;&#12290;也就是说&#65292;普通客户端软件能干的事情&#65292;插件都能干&#12290;所以&#65292;插件的危险性更大&#65292;基本上等同于客户端软件&#12290;<br>
+&#12288;&#12288;比如前几天曝光的&#8220;支付宝偷偷监控网络流量&#8221;&#12290;那个监控你网络流量的进程&#65292;就是在安装支付宝控件之后&#65292;偷偷带进去的&#12290;而&#8220;支付宝控件&#8221;本质上就是&#8220;浏览器插件&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;综上所述&#65292;如果你企图用&#8220;Web 版本&#8221;来替代&#8220;桌面版本&#8221;&#65292;至少先要确保&#8220;Web 版本&#8221;没有使用&#8220;浏览器插件&#8221;技术&#12290;用到了&#8220;插件&#8221;的 Web 应用&#65292;其隐私威胁跟桌面客户端类似&#8212;&#8212;也就没有必要替代了&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;主要优点是&#65306;操作简单&#65292;无需进行各种额外的配置&#65292;无需安装额外的桌面软件&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;此招数的缺点有两个&#65306;<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;使用了 Web 版本之后&#65292;虽然可以避免桌面客户端偷窥你的本地文件&#65292;但是你通过 Web 端产生的内容还是会被 Web 服务器收集到&#12290;<br>
+&#12288;&#12288;比如你用了 Web QQ 之后&#65292;虽然它无法偷窥你的本地文件&#65292;但是腾讯服务器依然可以偷窥你的聊天内容&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点2</b><br>
+&#12288;&#12288;通常&#65292;Web 版本的功能不如桌面版本的功能那么丰富&#12290;<br>
+&#12288;&#12288;比如&#8220;Web QQ&#8221;的功能比&#8220;桌面 QQ&#8221;的功能少很多&#12290;<br>
+<br>
+<br>
+<h2>&#9733;方案2&#65306;使用&#12304;网络防火墙&#12305;限制联网</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;如果某个流氓软件的&#12304;基本功能&#12305;与网络无关&#65292;那么你可以采用网络防火墙限制该软件的网络行为&#12290;<br>
+<br>
+<h3>&#9671;举例</h3><br>
+&#12288;&#12288;比如&#65306;你需要用国产的播放器来播放&#12304;本地的&#12305;视频文件和音乐文件&#12290;并且你既不需要&#8220;自动同步字幕&#8221;&#65292;也不需要&#8220;自动同步歌词&#8221;之类的功能&#12290;在这种情况下&#65292;该软件就完全没有理由访问网络&#12290;那么你就可以通过配置网络防火墙&#65292;让该软件无法联网&#12290;<br>
+<br>
+<h3>&#9671;网络防火墙的局限性</h3><br>
+&#12288;&#12288;<b>局限性1</b><br>
+&#12288;&#12288;某些流氓软件需要以管理员权限安装&#12290;在这种情况下&#65292;流氓软件也就获得了管理员权限&#12290;在&#8220;管理员权限&#8221;下&#65292;几乎可以进行任何软件层面操作&#12290;从理论上讲&#65292;可以利用管理员权限进行某些操作&#65292;来绕过网络防火墙的监控&#12290;<br>
+<br>
+&#12288;&#12288;<b>局限性2</b><br>
+&#12288;&#12288;某些比较狡猾的流氓软件&#65292;自己的主程序不会直接联网&#65292;而是通过创建一个临时的 exe 文件并启动该 exe&#65288;子进程&#65289;&#65292;让子进程完成敏感的联网操作&#12290;以此来骗过网络防火墙&#12290;对这类软件&#65292;即使你禁止该软件的主程序联网&#65292;它还是能通过启动子进程的方式&#65292;把某些敏感的资料偷偷发送出去&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;用此招数&#65292;你可以直接使用流氓软件的桌面版本&#12290;相比&#8220;方案1&#8221;的优势在于&#8212;&#8212;能保留软件的全部功能&#12290;<br>
+&#12288;&#12288;另外&#65292;此招数可以跟下面要介绍的&#8220;方案3&#8221;搭配组合&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;此招数的缺点包括&#65306;<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;如果该流氓软件的基本功能依赖于网络&#65288;比如&#65306;聊天工具&#12289;下载工具&#65289;&#65292;就没法用这招&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点2</b><br>
+&#12288;&#12288;网络防火墙的限制有可能被绕过&#65288;参见上述提到的两个局限性&#65289;<br>
+<br>
+<br>
+<h2>&#9733;方案3&#65306;用流氓软件的&#12304;绿色版本&#12305;进行替代</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;某些流氓软件可以制作成&#8220;绿色版本&#8221;&#65288;俗称&#8220;绿化&#8221;&#65289;&#12290;绿化之后的软件&#65292;无需安装&#65292;而且也无需管理员权限就可以运行&#12290;因此&#65292;你可以创建一个&#12304;低权限&#12305;的操作系统用户&#65292;以这个用户的身份来运行该流氓软件&#12290;关于 Windows 的&#8220;用户组&#12289;用户权限&#8221;等概念的更多介绍&#65292;请看之前的&#8220;<a href="../../2010/06/howto-prevent-hacker-attack-1.html">这篇博文</a>&#8221;&#12290;<br>
+&#12288;&#12288;另外&#65292;从 WinXP 开始&#65292;Windows 内置了&#8220;快速用户切换&#8221;&#65288;洋文叫&#65306;Fast User Switching&#65289;的功能&#12290;你可以利用此功能在不同的用户之前切换&#12290;不想使用&#8220;用户切换&#8221;的同学&#65292;也可以在同一个桌面上运行&#8220;隶属于不同用户的进程&#8221;&#65288;具体做法&#65292;上面那篇博文也有提到&#65289;&#12290;<br>
+<br>
+<h3>&#9671;需要结合&#8220;文件系统访问控制&#65288;ACL&#65289;&#8221;</h3><br>
+&#12288;&#12288;和这个招数搭配的措施是&#65306;你要适当地配置文件系统的访问控制权限&#12290;比如你日常操作电脑的是&#8220;A用户&#8221;&#65292;用来运行流氓软件的低权限用户是&#8220;B用户&#8221;&#12290;那么你需要设置那些存放敏感文件的目录&#65292;让&#8220;B用户&#8221;&#12304;无法读写&#12305;这些目录&#12290;至于如何设置目录的 ACL&#65292;稍微 Google 一下就能查到教程&#12290;<br>
+&#12288;&#12288;提醒一下&#65306;<br>
+&#12288;&#12288;Windows 支持的文件系统主要有两类&#65306;NTFS 和 FAT 系列&#65288;FAT12&#12289;FAT16&#12289;FAT32&#65289;&#12290;&#8220;FAT 系列&#8221;&#12304;不支持&#12305;访问控制权限&#12290;<br>
+<br>
+<h3>&#9671;举例</h3><br>
+&#12288;&#12288;比如&#8220;迅雷&#8221;是可以制作成绿色版本的&#12290;俺分别在它的5.8版本和7.2版本试验过&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;用此招数&#65292;你可以直接使用流氓软件的桌面版本&#12290;相比&#8220;方案1&#8221;的优势在于&#8212;&#8212;能保留软件的全部功能&#12290;<br>
+&#12288;&#12288;另外&#65292;此招数可以跟&#8220;方案2&#8221;搭配组合&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;此招数的缺点包括&#65306;<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;如果某个流氓软件无法制作绿色版本&#65292;这招就失效了&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点2</b><br>
+&#12288;&#12288;操作相对繁琐&#65288;你需要先制作绿色版本&#65292;然后还需要创建专门的用户&#65292;最后还要设置文件系统的 ACL&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;方案4&#65306;使用&#12304;沙箱软件&#12305;进行隔离</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;有一类安全工具叫做&#8220;沙箱&#8221;&#65288;有时也称&#8220;沙盒&#8221;&#65289;&#12290;沙箱软件可以创建出一个独立的运行环境&#65292;以实现&#12304;进程级别&#12305;的隔离&#12290;<br>
+&#12288;&#12288;所谓&#8220;进程级别的隔离&#8221;就是说&#65306;你可以在沙箱中运行某个进程&#65292;沙箱软件负责把该进程跟系统的其它部分隔离开来&#12290;即使该进程图谋不轨&#65292;想要进行某些危险操作&#65292;这些操作也被限制在沙箱之内&#12290;<br>
+&#12288;&#12288;所以&#65292;咱们可以利用&#8220;沙箱软件&#8221;来运行那些流氓软件&#12290;<br>
+<br>
+<h3>&#9671;举例</h3><br>
+&#12288;&#12288;目前&#65292;&#12304;国外&#12305;比较有名的沙箱软件是 <a href="https://en.wikipedia.org/wiki/Sandboxie" target="_blank" rel="nofollow">Sandboxie</a>&#12290;如果你担心网页挂马&#65292;可以让浏览器运行在 Sandboxie 的沙箱之内&#12290;<br>
+<br>
+<h3>&#9671;沙箱的局限性</h3><br>
+&#12288;&#12288;<b>局限性1</b><br>
+&#12288;&#12288;沙箱软件依赖于操作系统本身的一些机制&#65288;比如系统的 hook 机制&#65289;&#12290;如果操作系统本身出现一些安全漏洞&#65292;可能会导致某些流氓软件突破沙箱的隔离&#12290;<br>
+&#12288;&#12288;另外&#65292;如果沙箱软件本身考虑不周到&#65292;也会导致隔离环境出现漏洞&#65292;可能被流氓软件用来突破沙箱&#12290;<br>
+<br>
+&#12288;&#12288;<b>局限性2</b><br>
+&#12288;&#12288;有些沙箱软件只能对磁盘操作进行隔离&#65292;但是&#12304;无法&#12305;对网络操作进行隔离&#65288;无法禁止流氓软件联网&#65289;&#12290;<br>
+&#12288;&#12288;如果你需要隔离网络操作&#65292;但是你用的沙箱又没有此功能&#65292;那么你可以考虑把此招数跟&#8220;方案2&#8221;搭配&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;用此招数&#65292;你可以直接使用流氓软件的桌面版本&#12290;相比&#8220;方案1&#8221;的优势在于&#8212;&#8212;能保留软件的全部功能&#12290;<br>
+&#12288;&#12288;不管流氓软件是否能制作绿色版本&#65292;都可以使用此招数&#12290;所以此招数比&#8220;方案3&#8221;更灵活&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;主要缺点有如下几个&#65306;<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;某些软件&#65288;尤其是比较底层的软件&#65289;运行在沙箱中会出现兼容性问题&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点2</b><br>
+&#12288;&#12288;由于前面提到的&#8220;沙箱的局限性&#8221;&#65292;会导致隔离不彻底&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点3</b><br>
+&#12288;&#12288;多数沙箱软件通常无法跨系统&#65288;比如前面提到的 Sandboxie 是运行在 Windows 上&#65292;所以它只能用来隔离 Windows 软件&#65289;&#12290;<br>
+&#12288;&#12288;如果你对跨平台的需求不明显&#65292;这个缺点基本可以忽略&#12290;<br>
+<br>
+<br>
+<h2>&#9733;方案5&#65306;使用&#12304;操作系统虚拟机&#12305;进行隔离</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;所谓的&#8220;操作系统虚拟机&#8221;&#65288;为了打字省力&#65292;以下简称&#8220;VM&#8221;&#65289;&#65292;就是用专门的软件在你现有的操作系统内部再虚拟出若干个操作系统&#12290;在这种情况下&#65292;你原有的操作系统称为&#8220;物理系统&#8221;或&#8220;Host OS&#8221;&#65307;那些虚拟出来的系统称为&#8220;虚拟系统&#8221;或&#8220;Guest OS&#8221;&#12290;<br>
+&#12288;&#12288;有了 VM 之后&#65292;你就可以创建出一个或多个 Guest OS&#65292;在那上面运行流氓软件&#12290;由于 Guest OS 与 Host OS 是彻底隔离的&#65292;你完全不用担心 Guest OS 里面的进程偷窥 Host OS 的文件系统&#12290;<br>
+&#12288;&#12288;所谓的&#8220;彻底隔离&#8221;&#65292;俺补充说明一下&#65306;<br>
+&#12288;&#12288;因为 Guest OS 运行于 Host OS 之上&#65292;Host OS 是可以看到 Guest OS 里面的东西&#65307;反之则&#12304;不行&#12305;&#12290;如果有多个 Guest OS&#65292;互相之间看不到&#12290;<br>
+&#12288;&#12288;关于 VM 的更多介绍&#65292;请参见&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;系列教程&#12290;<br>
+<br>
+<h3>&#9671;举例</h3><br>
+&#12288;&#12288;至少在10年前&#65292;俺就以虚拟系统&#65288;Guest OS&#65289;作为自己日常的使用系统&#12290;俺的 Host OS 除了装一个虚拟机软件&#65292;其它软件几乎都&#12304;不&#12305;装&#12290;需要用到的软件都装在 Guest OS 里面&#12290;而且俺的笔记本电脑里面装了 N 多的虚拟机&#65292;分别派不同的用处&#12290;比如&#65306;<br>
+一个专门用于&#8220;编程随想&#8221;这个身份<br>
+一个专门用于公司的办公环境&#65288;写文档&#12289;收发邮件&#65289;<br>
+一个专门用于公司的开发环境&#65288;留个开环境帮同事解决疑难编程问题&#65289;<br>
+一个专门用于业余时间的开发环境&#65288;业余时写代码&#65289;<br>
+一个专门用于业余时间的上网环境&#65288;业余时上网&#65289;<br>
+&#65288;还有很多&#65292;不一一列举&#65289;<br>
+&#12288;&#12288;搞这么多虚拟机的好处在于&#65292;把自己的敏感数据分散开&#8212;&#8212;即便某个虚拟系统被入侵&#65292;其它虚拟系统&#12304;不受&#12305;影响&#12290;<br>
+&#12288;&#12288;而且 VM 软件都会提供&#12304;快照功能&#12305;&#8212;&#8212;这个功能是 VM 的精华&#12290;比如每次刚装好系统&#65292;或者刚升级好系统&#65292;俺都会做一个快照&#12290;用了几天之后&#65292;就回退到这个快照&#12290;就算这几天当中被恶意软件&#65288;病毒/木马/流氓软件&#65289;污染了系统&#65292;只要回退到快照&#65292;虚拟系统又纯洁如初 :)<br>
+&#12288;&#12288;前几天有读者问俺用的是哪个系统清理工具&#12290;俺回答说&#65306;有了 VM 软件&#65292;根本&#12304;无需&#12305;系统清理工具&#12290;为啥捏&#65311;因为每次回退快照&#65292;系统垃圾自动就没了&#65288;等同于一次彻底的清理&#65289;&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;VM 的优点很多&#65292;至少包括如下&#65306;<br>
+&#12288;&#12288;<b>优点1</b><br>
+&#12288;&#12288;最好的兼容性&#12290;<br>
+&#12288;&#12288;前面提到的&#8220;方案3&#8221;和&#8220;方案4&#8221;&#65292;都可能会导致一些兼容性的问题&#12290;而 VM 完全没有&#12290;<br>
+<br>
+&#12288;&#12288;<b>优点2</b><br>
+&#12288;&#12288;最好的隔离性&#65288;关于这点&#65292;下面俺单独开了一个章节详述&#65289;<br>
+<br>
+&#12288;&#12288;<b>优点3</b><br>
+&#12288;&#12288;VM 的快照功能可以帮你完成很多额外的工作&#65288;参见俺刚才的举例&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b>优点4</b><br>
+&#12288;&#12288;彻底实现&#8220;跨平台&#8221;&#12290;<br>
+&#12288;&#12288;比如你可以用 Windows 做 Host OS&#65292;然后在其中虚拟出一个 Linux 或 Mac 的 Guest OS&#65307;反之亦然&#12290;而沙箱软件做不到这点&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;俺个人认为&#65306;对于那些安全要求高的网友&#65292;VM 的方案是最佳方案&#12290;此方案有如下两个不太明显的缺点&#65306;<br>
+&#12288;&#12288;<b>缺点1</b><br>
+&#12288;&#12288;如果要使用&#65292;你的硬件配置不能太低&#12290;<br>
+&#12288;&#12288;如今电脑硬件的配置已经越来越好&#65288;动不动就是好几 GB 的内存&#65292;动不动就 4核/8核&#65289;&#65292;这个缺点基本可以忽略&#12290;<br>
+<br>
+&#12288;&#12288;<b>缺点2</b><br>
+&#12288;&#12288;要花点时间学习如何使用 VM&#12290;<br>
+&#12288;&#12288;不过这个缺点也好办&#8212;&#8212;俺在2年前&#65288;2012&#65289;就写了一个&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;的系列教程&#12290;不会用 VM 的同学可以先去看这个教程&#12290;<br>
+<br>
+<br>
+<h2>&#9733;为啥&#8220;OS虚拟机&#8221;的隔离性比&#8220;沙箱&#8221;更好&#65311;</h2><br>
+&#12288;&#12288;俺在博客上写了不少操作系统虚拟机的博文&#12290;但是一直没有介绍过&#8220;沙箱软件&#8221;&#12290;曾经有几个读者在留言中问道&#65306;为啥从来没普及过沙箱&#65311;今天借着这个机会说一下&#12290;<br>
+&#12288;&#12288;前面俺提到了 VM 的各种优点&#12290;这里重点想说其中一点&#8212;&#8212;<b>隔离性</b>&#12290;为啥捏&#65311;如果你对安全的要求比较高&#65292;&#8220;隔离性&#8221;是关键&#12290;而&#8220;VM&#8221;的隔离性远远好于&#8220;沙箱&#8221;&#12290;具体的分析如下&#65306;<br>
+<br>
+<h3>&#9671;关于隔离的&#8220;维度&#8221;</h3><br>
+&#12288;&#12288;不论是 VM 还是沙箱&#65292;说白了都是为了创造出一个隔离的软件环境&#12290;这时候要考虑的维度有很多&#65292;至少包括&#65306;文件系统&#12289;内存&#12289;网络&#12289;外设&#65288;比如 USB 口&#65289;&#12290;<br>
+&#12288;&#12288;主流的 VM 软件可以支持上述&#12304;所有的&#12305;维度&#65307;而大部分沙箱软件只能做到文件系统和内存的隔离&#12290;有些沙箱虽然也支持网络隔离&#65292;但是其网络隔离的功能不如 VM 那么丰富&#65288;主流的 VM 软件通常支持至少3种以上的虚拟网卡模式&#65289;&#12290;<br>
+<br>
+<h3>&#9671;关于操作系统本身的漏洞</h3><br>
+&#12288;&#12288;在使用&#8220;沙箱&#8221;的情况下&#65292;沙箱软件和流氓软件都运行在同一个操作系统中&#12290;如果这个操作系统出现某些安全漏洞&#65292;&#12304;可能会&#12305;导致流氓软件突破沙箱的隔离边界&#12290;<br>
+&#12288;&#12288;相对而言&#65292;使用 VM 的情况下&#65292;同时存在两个操作系统&#12290;VM 软件本身是运行在 Host OS 之上&#65292;而流氓软件运行在 Guest OS 之上&#12290;由于 VM 本身并不依赖 Guest OS&#12290;所以 Guest OS 出现安全漏洞&#65292;&#12304;不太可能&#12305;导致隔离边界被突破&#12290;<br>
+&#12288;&#12288;有些爱思考的同学会问了&#65306;如果 Host OS 出现安全漏洞&#65292;是否有可能导致隔离边界被突破&#12290;这种可能性是有的&#65292;但是操作的难度很大&#12290;为啥捏&#65311;因为流氓软件运行在 Guest OS 之内&#65292;它根本看不到 Host OS&#12290;换句话说&#65292;流氓软件根本就无法知道 Host OS 是啥类型的&#12290;连操作系统的类型都不知道&#65292;如何去利用操作系统的漏洞&#65311;<br>
+<br>
+<br>
+<h2>&#9733;总结</h2><br>
+&#12288;&#12288;在本文的结尾&#65292;稍微做一下总结发言&#65292;说一下每种招数适用的情况&#12290;<br>
+<br>
+<h3>&#9671;方案1&#8212;&#8212;用&#8220;Web 版本&#8221;替代</h3><br>
+&#12288;&#12288;前提&#65306;对应的流氓软件提供 Web 版本<br>
+&#12288;&#12288;本方案无需额外的配置&#65292;也无需再安装其它桌面软件&#12290;所以适合那些非常菜鸟的网友&#65292;或者是那些非常懒的网友&#12290;另外&#65292;如果你只是想临时用一下某个流氓软件&#65292;也可以用这个招数&#12290;<br>
+<br>
+<h3>&#9671;方案2&#8212;&#8212;用&#8220;网络防火墙&#8221;限制联网</h3><br>
+&#12288;&#12288;前提&#65306;对应的流氓软件的&#12304;基本功能&#12305;与网络无关&#65288;比如&#65306;输入法&#12289;播放本地视频&#12289;播放本地音乐&#65289;<br>
+&#12288;&#12288;除了需要配置网络防火墙&#65292;无需额外安装其它软件&#12290;适合那些比较菜鸟的同学或者是比较懒的同学&#12290;<br>
+<br>
+<h3>&#9671;方案3&#8212;&#8212;用&#8220;绿色版本&#8221;替代</h3><br>
+&#12288;&#12288;前提&#65306;对应的流氓软件能够&#8220;绿化&#8221;<br>
+&#12288;&#12288;需要自己手工制作绿色版本&#65292;而且还需要配置额外的操作系统用户和文件系统的访问控制权限&#12290;所以此招数适合于具有一定折腾能力的网友&#12290;而且电脑硬件又很差&#65292;用不了虚拟机方案&#12290;<br>
+<br>
+<h3>&#9671;方案4&#8212;&#8212;用&#8220;沙箱软件&#8221;隔离</h3><br>
+&#12288;&#12288;前提&#65306;流氓软件需要能跟沙箱软件兼容&#12290;<br>
+&#12288;&#12288;如果你电脑硬件太差&#65292;用不了虚拟机&#12290;而且你又搞不定绿色版本&#65288;比如流氓软件不支持&#8220;绿化&#8221;&#65292;或者你不懂得如何&#8220;绿化&#8221;&#65289;&#65292;那么你可以用此方案&#12290;<br>
+<br>
+<h3>&#9671;方案5&#8212;&#8212;用&#8220;操作系统虚拟机&#8221;隔离</h3><br>
+&#12288;&#12288;前提&#65306;无任何限制&#12290;<br>
+&#12288;&#12288;此方案堪称终极解决方案&#65292;尤其适合于对安全要求比较高的同学&#12290;此方案需要有一定的折腾能力&#65288;不需很高&#65289;&#65292;而且电脑的硬件配置至少是中等水平&#12290;<br>
+<br>
+<h3>&#9671;所有这五种方案的局限性</h3><br>
+&#12288;&#12288;不论你用的是哪个方案&#12290;如果你想使用某个流氓软件&#65292;并且<b>该流氓软件的基本功能是依赖于网络的</b>&#65292;那么&#65292;这款流氓软件就有可能收集到你的某些隐私并发送给厂商的服务器&#12290;即使你用了最安全的&#8220;虚拟机隔离&#8221;&#65292;顶多也只是降低了泄漏的信息量而已&#12290;<br>
+&#12288;&#12288;举例来说&#65306;你在虚拟机里面运行 QQ&#65292;可以阻止 QQ 偷偷扫盲你的 Host OS 的磁盘&#12290;但是&#65292;你的所有聊天内容&#65292;腾讯的服务器上都有记录&#12290;所以&#65292;<b>最安全的是&#65306;既不用流氓公司的软件&#65292;也不用流氓公司的网络服务</b>&#12290;<br>
+<br>
+<br>
+<a href="../../2013/06/privacy-protection-0.html#index">回到本系列的目录</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2014/08/privacy-protection-9.html" id="OriginalPostUrl">https://program-think.blogspot.com/2014/08/privacy-protection-9.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="255">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/9039100661366640739?postID=9039100661366640739&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/9039100661366640739.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

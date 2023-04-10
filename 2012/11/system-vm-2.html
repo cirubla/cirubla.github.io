@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲操作系统虚拟机[2]&#65306;介绍各种应用场景 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2012-11-08T00:27:00+08:00">2012年11月8日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：124条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲操作系统虚拟机[2]&#65306;介绍各种应用场景
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;<a href="../../2012/10/system-vm-1.html">前一篇帖子</a>介绍了虚拟机的基本概念&#12290;今天来介绍一下&#65292;操作系统虚拟机可以用于哪些场合&#12290;<br>
+&#12288;&#12288;为了打字省力&#65292;本文后续部分用&#8220;虚拟机&#8221;指代&#8220;操作系统虚拟机&#8221;&#12290;<a name='more'></a><br>
+<br>
+<h2>&#9733;运行各种系统的软件</h2><br>
+&#12288;&#12288;虚拟机最主要的一个功能就是&#65306;可以在一台电脑上运行不同的操作系统&#12290;不同的操作系统&#65292;差异是很大滴&#12290;操作系统的差异性导致了很多专有软件&#8212;&#8212;有些软件只有 Windows 才有&#65292;有些只有 Mac OS 才有&#65292;还有些软件只有 Linux 才有&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;很多苹果的粉丝发现苹果系统上翻墙软件奇缺&#65288;大部分翻墙软件&#65292;比如&#8220;VPN gate&#12289;自由门&#12289;无界&#8221;&#65292;都是 Windows 软件&#65289;&#12290;<br>
+&#12288;&#12288;在没有虚拟机的时代&#65292;要想在一台电脑上玩不同的系统&#65292;只能通过&#8220;多引导&#8221;&#12290;但是&#8220;多引导&#8221;一次只能用一个系统&#12290;有了虚拟机之后&#65292;你就可以&#12304;<b>同时</b>&#12305;玩不同系统下的软件&#12290;<br>
+<br>
+<h2>&#9733;简化系统管理</h2><br>
+<h3>&#9671;便于硬件迁移</h3><br>
+&#12288;&#12288;如今硬件升级换代很快&#65292;某些网友时不时就会换新电脑&#12290;换了新电脑&#65292;可能要重装系统&#65307;就算新电脑随机带了操作系统&#65292;你也免不了要装一大堆自己用的软件&#12290;干这种事情&#65292;往往繁琐且费时费力&#12290;而虚拟机可以帮你免去这类烦恼&#12290;<br>
+&#12288;&#12288;比如俺&#65292;每次换电脑&#65292;都非常省事儿&#12290;因为俺所有的电脑操作&#65288;包括翻墙上网&#12289;公司事务&#12289;写程序&#12289;写博客&#12289;等等&#65289;全都是在虚拟机内完成&#65307;俺平时用的软件&#65288;除了虚拟机软件本身&#65289;&#65292;都装在虚拟系统内&#12290;所以捏&#65292;每次升级电脑&#65292;俺只需要安装 Host OS&#65288;宿主系统&#65289;和虚拟机软件&#12290;然后再把一大堆虚拟机镜像 copy 过去&#65292;就 OK 了&#12290;<br>
+<br>
+<h3>&#9671;便于系统备份</h3><br>
+&#12288;&#12288;既然虚拟机有利于&#8220;硬件迁移&#8221;&#65292;自然也就有利于&#8220;系统备份&#8221;&#12290;<br>
+&#12288;&#12288;如今笔记本电脑大行其道&#65292;但也带来一个问题&#65306;容易弄丢或者容易摔坏&#12290;一旦弄丢或摔坏&#65292;你免不了又要装系统&#12289;装软件&#12290;如果你平时就使用虚拟机工作&#65292;并且记得把虚拟机镜像备份出来&#65288;比如拷贝到另外一个移动硬盘&#65289;&#12290;一旦失窃或摔坏&#65292;恢复起来就很省力&#12290;<br>
+<br>
+<h3>&#9671;便于灾难恢复</h3><br>
+&#12288;&#12288;<a href="../../2012/10/system-vm-1.html">前一篇帖子</a>提到虚拟机的快照功能&#12290;这个功能有点类似于 Windows 的&#8220;系统还原&#8221;&#65292;但是比&#8220;系统还原&#8221;更安全&#65292;也更好用&#12290;因为"系统还原"功能只能帮你还原部分文件&#65288;主要是系统文件&#65289;&#65292;而虚拟机快照可以帮你复原虚拟操作系统中的所有文件&#65288;包括内存状态&#65289;&#12290;<br>
+&#12288;&#12288;有了这么牛叉的快照功能&#65292;可以帮你从误操作的灾难中恢复出来&#12290;<br>
+&#12288;&#12288;举例说明&#65306;<br>
+&#12288;&#12288;每当装好虚拟系统及常用的几款软件之后&#65292;建议你先做一个快照&#65288;这个快照对应的是干净的&#12289;正常的系统&#65289;&#12290;以后你在使用的过程中&#65292;万一发生了误操作&#65288;比如误删了系统文件&#65289;&#65292;直接回退到这个干净的快照&#65292;系统自然就恢复了&#65307;如果系统莫名其妙坏了&#12289;无法启动了&#65292;也只需"回退到干净的快照"&#65292;即可&#12290;<br>
+<br>
+<h3>&#9671;无需清理系统垃圾</h3><br>
+&#12288;&#12288;貌似很多网友都会在自己的 Windows 系统上安装一些系统优化的软件&#12290;这些软件的一个主要功能是"清理系统垃圾"&#12290;<br>
+&#12288;&#12288;但是像俺这样&#65292;主要工作都在虚拟机内完成的人&#65292;就没必要"清理系统垃圾"&#12290;俺使用的虚拟机&#65292;每隔几天就回退到前一个干净的快照&#12290;一旦回退快照&#65292;系统垃圾自然就没了&#12290;<br>
+<br>
+<h3>&#9671;使用快照的注意事项</h3><br>
+&#12288;&#12288;刚才连续举了两种使用快照的场景&#12290;顺便说一下&#8220;注意事项&#8221;&#12290;<br>
+&#12288;&#12288;假如把虚拟机回退到某一个快照&#65288;以下称&#8220;快照A&#8221;&#65289;&#65292;那么从&#8220;快照A&#8221;之后的所有文件系统的变化&#65288;包括新建的文件&#12289;修改的文件&#12289;删除的文件&#65289;都会被复原&#12290;<br>
+&#12288;&#12288;如果你像俺这样&#65292;定期回退到前一个干净的快照&#65292;有一点务必提醒大家&#65306;<b>需要长期保留的文件&#65288;尤其是一些个人数据&#65289;&#65292;不要放到虚拟机里</b>&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;假如你在虚拟机内用 MSN/Skype 聊天&#65292;它会在本地保存聊天记录&#12290;一旦你把虚拟机的快照回退&#65292;刚刚保存的聊天记录就没了&#12290;<br>
+&#12288;&#12288;解决的办法&#65306;<br>
+&#12288;&#12288;&#65288;参见<a href="../../2015/12/system-vm-7.html">本系列的第7篇</a>&#65289;<br>
+<br>
+<h2>&#9733;用于信息安全领域</h2><br>
+<h3>&#9671;防范黑客入侵</h3><br>
+&#12288;&#12288;关于这招&#65292;请看&#12298;<a href="../../2012/10/howto-prevent-hacker-attack-7.html">如何防止黑客入侵[7]&#65306;Web相关的防范 (下)</a>&#12299;一文的&#8220;多虚拟机方案&#8221;&#12290;这里就不再浪费口水了&#12290;<br>
+<br>
+<h3>&#9671;试用危险的软件</h3><br>
+&#12288;&#12288;有时候你在网上看到某个软件&#65288;比如某个小游戏&#65289;很不错&#65292;很想安装了体验一下&#12290;但是这个软件可能来路不明&#65292;你不晓得这个软件本身是否安全可靠&#12290;<br>
+&#12288;&#12288;咋办捏&#65311;<br>
+&#12288;&#12288;俺通常会留一个干净的虚拟机用来进行&#8220;软件试用&#8221;&#12290;这个虚拟机事先做了一个干净的快照&#12290;在这个虚拟机里面&#65292;想装啥软件都可以&#65288;流氓软件&#12289;带毒的软件&#65292;都无所谓&#65289;&#12290;等到把这个软件玩腻了&#65292;就回退到事先做好的那个干净的快照&#12290;一旦回退快照&#65292;再流氓的软件都会从眼前消失&#12290;<br>
+<br>
+<h3>&#9671;搭建蜜罐</h3><br>
+&#12288;&#12288;所谓的&#8220;蜜罐&#8221;&#65288;洋文叫&#8220;honeypot&#8221;&#65289;&#65292;是故意用来吸引攻击者的一个系统&#12290;<br>
+&#12288;&#12288;在安全行业中&#65292;有时候会用虚拟机来搭建&#8220;蜜罐&#8221;&#12290;蜜罐有很多种用途&#65292;有些比较注重安全的企业或机构&#65292;可以通过蜜罐进行黑客入侵的早期预警&#12290;有些杀毒软件厂商则利用蜜罐用来收集病毒样本&#12290;<br>
+&#12288;&#12288;更多的介绍可以看维基百科&#65288;在"<a href="https://en.wikipedia.org/wiki/Honeypot_%28computing%29" target="_blank" rel="nofollow">这里</a>"&#65289;<br>
+<br>
+<h2>&#9733;用于隐私保护</h2><br>
+&#12288;&#12288;严格来说&#65292;&#8220;隐私问题&#8221;也属于&#8220;信息安全&#8221;的范畴&#12290;不过捏&#65292;因为这几年&#8220;隐私问题&#8221;比较突出&#65292;俺单独用一个章节来强调&#12290;<br>
+<br>
+<h3>&#9671;防范流氓软件偷窥</h3><br>
+&#12288;&#12288;除了刚才提到的&#8220;防范黑客&#8221;&#65292;虚拟机还可以用来保护隐私&#12290;<br>
+"比如臭名昭著的 QQ 会偷偷扫描你的硬盘&#65292;窥探你的隐私&#12290;由于 QQ 的用户群太大了&#65292;你不用它还不行&#65288;像俺这种从来不用 QQ 的天朝网民&#65292;估计不到1%&#65289;&#12290;<br>
+&#12288;&#12288;咋办捏&#65311;<br>
+&#12288;&#12288;办法之一是把 QQ 安装到虚拟机系统&#65292;然后把你个人的隐私&#65288;比如裸照&#65289;放到外部的真实系统&#12290;这样一来&#65292;即使 QQ 偷窥&#65292;也看不到你的隐私&#12290;<br>
+&#12288;&#12288;这招不光能用来对付&#8220;疼逊&#8221;&#65292;也可以用来对付其它流氓软件&#65288;比如&#8220;逊雷&#12289;支付宝&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;用于多人共用的电脑</h3><br>
+&#12288;&#12288;有些网友的电脑会被家人共用&#8212;&#8212;你的MM或老婆可能会拿你的电脑上网&#65307;如果你有个已经上学的小孩&#65292;他/她可能也会拿你的电脑上网&#12290;当多人共用你的电脑&#65292;隐私问题就浮现出来了&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;假如你上黄色网站&#65292;多半不希望让家人知道&#12290;不幸的是&#65292;你的家人因为用了你的浏览器&#65292;可能无意中会看到你的浏览历史......一旦发生这种不幸&#65292;轻则名誉受损&#65307;重则引发家庭纠纷&#12290;<br>
+&#12288;&#12288;某些网友会建议说&#65306;每次上网后&#65292;清理一下浏览器历史记录&#65307;还有的同学会建议说&#65306;使用浏览器的隐私模式&#12290;<br>
+&#12288;&#12288;但是俺觉得&#65292;这些招数都不够彻底&#12290;以&#8220;隐私模式&#8221;为例&#12290;虽然&#8220;隐私模式&#8221;不会在浏览器中留下上网的历史痕迹&#12290;但是&#65281;如果你下载某个黄色视频或黄色图片在本地观看&#65292;那&#8220;隐私模式&#8221;可就帮不了你喽&#12290;由此可见&#65292;要想彻底避免隐私外泄&#65292;还是得用虚拟机&#12290;具体做法如下&#65306;<br>
+&#12288;&#12288;装一个虚拟机专门用来上&#8220;限制级的网站&#8221;&#12290;一旦下载了限制级的内容&#65292;也只保存在这个虚拟机内&#12290;通常来说&#65292;你的家人多半不熟悉 IT 技术&#65292;可能连"虚拟机"都没听说&#12290;所以&#65292;你的浏览历史&#65292;以及你保存下来的限制级内容&#65292;自然不易被发现 :)<br>
+<br>
+<h3>&#9671;用于隐匿自己的IP</h3><br>
+&#12288;&#12288;这种场景比较少见&#12290;一般来说&#65292;只有像俺这种"反党人士"&#65292;才有这种需求&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;你想通过 QQ 群发一些&#8220;不和谐的言论&#8221;&#12290;但是大伙儿应该都知道&#65292;&#8220;疼逊&#8221;是朝廷的走狗&#65292;他会帮朝廷追查&#8220;反动言论的始作俑者&#8221;&#12290;因为 QQ 服务器会记录每一个 QQ 用户的 IP 地址&#12290;一旦发现某个用户发送煽动性言论&#65292;官府六扇门的捕头直接根据 IP 地址就可以定位到你的位置&#12290;<br>
+&#12288;&#12288;那该咋办捏&#65311;<br>
+&#12288;&#12288;某些天真的网友会想&#65292;如果为 QQ 设置代理&#65292;让 QQ 客户端通过代理联网&#65307;那么 QQ 服务器看到的就是代理的 IP 而不是本人的 IP&#12290;<br>
+&#12288;&#12288;但是捏&#65292;这种做法不一定保险&#12290;即使你给 QQ 客户端设置代理&#65292;<b>说不定</b> QQ 还是会偷偷地&#12289;&#65288;不经过代理&#65289;直接连接 QQ 服务器&#12290;如果是这样的话&#65292;那你的真实 IP 还是会暴露&#12290;<br>
+&#12288;&#12288;&#12304;正宗的做法&#12305;如下&#65306;<br>
+&#12288;&#12288;装2个虚拟机系统&#65288;简称 A 系统 和 B 系统&#65289;&#12290;A 系统装翻墙软件&#65292;配置双网卡&#65292;分别用 NAT 模式和 Host-Only 模式&#12290;B 系统装 QQ&#65292;单网卡&#65292;配置为 Host-Only 模式&#12290;然后配置 QQ 的代理&#65292;让 QQ 的代理指向 A 系统的翻墙软件&#12290;由于 B 系统的网卡是 Host-Only 模式&#65292;QQ 客户端即使想偷偷地直连服务器&#65292;也办不到&#12290;所以&#65292;QQ 只能老老实实地通过 A 系统中转&#12290;由于 A 系统的中转是通过翻墙代理&#65292;最终 QQ 服务器看到的是翻墙代理的 IP&#65292;看不到你本人的真实 IP&#12290;<br>
+&#12288;&#12288;顺便说一下&#65292;如果你对安全性的要求比较高&#65292;可以在 A 系统中使用多重代理&#65292;具体的操作请看<a href="../../2012/03/howto-cover-your-tracks-5.html">俺之前的博文</a>&#12290;用了多重代理&#65292;朝廷几乎没可能从网络层面追踪你的真实 IP&#12290;<br>
+&#12288;&#12288;光这么说&#65292;可能比较抽象&#65292;某些网友未必能搞懂&#12290;所有俺后来又在&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;系列中&#65292;补充了2篇博文&#65292;详细介绍&#8220;双虚拟机&#8221;的招数&#12290;<br>
+<br>
+<h2>&#9733;用于软件开发和测试</h2><br>
+&#12288;&#12288;考虑到俺博客的读者中&#65292;还是有不少软件从业人员&#12290;最后再介绍一下虚拟机在软件开发和测试中的应用&#12290;<br>
+<br>
+<h3>&#9671;搭建开发环境</h3><br>
+&#12288;&#12288;比方说你的工作是编写 Linux 平台的程序&#65292;但是你平时又不习惯用 Linux 而喜欢用 Windows&#12290;<br>
+&#12288;&#12288;咋办捏&#65311;<br>
+&#12288;&#12288;你可以在 Windows 系统中安装一个 Linux 的虚拟机&#12290;当写程序或调试程序时&#65292;切换到这个虚拟机中&#65292;其它时间照常用 Windows&#12290;<br>
+<br>
+<h3>&#9671;搭建测试环境</h3><br>
+&#12288;&#12288;类似于开发人员&#65292;测试人员也可以通过虚拟机来搭建测试环境&#12290;根据俺的经验&#65292;虚拟机对测试人员的帮助要大于对开发人员的帮助&#12290;虚拟机能给测试带来如下好处&#65306;<br>
+<br>
+<b>1. 搭建多样化的测试环境</b><br>
+&#12288;&#12288;假如你的工作是测试某个软件的 Web 界面&#12290;因为要考虑兼容性&#65292;你需要分别用不同版本的 IE 来测试它&#12290;但是不同版本的 IE 又不能装在同一个 Windows 系统里&#12290;<br>
+&#12288;&#12288;咋整捏&#65311;<br>
+&#12288;&#12288;解决之道就是&#65306;装若干个 Windows 虚拟机&#12290;有的虚拟机装 IE6&#65292;有的装IE8&#65292;有的装IE9......以此类推&#12290;这样一来&#65292;你就可以在一台电脑上&#65292;测试多种版本的 IE 浏览器&#12290;<br>
+<br>
+<b>2. 确保测试环境的一致性</b><br>
+&#12288;&#12288;在没有虚拟机的时代&#65292;测试人员往往是在自己的操作系统中进行测试&#12290;由于每个测试人员的操作系统可能会有差异&#65288;比如&#65306;安装的软件不同&#12289;升级的补丁不同&#12289;等等&#65289;&#65292;这种环境差异会对测试结果造成干扰&#12290;比如同一个 bug 张三测试出来&#65292;而李四却无法复现&#12290;<br>
+&#12288;&#12288;有了虚拟机之后&#65292;可以让同一个测试组的人员使用同一个虚拟机镜像做测试环境&#12290;如此一来&#65292;可以绝对保证测试环境的一致性&#12290;<br>
+<br>
+<b>3. 确保测试环境的纯洁性</b><br>
+&#12288;&#12288;在没有虚拟机的时代&#65292;测试人员每次拿到新版本的软件之后&#65292;需要先卸载旧版本&#65292;然后再安装新版本&#12290;但是捏&#65292;一旦旧版本没卸载干净&#65288;比如在系统目录还遗留了旧的动态库&#65289;&#65292;可能会引发很多诡异的问题&#12290;<br>
+&#12288;&#12288;有了虚拟机之后&#65292;测试人员可以先做一个干净的虚拟机快照&#12290;测试人员每拿到新版本&#65292;先把测试用的虚拟系统回退到这个干净的快照&#65292;然后再安装&#12290;如此一来&#65292;可以保证待测的软件总是安装在一个干净的环境中&#65292;避免干扰因素&#12290;<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;对于虚拟机&#65292;上面这些招数算是比较常用的&#12290;还有一些应用场景&#65292;因为比较冷门&#65292;俺就不在这里介绍了&#12290;<br>
+&#12288;&#12288;本系列的下一篇&#65292;介绍一下&#8220;<a href="../../2012/11/system-vm-3.html">如何选择虚拟机软件</a>&#8221;&#12290;<br>
+<br>
+<a href="../../2012/10/system-vm-0.html#index">回到本系列的目录</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2012/11/system-vm-2.html" id="OriginalPostUrl">https://program-think.blogspot.com/2012/11/system-vm-2.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="124">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4891199656976799881?postID=4891199656976799881&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4891199656976799881.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

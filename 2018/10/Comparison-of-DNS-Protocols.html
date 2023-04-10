@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>对比4种强化域名安全的协议&#8212;&#8212;DNSSEC&#65292;DNSCrypt&#65292;DNS over TLS&#65292;DNS over HTTPS - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2018-10-09T23:45:00+08:00">2018年10月9日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：295条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              对比4种强化域名安全的协议&#8212;&#8212;DNSSEC&#65292;DNSCrypt&#65292;DNS over TLS&#65292;DNS over HTTPS
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<center><img src="../../images/2018/10/4QaghUJDZ1GkjAsoVyFbCnhNchM7YYswTgIuk9MWSA3NNW6xBh6P4VJ1NRAjJcqFJXiee6VhkCkI8UuP8eJLSd7Ka0dyOekEHVc0_GDVWvHOUOrSH0CL7T2JXqka3dZdG6VNLo--vkU" alt="不见图 请翻墙"></center>
+<br>
+<h2>&#9733;引子</h2>
+<br>
+&#12288;&#12288;俺在写前一篇博文&#65288;也就是 <a href="../../2018/09/Why-You-Should-Switch-from-Chrome-to-Firefox.html">Firefox PK Chrome 那篇</a>&#65289;的时候&#65292;碰巧看到 Mozilla 官方博客提到说&#65306;目前最新的 Firefox 62 版本开始支持&#12304;DNS over HTTPS&#12305;这一特性&#65288;链接在&#8220;<a href="https://blog.nightly.mozilla.org/2018/06/01/improving-dns-privacy-in-firefox/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;本来想顺便聊一下&#8220;DNS over HTTPS&#8221;这个玩意儿&#12290;但是查了一下&#65292;发现它的 RFC 目前还只是&#12304;草案&#12305;&#65292;尚未正式发布&#12290;<br>
+&#12288;&#12288;所以俺就把本文的主题改成&#65306;<q>对比4种强化 DNS 安全的网络协议</q>&#12290;然后借此机会普及一些信息安全知识&#12290;<br>
+<a name='more'></a><br>
+<br>
+<br>
+<h2>&#9733;DNS 是啥玩意儿&#65311;</h2>
+<br>
+&#12288;&#12288;简而言之&#65292;DNS 是用来查询域名的协议&#12290;关于它的原理&#65288;工作机制&#65289;&#65292;俺已经写过一篇教程&#65288;在&#8220;<a href="../../2014/01/dns.html">这里</a>&#8221;&#65289;&#65292;所以今天就不重复浪费口水啦&#12290;<br>
+&#12288;&#12288;另外&#65292;如果你是技术菜鸟&#65292;在看这篇博文之前&#65292;确保你已经&#12304;看完&#12305;如下这篇&#65306;<br>
+&#12298;<a href="../../2021/03/Computer-Networks-Overview.html">计算机网络通讯的&#12304;系统性&#12305;扫盲&#8212;&#8212;从&#8220;基本概念&#8221;到&#8220;OSI 模型&#8221;</a>&#12299;<br>
+<br>
+<br>
+<h2>&#9733;传统的 DNS 有啥问题&#65311;</h2>
+<br>
+&#12288;&#12288;传统的 DNS 是一个&#12304;比较古老&#12305;的协议&#12290;最早的草案可以追溯到1983年&#12290;1987年定稿之后&#65292;基本上没啥变化&#12290;算起来&#65292;它的年龄比俺博客的很多读者都要大&#12290;<br>
+&#12288;&#12288;设计 DNS 的时候&#65292;互联网基本上还是个玩具&#12290;那年头的互联网协议&#65292;压根儿都没考虑安全性&#65292;DNS 当然也不例外&#12290;所以 DNS 的交互过程全都是&#12304;明文&#12305;滴&#65292;既无法做到&#8220;保密性&#8221;&#65292;也无法实现&#8220;完整性&#8221;&#12290;<br>
+&#12288;&#12288;缺乏&#8220;保密性&#8221;就意味着&#8212;&#8212;任何一个能&#12304;监视&#12305;你上网流量的人&#65292;都可以&#12304;看到&#12305;你查询了哪些域名&#12290;直接引发的问题就是隐私风险&#12290;<br>
+&#12288;&#12288;缺乏&#8220;完整性&#8221;就意味着&#8212;&#8212;任何一个能&#12304;修改&#12305;你上网流量的人&#65292;都可以&#12304;篡改&#12305;你的查询结果&#12290;直接引发的问题就是&#8220;DNS 欺骗&#8221;&#65288;也叫&#8220;DNS 污染&#8221;或&#8220;DNS 缓存投毒&#8221;&#65289;<br>
+&#12288;&#12288;关于&#8220;域名欺骗/域名污染&#8221;&#65292;可以参见俺的另一篇博文&#12298;<a href="../../2014/01/dns.html">扫盲 DNS 原理&#65292;兼谈&#8220;域名劫持&#8221;和&#8220;域名欺骗&#65295;域名污染&#8221;</a>&#12299;&#12290;<br>
+<br>
+&#12288;&#12288;为了解决传统 DNS 的这些弊端&#65292;后来诞生了好几个网络协议&#65292;以强化域名系统的安全性&#12290;俺挑选其中4个来介绍&#12290;除了这4个&#65292;其它一些协议的名气和影响力太小&#65292;不值一提&#12290;<br>
+&#12288;&#12288;下面俺以出场时间的先后&#65292;分别介绍这4个协议&#12290;<br>
+<br>
+<br>
+<h2>&#9733;DNSSEC</h2>
+<br>
+<h3>&#9671;历史</h3>
+<br>
+&#12288;&#12288;这玩意儿是&#8220;Domain Name System Security Extensions&#8221;的缩写&#12290;在今天介绍的4个协议中&#65292;DNSSEC 是最早诞生的&#65288;1997&#65289;&#12290;从最先的 <a href="https://tools.ietf.org/html/rfc2065" target="_blank" rel="nofollow">RFC 2065</a> 进化为 <a href="https://tools.ietf.org/html/rfc2535" target="_blank" rel="nofollow">RFC 2535</a>&#65292;再到 <a href="https://tools.ietf.org/html/rfc4033" target="_blank" rel="nofollow">RFC 4033</a>&#12289;<a href="https://tools.ietf.org/html/rfc4034" target="_blank" rel="nofollow">RFC 4034</a>&#12289;<a href="https://tools.ietf.org/html/rfc4035" target="_blank" rel="nofollow">RFC 4035</a>&#12290;<br>
+&#12288;&#12288;在今天介绍的4个协议中&#65292;DNSSEC 也是最早大规模部署的&#12290;在2010年的时候&#65292;所有<a href="https://zh.wikipedia.org/wiki/%E6%A0%B9%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8B%99%E5%99%A8" target="_blank" rel="nofollow">根域名服务器</a>都已经部署了 DNSSEC&#12290;到了2011年&#65292;若干顶级域名&#65288;.org 和 .com 和 .net 和 .edu&#65289;也部署了 DNSSEC&#12290;<br>
+<br>
+<h3>&#9671;协议栈</h3>
+<br>
+<pre>--------
+ DNSSEC
+--------
+  UDP
+--------
+  IP
+--------</pre>
+<br>
+<h3>&#9671;安全性的原理</h3>
+<br>
+&#12288;&#12288;当初设计 DNSSEC 的一个考虑是&#8220;尽可能兼容 DNS 协议&#8221;&#12290;所以 DNSSEC 只是在 DNS 协议的基础上增加了一个&#12304;数字签名机制&#12305;&#12290;<br>
+&#12288;&#12288;有了数字签名&#65292;如果域名查询的结果被人篡改了&#65292;DNSSEC 客户端就可以通过&#12304;校验签名&#12305;&#65292;判断查询结果是假的&#12290;套用信息安全的行话&#8212;&#8212;DNSSEC 实现了&#12304;完整性&#12305;&#65288;也叫&#8220;不可篡改性&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;由于 DNSSEC 引入了&#12304;数字签名&#12305;&#65292;就需要有&#12304;公私钥对&#12305;&#12290;私钥是保密的&#65292;用来生成签名&#65307;公钥是公开的&#65292;用来验证签名&#12290;DNSSEC 客户端可以向 DNSSEC 服务器发出请求&#65292;获得一个 DNSKEY 记录&#65292;里面含公钥&#65307;然后用这个公钥校验每次的查询结果&#12290;<br>
+<br>
+<h3>&#9671;信任链的实现</h3>
+<br>
+&#12288;&#12288;有些聪明的读者会问了&#65306;DESSEC 客户端在向服务器请求公钥的过程中&#65292;如果被攻击者篡改了&#65292;得到一个假的公钥&#65292;那该如何是好&#65311;<br>
+&#12288;&#12288;为了解决此问题&#65292;DNSSEC 体系要求&#12304;上级域&#12305;来担保&#12290;比如想要证明 program-think.blogspot.com 这个域名的公钥是否可信&#65292;就依靠 blogspot.com 这个域名的公钥来验证&#12290;通过层层追溯&#65292;最后达到&#12304;根域名服务器&#12305;&#12290;而&#8220;根域名服务器的公钥&#8221;是事先就部署在客户端的&#8212;&#8212;这玩意儿就是整个信任链的根源&#65292;称之为&#8220;信任锚&#8221;&#65288;洋文叫&#8220;Trust Anchor&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;优点</h3>
+<br>
+&#12288;&#12288;在今天聊的4个协议中&#65292;DNSSEC 应该是最成熟的&#12290;除了前面提到的广泛部署&#65292;大多数公共的域名服务器也都支持它&#12290;维基百科上有一个对照表&#65288;链接在&#8220;<a href="https://en.wikipedia.org/wiki/Public_recursive_name_server" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#65292;对比了有名气的几个公共域名服务系统&#12290;在今天聊的4个协议中&#65292;支持 DNSSEC 的最多&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3>
+<br>
+&#12288;&#12288;虽然 DNSSEC 最成熟&#65292;但它有个天生的缺陷&#8212;&#8212;&#12304;没有&#12305;考虑到&#12304;保密性&#12305;&#12290;<br>
+&#12288;&#12288;DNSSEC 虽然对传输的数据做了数字签名&#65292;但是&#12304;没有&#12305;进行加密&#12290;这就意味着&#8212;&#8212;任何能监视你网络流量的人&#65292;也可以看到你通过 DNSSEC 查询了哪些域名&#12290;<b>隐私风险大大滴&#65281;</b><br>
+&#12288;&#12288;Chrome 曾经在 14 版本支持过 DNSSEC&#65292;后来又&#12304;移除&#12305;了&#65307;而 Firefox 官方从未支持过 DNSSEC 协议&#12290;俺猜测&#65306;大概就是这个缺点给闹的&#12290;<br>
+<br>
+<br>
+<h2>&#9733;DNSCrypt</h2>
+<br>
+<h3>&#9671;历史</h3>
+<br>
+&#12288;&#12288;第2个出场的是 DNSCrypt&#12290;这个协议是由 Frank Denis 和 Yecheng Fu&#65288;付业成&#65289;两人设计的&#12290;<br>
+&#12288;&#12288;这个协议从来&#12304;没有&#12305;提交过 RFC&#65288;征求意见稿&#65289;&#65292;要想看它的协议实现&#65292;只能去它的官网&#65288;链接在&#8220;<a href="https://dnscrypt.info/protocol/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;历史上有过两个版本&#65292;分别称&#65306;Version 1 和 Version 2&#12290;如今主要使用&#8220;版本2&#8221;<br>
+<br>
+<h3>&#9671;协议栈</h3>
+<br>
+<pre>----------------
+    DNSCrypt
+----------------
+   TCP or UDP
+----------------
+       IP
+----------------</pre>
+<br>
+<h3>&#9671;安全性的原理</h3>
+<br>
+&#12288;&#12288;前面俺提到 DNSSEC 协议强调兼容性&#12290;而 DNSCrypt 则完全是另起炉灶搞出来的协议&#12290;在这个协议中&#65292;域名的&#8220;查询请求&#8221;与&#8220;响应结果&#8221;都是加密的&#12290;这就是它比 DNSSEC 高级的地方&#12290;<br>
+&#12288;&#12288;换句话说&#65292;DNSCrypt 既能做到&#12304;完整性&#12305;&#65292;也能做到&#12304;保密性&#12305;&#65307;相比之下&#65292;DNSSEC 只能做到&#12304;完整性&#12305;&#12290;<br>
+<br>
+<h3>&#9671;信任链的实现</h3>
+<br>
+&#12288;&#12288;DNSCrypt 的信任链比较简单&#8212;&#8212;客户端要想使用哪个 DNSCrypt 服务器&#65292;就需要预先部署该服务器的公钥&#12290;<br>
+&#12288;&#12288;另外&#65292;DNSCrypt 还支持客户端认证&#65288;作为可选项&#65289;&#12290;如果需要的话&#65292;可以在服务器上部署客户端的公钥&#12290;此时&#65292;服务器只接受可信的客户端的查询请求&#12290;<br>
+<br>
+<h3>&#9671;优点</h3>
+<br>
+&#12288;&#12288;如前所述&#65292;DNSCrypt 同时支持&#12304;完整性&#12305;与&#12304;保密性&#12305;&#12290;在隐私方面完胜 DNSSEC&#12290;<br>
+&#12288;&#12288;在下层协议方面&#65292;DNSCrypt 同时支持 TCP 和 UDP&#65292;显然比 DNSSEC 灵活&#65288;DNSSEC 只支持 UDP&#65289;&#12290;<br>
+&#12288;&#12288;顺便提醒一下&#65306;虽然 DNSCrypt 协议默认使用 443 这个端口号&#65292;但该协议与 HTTPS 毫无关系&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3>
+<br>
+&#12288;&#12288;&#65288;俺个人认为&#65289;DNSCrypt 最大的缺点就是前面提到的&#65306;&#12304;从未&#12305;提交过 RFC&#12290;没有 RFC 也就无法通过 IETF&#65288;互联网工程任务组&#65289;进行标准化&#12290;一个无法标准化的协议&#65292;其生命力要打很大的折扣&#12290;<br>
+&#12288;&#12288;另一个比较小的缺点是&#8212;&#8212;虽然 DNSCrypt 协议是加密的&#65292;但可以被识别出来&#12290;换句话说&#65306;如果有人监控你的流量&#65292;可以识别出哪些流量属于 DNSCrypt 协议&#12290;为啥说这是个缺点捏&#65311;在本文末尾讨论 &#8220;DNSCrypt 与 TLS 的安全性对比&#8221; 的时候&#65292;会详细加以说明&#12290;<br>
+&#12288;&#12288;再来说说&#12304;公共 DNS 系统&#12305;&#12290;截至俺写本文时&#65292;Google 和 Cloudflare 的公共域名系统&#12304;尚未&#12305;支持 DNSCrypt&#65288;参见<a href="https://en.wikipedia.org/wiki/Public_recursive_name_server" target="_blank" rel="nofollow">这个页面</a>的对照表&#65289;&#12290;这也是一个缺点&#12290;<br>
+<br>
+<br>
+<h2>&#9733;DNS over TLS</h2>
+<br>
+&#12288;&#12288;&#8220;DNS over TLS&#8221;有时也被简称为&#12304;DoT&#12305;&#12290;为了打字省力&#65292;本文以下部分用 DoT 来称呼之&#12290;<br>
+<br>
+<h3>&#9671;历史</h3>
+<br>
+&#12288;&#12288;DoT 已经正式发布了 RFC&#65288;参见 <a href="https://tools.ietf.org/html/rfc7858" target="_blank" rel="nofollow">RFC 7858</a> 和 <a href="https://tools.ietf.org/html/rfc8310" target="_blank" rel="nofollow">RFC 8310</a>&#65289;&#12290;<br>
+&#12288;&#12288;从时间上看&#65292;RFC7858 是2016年发布的&#65292;RFC8310 是今年&#65288;2018&#65289;发布的&#65307;显然&#65292;这个协议出现得比较晚&#65288;相比前面提到的 DNSSEC 和 DNSCrypt&#65289;&#12290;<br>
+<br>
+<h3>&#9671;协议栈</h3>
+<br>
+<pre>--------
+  DoT
+--------
+  TLS
+--------
+  TCP
+--------
+  IP
+--------</pre>
+<br>
+<h3>&#9671;安全性的原理</h3>
+<br>
+&#12288;&#12288;顾名思义&#65292;DNS over TLS 就是基于 TLS 隧道之上的域名协议&#12290;由于 TLS 本身已经实现了&#12304;保密性&#12305;与&#12304;完整性&#12305;&#65292;因此 DoT 自然也就具有这两项特性&#12290;<br>
+&#12288;&#12288;至于 TLS 协议是如何实现完整性与保密性滴&#65311;可以参见俺的系列博文&#65306;&#12298;<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议</a>&#12299;<br>
+<br>
+<h3>&#9671;信任链的实现</h3>
+<br>
+&#12288;&#12288;DoT 的信任链依赖于 TLS&#65292;而 TLS 的信任链靠的是 CA 证书体系&#12290;<br>
+&#12288;&#12288;关于 CA 证书体系&#65292;可以参见8年前的博文&#65306;&#12298;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">数字证书及 CA 的扫盲介绍</a>&#12299;<br>
+<br>
+<h3>&#9671;优点</h3>
+<br>
+&#12288;&#12288;相比 DNSSEC&#65292;DoT 具备了&#12304;保密性&#12305;&#65307;相比 DNSCrypt&#65292;DoT 已经标准化&#12290;<br>
+&#12288;&#12288;另外&#65292;由于 DoT 协议是完全包裹在 TLS 里面&#65292;即使有人监视你的上网流量&#65292;也无法判断&#8212;&#8212;哪些 TLS 流量是用于域名查询&#65292;哪些 TLS 用于网页传输&#12290;换句话说&#65292;DoT 协议的流量无法被&#12304;单独识别&#12305;出来&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3>
+<br>
+&#12288;&#12288;支持 DoT 的客户端还不够多&#12290;尤其是主流的浏览器还没有计划增加 DoT 的支持&#12290;<br>
+<br>
+<br>
+<h2>&#9733;DNS over HTTPS</h2>
+<br>
+&#12288;&#12288;&#8220;DNS over HTTPS&#8221;有时也被简称为&#12304;DoH&#12305;&#12290;为了打字省力&#65292;本文以下部分用 DoH 来称呼之&#12290;<br>
+<br>
+<h3>&#9671;历史</h3>
+<br>
+&#12288;&#12288;在今天介绍的4个协议中&#65292;DoH 是最新的&#65288;最晚出现的&#65289;&#12290;RFC 方面&#65292;它已经有了相应的草案&#65292;但还&#12304;没有&#12305;正式发布&#12290;截至俺写本文时&#65292;DoH 的草案已经发了 15 个版本&#65288;从 00 到 14&#65289;&#65292;最新版的链接在&#8220;<a href="https://tools.ietf.org/html/draft-ietf-doh-dns-over-https-14" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;很多人把 DoH 与 DoT 混为一谈&#65292;实际上这是两种不同的协议&#12290;你可以对比这两者的协议栈&#65292;&#65288;只要你眼睛不瞎&#65289;就可看出其中的差别&#12290;<br>
+<br>
+<h3>&#9671;协议栈</h3>
+<br>
+<pre>--------
+  DoH
+--------
+  HTTP
+--------
+  TLS
+--------
+  TCP
+--------
+  IP
+--------</pre>
+<br>
+<h3>&#9671;安全性的原理</h3>
+<br>
+&#12288;&#12288;顾名思义&#65292;DNS over HTTPS 就是基于 HTTPS 隧道之上的域名协议&#12290;而 HTTPS 又是&#8220;HTTP over TLS&#8221;&#12290;所以 DoH 相当于是&#12304;双重隧道&#12305;的协议&#12290;<br>
+&#12288;&#12288;与 DoT 类似&#65292;DoH 最终也是依靠 TLS 来实现了&#12304;保密性&#12305;与&#12304;完整性&#12305;&#12290;<br>
+&#12288;&#12288;至于 TLS 协议是如何实现完整性与保密性滴&#65311;可以参见俺的系列博文&#65306;&#12298;<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议</a>&#12299;<br>
+<br>
+<h3>&#9671;&#12304;信任链&#12305;的实现</h3>
+<br>
+&#12288;&#12288;DoH 类似于 DoT&#65292;最终是靠 TLS 所使用的&#8220;CA 证书体系&#8221;来实现信任链&#12290;<br>
+&#12288;&#12288;关于 CA 证书体系&#65292;可以参见8年前的博文&#65306;&#12298;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">数字证书及 CA 的扫盲介绍</a>&#12299;<br>
+<br>
+<h3>&#9671;优点</h3>
+<br>
+&#12288;&#12288;基本上&#65292;DoT 具备的优点&#65292;DoH 也具备&#12290;<br>
+&#12288;&#12288;相比 DoT&#65292;DoH 还多了一个优点&#65306;<br>
+&#12288;&#12288;由于 DoH 是基于 HTTP 之上&#12290;而主流的编程语言都有成熟的 HTTP 协议封装库&#65307;再加上 HTTP 协议的使用本身很简单&#12290;因此&#65292;要想用各种主流编程语言开发一个 DoH 的客户端&#65292;是非常容易滴&#12290;<br>
+<br>
+<h3>&#9671;缺点</h3>
+<br>
+&#12288;&#12288;如前所述&#65292;DoH 目前还只有 RFC 的草案&#65292;尚未正式发布&#12290;这算是一个缺点&#12290;<br>
+&#12288;&#12288;相比 DoT&#65292;DoH 还有一个小缺点&#8212;&#8212;由于 DoH 比 DoT 多了一层&#65288;请对比两者的协议栈&#65289;&#65292;所以在性能方面&#65292;DoH 会比 DoT 略差&#12290;为啥说这是个&#12304;小&#12305;缺点捏&#65311;因为域名的查询并&#12304;不&#12305;频繁&#65292;而且客户端软件可以很容易地对域名的查询结果进行&#12304;缓存&#12305;&#65288;以降低查询次数&#65289;&#12290;所以 DoH 比 DoT 性能略差&#65292;无伤大雅&#12290;<br>
+<br>
+<br>
+<h2>&#9733;4种协议的综合对照表</h2>
+<br>
+&#12288;&#12288;为了给列位看官一个直观的印象&#65292;放一个综合的对照表&#12290;<br>
+<br>
+<center><table border="1" cellspacing="0" cellpadding="5"><tbody>
+<tr style="background:lightgrey;"> <th>协议类型</th><th>标准化</th><th>完整性<br>
+&#65288;防篡改&#65289;</th><th>保密性<br>
+&#65288;防偷窥&#65289;</th><th>抗协议识别</th><th>主流的<br>
+浏览器支持</th><th>知名的<br>
+公共服务器</th></tr>
+<tr><td>DNSSEC</td><td>有</td><td>有</td><td>无</td><td>无</td><td>无</td><td>Google<br>
+Cloudflare<br>
+Quad9</td></tr>
+<tr><td>DNSCrypt</td><td>无</td><td>有</td><td>有</td><td>无</td><td>无</td><td>OpenDNS<br>
+Quad9</td></tr>
+<tr><td>DNS over TLS</td><td>有</td><td>有</td><td>有</td><td>有</td><td>无</td><td>Cloudflare<br>
+Quad9</td></tr>
+<tr><td>DNS over HTTPS</td><td>进行中</td><td>有</td><td>有</td><td>有</td><td>有</td><td>Google<br>
+Cloudflare<br>
+Quad9</td></tr>
+</tbody></table></center>
+<br>
+<br>
+<h2>&#9733;为啥 DNS over HTTPS 更有前途&#65311;&#8212;&#8212;谈谈俺个人观点</h2>
+<br>
+&#12288;&#12288;接着来聊一下&#65306;4个协议中&#65292;谁的前景最看好&#65311;&#65288;以下是俺个人观点&#65292;仅供参考&#65289;<br>
+<br>
+<h3>&#9671;首先&#12304;排除&#12305;DNSSEC</h3>
+<br>
+&#12288;&#12288;如果要讨论这4种协议的优劣&#65292;首先&#12304;出局&#12305;的是 DNSSEC&#12290;因为这玩意儿连&#12304;保密性&#12305;都不具备&#65292;无法保护网民的隐私&#12290;相比之下&#65292;另外三种协议都具备了&#8220;保密性&#8221;&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;DNSSEC 具备&#8220;完整性&#8221;&#65292;不具备&#8220;保密性&#8221;&#65289;<br>
+<br>
+<h3>&#9671;DNSCrypt 与 TLS 的对比</h3>
+<br>
+&#12288;&#12288;DoT 与 DoH 这两个协议&#65292;本质上都是依赖 TLS 来保证安全性&#65288;完整性&#65286;保密性&#65289;&#12290;所以剩下三种协议的对比&#65292;首先是 DNSCrypt 与 TLS 之间的 PK&#12290;<br>
+&#12288;&#12288;俺认为 TLS 具有如下几个优势&#65306;<br>
+&#12288;&#12288;<b>优势1&#8212;&#8212;关于&#8220;标准化&#8221;</b><br>
+&#12288;&#12288;SSL/TLS 老早就已经标准化了&#65292;距今已超过20年&#12290;&#65288;关于 SSL/TLS 版本的演变历史&#65292;可以参见<a href="../../2018/09/https-ssl-tls-4.html">这篇博文</a>&#65289;<br>
+&#12288;&#12288;而 DNSCrypt 发布这么多年&#65292;连 RFC 都没有提交过&#8212;&#8212;这玩意儿看来&#12304;没希望&#12305;成为互联网标准了&#12290;<br>
+<br>
+&#12288;&#12288;<b>优势2&#8212;&#8212;关于&#8220;客户端部署&#8221;</b><br>
+&#12288;&#12288;TLS 的公钥体系&#65288;CA 证书体系&#65289;早就已经普及&#12290;所有主流的操作系统都内置了一系列 CA 根证书&#12290;<br>
+&#12288;&#12288;相比之下&#65292;DNSCrypt 另起炉灶搞了一套公钥机制&#65292;只有它自己在用&#12290;<br>
+&#12288;&#12288;所以&#65292;在&#12304;部署客户端&#12305;的时候&#65292;DNSCrypt 会比 TLS 麻烦&#12290;虽然某些 DNSCrypt 的客户端已经内置了一些知名的公共服务器的公钥&#65292;但如果你要切换到另一个 DNSCrypt 服务器&#65292;并且该服务器的公钥没有内置在客户端里面&#65292;那你就需要手动部署&#12290;<br>
+<br>
+&#12288;&#12288;<b>优势3&#8212;&#8212;关于&#8220;协议识别&#8221;</b><br>
+&#12288;&#12288;这个话题前面已经谈过了&#12290;此处再重复唠叨一下&#12290;<br>
+&#12288;&#12288;如果网络流量被监控&#65292;监控者可以根据协议特征&#65292;把 DNSCrypt 识别出来&#65307;而 DoT 与 DoH&#65292;在流量外观上&#65292;与其它的 TLS 流量&#12304;毫无差异&#12305;&#12290;也就是说&#65292;监控流量的人&#65292;无法判断某个 TLS 流量是否属于 DoT 或 DoH&#12290;<br>
+&#12288;&#12288;以咱们天朝为例&#65306;<br>
+&#12288;&#12288;天朝的国际出口被 GFW 严密监视&#12290;如果 GFW 愿意的话&#65292;它完全可以根据协议特征&#65292;把 DNSCrypt 协议的流量识别出来并阻断掉&#12290;<br>
+&#12288;&#12288;再来看 TLS&#65292;该协议已经被广泛应用于 HTTPS&#65292;GFW 不可能把所有 TLS 流量都阻断&#65307;再加上 TLS 协议设计严密&#65292;GFW 无法判断 TLS 承载的&#12304;上层协议&#12305;是啥&#12290;所以&#65292;对于流经国际出口的 DoT 或 DoH&#65292;GFW 是判断不出来滴&#12290;<br>
+<br>
+&#12288;&#12288;综上所述&#65292;TLS 完胜 DNSCrypt&#12290;所以&#65292;剩下的协议就只有 DoT 与 DoH&#12290;<br>
+<br>
+<h3>&#9671;DoT VS DoH</h3>
+<br>
+&#12288;&#12288;前面谈 DoH 优缺点的时候&#65292;其实已经可以看出这两者谁更有前途了&#12290;<br>
+&#12288;&#12288;DoT 因为协议栈少了一层&#65292;性能会比 DoH 更好&#12290;但是俺前面也说了&#65292;域名查询的频度是比较低的&#65292;而且还可以利用客户端软件的&#12304;DNS 缓存&#12305;&#65292;进一步减少域名查询的频度&#12290;所以 DoT 虽然性能更好&#65292;但优势不明显&#12290;<br>
+<br>
+&#12288;&#12288;DoH 的强项体现在如下几方面&#65306;<br>
+&#12288;&#12288;<b>1. 编程接口更简单</b><br>
+&#12288;&#12288;&#65288;关于这点&#65292;前面提到过&#65289;这是个很重要的优势&#8212;&#8212;有助于让更多软件切换到 DoH 之上&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 可以利用 HTTP 协议已有的特性</b><br>
+&#12288;&#12288;由于 DoH 是基于 HTTPS 之上&#65292;可以无缝地支持 Proxy&#65307;<br>
+&#12288;&#12288;DoH 可以充分利用 HTTP 2.0 的特性&#65288;HTTP/2 在 HTTP/1.1 基础上加了很多功能&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;正是因为 DoH 的这些优势&#65292;浏览器厂商对 DoH 的支持更积极&#12290;对比一下就可以看出来&#8212;&#8212;DoT 在两年前&#65288;2016&#65289;正式发布 RFC&#65292;主流的浏览器没一个支持&#65307;而 DoH 目前才仅仅是 RFC 草案&#65292;Firefox 与 Chrome/Chromium 都开始支持了&#12290;<br>
+<br>
+<h3>&#9671;小结</h3>
+<br>
+&#12288;&#12288;经过层层淘汰&#65292;目前看下来最有前途的应该 DoH&#65288;DNS over HTTPS&#65289;&#12290;<br>
+&#12288;&#12288;DoH 未来的发展势头取决于如下几点&#65306;<br>
+1. 标准化的时间进度&#65288;看目前的架势&#65292;正式发布应该快到了&#65289;<br>
+2. 其它浏览器跟进的速度<br>
+<br>
+<br>
+<h2>&#9733;对 DoH 的进一步讨论</h2>
+<br>
+<h3>&#9671;引申阅读</h3>
+<br>
+&#12288;&#12288;分享几篇 DoH 相关的文章&#65306;<br>
+<br>
+&#12298;<a href="https://hacks.mozilla.org/2018/05/a-cartoon-intro-to-dns-over-https/" target="_blank" rel="nofollow">A cartoon intro to DNS over HTTPS</a>&#12299;<br>
+&#65288;注&#65306;这是 Mozilla 官方博客的一篇文章&#65292;深入浅出地扫盲了 DNS 和 DoH 的原理&#65289;<br>
+<br>
+&#12298;<a href="https://bitsup.blogspot.com/2018/05/the-benefits-of-https-for-dns.html" target="_blank" rel="nofollow">The Benefits of HTTPS for DNS</a>&#12299;<br>
+&#65288;注&#65306;这是某个老外写的技术文章&#65292;讨论 DoH 可以借助 HTTP 协议的哪些好处&#65289;<br>
+<br>
+<br>
+<h3>&#9671;关于浏览器的说明</h3>
+<br>
+&#12288;&#12288;<b>Firefox</b><br>
+&#12288;&#12288;Firefox 从 62 版本开始支持 DoH&#65292;具体参见 Mozilla 官方博客&#65288;链接在&#8220;<a href="https://blog.nightly.mozilla.org/2018/06/01/improving-dns-privacy-in-firefox/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;由于 DoH 功能刚刚加入&#65292;还没有提供相应的配置界面&#12290;如果你想体验该功能&#65292;需要定制 Firefox 的配置选项&#65288;Preferences&#65289;以初始化 DoH 的相关参数&#12290;定制 Firefox 的方法参见博文&#65306;&#12298;<a href="../../2019/07/Customize-Firefox.html">扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221;</a>&#12299;<br>
+<br>
+&#12288;&#12288;<b>Chrome/Chromium</b><br>
+&#12288;&#12288;Chrome/Chromium 从 66 版本开始支持 DoH&#12290;具体参见 Chromium 官网的 issue&#65288;链接在&#8220;<a href="https://bugs.chromium.org/p/chromium/issues/detail?id=799753" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;虽然 Firefox 和 Chrome/Chromium 都已经开始支持 DoH&#65292;但大伙儿别急着用&#12290;<br>
+&#12288;&#12288;按照历史经验&#65292;刚加入的新功能&#65292;可能还不够稳定&#65292;没准儿还存在未曝光的安全漏洞&#12290;多等几个版本之后再说&#12290;<br>
+<br>
+<h3>&#9671;对翻墙的好处&#8212;&#8212;无缝整合</h3>
+<br>
+&#12288;&#12288;常规的翻墙软件&#65292;无非就是&#8220;代理软件&#8221;与&#8220;VPN 软件&#8221;&#12290;<br>
+&#12288;&#12288;<b>对于&#8220;VPN 软件&#8221;</b><br>
+&#12288;&#12288;由于 VPN 具有&#12304;全局代理&#12305;的性质&#65292;DoH 当然可以无缝地整合到 VPN 翻墙中&#12290;<br>
+&#12288;&#12288;<b>对于&#8220;代理软件&#8221;</b><br>
+&#12288;&#12288;常见的代理软件&#65292;要么是 HTTP 代理&#65292;要么是 SOCKS 代理&#12290;只要这些代理能支持 HTTPS&#65292;也就天然地支持 DoH&#12290;<br>
+&#12288;&#12288;注&#65306;GAE 没有原生支持 HTTPS 代理&#12290;所以基于 GAE 的翻墙软件&#65292;就不能走 DoH 协议啦 :(<br>
+<br>
+<h3>&#9671;相关的客户端工具</h3>
+<br>
+&#12288;&#12288;在 curl 官方的代码仓库&#65292;有一个<a href="https://github.com/curl/curl/wiki/DNS-over-HTTPS#doh-tools" target="_blank" rel="nofollow">关于 DoH 的 wiki 页面</a>&#65292;里面列出了一些 DoH 的客户端小工具&#12290;<br>
+&#12288;&#12288;喜欢折腾技术的同学&#65292;可以先去玩一玩&#12290;<br>
+<br>
+&#12288;&#12288;因为 DoH 的标准还没有正式发布&#65292;关于它的讨论就到此为止&#12290;等到啥时候发布了&#65292;俺再专门发一篇 DoH 如何使用的博文&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2021/03/Computer-Networks-Overview.html">计算机网络通讯的&#12304;系统性&#12305;扫盲&#8212;&#8212;从&#8220;基本概念&#8221;到&#8220;OSI 模型&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2014/01/dns.html">扫盲 DNS 原理&#65292;兼谈&#8220;域名劫持&#8221;和&#8220;域名欺骗&#65295;域名污染&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">数字证书及 CA 的扫盲介绍</a>&#12299;<br>
+&#12298;<a href="../../2013/06/privacy-protection-0.html">如何保护隐私</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2019/07/Customize-Firefox.html">扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2018/10/Comparison-of-DNS-Protocols.html" id="OriginalPostUrl">https://program-think.blogspot.com/2018/10/Comparison-of-DNS-Protocols.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="295">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4363490092869699584?postID=4363490092869699584&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4363490092869699584.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

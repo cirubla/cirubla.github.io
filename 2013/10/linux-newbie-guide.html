@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 Linux&#65306;新手如何搞定 Linux 操作系统 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-10-28T23:28:00+08:00">2013年10月28日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：70条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 Linux&#65306;新手如何搞定 Linux 操作系统
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;近期接到若干读者反馈&#65292;希望能够普及一下 Linux&#65292;包括某些专门为安全而优化的发行版&#65288;比如 TAILS&#65289;&#12290;所以俺考虑从几个不同的方面&#65292;扫盲一下基于 Linux 内核的操作系统&#12290;考虑到很多读者不是 IT 从业人员&#65292;俺尽量写得"傻瓜化"一些&#65292;希望能让技术菜鸟看明白&#12290;<br>
+&#12288;&#12288;今天这篇&#65292;先来说说&#65306;一个新手该如何一步步搞定它&#65292;从"菜鸟"进化为"老鸟"&#12290;&#65288;为了打字省力&#65292;以下把"基于 Linux 内核的操作系统" 简称为 "Linux"&#65289;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;两种思想上的误区</h2><br>
+&#12288;&#12288;按照俺的风格&#65292;先来说说两种思想上的误区&#65288;学习其它技术&#65292;通常也存在这两个误区&#65289;&#12290;<br>
+<br>
+<h3>&#9671;望而却步</h3><br>
+&#12288;&#12288;有些新手把 "掌握 Linux"看得过于复杂&#65292;看得高不可攀&#12290;这是非常没有必要的&#12290;<br>
+&#12288;&#12288;如果是在上个世纪90年代&#65292;抱有这种想法或许还情有可原&#65288;毕竟那时候 Linux 内核刚问世没几年&#65289;&#12290;但是如今捏&#65311;Linux 都已经二十几岁了&#12290;经过这么些年的发展&#65292;已经变得很成熟&#65292;很傻瓜化了&#12290;在易用性方面&#65292;它跟 Windows 的差距已经很小了&#12290;<br>
+&#12288;&#12288;如果你还在怀疑 Linux 的易用性&#65292;不妨看看如今 Android 手机的市场份额&#8212;&#8212;Android 就是基于 Linux 内核搭建的&#12290;<br>
+<br>
+<h3>&#9671;急于求成</h3><br>
+&#12288;&#12288;和上面的"望而却步"心态相反&#65292;有些新手带有一种急于求成的心态&#8212;&#8212;企图一口吃成胖子&#12290;这也是不对滴&#12290;<br>
+&#12288;&#12288;为啥很多人有这种想法捏&#65311;主要是被"急功近利"的风气影响&#65292;变得浮躁了&#12290;对于心态浮躁的同学&#65292;建议你看看 Peter Norvig 写的好文&#12298;<a href="../../2012/05/weekly-share-5.html">十年学会编程</a>&#12299;&#65288;Peter Norvig 是 Google 研究总监&#65289;<br>
+<br>
+<br>
+<h2>&#9733;如何循序渐进&#65311;</h2><br>
+&#12288;&#12288;介于上述两种心态之间&#65292;俺的观点是&#65306;循序渐进&#12290;下面来说说&#65292;在上手 Linux 的过程中&#65292;该如何循序渐进&#65311;<br>
+<br>
+<h3>&#9671;从"虚拟机"到"实体机"</h3><br>
+&#12288;&#12288;去年俺专门写了一个&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;的系列&#65288;已经写完&#65289;&#12290;没看过的同学&#65292;强烈建议你先去看看&#12290;看完这个系列&#65292;你自然就能体会到"操作系统虚拟机"的种种好处&#12290;<br>
+&#12288;&#12288;对于一个新手&#65292;一定要先从虚拟机里面开始折腾&#65292;而<b>不要</b>直接在实体机上折腾&#12290;<br>
+<br>
+<b>虚拟机的好处之1&#8212;&#8212;不用担心搞坏系统</b><br>
+虚拟机&#65292;顾名思义&#65292;是"虚拟的"&#12290;随便你怎么折腾&#65288;即使是格式化硬盘&#65289;&#65292;都不会影响到你的实体机&#65288;Host OS&#65289;<br>
+<br>
+<b>虚拟机的好处之2&#8212;&#8212;快照功能</b><br>
+在你摸索的阶段&#65292;可以充分利用虚拟机的"快照功能"&#12290;<br>
+"快照功能"就如同"后悔药"&#12290;比如你想修改某项系统设置&#65292;如果你对此没有把握&#65292;可以先做好一个快照&#65292;然后再修改&#12290;万一改坏了&#65292;直接回退到这个快照&#65292;系统就恢复原样啦&#12290;<br>
+<br>
+<b>虚拟机的好处之3&#8212;&#8212;降低装硬件驱动的麻烦</b><br>
+常见的虚拟机软件&#65288;比如 VirtualBox&#12289;VMware&#65289;&#65292;在虚拟系统&#65288;Guest OS&#65289;中仿真出来的虚拟硬件&#65292;往往是比较常见的硬件&#12290;因为是比较常见的虚拟硬件&#65292;所以你在虚拟机中安装 Linux&#65292;Linux 通常都能直接识别出那些虚拟硬件&#12290;这就避免了折腾硬件驱动的麻烦&#12290;<br>
+<br>
+&#12288;&#12288;以上就是关于 "Linux装在虚拟系统" 的种种好处&#12290;只有当你已经脱离了"菜鸟"阶段&#65292;再考虑把你的实体机换成 Linux&#12290;<br>
+<br>
+<h3>&#9671;从"业余环境"到"工作环境"</h3><br>
+&#12288;&#12288;有一句至理名言叫&#65306;"<b>从实践中学习</b>"&#12290;<br>
+&#12288;&#12288;当你已经学会如何装 Linux&#65292;学会了一些基本的操作&#65292;之后就要在实际环境中使用它&#65288;也就是"实践"&#65289;&#12290;那么先从哪种环境开始实践比较好捏&#65311;俺建议先从自己的业余环境中开始实践&#12290;<b>不要</b>首先在工作环境中尝试&#12290;<br>
+&#12288;&#12288;因为当你的水平还不够的情况下&#65292;如果首先在工作环境中尝试&#65292;万一出了啥差错&#65292;会影响到你的工作&#12290;而如果在业余的环境中尝试&#65292;出了差错风险较小&#12290;<br>
+&#12288;&#12288;比方说&#65292;你可以专门开一个虚拟系统&#65288;Guest OS&#65289;&#65292;装好 Linux&#65292;在业余时间用来上网&#12290;<br>
+<br>
+<h3>&#9671;从"图形界面"到"命令行界面"</h3><br>
+&#12288;&#12288;作为一个新手&#65292;刚开始会被各种各样的 Linux 命令搞得眼花缭乱&#12290;为了降低学习曲线的陡峭程度&#65292;你可以先从图形界面入手&#12290;先通过图形界面&#65292;了解 Linux 的各种功能&#12290;等到你慢慢熟悉了&#65292;再逐步学习命令行界面的使用&#12290;<br>
+&#12288;&#12288;顺便再罗嗦一下&#65306;<br>
+&#12288;&#12288;命令行界面是 Linux 的精髓之一&#12290;善于使用命令行&#65292;可以大大提升你的效率&#12290;所以&#65292;一开始你可以完全依赖"图形界面"&#65307;但如果要想提升&#65292;必须让自己逐步适应"命令行界面"&#12290;<br>
+<br>
+<h3>&#9671;从"傻瓜化"到"DIY"</h3><br>
+&#12288;&#12288;有些"傻瓜化"的发行版&#65292;它会把各种各样你可能需要的软件都事先内置了&#12290;一旦装好系统之后&#65292;&#65288;你只需使用它的默认设置&#65289;就可以完成日常操作了&#12290;显然&#65292;这类发行版更容易让菜鸟上手&#12290;<br>
+&#12288;&#12288;但是&#65292;如果你想在 Linux 领域有所深入&#65292;想要充分发挥其特长&#65292;不应该仅仅停留在"傻瓜化"的层面&#65307;相反&#65292;你要通过逐渐的摸索&#65292;不断地折腾&#65292;搞定各种"DIY"&#12290;在折腾的过程中&#65292;你自然会学到很多东西&#12290;<br>
+&#12288;&#12288;另外&#65292;俺在&#12298;<a href="../../2013/10/personal-it-infrastructure.html">磨刀不误砍柴功&#8212;&#8212;聊聊个人IT基础设施的完善</a>&#12299;也说了&#65292;Linux 相比 Windows 的特色之一就是&#65306;高度的可定制化&#12290;所以&#65292;你可以利用 Linux 的这个特色&#65292;定制非常个性化的系统环境&#65292;以提高你使用操作系统的效率&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何选择发行版&#65311;</h2><br>
+&#12288;&#12288;Linux 有千奇百怪的发行版&#65288;洋文叫 distribution&#65289;&#65292;有几百种之多&#12290;不同的发行版有各自的特色&#12290;你可以根据自己的情况&#65292;选择一款适合自己的发行版&#12290;<br>
+&#12288;&#12288;很多初学者经常困扰于如何选择发行版&#12290;在这里&#65292;俺先给出第一个建议&#65306;一定要选"<b>成熟的</b>"发行版&#12290;对初学者而言&#65292;选择成熟的发行版&#65292;有助于你少走弯路&#65292;避免浪费时间&#12290;<br>
+&#12288;&#12288;判断某个发行版是否"成熟"&#65292;可以看如下几方面&#65306;<br>
+<br>
+<h3>&#9671;文档是否足够完善</h3><br>
+&#12288;&#12288;这点对于初学者尤其重要&#12290;如果某个发行版缺乏完善的文档&#65292;对初学者是巨大的障碍&#12290;<br>
+<br>
+<h3>&#9671;用户数是否足够多</h3><br>
+&#12288;&#12288;如果你使用的发行版&#65292;用户过于稀少&#12290;万一你碰到问题&#65292;就比较难在网上找到答案&#12290;<br>
+&#12288;&#12288;反之&#65292;如果你用的发行版&#65292;用户数量较大&#12290;那么你碰到的问题&#65292;通常别人已经碰到过 N 次了&#12290;网上已经有很多相关的讨论了&#12290;那么你就比较容易 Google 到答案&#12290;<br>
+<br>
+<h3>&#9671;解决Bug&#65288;发布补丁&#65289;的速度是否够快</h3><br>
+&#12288;&#12288;只要是软件&#65292;难免会有Bug&#8212;&#8212;Linux 系统当然也不例外&#12290;有 Bug 不可怕&#65292;可怕的是有了 Bug 却迟迟得不到解决&#65288;没补丁 或 补丁发布太慢&#65289;&#12290;<br>
+&#12288;&#12288;对于成熟的发行版&#65292;通常有足够多足够牛的维护人员&#65292;所以成熟发行版解决问题&#65288;发布补丁&#65289;的速度通常较快&#12290;而不成熟的发行版&#65292;维护人员不多&#65292;反应速度自然差得多&#12290;<br>
+<br>
+&#12288;&#12288;上述这三个指标&#65292;第一个比较容易判断&#12290;后面两个指标&#65292;对某些菜鸟而言&#65292;比较难判断&#12290;不过没关系&#65292;有一个捷径&#8212;&#8212;你可以通过维基百科来判断某个发行版的成熟度&#12290;某个发行版的词条写得越详细&#65292;通常说明这个发行版越成熟&#12290;&#65288;提醒一下&#65292;可以同时参考中英文两个语种的维基百科词条&#65289;<br>
+<br>
+&#12288;&#12288;考虑到篇幅&#65292;没法在本文中详细介绍各种类型的发行版&#12290;所以&#65292;俺另写了一篇博文&#12298;<a href="../../2013/10/linux-distributions-guide.html">扫盲 Linux&#65306;如何选择发行版</a>&#12299;&#65292;从多个角度介绍不同发行版的特色&#12290;<br>
+<br>
+<br>
+<h2>&#9733;从哪里获得文档和资料&#65311;</h2><br>
+<h3>&#9671;维基百科</h3><br>
+&#12288;&#12288;首先&#65292;要善于利用维基百科&#65288;尤其是英文维基百科&#65289;&#12290;通过维基百科&#65292;你不但可以找到某个发行版或某个软件的概要介绍&#65292;还可以找到与之相关的一系列软件&#12290;<br>
+&#12288;&#12288;举个例子&#65292;如果你想找轻量级的发行版&#65292;只需访问维基百科的<a href="https://en.wikipedia.org/wiki/Lightweight_Linux_distribution" target="_blank" rel="nofollow">这个页面</a>&#65292;就可以一目了然&#12290;<br>
+<br>
+<h3>&#9671;发行版的官网</h3><br>
+&#12288;&#12288;刚才说了&#65292;成熟的发行版&#65292;必定有相对完善的文档&#12290;所以&#65292;你可以去该发行版的官网&#65292;通常就能找到比较详细的文档&#12290;另外&#65292;有些成熟的发行版还会提供多语种的文档&#12290;<br>
+&#12288;&#12288;说到文档的语言&#65292;稍微跑题一下&#65306;<br>
+&#12288;&#12288;在折腾 Linux 的过程中&#65292;俺强烈建议大伙儿还是尽量看英文文档&#12290;有如下好处&#65306;<br>
+1. 如果你英文的基础不行&#65292;顺便可以提升一下英文的阅读能力<br>
+2. 英文文档相比其它语种的文档&#65306;更新更及时&#12289;内容更详细&#12289;覆盖面更广&#12290;<br>
+<br>
+<h3>&#9671;相关软件的官网</h3><br>
+&#12288;&#12288;如果你使用的是"成熟的"的发行版&#65292;那么该发行版内置的软件&#65292;通常也是比较成熟的&#12290;这就意味着&#65292;这些软件的官网&#65292;通常也会有比较完善的文档&#12290;<br>
+&#12288;&#12288;所以&#65292;如果你使用某个软件碰到困难&#65292;可以去该软件的官网看相关的文档&#12290;<br>
+<br>
+<h3>&#9671;相关的论坛</h3><br>
+&#12288;&#12288;成熟的发行版或者成熟的软件&#65292;通常都有专门的论坛/邮件列表&#12290;你可以去这些地方寻找你要的文档&#12290;&#65288;提醒一下&#65306;要善于使用 Google 搜索的 site 语法&#65289;<br>
+<br>
+<h3>&#9671;其它</h3><br>
+&#12288;&#12288;<a href="https://zh.wikipedia.org/wiki/Linux%E6%96%87%E6%A1%A3%E8%AE%A1%E5%88%92" target="_blank" rel="nofollow">Linux Documentation Project</a>&#65288;简称 LDP&#65289;上面汇总了许多扫盲性质的文档&#65288;HowTo 和 FAQ&#65289;&#12290;<br>
+&#12288;&#12288;除了上述这些&#65292;俺也会抽空分享一些关于 Linux 的书籍到<a href="https://github.com/programthink/books" target="_blank">俺的网盘上</a>&#12290;相比网上的文章/文档&#65292;某些好的书籍可以有助于<b>系统化</b>地学习相关知识&#12290;<br>
+<br>
+<br>
+<h2>&#9733;碰到问题如何解决&#65311;</h2><br>
+&#12288;&#12288;在你摸索的过程中&#65292;势必会碰到很多问题&#65292;这时候你需要学会利用互联网<b>自己找答案</b>&#12290;<br>
+&#12288;&#12288;如果你是 Linux 的新手&#65292;你碰到的问题&#65292;通常是低级问题&#65288;所谓的"低级问题"就是说&#65292;这个问题之前已经有 N 个人碰到过了&#65292;属于比较普通常见的&#65289;&#12290;这种情况下&#65292;你通常可以利用搜索引擎&#65292;找到自己需要的解答&#12290;<br>
+&#12288;&#12288;关于如何利用搜索引擎&#65292;可以看俺的另一个系列&#12298;<a href="../../2013/03/internet-resource-discovery-0.html">如何挖掘网络资源</a>&#12299;&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2013/10/linux-distributions-guide.html">扫盲 Linux&#65306;如何选择发行版</a>&#12299;<br>
+&#12298;<a href="../../2019/11/POSIX-TUI-from-TTY-to-Shell-Programming.html">扫盲 Linux&#65286;UNIX 命令行&#8212;&#8212;从&#8220;电传打字机&#8221;聊到&#8220;shell 脚本编程&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2017/03/Why-Linux-Is-More-Secure-Than-Windows-and-macOS.html">为什么桌面系统装 Linux 可以做到更好的安全性&#65288;相比 Windows &#65286; macOS 而言&#65289;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/10/linux-newbie-guide.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/10/linux-newbie-guide.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="70">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/5080459982364244506?postID=5080459982364244506&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/5080459982364244506.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

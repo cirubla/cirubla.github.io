@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>C++ 的可移植性和跨平台开发[6]&#65306;多线程 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2009-04-03T16:32:00+08:00">2009年4月3日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：2条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a>  <a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a>  <a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              C++ 的可移植性和跨平台开发[6]&#65306;多线程
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;最近一个多月写的帖子比较杂&#65292;导致本系列又好久没更新了&#12290;结果又有网友在评论中催我了&#65292;搞得我有点囧&#12290;今天赶紧把多线程篇补上&#12290;<a href="http://program-think.blogspot.com/2009/02/cxx-cross-platform-develop-5-os.html">上次聊操作系统</a>的时候&#65292;由于和 OS 有关的话题比较琐碎&#65292;杂七杂八说了一大堆&#12290;当时一看篇幅有点长&#65292;就把多进程和多线程的部分给留到后面了&#12290;<a name='more'></a><br>
+<br>
+<br>
+<h2>&#9733;编译器</h2><br>
+<h3>&#9671;关于 C 运行库选项</h3><br>
+&#12288;&#12288;先来说一个很基本的问题&#65306;关于 C 运行库&#65288;后面简称 CRT&#65306;C Run-Time&#65289;的设置&#12290;本来不想聊这么低级的问题&#65292;但周围有好几个人都在这个地方吃过亏&#65292;所以还是讲一下&#12290;<br>
+&#12288;&#12288;大部分 C++ 编译器都会自带有 CRT&#65288;可能还不止一个&#65289;&#12290;某些编译器自带的 CRT 可能会根据线程的支持分为&#8220;单线程 CRT&#8221;和&#8220;多线程 CRT&#8221;两类&#12290;当你要进行多线程开发的时候&#65292;别忘了确保相关的 C++ 工程项目使用的是多线程的 CRT&#12290;否则会死得很难看&#12290;<br>
+&#12288;&#12288;尤其当你使用 Visual C++ 创建工程项目&#65292;更加要小心&#12290;如果新建的工程项目是&#12304;不含&#12305;MFC 的&#65288;包括 Console 工程和 Win32 工程&#65289;&#65292;那工程的默认设置会是使用&#8220;单线程 CRT&#8221;&#65292;如下图所示&#65306;<br>
+<center><img src="../../images/2009/04/mNBtGRnCV9vAaoOzQlqXMKOA6v3htw1ZQMPc3OAxQB4i98S6PYrVi7bq8E3190pRmUHRgJ2CCxepMJmrUuLBGgOOyyi-xFBpTENVaXZOMHI75P9rAouaayK_SN25XNcAFBFdJZ-F" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;关于优化选项</h3><br>
+&#12288;&#12288;&#8220;优化选项&#8221;是另一个很关键的编译器相关话题&#12290;有些编译器提供号称很牛X的优化选项&#65292;但是某些优化选项可能会有潜在的风险&#12290;编译器可能自作主张打乱执行指令的顺序&#65292;从而导致出乎意料的线程竞态问题&#65288;Race Condition&#65292;详细解释看&#8220;<a href="https://en.wikipedia.org/wiki/Race_condition#Computing" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;刘未鹏同学在&#8220;<a href="http://blog.csdn.net/pongba/archive/2007/06/20/1659952.aspx" target="_blank" rel="nofollow">C++多线程内存模型</a>&#8221;里举了几个典型的例子&#65292;大伙儿可以去瞧一瞧&#12290;<br>
+&#12288;&#12288;建议只使用编译器常规的速度优化选项即可&#12290;其它那些花哨的优化选项&#65292;增加的效果未必明显&#65292;但是潜在的风险不小&#12290;实在不值得冒险&#12290;<br>
+&#12288;&#12288;以 GCC 为例&#65306;建议用 <b>-O2</b> 选项即可&#65288;其实 <b>-O2</b> 是一堆选项的集合&#65289;&#65292;没必要冒险用 <b>-O3</b>&#65288;除非你有很充足的理由&#65289;&#12290;除了 <b>-O2</b> 和 <b>-O3</b> 之外&#65292;GCC 还有一大坨&#65288;估计有上百个&#65289;其它的优化选项&#12290;如果你企图用当中的某个选项&#65292;一定要先把它的特性&#12289;可能的副作用都摸清楚&#65292;否则将来死都不知道怎么死的&#12290;<br>
+<br>
+<h3>&#9671;线程库的选择</h3><br>
+&#12288;&#12288;由于当前的 C++ 03 标准几乎没有涉及线程相关的内容&#65288;即使将来 C++ 0x 包含了线程的标准库&#65292;编译器厂商的支持在短期内也未必全面&#65289;&#65292;所以在未来很长的一段时间&#65292;跨平台的多线程支持还是要依赖第三方库&#12290;所以线程库的选择是大大滴重要&#12290;下面大致介绍一下几个知名的跨平台线程库&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="http://www.cs.wustl.edu/%7Eschmidt/ACE.html" target="_blank" rel="nofollow">ACE</a></b><br>
+&#12288;&#12288;先说一下 ACE 这个历史悠久的库&#12290;如果你之前从未接触过它&#65292;先看&#8220;<a href="https://en.wikipedia.org/wiki/Adaptive_Communication_Environment" target="_blank" rel="nofollow">这里</a>&#8221;扫盲&#12290;从 ACE 的全称&#65288;Adaptive Communication Environment&#65289;来看&#65292;它应该是以&#8220;通讯&#8221;为主业&#12290;不过 ACE 对&#8220;多线程&#8221;这个副业的支持还是非常全面的&#65292;比如互斥锁&#65288;ACE_Mutex&#65289;&#12289;条件变量&#65288;ACE_Condition&#65289;&#12289;信号量&#65288;ACE_Semaphore&#65289;&#12289;栅栏&#65288;ACE_Barrier&#65289;&#12289;原子操作&#65288;ACE_Atomic_Op&#65289;等等&#12290;对某些类型比如 ACE_Mutex 还细分为线程读写锁&#65288;ACE_RW_Thread_Mutex&#65289;&#12289;线程递归锁&#65288;ACE_Recursive_Thread_Mutex&#65289;等等&#12290;<br>
+&#12288;&#12288;除了支持很全面&#65292;ACE 还有另一个很明显的优点&#65292;就是对各种操作系统平台及其自带的编译器支持很好&#12290;包括一些老式的编译器&#65288;比如VC6&#65289;&#65292;它也能够支持&#65288;此处所说的<b>支持</b>&#65292;不光是能编译通过&#65292;而且要能稳定运行&#65289;&#12290;这个优点对于跨平台开发那是相当相当滴明显&#12290;<br>
+&#12288;&#12288;那缺点捏&#65311;由于 ACE 开工的年头很早&#65288;大概是上世纪九十年代中期&#65289;&#65292;那会儿很多 C++ 的老特性都还没出来&#65288;更别提新特性了&#65289;&#65292;所以感觉 ACE 整个的风格比较老气&#65292;远不如 boost 那么时髦前卫&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="http://www.boost.org/doc/html/thread.html" target="_blank" rel="nofollow">boost::thread</a></b><br>
+&#12288;&#12288;boost::thread 正好和 ACE 形成鲜明对照&#12290;这玩意貌似从 boost 1.32 版本开始引入&#65292;年头比 ACE 短&#12290;不过得益于 boost 里一帮大牛的支持&#65292;发展还是蛮快的&#12290;截止写本文时的 boost 1.38 版本&#65292;已经能够支持许多特性了&#65288;不过似乎没 ACE 多&#65289;&#12290;鉴于很多 C++ 标准委员会的成员云集在 boost 社区中&#65292;随着时间的推移&#65292;boost::thread 终将成为 C++ 线程的明日之星&#65292;前途无量啊&#65281;<br>
+&#12288;&#12288;boost::thread 的缺点就是支持的编译器不够多&#65292;尤其是一些&#12304;老式&#12305;编译器&#65288;很多 boost 的子库都有此问题&#65292;多半因为用了一些高级的模板语法&#65289;&#12290;这对于跨平台而言一个比较明显的问题&#12290;<br>
+<br>
+&#12288;&#12288;<b><a href="http://www.wxwidgets.org/" target="_blank" rel="nofollow">wxWidgets</a> 和 <a href="http://www.qtsoftware.com/" target="_blank" rel="nofollow">QT</a></b><br>
+&#12288;&#12288;wxWidgets 和 QT 都是 GUI 界面库&#65292;但是它们也都内置和对线程的支持&#12290;wxWidgets 线程的简介可以看&#8220;<a href="http://docs.wxwidgets.org/trunk/overview_thread.html" target="_blank" rel="nofollow">这里</a>&#8221;&#65292;关于 QT 线程的简介可以看&#8220;<a href="http://doc.trolltech.com/4.0/threads.html" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;这两个库对线程的支持差不多&#65292;都提供了诸如 mutex&#12289;condition&#12289;semaphore 等常用的机制&#12290;不过特性没有 ACE 丰富&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何权衡不同的库</h2><br>
+&#12288;&#12288;对于开发 GUI 软件并已经用上了 wxWidgets 或者 QT&#65292;那你可以直接用它们内置的线程库&#65288;前提是你只用到基本的线程功能&#65289;&#12290;由于它们内置的线程库&#65292;特性稍嫌单薄&#12290;万一你需要某高级的线程功能&#65292;那得考虑替换成 boost::thread 或 ACE&#12290;<br>
+&#12288;&#12288;至于 boost::thread 和 ACE 的取舍&#65292;主要得看软件的需求了&#12290;如果你要支持的平台挺多挺杂&#65292;那建议选用 ACE&#65292;以免碰上编译器不支持的问题&#12290;如果你只需要支持少数几个主流的平台&#65288;比如 Windows&#12289;Linux&#12289;Mac&#65289;&#65292;那建议用 boost::thread&#12290;毕竟主流操作系统上的编译器&#65292;对 boost 的支持还是蛮好的&#12290;<br>
+<br>
+<br>
+<h2>&#9733;编程上的注意事项</h2><br>
+&#12288;&#12288;其实多线程开发&#65292;需要注意的地方挺多的&#65292;我只能大致列几个印象比较深的注意事项&#12290;<br>
+<br>
+<h3>&#9671;关于 volatile</h3><br>
+&#12288;&#12288;说到多线程编程可能碰到的陷阱&#65292;那就不得不提到 <b>volatile</b> 关键字&#12290;如果你对它还不甚了解&#65292;先看&#8220;<a href="https://en.wikipedia.org/wiki/Volatile_variable" target="_blank" rel="nofollow">这里</a>&#8221;扫盲一下&#12290;<br>
+&#12288;&#12288;由于 C++ 98 和 C++ 03 标准都&#12304;没有&#12305;定义多线程的内存模型&#65292;而且这俩标准中也就只有 <b>volatile</b> 和线程沾点儿边&#12290;结果导致 C++ 社区中有相当多的口水都集中在 <b>volatile</b> 身上&#65288;其中包括不少 C++ 大牛的口水&#65289;&#12290;有鉴于此&#65292;我这里就不再多啰嗦了&#12290;推荐几个大牛的文章&#65306;<br>
+<a href="https://en.wikipedia.org/wiki/Andrei_Alexandrescu" target="_blank" rel="nofollow">Andrei Alexandrescu</a>的文章&#65288;&#8220;<a href="http://www.ddj.com/cpp/184403766" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;<br>
+Hans Boehm 的文章&#65288;&#8220;<a href="http://www.hpl.hp.com/personal/Hans_Boehm/c++mm/user-faq.html" target="_blank" rel="nofollow">这里</a>&#8221;和&#8220;<a href="http://www.open-std.org/JTC1/sc22/wg21/docs/papers/2006/n2016.html" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;<br>
+&#12288;&#12288;大伙儿自个儿去拜读一下&#12290;<br>
+<br>
+<h3>&#9671;关于原子操作</h3><br>
+&#12288;&#12288;有些同学光知道多个线程的<b>竞争写</b>需要加锁&#65292;却不知道<b>多个读单个写</b>也需要保护&#12290;比如有某个整数 int nCount = 0x01020304&#65307;在并发状态下&#65292;一个写线程去修改它的值 nCount = 0x05060708&#65307;另一个读线程去获取该值&#12290;那么读线程有没有可能读取到一个&#8220;坏&#8221;的&#65288;比方说 0x05060304&#65289;数据捏&#65311;<br>
+&#12288;&#12288;数据是否坏掉&#65292;取决于对 nCount 的读和写是否属于原子操作&#12290;而这就依赖于很多硬件相关的因素了&#65288;包括 CPU 的类型&#12289;CPU 的字长&#12289;内存对齐的字节数等&#65289;&#12290;在某些情况下&#65292;确实可能出现数据坏掉&#12290;<br>
+&#12288;&#12288;由于我们讨论的是跨平台的开发&#65292;天晓得将来你的代码会在啥样的硬件环境下执行&#12290;所以在处理类似问题的时候&#65292;还是要用第三方库提供的原子操作类/函数&#65288;比如 ACE 的 Atomic_Op&#65289;来确保安全&#12290;<br>
+<br>
+<h3>&#9671;关于对象的析构</h3><br>
+&#12288;&#12288;在之前的系列帖子&#12298;<a href="../../2009/02/cxx-object-destroy-overview.html">C++ 对象是怎么死的&#65311;</a>&#12299;里面&#65292;已经分别介绍了 Win32 平台和 Posix 平台下线程的&#12304;非&#12305;自然死亡问题&#12290;由于上述几个跨平台的线程库底层还是要调用操作系统自带的线程 API&#65292;所以大伙儿还是要尽最大努力确保&#12304;所有&#12305;线程都能够&#12304;自然死亡&#12305;&#12290;<br>
+<br>
+<br>
+&#12288;&#12288;今天的话题就聊到这里&#65292;下一次聊多进程的话题&#12290;<br>
+<br>
+<br>
+<a href="../../2009/01/cxx-cross-platform-develop-0-overview.html#index">回到本系列的目录</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2009/04/cxx-cross-platform-develop-6-thread.html" id="OriginalPostUrl">https://program-think.blogspot.com/2009/04/cxx-cross-platform-develop-6-thread.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="2">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/4966221415144005614?postID=4966221415144005614&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/4966221415144005614.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

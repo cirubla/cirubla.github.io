@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>开源项目&#65306;&#12304;自动&#12305;绘图工具 Graphviz&#8212;&#8212;&#12298;太子党关系网络&#12299;就是用它制作 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2016-02-23T21:53:00+08:00">2016年2月23日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：359条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              开源项目&#65306;&#12304;自动&#12305;绘图工具 Graphviz&#8212;&#8212;&#12298;太子党关系网络&#12299;就是用它制作
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;先插播一个&#12304;安全通告&#12305;</h2><br>
+&#12288;&#12288;一星期前&#65288;2月16日&#65289;曝光了一个高危漏洞&#12290;该漏洞存在于广泛使用的 glibc&#65288;GNU C Library&#65289;&#12290;Linux 和 BSD 上面有非常多的软件依赖了这个库&#12290;而且出漏洞的函数是 getaddrinfo&#8212;&#8212;该函数被很多软件&#65288;比如&#65306;各种脚本语言引擎&#12289;SSH&#12289;cURL ......&#65289;用于 DNS 相关的功能&#12290;<br>
+&#12288;&#12288;这个漏洞是可以被远程利用的&#12290;攻击者可以通过好几种方式来利用该漏洞&#65292;俺认为可能性比较大的方式是&#8220;中间人攻击&#8221;&#12290;具体的技术细节就不多谈了&#65292;感兴趣的同学可以参见 Google 官方的安全博客&#65288;链接在&#8220;<a href="https://googleonlinesecurity.blogspot.ca/2016/02/cve-2015-7547-glibc-getaddrinfo-stack.html" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;值得一提的是&#65306;<br>
+&#12288;&#12288;这个高危漏洞&#65292;又是 Google 的研究人员披露的&#12290;为啥俺要说&#12304;又&#12305;&#65311;因为最近几年&#65292;已经有好多个影响很广泛的高危漏洞是 Google 安全研究团队曝光的&#65288;还记得前些年那个<a href="../../2014/04/openssl-heartbleed.html">&#8220;心脏出血&#8221;漏洞</a>吗&#65289;&#12290;所以&#65292;俺把博客架设在 Google 的 Blogspot 平台上还是比较放心的&#12290;虽然 Blogspot 博客平台在全球博客市场排名老二&#65292;但是份额最大的 Wordpress 平台&#65292;出了太多的安全漏洞&#65292;令人实在不敢恭维&#65288;比如说&#65306;前几天 Linux Mint 官网被入侵&#65292;就是因为 WordPress 的漏洞&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;当某个高危漏洞曝光之后&#65292;到相关软件提供补丁&#65292;这中间有一个很危险的窗口期&#12290;<br>
+&#12288;&#12288;由于俺是高危险人士&#65292;所以前几天先保持静默&#65288;暂不使用&#8220;编程随想&#8221;这个身份进行网络活动&#65289;&#12290;<br>
+<br>
+<hr><br>
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;前段时间俺承诺把&#12298;<a href="../../2015/02/Princelings.html">太子党关系网络</a>&#12299;开源到<a href="https://github.com/programthink" target="_blank">俺的 GitHub 帐号</a>下&#12290;<br>
+&#12288;&#12288;<b>对这个项目而言&#65292;&#8220;开源&#8221;只是一种手段而不是目的&#65292;开源的目的是&#65306;让更多人能够参与到其中&#65292;一起曝光天朝的权贵&#12290;</b><br>
+&#12288;&#12288;为了更好的达成此目的&#65292;今天发一篇博文&#65292;扫盲一下 Graphviz 这个牛逼的绘图工具&#12290;俺制作的&#12298;太子党关系网络&#12299;就是用它来&#12304;自动&#12305;生成各种复杂的网状关系图&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;Graphviz 是啥&#65311;</h2><br>
+&#12288;&#12288;Graphviz 是洋文&#8220;Graph Visualization&#8221;的缩略词&#65292;是一个开源的&#65292;跨平台的自动绘图工具&#65292;其官网在&#8220;<a href="http://www.graphviz.org/" target="_blank" rel="nofollow">这里</a>&#8221;&#65292;维基百科的介绍在&#8220;<a href="https://en.wikipedia.org/wiki/Graphviz" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;这玩意儿诞生于上个世纪末&#65292;来自 AT&T 的实验室&#65292;属于名门正派出身&#12290;十多年来&#65292;它已经被广泛使用于各个领域&#12290;其 Mac OS 版本甚至还获得了2004年的苹果设计奖&#12290;<br>
+&#12288;&#12288;Graphviz 不但是开源软件&#65292;而且是自由软件&#12290;使用它完全&#12304;无需&#12305;付费&#65292;也&#12304;没有&#12305;任何注册码之类的恶心东西&#12290;<br>
+<br>
+<center><img src="../../images/2016/02/fkVpNoNysQXG3Q9ZNUZPW6QwNcXa0Qu_aE0TSSHFIczPC7PLjPpu1QIOtbt04qBrTZAUlxDSvvekxE_pDQ2WDKbaufdDw0J0BDVg2WAHSA6DSBa_FnWmTAfxHyEJxxL5uSuxrkzLr48" alt="不见图 请翻墙"><br>
+&#65288;这是 UNIX 操作系统的全家福&#65292;基于 Graphviz 绘制&#65289;</center><br>
+<br>
+<h2>&#9733;Graphviz 能干啥&#65311;</h2><br>
+&#12288;&#12288;&#8220;绘图工具&#8221;有很多种&#65292;Graphviz 主要是用来绘制&#12304;关系图&#12305;&#12290;所以它更类似于微软的 Visio&#12290;但是它与 Visio 有一个&#12304;本质上&#12305;的差异&#65306;<br>
+用 Visio 画图是&#12304;手动&#12305;的&#8212;&#8212;你需要动用你的肉眼和手指头&#12290;<br>
+而用 Graphviz 画图是&#12304;自动&#12305;的&#8212;&#8212;你只需要告诉 Graphviz 这张图包含哪些元素&#65292;元素之间有啥关系&#65292;然后 Graphviz 可以&#12304;自动&#12305;帮你画出来&#12290;<br>
+&#12288;&#12288;那么&#65292;你如何告诉 Graphviz 你要画的图形包含哪些元素捏&#65311;这就需要用到一个名叫 DOT 的描述语言&#65288;待会儿俺会简单介绍 DOT 语言&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;为啥用 Graphviz 而不用 Visio 或类似的工具&#65311;</h2><br>
+&#12288;&#12288;客观地讲&#65292;Graphviz 和 Visio 之类的工具&#65292;各有各的特长&#12290;因为本文介绍的是 Graphviz&#65292;所以下面聊一下&#65306;哪些场景是 Graphviz 胜过 Visio 类工具的&#12290;<br>
+&#12288;&#12288;简而言之&#65292;Graphviz 胜过 Visio 这类工具的关键在于&#12304;自动布局&#12305;&#12290;如果你要绘制的关系图非常复杂&#65292;这时候&#12304;手动&#12305;布局就变得极其繁琐&#12290;而 Graphviz 的自动布局功能&#65292;再复杂的关系图&#65292;也可以自动搞定&#12290;<br>
+&#12288;&#12288;请看下面几个例子&#65288;都是用 Graphviz 自动绘制的&#65289;<br>
+<br>
+<center><img src="../../images/2016/02/g-JE5Z-67t3lIYQ0Y5b_vdNs-x1_KZ1PKSfZXXQq19XFuwor4uzhz_1Iv0qi5LZBAUjCyLeYykQtnXEKjt78podV0NmN7va46Tf3Fd7vjFv9ffb1ANUXPP1FZzZSjmSHUCrd8IA6rAQ" alt="不见图 请翻墙"><br>
+&#65288;这是美国本土48个州的比邻关系&#12290;不含2个海外的州&#65289;</center><br>
+&#12288;&#12288;可能有读者此图不以为然&#65292;觉得48个节点不算多&#12290;这张图如果&#12304;手工&#12305;绘制&#65292;难点之一在于&#65306;如何让所有联线的交叉最少&#65288;图中只有一处交叉&#65289;&#12290;单单这点就足够伤脑筋了&#12290;<br>
+&#12288;&#12288;而 Graphviz 的自动布局功能&#65292;&#12304;无需&#12305;人为干预就可以做到&#8220;最小化连线交叉&#8221;&#12290;<br>
+<br>
+<center><img src="../../images/2016/02/QOA8VSL2gg2BKX6kAG4K9aAptGRABJfN-5N5dNVeiu3uTOrkCvF1EAewJm7CHxiTiRyS5L52_w8QS23cyCyV8ExMXaszD5s3cpjDJVypwWgT32-h0mtd8nukaG2pdNqWx7x5pQWjyjs" alt="不见图 请翻墙"><br>
+&#65288;这是俺整理的&#12298;<a href="../../2015/02/Princelings.html">太子党关系网络</a>&#12299;其中一幅图&#12290;<br>
+注&#65306;原图太大&#65292;缩小4倍之后裁剪其中一部分&#65289;</center><br>
+&#12288;&#12288;如果你想看更复杂的关系图&#65292;可以去 Graphviz 官网&#12290;那上面收集了一些&#12304;超级复杂&#12305;的关系图&#65288;链接在&#8220;<a href="http://www.graphviz.org/gallery/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Graphviz 软件的使用</h2><br>
+<h3>&#9671;下载&#12289;安装</h3><br>
+&#12288;&#12288;想下载的同学&#65292;直接上<a href="http://www.graphviz.org/download/" target="_blank" rel="nofollow">官网的这个页面</a><br>
+&#12288;&#12288;对于用 Linux 的同学&#65292;主流发行版的&#8220;软件仓库&#8221;应该都包含了 graphviz&#65292;你只需用发行版内置的软件包管理器&#65292;就可以把 graphviz 装好&#12290;<br>
+&#12288;&#12288;对于用 Mac OS 的同学&#65292;官方的 MacPorts 软件仓库已经包含 graphviz 啦&#12290;<br>
+<br>
+<h3>&#9671;DOT 命令行的使用</h3><br>
+&#12288;&#12288;&#65288;如果你从来没有用过命令行&#65292;建议先了解&#8220;命令行&#8221;相关的基本概念&#65292;再来本看小节&#65289;<br>
+&#12288;&#12288;假设你已经用 DOT 语言写好了一个关系图的描述文件&#65292;假设这个文件名是 test.gv 那么你可以进入 test.gv 所在的目录&#65292;然后用如下命令生成&#12304;png图片&#12305;<br>
+<pre class="shell">dot -Tpng -O test.gv</pre>&#12288;&#12288;对于 Windows 用户的说明&#65306;<br>
+&#12288;&#12288;你可以把 graphviz 安装目录下的 <code>bin</code> 目录添加到 <code>PATH</code> 环境变量中&#65292;就可以在命令行中直接使用 <code>dot</code> 命令&#12290;否则的话&#65292;你需要用&#12304;全路径&#12305;方式来启动 <code>dot</code> 命令&#12290;<br>
+<br>
+<h3>&#9671;支持的输出格式</h3><br>
+&#12288;&#12288;上述命令行中的 -Tpng 表示生成的文件类型是png图片&#12290;如果你需要生成其它格式&#65292;也可以&#12290;目前 Graphviz 支持很多种格式&#65292;<br>
+图片格式&#12304;至少&#12305;支持&#65306;png&#12289;jpg&#12289;gif&#12289;bmp&#12289;tiff&#12289;ico&#12289;svg<br>
+文档格式&#12304;至少&#12305;支持&#65306;pdf&#12289;ps/eps<br>
+&#12288;&#12288;完全的输出格式说明参见<a href="http://www.graphviz.org/doc/info/output.html" target="_blank" rel="nofollow">官网这个页面</a>&#12290;<br>
+<br>
+<h3>&#9671;关于扩展名的说明</h3><br>
+&#12288;&#12288;DOT 的描述文件有好几种扩展名&#65292;用得比较多的就是 <code>.dot</code> 扩展名&#12290;<br>
+&#12288;&#12288;但是这个扩展名与微软的 Word 模板的扩展名冲突了&#12290;所以俺在本文的示例&#65292;用的都是 <code>.gv</code> 这个扩展名&#12290;<br>
+<br>
+<br>
+<h2>&#9733;DOT 语言入门</h2><br>
+<h3>&#9671;概述</h3><br>
+&#12288;&#12288;前面提到&#65292;你需要通过 DOT 语言来描述一个关系图&#65292;然后 Graphviz 根据这个 DOT 语言的描述来自动生成图形&#12290;<br>
+&#12288;&#12288;很多读者一听到&#8220;语言&#8221;就先望而生畏&#65292;其实这个 DOT 并不复杂&#12290;从原则上讲&#65292;它只描述三种东西&#65292;分别是&#65306;点&#65288;node&#65289;&#12289;线&#65288;edge&#65289;&#12289;图形&#65288;graph&#65289;&#12290;你可以通过 DOT 语言定义这三种东西的属性&#65288;比如&#65306;颜色&#12289;形状&#65289;&#12290;<br>
+<br>
+<h3>&#9671;两种图&#65306;有向图&#65288;digraph&#65289; VS 无向图&#65288;graph&#65289;</h3><br>
+&#12288;&#12288;DOT 语言支持两种图形&#65292;分别是&#8220;有向图 和 无向图&#8221;&#12290;通俗地说&#65292;&#8220;有向图&#8221;里面的连线是有箭头&#65288;比如前面给出的那张&#8220;太子党关系图&#8221;&#65289;&#65307;反之&#65292;&#8220;无向图&#8221;里面的连线是没有箭头的&#65292;比如前面那张&#8220;48州的比邻关系图&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;定义一个无向图很简单&#65292;先看下面这段代码&#12290;<br>
+<div class="source"><pre><span></span><span class="n">graph</span> <span class="n">simple</span>
+<span class="p">{</span>
+    <span class="n">a</span> <span class="o">--</span> <span class="n">b</span> <span class="o">--</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">--</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// 这是个无向图</span>
+</pre></div><br>
+&#12288;&#12288;上述代码的效果图如下&#65306;<br>
+<center><img src="../../images/2016/02/yvS6Vtja20XqvH8NwWAwDIZaOKoJWbcc8Z17ckNnKV_aT0CduQ3o5CAVRLHjSZoSYcAR4mXs_dJVn2aaUiTZxRopD6cxB-5WsaWYJcu_kxdzJWKhv2d-0FY-SnbtVNsrz58ncrYlYL0" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;要定义一个有向图&#65292;也很简单&#65292;代码如下&#65306;<br>
+<div class="source"><pre><span></span><span class="n">digraph</span> <span class="n">simple</span>
+<span class="p">{</span>
+    <span class="n">a</span> <span class="o">-&gt;</span> <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">c</span><span class="p">;</span>
+    <span class="n">b</span> <span class="o">-&gt;</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cm">/* 这是个有向图 */</span>
+</pre></div><br>
+&#12288;&#12288;上述代码的效果图如下&#65306;<br>
+<center><img src="../../images/2016/02/VjYWYuSyXV7XfJQ-P97EyMaFRkmHzS8sA4VLle_327t81QDpkVPwwnJq6iswEwYpplB3uTa-i6SiUxAIeq8AjcD84AJXv3O44ArCETz7sBtfUDtEcFZ4cR6tJ-HEhDmFKoYzr0vPNkQ" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;这2段代码中&#65292;<code>graph</code> 用来表示一个无向图&#65307;<code>digraph</code> 用来表示一个有向图&#12290;<br>
+&#12288;&#12288;示例中的 <code>simple</code> 表示图的名称&#12290;图的名称可以是&#12304;英文字母&#12289;下划线&#12289;数字&#12289;中文&#12305;&#12290;最好&#12304;不要包含&#12305;其它英文的标点符号&#65288;也就是&#12304;半角符号&#12305;&#65289;&#65292;可能会导致一些语法错误&#12290;但是中文标点符号&#65288;也就&#12304;全角符号&#12305;&#65289;没有关系&#12290;<br>
+&#12288;&#12288;<b>花括号/大括号</b> 里面的语句表示&#12304;图的定义&#12305;&#8212;&#8212;这张图包含哪些内容&#12290;每一条语句以&#12304;分号&#12305;结尾&#65288;类似于 C&#12289;C++&#12289;Java 的语法&#65289;&#12290;<br>
+&#12288;&#12288;顺便提一下 DOT 语言的注释&#65288;其注释的语法与 C&#12289;C++&#12289;Java 类似&#65289;&#65292;包括如下两种&#65306;<br>
+<b>单行注释</b><br>
+以 <code>//</code> 表示&#8212;&#8212;&#12304;该行&#12305;后续的内容为注释<br>
+<b>多行注释</b><br>
+以 <code>/*</code> 和 <code>*/</code> 包含起来的内容为注释<br>
+<br>
+<h3>&#9671;节点&#65288;node&#65289;</h3><br>
+&#12288;&#12288;通过上面两个例子&#65292;你应该已经获得了感性的认识&#12290;OK&#65292;下面来讨论&#8220;节点&#8221;&#65288;node&#65289;的概念&#12290;<br>
+&#12288;&#12288;在上面两个例子中&#65292; a b c d 都是&#12304;节点名&#12305;&#65292;分别代表节点&#12290;在图的定义中&#65292;相同名称就代表同一个节点&#12290;当 DOT 编译器碰到一个新的名称&#65292;就认为这是一个新的节点&#12290;<br>
+&#12288;&#12288;节点的命名规范类似于图的命名规范&#65292;此次不再罗嗦&#12290;如果某个节点没有设置 label 属性&#65288;关于&#12304;属性&#12305;&#65292;下面会聊到&#65289;&#65292;那么图形中就用节点名作为该节点的标题&#8212;&#8212;就好比前面两幅简单的示意图&#12290;<br>
+<br>
+<h3>&#9671;节点&#65288;node&#65289;的属性</h3><br>
+&#12288;&#12288;在节点名之后可以使用 <b>方括号/中括号</b> 来定义该节点的属性&#65292;属性之间用&#12304;半角&#12305;逗号分隔&#12290;<br>
+&#12288;&#12288;属性的定义采用如下形式&#65306;<br>
+<blockquote>属性名 = 属性值</blockquote>&#65288;如果属性值包含空格&#65292;需用&#12304;半角&#12305;引号把属性值引用起来&#65289;<br>
+<br>
+&#12288;&#12288;常用的&#12304;属性名&#12305;包括如下&#65306;<br>
+<blockquote>label&#8212;&#8212;标题<br>
+color&#8212;&#8212;颜色<br>
+style&#8212;&#8212;样式<br>
+shape&#8212;&#8212;形状</blockquote>&#65288;还有更多属性&#65292;可以参见官网&#8220;<a href="http://www.graphviz.org/doc/info/attrs.html" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;给一个示例代码及效果图&#65292;你一看就明白了&#65306;<br>
+<div class="source"><pre><span></span><span class="n">digraph</span> <span class="n">node_attr</span>
+<span class="p">{</span>
+    <span class="n">shape1</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">矩形节点&quot;</span><span class="p">];</span>
+    <span class="n">shape2</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">circle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">圆形节点&quot;</span><span class="p">];</span>
+    <span class="n">shape3</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">ellipse</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">椭圆形节点&quot;</span><span class="p">];</span>
+    <span class="n">shape4</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">polygon</span><span class="p">,</span> <span class="n">sides</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">skew</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">平行四边形节点&quot;</span><span class="p">];</span>
+    <span class="n">shape5</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">none</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">无边框节点&quot;</span><span class="p">];</span>
+    <span class="n">shape1</span> <span class="o">-&gt;</span> <span class="n">shape2</span> <span class="o">-&gt;</span> <span class="n">shape3</span> <span class="o">-&gt;</span> <span class="n">shape4</span> <span class="o">-&gt;</span> <span class="n">shape5</span>
+
+    <span class="n">color1</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">蓝色边框&quot;</span><span class="p">]</span>
+    <span class="n">color2</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">绿色填充&quot;</span><span class="p">]</span>
+    <span class="n">color3</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;#ff0000&quot;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="p">,</span> <span class="n">fillcolor</span><span class="o">=</span><span class="s">&quot;yellow&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">红色边框+黄色填充&quot;</span><span class="p">]</span>
+    <span class="n">color4</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;#0000FF&quot;</span> <span class="n">style</span><span class="o">=</span><span class="n">filled</span><span class="p">,</span> <span class="n">fillcolor</span><span class="o">=</span><span class="s">&quot;green:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">蓝色边框+从绿色到红色渐变填充&quot;</span><span class="p">]</span>
+    <span class="cm">/* 上面两个节点采用 HTML 的颜色语法&#65292;dot 支持 这种语法 */</span>
+    <span class="n">color1</span> <span class="o">-&gt;</span> <span class="n">color2</span> <span class="o">-&gt;</span> <span class="n">color3</span> <span class="o">-&gt;</span> <span class="n">color4</span>
+
+    <span class="n">text1</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">小字体&quot;</span><span class="p">]</span>
+    <span class="n">text2</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">大字体&quot;</span><span class="p">]</span>
+    <span class="n">text3</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">fontcolor</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">蓝色文字&quot;</span><span class="p">]</span>
+    <span class="n">text4</span> <span class="p">[</span><span class="n">shape</span><span class="o">=</span><span class="n">box</span><span class="p">,</span> <span class="n">label</span><span class="o">=&lt;</span><span class="s">编程随想注&#65306;&lt;br/&gt;&lt;b&gt;粗体&lt;/b&gt; &lt;i&gt;斜体&lt;/i&gt;&lt;u&gt;下划线&lt;/u&gt;</span><span class="o">&gt;</span><span class="p">]</span>
+    <span class="c1">// 注意&#65306;text4 使用 HTML 风格的 label&#65292;无需引号&#65292;但必须用尖括号</span>
+    <span class="n">text1</span> <span class="o">-&gt;</span> <span class="n">text2</span> <span class="o">-&gt;</span> <span class="n">text3</span> <span class="o">-&gt;</span> <span class="n">text4</span>
+<span class="p">}</span>
+</pre></div><center><img src="../../images/2016/02/jqcKVmcW45HexgH8HRoWZbrzjhr8UwPMOBVXpVyQ774a1gFkepgeSXC2XrEwfjSuocOF8x7KyR66htXNksMphq72oiRleeD3D4vho7rguBoFZUhg9cNCkJVQwJbLfmtm7r2TGy-BlbI" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;在上述示例&#65292;俺刻意用到了 HTML 的颜色语法&#12290;关于这种语法的说明可以参见维基百科的<a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E9%A1%B5%E9%A2%9C%E8%89%B2" target="_blank" rel="nofollow">这个链接</a>&#12290;<br>
+<br>
+<h3>&#9671;连线&#65288;edge&#65289;</h3><br>
+&#12288;&#12288;聊完&#12304;节点/node&#12305;&#65292;再来聊&#12304;连线/edge&#12305;&#12290;<br>
+&#12288;&#12288;如前面所示&#65292;无向图的连线用 <code>--</code> 表示&#65292;有向图的连线用 <code>-&gt;</code> 表示&#65292;非常形象&#12290;定义连线的语句也是以分号结尾&#12290;<br>
+&#12288;&#12288;连线与节点的关键差异之处在于&#8212;&#8212;节点有名称而&#12304;连线没有名称&#12305;&#12290;<br>
+<br>
+<h3>&#9671;连线&#65288;edge&#65289;的属性</h3><br>
+&#12288;&#12288;连线也可以设置属性&#65292;其属性写在定义连线的语句末尾&#65292;语法类似节点属性&#12290;<br>
+&#12288;&#12288;常用的&#12304;属性名&#12305;包括如下&#65306;<br>
+<blockquote>label&#8212;&#8212;标题<br>
+color&#8212;&#8212;颜色<br>
+style&#8212;&#8212;线条的样式<br>
+dir&#8212;&#8212;连线的方向&#65288;仅用于有向图&#65292;可设置&#65306;正向箭头&#12289;反向箭头&#12289;双向箭头&#65289;<br>
+arrowhead&#8212;&#8212;前端的样式<br>
+arrowtail&#8212;&#8212;末端的样式</blockquote>&#65288;还有更多属性&#65292;可以参见官网&#8220;<a href="http://www.graphviz.org/doc/info/attrs.html" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;<br>
+<br>
+&#12288;&#12288;下面给几个示例&#65292;你自己去揣摩&#65288;以&#12304;有向图&#12305;作示范&#65289;<br>
+<div class="source"><pre><span></span><span class="n">digraph</span> <span class="n">edge_attr</span>
+<span class="p">{</span>
+    <span class="n">style0</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">以下是样式的示例&quot;</span><span class="p">];</span>
+    <span class="n">style1</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">style2</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">style3</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">style4</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">];</span>
+
+    <span class="n">style0</span> <span class="o">-&gt;</span> <span class="n">style1</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;实线&quot;</span><span class="p">];</span>
+    <span class="n">style1</span> <span class="o">-&gt;</span> <span class="n">style2</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">bold</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;粗线&quot;</span><span class="p">];</span>
+    <span class="n">style2</span> <span class="o">-&gt;</span> <span class="n">style3</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;短划线&quot;</span><span class="p">];</span>
+    <span class="n">style3</span> <span class="o">-&gt;</span> <span class="n">style4</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">dotted</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;虚线&quot;</span><span class="p">];</span>
+
+    <span class="n">arrow0</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">以下是箭头的示例&quot;</span><span class="p">];</span>
+    <span class="n">arrow1</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">arrow2</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">arrow3</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">arrow4</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">arrow5</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">arrow6</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">];</span>
+    <span class="n">arrow0</span> <span class="o">-&gt;</span> <span class="n">arrow1</span> <span class="p">[</span><span class="n">dir</span><span class="o">=</span><span class="n">both</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;双向箭头&quot;</span><span class="p">];</span>
+    <span class="n">arrow1</span> <span class="o">-&gt;</span> <span class="n">arrow2</span> <span class="p">[</span><span class="n">arrowsize</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;大箭头&quot;</span><span class="p">];</span>
+    <span class="n">arrow2</span> <span class="o">-&gt;</span> <span class="n">arrow3</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;open&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;带倒钩的箭头&quot;</span><span class="p">];</span>
+    <span class="n">arrow3</span> <span class="o">-&gt;</span> <span class="n">arrow4</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;halfopen&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;单边倒钩&quot;</span><span class="p">];</span>
+    <span class="n">arrow4</span> <span class="o">-&gt;</span> <span class="n">arrow5</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;ediamond&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;菱形箭头&quot;</span><span class="p">];</span>
+    <span class="n">arrow5</span> <span class="o">-&gt;</span> <span class="n">arrow6</span> <span class="p">[</span><span class="n">arrowhead</span><span class="o">=</span><span class="s">&quot;dot&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;圆形箭头&quot;</span><span class="p">];</span>
+
+    <span class="n">color0</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;编程随想注&#65306;</span><span class="se">\n</span><span class="s">以下是颜色的示例&quot;</span><span class="p">];</span>
+    <span class="n">color1</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">color2</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">]</span> <span class="n">color3</span><span class="p">[</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">];</span>
+    <span class="n">color0</span> <span class="o">-&gt;</span> <span class="n">color1</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;蓝色&quot;</span><span class="p">];</span>
+    <span class="n">color1</span> <span class="o">-&gt;</span> <span class="n">color2</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;red:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;双色&quot;</span><span class="p">];</span>
+    <span class="n">color2</span> <span class="o">-&gt;</span> <span class="n">color3</span> <span class="p">[</span><span class="n">color</span><span class="o">=</span><span class="s">&quot;green:red;0.4:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;颜色分段&quot;</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div><center><img src="../../images/2016/02/IoAD-JfXRYNSY7m9Foa5lZxEpRSTgtob1vAeoqq1a4M97W4tUA3SXr615dcwwGAygk1OISxwDt65Z-CR1c2x51ajxD3dNmrWJTn3gmcnJeF11C8rh4dV-eyT_xEhAateELjfciklwXM" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;图的属性</h3><br>
+&#12288;&#12288;说完了&#8220;节点&#8221;和&#8220;连线&#8221;&#65292;最后稍微聊一下&#8220;图&#8221;本身的属性&#12290;<br>
+&#12288;&#12288;常用的&#12304;属性名&#12305;包括如下&#65306;<br>
+<blockquote>label&#8212;&#8212;标题<br>
+bgcolor&#8212;&#8212;颜色<br>
+fontname&#8212;&#8212;字体名称&#65288;&#12304;不&#12305;影响节点和连线&#65289;<br>
+fontsize&#8212;&#8212;字体大小&#65288;&#12304;不&#12305;影响节点和连线&#65289;<br>
+fontcolor&#8212;&#8212;字体颜色&#65288;&#12304;不&#12305;影响节点和连线&#65289;<br>
+center&#8212;&#8212;是否居中绘制</blockquote>&#65288;还有更多属性&#65292;可以参见官网&#8220;<a href="http://www.graphviz.org/doc/info/attrs.html" target="_blank" rel="nofollow">这个链接</a>&#8221;&#65289;<br>
+<br>
+<div class="source"><pre><span></span><span class="n">digraph</span> <span class="n">graph_attr</span>
+<span class="p">{</span>
+    <span class="n">graph</span><span class="p">[</span><span class="n">bgcolor</span><span class="o">=</span><span class="s">&quot;cadetblue&quot;</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;图的标题&quot;</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">24</span> <span class="n">fontcolor</span><span class="o">=</span><span class="s">&quot;green&quot;</span><span class="p">];</span>
+
+    <span class="n">node0</span> <span class="o">-&gt;</span> <span class="n">node1</span><span class="p">;</span>
+    <span class="n">node0</span> <span class="o">-&gt;</span> <span class="n">node2</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div><center><img src="../../images/2016/02/FngPZ5V84luUwXNc-ctY9SI3FyBfdgYwuOa9tjd88fMJIxoHGZo3Ir1-OL5_3dGRomzuoMFYW9CDFdZRB-oaurXF7DQYVg_sQ1jlbQetW3eZVOWM2mrZbBHuDxysHG_Ofi53pIYDe7M" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;进阶</h3><br>
+&#12288;&#12288;前面俺讲的都是 DOT 最基本的概念和使用&#12290;DOT 语言还有一些更高级的用法&#65292;感兴趣的同学可以参考下一个章节&#65288;&#9733;相关资源&#65289;给出的&#8220;dotguide.pdf&#8221;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;相关资源</h2><br>
+<h3>&#9671;官网的资源</h3><br>
+以下是官网上的若干在线文档&#65306;<br>
+<a href="http://www.graphviz.org/doc/Dot.ref" target="_blank" rel="nofollow">http://www.graphviz.org/doc/Dot.ref</a><br>
+<a href="http://www.graphviz.org/doc/info/attrs.html" target="_blank" rel="nofollow">http://www.graphviz.org/doc/info/attrs.html</a><br>
+<a href="http://www.graphviz.org/doc/info/shapes.html" target="_blank" rel="nofollow">http://www.graphviz.org/doc/info/shapes.html</a><br>
+<a href="http://www.graphviz.org/doc/info/arrows.html" target="_blank" rel="nofollow">http://www.graphviz.org/doc/info/arrows.html</a><br>
+<a href="http://www.graphviz.org/doc/info/colors.html" target="_blank" rel="nofollow">http://www.graphviz.org/doc/info/colors.html</a><br>
+<br>
+<a href="http://www.graphviz.org/pdf/dotguide.pdf" target="_blank" rel="nofollow">官方提供的 DOT 语言完整的指南&#65288;dotguide.pdf&#65289;</a><br>
+<br>
+<a href="https://github.com/ellson/graphviz" target="_blank" rel="nofollow">Graphviz 官方的 GitHub 帐号</a><br>
+<br>
+<h3>&#9671;编辑器</h3><br>
+&#12288;&#12288;<b>自带的编辑器</b><br>
+<br>
+Graphviz 软件包中自带了 gvedit 和 vimdot&#12290;<br>
+<br>
+&#12288;&#12288;<b>Emacs 的 mode</b><br>
+<br>
+<a href="https://github.com/ppareit/graphviz-dot-mode" target="_blank" rel="nofollow">https://github.com/ppareit/graphviz-dot-mode</a><br>
+俺平时用这个 mode 来编辑 dot 数据文件&#12290;它可以实现&#8220;所见即所得&#8221;&#8212;&#8212;每次修改完&#65292;直接在 Emacs 另一个窗口预览图片&#12290;<br>
+其作者提供的效果图如下&#65306;<br>
+<center><img src="../../images/2016/02/KkoTguhEwfxEDsiDhFeD2xmpdxc-lObNT1yqMw9P5rnRRUfqnz0iLO-Dlm7BgKXlD-K88RTKFjeDboaZOezm1IoYXYjlQkhbBN42KsB-PGgWCRFvpdues-32L5P4uVckUPN1QWpUwpw" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;<b>VI/VIM 的插件</b><br>
+<br>
+<a href="https://github.com/wannesm/wmgraphviz.vim" target="_blank" rel="nofollow">https://github.com/wannesm/wmgraphviz.vim</a><br>
+<br>
+<h3>&#9671;编程语言的整合</h3><br>
+&#12288;&#12288;<b>JavaScript</b><br>
+<br>
+<a href="https://github.com/mdaines/viz.js" target="_blank" rel="nofollow">https://github.com/mdaines/viz.js</a><br>
+<br>
+<a href="https://github.com/gyuque/livizjs" target="_blank" rel="nofollow">https://github.com/gyuque/livizjs</a><br>
+<br>
+&#12288;&#12288;<b>Python</b><br>
+<br>
+<a href="https://pypi.python.org/pypi/graphviz" target="_blank" rel="nofollow">https://pypi.python.org/pypi/graphviz</a><br>
+<br>
+&#12288;&#12288;<b>Ruby</b><br>
+<br>
+<a href="https://github.com/glejeune/Ruby-Graphviz" target="_blank" rel="nofollow">https://github.com/glejeune/Ruby-Graphviz</a><br>
+<br>
+&#12288;&#12288;<b>Java</b><br>
+<br>
+<a href="http://jgraphviz.sourceforge.net/" target="_blank" rel="nofollow">http://jgraphviz.sourceforge.net/</a><br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2009/02/how-to-choose-opensource-project.html">如何选择开源项目</a>&#12299;<br>
+&#12298;<a href="../../2015/02/Princelings.html">曝光天朝权贵&#8212;&#8212;&#12298;太子党关系网络&#12299;2.2 版本发布</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2016/02/opensource-review-graphviz.html" id="OriginalPostUrl">https://program-think.blogspot.com/2016/02/opensource-review-graphviz.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="359">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/2805435264479451554?postID=2805435264479451554&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/2805435264479451554.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>聊聊大伙儿&#65288;包括某些职业围棋手&#65289;对 AlphaGo 的误解 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2016-03-11T12:26:00+08:00">2016年3月11日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：440条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/E7A791E699AE.html" class="tag">科普</a>  <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              聊聊大伙儿&#65288;包括某些职业围棋手&#65289;对 AlphaGo 的误解
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;最近2-3天的新闻&#65292;大伙儿想必也知道了&#8212;&#8212;AlphaGo 基于&#12304;公平规则&#12305;对阵人类第一流的围棋手&#65292;已经先胜两局&#65292;而且都是完胜&#12290;<br>
+&#12288;&#12288;俺也算是一个围棋的业余爱好者&#65292;而且俺也比较关注 AI&#65288;人工智能&#65289;的发展&#65292;今天冒昧写一篇点评&#12290;<br>
+&#12288;&#12288;所谓的&#8220;冒昧&#8221;&#65292;因为这两方面都只是俺的爱好&#65292;而&#12304;不是&#12305;擅长&#12290;说得不对之处&#65292;欢迎大伙儿拍砖&#12290;<a name='more'></a><br>
+<br>
+<br>
+<h2>&#9733;AlphaGo 的背景介绍</h2><br>
+&#12288;&#12288;本来想先写一段背景介绍&#65292;让大伙儿稍微了解一下 Alpha Go&#65288;俗称&#8220;阿尔法狗&#8221;&#65289;的原理&#12290;后来发现知乎上有一篇现成的&#65292;写得挺详细&#65292;而且比较通俗易懂&#12290;链接如下&#65306;<br>
+<a href="https://www.zhihu.com/question/39905662" target="_blank" rel="nofollow">https://www.zhihu.com/question/39905662</a><br>
+&#65288;如果你不希望让知乎看到你是从俺博客跳转过去的&#65292;可以把这个网址复制&#65292;然后新开一个浏览器标签页&#65292;再粘贴到地址栏&#65289;<br>
+该问题下面有好几个回答&#65292;参见其中的&#12298;左右互搏&#65292;青出于蓝而胜于蓝&#65311;&#8212;阿尔法狗原理解析&#12299;<br>
+&#12288;&#12288;这篇文章通俗介绍了&#8220;深度卷积神经网络&#8221;&#12289;&#8220;蒙特卡洛搜索树/MCTS&#8221;&#12289;&#8220;通过强化学习自我进化&#8221;&#12290;这几项是 AlphaGO 战胜人类的法宝&#12290;<br>
+<br>
+<br>
+<h2>&#9733;误解之1&#65306;围棋 AI 仅仅是依靠棋谱&#65288;历史对局&#65289;</h2><br>
+&#12288;&#12288;很多人<b>误以为</b>&#65306;围棋程序&#12304;仅仅&#12305;依靠大量的历史对局来作为参考&#12290;一旦出现全新的下法就不知所措&#12290;<br>
+&#12288;&#12288;至少 AlphaGo 这两局的表现&#65292;表面这是一种误解&#12290;下面俺来聊一下&#12290;<br>
+&#12288;&#12288;实际上&#65292;李世石一开始也抱有这种错觉&#65292;所以第一局的开局&#65292;李世石采用了一个罕见的开局&#12290;据说在职业比赛中&#65292;从来没人用过这个开局&#65288;棋谱如下&#65289;&#12290;<br>
+<center><img src="../../images/2016/03/pBXhMg2e-kFTdYaD-30ocFiwQY6APV6pwFBndazI-zjxwIHlQiCl29V0bg18Sm6DCoZZN8fmbn3lgDcEoh7-x3VGZERrCm2eQXTyf1XelIufobWNwzkmFtKoEjJtnc7SjHaNxnd2d0w" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;李世石估计是想调戏一下电脑&#65292;看看电脑如何应对一个从来没出现过的开局<br>
+&#12288;&#12288;&#65288;请注意&#65306;首局是&#8220;猜先定黑白&#8221;&#65292;李世石猜中之后&#65292;主动选黑&#12290;如果是职业比赛&#65292;通常是选白&#12290;说明李世石想要主导布局&#65289;<br>
+&#12288;&#12288;但是 Alpha Go 对这个开局应对自如&#65288;以下是 AI 在后续几手的应对&#65289;&#12290;<br>
+<center><img src="../../images/2016/03/7VjlkN_h2-yIFktMFKyEw241u1wBc6wqAwNwrOx7NvRJy1RMXoMy3-tk-RFlPMf7SGGcyrqVxUy22ohVDQP33VrP3BCeteCzIimAvSiOLMkz7Rq4VSVeGPHYzEZ-iWeORDS6uRsrOY4" alt="不见图 请翻墙"></center><center><img src="../../images/2016/03/WDJP3ZxAM0kc-zP6Sdw-bqlgyNaziUE1uNLuCJvskJPQyvi0I26P9PyXawDZwr1D-dH65xxPSujnWTETQIig6gB6QLCs5loUsQFJ89koZxcTXc0LS8SI6x0C38zUrQPkeVot9lOmk5w" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;职业棋手李喆的评价是&#65288;粗体是俺标注滴&#65289;&#65306;<br>
+<blockquote>白8挂角正常&#65292;黑9二间高夹最为激烈&#12290;<b>白10&#65292;这一手&#8230;&#8230;非常出色&#12290;</b><br>
+通常情况下&#65292;在右上白8遭遇二间高夹的时候&#65292;<b>白10是&#8220;不存在&#8221;的一手&#65292;它不在任何定式之中</b>&#12290;面对黑9&#65292;白棋有诸多定式选择&#65292;却没有白10这一手&#12290;<br>
+然而&#65292;我认为白10是好手&#12290;白10的好处在于使黑7变成效率低下的一手&#65292;虽然在右上局部白棋稍稍亏损&#65292;但加上黑7的低效&#65292;白棋一点也不吃亏&#12290;</blockquote><br>
+<br>
+<h2>&#9733;误解之2&#65306;围棋 AI 不擅长&#8220;布局&#8221;</h2><br>
+&#12288;&#12288;还有一种常见的误解是&#65306;围棋程序不擅长布局&#12290;<br>
+&#12288;&#12288;为啥会有这种误解捏&#65311;确实在早期的围棋程序中&#65292;布局都比较烂&#12290;因为电脑擅长的是&#12304;计算&#12305;&#65292;而布局阶段凭的是&#12304;感觉&#12305;&#12290;&#8220;棋感&#8221;这种东西&#65292;是很难用程序来进行量化的&#12290;<br>
+&#12288;&#12288;但是 AlphaGo 就不同了&#8212;&#8212;这个家伙的布局很牛&#12290;请看第2局的布局阶段&#65292;电脑下出了布局的妙手&#12290;<br>
+<center><img src="../../images/2016/03/L7JawEKL7jK9kh_7zEkor_MK_l2cfk_vXz-iSO7HWMDTTpS66x2yTFLSGdj0Y6ubDNrBZ0ZvpP89l6bifg3iiNjTbt4yArNb2-kTy3ljPxdUhYOdDkFgPJAgZWvEoAn5R71GBPOQP6o" alt="不见图 请翻墙"></center>&#12288;&#12288;这是 AlphaGo 的又一个妙手&#12290;对这一手&#65292;职业棋手评价非常高&#65306;<br>
+<blockquote>聂卫平说&#8220;对狗的下法脱帽致敬&#8221;<br>
+现场的英语解说员雷德蒙德和加洛克点评说&#8220;黑37手具有围棋名宿吴清源的风范&#8221;&#65288;雷德蒙德是目前唯一的非东亚裔的职业九段&#65289;&#12290;<br>
+曹大元说&#8220;这是特别意外的情况&#65292;在此之前没人这么下过&#12290;职业棋坛对这一手棋褒贬不一&#65292;有人特别赞赏&#65292;有人特别业余&#12290;但是这一手棋是超出职业棋手想象的&#65292;对棋手有很大的启发&#12290;&#8221;<br>
+</blockquote><br>
+<h2>&#9733;误解之3&#65306;围棋 AI 缺乏&#8220;大局观&#8221;</h2><br>
+&#12288;&#12288;其实在前面第1个例子&#65292;AlphaGo 已经体现出很好的大局观了&#12290;它没有按照定式去走右上角&#65292;是为了消解右下方的&#8220;黑7&#8221;子&#12290;<br>
+<center><img src="../../images/2016/03/7VjlkN_h2-yIFktMFKyEw241u1wBc6wqAwNwrOx7NvRJy1RMXoMy3-tk-RFlPMf7SGGcyrqVxUy22ohVDQP33VrP3BCeteCzIimAvSiOLMkz7Rq4VSVeGPHYzEZ-iWeORDS6uRsrOY4" alt="不见图 请翻墙"></center><center><img src="../../images/2016/03/WDJP3ZxAM0kc-zP6Sdw-bqlgyNaziUE1uNLuCJvskJPQyvi0I26P9PyXawDZwr1D-dH65xxPSujnWTETQIig6gB6QLCs5loUsQFJ89koZxcTXc0LS8SI6x0C38zUrQPkeVot9lOmk5w" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;另外&#65292;同样在第1局&#65292;电脑下出了&#8220;白102&#8221;&#12290;在当天的评论中&#65292;有职业棋手认为&#65306;这一手可以载入史册&#12290;<br>
+<center><img src="../../images/2016/03/dj2VmreDQw0RcpM7tZSUv8CqoSyssaBNz9EZI0TBQPVJv287YXJjJ-UYfsX1Fpdor73ex9LwojgJshil8whwmlfuT8DD3WUUoVb76Y-y1j5B7IdB4Oqy7p3TEhBHQKHWsu95VSddiWM" alt="不见图 请翻墙"></center>&#12288;&#12288;面对这一手&#65292;李世石长考很久&#65292;后来依然吃了大亏&#12290;<br>
+&#12288;&#12288;大多数职业棋手都没有想到 102 这一手&#65292;即使少数人想到了&#65292;也未必敢在实战中使用&#8212;&#8212;因为后续的变化分支太多太复杂&#12290;<br>
+<br>
+<br>
+<h2>&#9733;误解之4&#65306;围棋 AI 缺乏&#8220;创造性&#8221;</h2><br>
+&#12288;&#12288;之前很多人都觉得&#8212;&#8212;只有人类棋手才有创造性&#65292;围棋程序是不可能创造性的&#12290;<br>
+&#12288;&#12288;但是你看这两天的对局&#65292;AlphaGo 下出了很多职业比赛从来没有出现过的下法&#12290;并且这些全新下法&#65292;对它而言是有利的&#12290;但是从来没有人类棋手这么下过&#12290;<br>
+&#12288;&#12288;这当然就是创造性&#65281;<br>
+&#12288;&#12288;比如第一局的&#8220;白86&#8221;&#65292;韩国金成龙九段的评价是&#65306;<q>成为职业棋手27年来&#65292;第一次看到白断这手棋&#65281;</q><br>
+<center><img src="../../images/2016/03/Sxlr4dvNcpkJwPGMAkRSbV8aNpVWqjuldiYOw5a0WV8yOvjE5Fqg66OfruwvuiZ-tFEBWE-Dqt8nlS6yyCyseBj6BoPJv-TYkSIlQmXuyMg2ySQ29o-ObkvCDqvtOrQ4O8mVukEoXtM" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;误解之5&#65306;关于 AlphaGo 的&#8220;缓手&#8221;</h2><br>
+&#12288;&#12288;这两局比赛&#65292;AlphaGo 出现了好几个奇怪的下法&#65292;被某些职业棋手认为是&#8220;缓手&#8221;&#65288;比如下面几例&#65289;&#12290;<br>
+<center><img src="../../images/2016/03/Dlrtpc46qITc9LiNmnizG3r0z5u2fwrh9Sqc80UmtaWlU_ZRGsnU-pIPwMIbOCVA9KAz4n7zl5m3euDxIzSlPATCqOvUe_QWjZH25as4zgaImTYhdgP_tvrIBrhF2rzR5NucB1jtJKY" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2016/03/YQbQAVG6S8-crWRgefTM2MuBI2IdKB-cUdWAi2_vVUoMgSA7pmw9-ciqlUNuHjbR14dpPGlWKTFBs9e_-DXWgYRoq9Aq6sOvTSvex9HKCxuai6GJiRWIgRJ_XpxUtCUBQAuNFOzhHE4" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;但实际上他们不了解 AlphaGo 与人的差异&#12290;AI 追求的是&#12304;获胜的概率大小&#12305;&#65292;而不在乎赢多少目&#12290;当电脑面临 X Y 两个选择&#12290;有可能 X 比 Y 会多赢很多目&#65292;但 X 比 Y 的获胜概率略小&#12290;那么电脑还是会选择 Y 而不是 X&#12290;<br>
+&#12288;&#12288;或许可以这么说&#65306;当 AlphaGo 开始下出所谓的&#8220;缓手&#8221;&#65292;就意味着&#8212;&#8212;它认为自己胜券在握了&#12290;<br>
+&#12288;&#12288;从这两天的对战情况&#65292;也大体是如此&#12290;<br>
+<br>
+<br>
+<h2>&#9733;误解之6&#65306;关于 AlphaGo&#8220;不擅长打劫&#8221;</h2><br>
+&#12288;&#12288;因为这两局比赛都没有出现劫争&#65292;于是又冒出一种说法&#8212;&#8212;&#8220;AlphaGo 不擅长打劫&#8221;&#12290;甚至还有小道消息称&#65306;Google 与李世石之间有保密协议&#65292;约定不得使用打劫&#12290;<br>
+&#12288;&#12288;俺觉得&#65306;AlphaGo 在两天之内能下出这么多妙手&#65292;不至于连打劫都不擅长&#12290;它的&#8220;深度神经网络&#8221;既然如此优秀&#65292;评价&#8220;劫争&#8221;的局面优劣&#65292;应该不在话下&#12290;<br>
+&#12288;&#12288;很多人都希望&#8212;&#8212;后续的对局中&#65292;能看到 AlphaGo 下出精彩的打劫&#12290;<br>
+&#12288;&#12288;补充&#65306;<br>
+&#12288;&#12288;本文发出后&#65292;某热心读者在评论区4楼1单元贴出了 AlphaGo 作者的&#12304;辟谣&#12305;&#8212;&#8212;没有所谓的&#8220;保密协议&#8221;&#65292;Google 团队也希望 AlphaGo 能下出劫争&#12290;<br>
+&#12288;&#12288;继续补充&#65306;<br>
+&#12288;&#12288;本文发出的次日&#65292;俺在晚上看到某个职业棋手的辟谣&#8212;&#8212;早在5个月前&#65292;AlphaGo 对战樊麾的时候&#65292;已经有两盘棋&#12304;出现了劫争&#12305;&#12290;<br>
+&#12288;&#12288;<b>所谓&#8220;AlphaGo 不擅长劫争&#8221;的言论&#65292;可以休矣&#65281;</b><br>
+<br>
+<br>
+<h2>&#9733;误解之7&#65306;关于 AlphaGo 的棋力</h2><br>
+&#12288;&#12288;比赛前&#65292;几乎所有职业棋手都看好李世石&#65292;大部分职业棋手断定李世石能以5&#65306;0全胜&#12290;李世石赛前也说&#8212;&#8212;自己的目标是一盘都不输&#12290;<br>
+&#12288;&#12288;如今的局面&#65292;很多人已经大跌眼镜&#12290;<br>
+&#12288;&#12288;为啥大多职业棋手出现如此严重的误判&#65292;有如下两个原因&#65306;<br>
+1&#12289;长期以来&#65292;围棋软件的水平都很烂&#65292;连业余选手都无法战胜<br>
+2&#12289;虽然 AlphaGo 已经在5个月前&#65292;战胜了欧洲冠军樊麾&#65288;职业二段&#65289;&#12290;不过捏&#65292;很多人都认为樊麾的棋力太弱&#65292;而 AlphaGo 赢得也不够漂亮&#12290;<br>
+&#65288;殊不知&#65292;AlphaGo 可以通过不断自学习来自我提升&#65292;5个月的时间&#65292;AlphaGo 已经今非昔比了&#65289;<br>
+<br>
+&#12288;&#12288;第一天&#65288;3月9日&#65289;的比赛结束后&#65292;柯洁九段在个人微博上称&#65306;&#8220;就算阿尔法狗&#65288;AlphaGo&#65289;战胜了李世石&#65292;但它赢不了我&#12290;&#8221;<br>
+&#12288;&#12288;俺不清楚他这句话是真实想法&#65292;还是为了替自己造势&#12290;如果这是柯洁的真实想法&#65292;很可能柯洁严重低估了 AlphaGo&#12290;<br>
+&#12288;&#12288;在第二天&#65288;3月10日&#65289;的比赛中&#65292;小李明显是全力以赴的&#12290;曹大元九段评价说&#65306;<q>如果昨天李世石的发挥只有70到75分的话&#65292;那么今天是90到95分&#12290;</q><br>
+&#12288;&#12288;结果捏&#65292;小李再次完败&#12290;英文发布会上的翻译是&#8220;clear loss&#8221;&#12290;整个比赛都是 AlphaGo 在主导&#65292;小李貌似没啥机会&#12290;<br>
+&#12288;&#12288;某些职业棋手称&#8212;&#8212;看第2局的中盘&#65292;AlphaGo 已经超过全盛时期的李昌镐&#12290;<br>
+&#12288;&#12288;前面俺说了&#8212;&#8212;电脑在乎的是&#12304;获胜的概率&#12305;&#65292;而不是赢多少目&#12290;所以&#65292;千万不能以胜负目数来衡量 AlphaGo 的棋力&#12290;你让它跟业余选手下&#65292;它或许也是赢这么多目&#12290;<br>
+&#12288;&#12288;俺觉得&#65306;如果真的要进一步衡量 AlphaGo 的棋力&#65292;没准应该安排 AlphaGo 与人类顶尖旗手下&#8220;让子棋&#8221;&#65288;让人先下N子&#65289;<br>
+<br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;在本文的结尾&#65292;俺引用国际围棋联盟秘书长李夏辰&#65288;韩国棋手&#12289;职业3段&#65289;的一段话&#65306;<br>
+<blockquote>第一次听说电脑要挑战顶级棋手李世乭时&#65292;我非常惊讶&#12290;我觉得挑战者一定对顶级棋手有多强毫无概念&#65307;<br>
+但事实上&#65292;是我对电脑有多强没有概念&#12290;</blockquote>&#12288;&#12288;俺觉得&#65306;大部分职业棋手对 AlphaGo 有多强&#65292;依然缺乏足够的认识&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+<a href="../../2012/07/weekly-share-10.html">每周转载&#65306;关于人工智能对人类的影响&#65288;网文3篇&#65289;</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2016/03/AlphaGo.html" id="OriginalPostUrl">https://program-think.blogspot.com/2016/03/AlphaGo.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="440">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/8331048988326542182?postID=8331048988326542182&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/8331048988326542182.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

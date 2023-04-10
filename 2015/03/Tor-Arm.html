@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 Arm&#8212;&#8212;Tor 的界面前端&#65288;替代已死亡的 Vidalia&#65289; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2015-03-10T15:50:00+08:00">2015年3月10日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：259条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 Arm&#8212;&#8212;Tor 的界面前端&#65288;替代已死亡的 Vidalia&#65289;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;如果你是俺博客的老读者&#65292;并且比较关注翻墙或信息安全&#65292;应该已经看过俺的好几篇关于 Tor 的教程&#12290;关于&#8220;啥是 Tor&#8221;&#65292;俺这里就不再介绍了&#12290;没听说过 Tor 的同学&#65292;先去看&#8220;这篇博文&#12298;<a href="../../2009/09/break-through-gfw-with-tor.html">戴&#8220;套&#8221;翻墻的方法</a>&#12299;&#8221;&#12290;<br>
+&#12288;&#12288;对于 Tor 的大多数用户&#65292;应该都用过 Vidalia&#8212;&#8212;这是 Tor 的 GUI 前端图形界面&#65292;基于 Qt 开发&#65292;能够跨平台使用&#12290;俺使用它已经有好些年头了&#65292;用得很顺手&#12290;<br>
+&#12288;&#12288;非常遗憾的是&#65292;Vidalia 已经&#12304;停止开发&#12305;了&#12290;最主要的征兆是&#8212;&#8212;Tor 官网上已经把它的相关介绍页面移除了&#12290;另一个征兆是&#65306;某些 Linux 的发行版已经把 Vidalia 从内置的软件仓库中移除&#12290;<br>
+&#12288;&#12288;有鉴于此&#65292;俺必须要介绍一下 Vidalia 的替代品&#8212;&#8212;Arm&#12290;<b>今天这篇的重点是&#65306;如何用 Arm 搭配使用&#8220;裸tor&#8221;</b>&#12290;<br>
+&#12288;&#12288;因为 Vidalia 死亡之后&#65292;Tor 官网上很多基于 Vidalia 的软件包自然也消失了&#12290;如今 <a href="https://www.torproject.org/download/download" target="_blank" rel="nofollow">Tor 官网的下载页面</a>只剩下两种下载选项&#65306;&#8220;Tor Browser&#8221;和&#8220;裸 Tor&#8221;&#12290;&#8220;裸 Tor&#8221;只有命令行界面&#65288;CLI&#65289;&#65292;很难用&#12290;这时候 Arm 就派上用场啦&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;Arm 是啥&#65311;</h2><br>
+&#12288;&#12288;Arm 是洋文&#8220;Anonymizing Relay Monitor&#8221;的缩写&#12290;它基于 Python 开发的开源项目&#65288;GPL v3 or later&#65289;&#65292;可以完成 Vidalia 的大部分功能&#12290;<br>
+&#12288;&#12288;更多关于它的介绍&#65292;可以看 Tor 官网的页面&#65288;在&#8220;<a href="https://www.torproject.org/projects/arm.html.en" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;或维基百科&#65288;链接在&#8220;<a href="https://en.wikipedia.org/wiki/Arm_(software)" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Arm VS Vidalia </h2><br>
+&#12288;&#12288;接下来说说这两者的优缺点对比&#12290;<br>
+<br>
+<h3>&#9671;优点</h3><br>
+&#12288;&#12288;Arm 相比 Vidalia 的优点在于&#65306;<br>
+1. 支持纯命令行的仿真图形界面&#65288;用字符方式仿真窗口和菜单&#65289;&#65292;可以在&#12304;纯文本终端&#12305;上使用&#12290;<br>
+2. 非常轻量级&#8212;&#8212;本身的源代码压缩包不到 300kb<br>
+3. 如果只用它的命令行方式&#65292;&#12304;无须&#12305;依赖 GTK 或 Qt 之类的运行库&#65288;相比之下&#65292;Vidalia 需要 Qt&#65289;<br>
+4. 提供一个高级的交互模式&#65292;可以直接跟运行中的 TOR 客户端进行交互&#65288;面向那些非常熟悉 Tor 的高级用户&#65289;<br>
+5. 同时也支持图形模式&#65288;需要依赖 GTK 和 python 的某个第三方图表库&#65289;<br>
+<br>
+&#12288;&#12288;虽然 Arm 也支持 GUI 图形窗口界面&#65292;不过俺一直在命令行界面下使用&#65288;因为功能已经够用&#65289;<br>
+<br>
+<h3>&#9671;缺点</h3><br>
+&#12288;&#12288;目前 Arm 最大的问题在于&#8220;不支持 Windows&#8221;&#12290;俺在 Windows 下尝试进行安装&#65292;python 报了一堆错误&#12290;粗略看了一下&#65292;它的代码太依赖于 POSIX 环境&#65292;比较难移植到 Windows 下&#12290;<br>
+&#12288;&#12288;如果你只使用 Windows&#65292;并且将来也不考虑用 Linux 或 BSD&#65292;那你就不用再浪费时间看本文的后续部分了&#12290;<br>
+&#12288;&#12288;如果你考虑今后切换到 Linux&#65292;可以先看俺之前的两篇博文&#65306;<br>
+&#12298;<a href="../../2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统</a>&#12299;<br>
+&#12298;<a href="../../2013/10/linux-distributions-guide.html">扫盲 Linux&#65306;如何选择发行版</a>&#12299;<br>
+<br>
+&#12288;&#12288;另有几个小缺点&#65306;<br>
+1. 界面美观程度不及 Vidalia&#65288;比如实时流量的界面&#65292;就没有 Vidalia 那么清晰流畅&#65289;<br>
+2. 缺少类似 Vidalia 那样的&#8220;世界地图&#8221;展示界面<br>
+<br>
+<br>
+<h2>&#9733;如何安装&#65311;</h2><br>
+<h3>&#9671;Python 环境</h3><br>
+&#12288;&#12288;因为 Arm 是基于 Python 开发的&#65292;所以你的系统中需要事先准备好 Python 环境&#65288;并且得是 python2&#65289;&#12290;<br>
+&#12288;&#12288;假如你是通过 Linux 发行版的软件仓库安装 Arm&#65292;软件包管理器会自动帮你把 Python2 安装好&#12290;如果你是自己去 <a href="https://www.atagar.com/arm/" target="_blank" rel="nofollow">Arm 官网</a>下载 Arm 来安装&#65292;你自己要确保系统中已经装有 python2&#65288;版本最好是 2.7.x&#65289;&#12290;<br>
+<br>
+<h3>&#9671;从 Linux 发行版的软件仓库安装</h3><br>
+&#12288;&#12288;主流的几个 Linux 发行版&#65292;已经把 Arm 内置到发行版的软件仓库中&#12290;如果你使用的是如下的发行版&#65292;应该可以直接安装&#65292;无需去 Arm 官网下载&#12290;<br>
+软件仓库内置 Arm 的 Linux 发行版至少包括&#65306;<br>
+<blockquote style="background-color:#DDD;">Debian<br>
+Arch<br>
+Gentoo<br>
+Slackware</blockquote>&#65288;另外&#65292;FreeBSD 的软件仓库也内置了 Arm 了&#65289;<br>
+<br>
+&#12288;&#12288;提醒一下&#65306;<br>
+&#12288;&#12288;某些发行版中&#65292;软件包的名称是&#8220;arm&#8221;&#65307;还有些发行版中&#65292;软件包的名称是&#8220;tor-arm&#8221;<br>
+<br>
+<h3>&#9671;去 Arm 官网下载</h3><br>
+&#12288;&#12288;如果你使用的发行版&#65292;软件仓库没有内置 Arm&#65292;那就得去 Arm 官网下载&#65288;下载页面在&#8220;<a href="https://www.atagar.com/arm/download.php" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何使用&#65311;</h2><br>
+&#12288;&#12288;安装完成之后&#65292;下面就是具体的使用教程&#12290;<br>
+<br>
+<h3>&#9671;首次启动 Arm 的配置向导</h3><br>
+&#12288;&#12288;开一个命令行终端&#65292;运行&#8220;arm 回车&#8221;&#65292;即把它启动起来了&#12290;<br>
+&#12288;&#12288;第一次启动的时候&#65292;Arm 会显示一个&#8220;配置向导&#8221;&#65292;问你打算要如何使用 Tor&#65288;以下是相关截屏&#65289;<br>
+<br>
+<b>向导第1步</b><br>
+<br>
+<center><img src="../../images/2015/03/O1Fbp4tQPQCQ4VZFvu80CAeGIxJn2Jsn814x0oMeZ0AFISF16llmtR0DlBRPOGMZkrlJd_dc7x89dWgpGC-Aw47GCnnfRhw3gP67fEb3y389rx1PwAXXnYWual6P9R19GUCw6PCWxA" alt="不见图 请翻墙"></center>&#12288;&#12288;对于普通的网友&#65292;只需选下面的那个 client&#65288;如图所示&#65289;&#12290;<br>
+<br>
+<b>向导第2步</b><br>
+<br>
+<center><img src="../../images/2015/03/m390foVGueV8dwe0P_ej974rZWtGXfKw5sMBs0ApPOZ3_Qsz7En1NREq1I_CWow7__qT7XKPw4Zi1QipweeYforifB_i6y0u5Vr2KN9Dzb8kZmvRBUavR9bfLoFgUAGuIXSmA-I0eg" alt="不见图 请翻墙"></center>&#12288;&#12288;对于天朝之内的网友&#65292;Tor 的&#8220;网桥模式&#8221;已经失效&#12290;所以你没有必要再去配置网桥&#65288;Bridge&#65289;&#12290;<br>
+&#12288;&#12288;这步没啥需要配的&#65292;直接 Next<br>
+<br>
+<b>向导第3步</b><br>
+<br>
+<center><img src="../../images/2015/03/oGPk6MdijqeIqQiq986XXrr71ze0XJRW7jc-FVoq5jcZmDOjobExJaPtKNeeWxynsqAtrCqYG0IuGiQBytlyGP0UhsEku36VxHdKsMIHh3nmgDvwVV9KKtmhLyWrIIMFtnVBoHRL5g" alt="不见图 请翻墙"></center>&#12288;&#12288;在这一步&#65292;会把 Arm 默认生成的 <code>torrc</code> 文件的内容显示给你看&#65288;此文件是 tor 的配置文件&#65289;&#12290;<br>
+&#12288;&#12288;看完之后&#65292;把焦点移动到&#8220;Start Tor&#8221;&#65292;然后敲回车&#12290;<br>
+<br>
+<br>
+<h3>&#9671;Arm 界面的5个标签页&#65288;page&#65289;</h3><br>
+&#12288;&#12288;首次启动好 Tor 之后&#65292;Arm 会显示它的主界面&#65292;包含5个标签页&#65288;page&#65289;&#12290;你可以用键盘的&#8220;左右方向键&#8221;来回切换不同的标签页&#12290;<br>
+&#12288;&#12288;以下是5个标签页的截屏&#65288;俺把说明文字直接写在截屏中&#65289;<br>
+<br>
+<center><img src="../../images/2015/03/W8fl-VpTa0YWCXQZS9D8m2usSEsxsEG3dd7t4oXSv5H06O_yJtsiDY0xwCTwfW-ab6Q_v9TyLuZs-76IdFMKFio_MTgJG_Es346QQpWj-QQX0UgIQxxoTPjtfPOptAaTU56eJk2NfQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/OKAUh_d1c6JmTgk8lQhbH1PDwtzPW_rEcE0byLNoYKHis2lfUdrAkJyZYScxNMXjCeniq-5nEju9I9_Fm9BhN0xLpUv8px8ZqPbtK2DKIybLctA46mXEg1FDK8G-WDZBr4jfwMqoKw" alt="不见图 请翻墙"></center><br>
+对&#8220;第2个标签页&#8221;&#65292;俺重点表扬一下&#12290;<br>
+此界面是 Arm 做得比 Vidalia 更直观之处&#12290;通过此界面可以方便地看到&#65306;<br>
+1. 前置代理的 IP&#65288;如果没有设置前置代理&#65292;界面上的发起方就是你自己的公网 IP&#65289;<br>
+2. &#8220;正在创建的链路&#8221;和&#8220;已经创建完的链路&#8221;<br>
+3. 对已经创建完的链路&#65292;可以看到其包含的3个节点的 IP / 节点名 / 国别<br>
+<br>
+<center><img src="../../images/2015/03/jDnkOvQgj7W8nzC1sAyxuk3f13NtmaGpItCxcZfMSWr3TOHeRqRoXaFZr-Iu8fnpkoURxQ91q6BlT18Im6JJ1XXE7BSg9CvJj_yzrOh3Q3FQORuIc0lcZaw_S7oZacq6VdYtJ_hHcQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/kFrXxETxUb_seW3yOofw7wYKy6E2YYp98ckXJf-gG06hCMK1G7xkb9ZueVnpjNtRwtjqMhY36pTTlgDuW6S4dPbIG84jiSlD0cLmp8sJt0uOm3Z6YULrT_j6Y2fkOHx1zFs0gOPTZg" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/decujvsRR_t9_ElT9cZ88F5G0o74XVjDAMXhAiVEk0xvX-MX7_dPOGS8TOhvh4VCRcqOms2NVXCXgoFkVYl19v0LTK7H5-uUMbB6Sp4diSpGk-HdjV8ec6tliumK-lwurBJt3_h_3w" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;Arm 界面的菜单</h3><br>
+&#12288;&#12288;在 Arm 界面上按 m 键&#65292;就会显示 Arm 的菜单&#12290;然后你可以用&#8220;上下左右&#8221;4个方向键移动菜单的焦点&#65292;然后按&#8220;回车键&#8221;点击处于焦点的菜单项&#12290;如果不想选中任何菜单项&#65292;直接按&#8220;Esc 键&#8221;关闭菜单&#65288;连续按两下&#65289;&#12290;<br>
+<br>
+菜单的截屏如下&#12290;<br>
+<br>
+<center><img src="../../images/2015/03/_I4xchBopbUJ5-QVlkBxBcbOkY01FIy4g1W5IWRIIQSleFOW_VKchV1V9NfI7bnlyofy3e_c3V8m3gEkAxna6CtOQ5kH3mSJ-3dUW0D_8nMQwG-xciBeTs3ScdvJOGwCrtMg-U5RhQ" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;在第一个下拉菜单中&#65292;你可以看到&#8220;Start Tor&#8221;或&#8220;Stop Tor&#8221;的菜单项&#65292;这就是用来启动/停止 Tor 的&#12290;还有一个&#8220;New Identity&#8221;可以用来切换 Tor 的线路&#12290;最下面的&#8220;Exit&#8221;是用来退出 Arm 的&#12290;如果你不喜欢点菜单&#65292;可以直接按键盘的 q 键&#65288;连续按两下&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;你用&#8220;左右键&#8221;可以打开另外几个下拉菜单&#12290;俺分别截图如下&#65292;给大伙儿一个感性的印象&#12290;<br>
+<br>
+<center><img src="../../images/2015/03/Y8cF5FQVynCmXyyKaKUEVLGny15uJfTpoFm5wXtRcb7_Bq3nQvd5hLnEdTEPy09LN0frJjA4GGza4UB-9kRsCHMoADJ4UxkHfKAHPe16ZQ34aNkjOFgusQQTS61G4DVeq7vKCyvriA" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/FJpCZviymHyzAb1Na4sAR4lnQugg9P33h3CKB_OjAnMEv1pY_BLuXJHO6k-fjV7Un0efVGQ4OTxg2ZMVGBj3B9ARrBirZ4cjQZv1ooH9AM7UMtYI1v_yYVC5kZ5Q_K7kqsxFncMe_A" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/lpGWpqqo6GBVmRiR23XNOYBNtnzK1QRnv9zZUxMZBTt4BJUyXniOmga36WB1S8it7VN9IUhHSiqWLYXXr_l0JVbcSWkjic8c2j4dXLgzDBe59Wm1vdPMa_RE1RRbZSk6vMF0tDx5zw" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2015/03/EGfvPR0Dp6ZxfyLJq8CQr5b4kneAQ73-ke3m-uSpu8ipNYgW0ZpYKv385XuyAt4nn9wdfRJ99nzM1yFvQ-grWK9P_zbh68y7g3kTQMGUC0AjeXVb2YftTLHktx9tdxAvtUUrU1wYZQ" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;Tor 的配置</h2><br>
+<h3>&#9671;增加&#8220;前置代理&#8221;</h3><br>
+&#12288;&#12288;如果你位于墙内&#65292;&#8220;裸 Tor&#8221;是无法独立联网的&#12290;因此&#65292;你需要为 Tor 设置&#8220;前置代理&#8221;&#65292;组合成俺经常唠叨的&#8220;双重代理&#8221;&#12290;关于&#8220;双重代理&#8221;的原理和优点&#65292;之前已经写过专门的博文&#65288;请看&#8220;<a href="../../2010/04/howto-cover-your-tracks-0.html">这个系列</a>&#8221;的其中一篇&#65289;&#12290;关于这方面的内容&#65292;本文就不再重复罗嗦了&#12290;今天重点说一下如何修改 Tor 的配置文件&#12290;<br>
+&#12288;&#12288;虽然 Arm 的界面上提供了对 Tor 的配置选项的修改&#65292;但是那个界面很难用&#12290;而且有时候修改了还没法保存&#65288;原因未知&#65292;疑似 Bug&#65289;&#12290;所以&#65292;俺强烈建议大伙儿直接手动修改 Tor 的配置文件&#12290;<br>
+&#12288;&#12288;如果你的 Tor 是被 Arm 启起来的&#65292;arm 会在 <code>~/.arm/torrc</code> 生成 Tor 的默认配置文件&#12290;你只需修改这个文件&#65292;加入前置代理的配置信息&#12290;具体步骤如下&#65306;<br>
+1.<br>
+先把 Arm 和 Tor 都停掉&#65288;通过 Arm 菜单中的&#8220;Exit&#8221;&#65289;<br>
+2.<br>
+用你喜欢的文本编辑器打开 <code>~/.arm/torrc</code><br>
+3.<br>
+如果你的前置代理提供的是 HTTPS 代理&#65292;在该文件尾部加入如下一行&#65288;把 x.x.x.x 替换为前置代理的 IP&#65292;把 xx 替换为代理的端口&#65289;<br>
+<pre>HTTPSProxy  x.x.x.x:xx</pre>如果你的前置代理提供的是 SOCKS 代理&#65292;在该文件尾部加入如下一行&#65288;SOCKS 代理有两种协议&#65292;分别是 SOCKS4 和 SOCKS5&#65292;别搞错喽&#65289;<br>
+<pre>Socks4Proxy  x.x.x.x:xx</pre>或<br>
+<pre>Socks5Proxy  x.x.x.x:xx</pre>4.<br>
+重新启动 Arm&#65292;这时候它会用洋文问你&#8220;是否使用上次保存的配置&#8221;&#65292;你&#12304;<b>必须选择这个选项</b>&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;当你把前置代理配置好&#65292;重新运行 Arm&#65292;这时候 Tor 就会通过前置代理联网&#12290;当 Tor 客户端完成联网&#65292;在 Arm 的第一个标签页上&#65292;就可以看到 Tor 的流量&#65288;截图如下&#65289;<br>
+<br>
+<center><img src="../../images/2015/03/DaH2KV9HMILOc2dpY4fgG5kwD1Fh5btl_ApxyceKITOmQLy5vBu0kNfs3A_rcA6loJKLfqbSUFZMfucVkbX7wwtcNPJW8SdKw7pdyD9sLx2RJpVJY0Cr2xNM2t-EsSJzzFg3TorT1w" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;然后你的浏览器就可以通过 tor 提供的 socks 代理匿名冲浪啦 :)<br>
+&#12288;&#12288;为了保险起见&#65292;用浏览器访问 Tor 官网的 check 页面&#65288;链接在&#8220;<a href="https://check.torproject.org/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#65292;确保你的浏览器已经走 Tor 的线路&#12290;<br>
+<br>
+<h3>&#9671;其它配置选项</h3><br>
+&#12288;&#12288;除了&#8220;设置前置代理&#8221;&#65292;还有其它一些配置选项&#65292;大伙儿也可以考虑&#12290;<br>
+&#12288;&#12288;比如你很注重安全性&#65292;那么就要考虑&#65306;在 torrc 中把一些流氓国家的 Tor 节点排除掉&#65288;以防误入&#8220;蜜罐节点&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;比如你想把自己的&#8220;公网IP&#8221;伪装成某个特定的国家&#65292;也可以在 torrc 中限定&#8220;出口节点&#8221;的国别&#12290;<br>
+......<br>
+&#12288;&#12288;诸如此类的配置选项还有很多&#65292;大伙儿可以参考俺之前写的另一篇博文&#12298;<a href="../../2013/11/tor-faq.html">关于 Tor 的常见问题解答</a>&#12299;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Arm 的配置</h2><br>
+&#12288;&#12288;Arm 本身也提供了配置功能&#12290;其配置文件的示例位于&#65306;<code>/usr/share/doc/arm/armrc.sample</code><br>
+&#12288;&#12288;用文本编辑器打开这个示例文件&#65292;基本上能看明白各个选项是啥意思&#12290;<br>
+&#12288;&#12288;要定制 Arm 的配置选项&#65292;先把这个示例文件复制到 <code>~/.arm/armrc</code> 进行修改&#12290;<br>
+&#12288;&#12288;修改完这个配置文件之后&#65292;使用如下命令启动 Arm<br>
+<pre class="shell">arm -c ~/.arm/armrc</pre><br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;关于 Arm 的使用&#65292;如果你碰到啥困难或问题&#65292;可以到本文留言&#12290;<br>
+&#12288;&#12288;如今俺博客的评论区很活跃&#12290;即使俺没来得及回复&#65292;也会有其他热心网友帮你解答&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2013/11/tor-faq.html">&#8220;如何翻墙&#8221;系列&#65306;关于 Tor 的常见问题解答</a>&#12299;<br>
+&#12298;<a href="../../2009/09/break-through-gfw-with-tor.html">&#8220;如何翻墙&#8221;系列&#65306;戴&#8220;套&#8221;翻墻的方法</a>&#12299;<br>
+&#12298;<a href="../../2018/04/gfw-tor-browser-7.5-meek.html">&#8220;如何翻墙&#8221;系列&#65306;扫盲 Tor Browser 7.5&#8212;&#8212;关于 meek 插件的配置&#12289;优化&#12289;原理</a>&#12299;<br>
+&#12298;<a href="../../2014/10/gfw-tor-meek.html">&#8220;如何翻墙&#8221;系列&#65306;Tor 已复活&#8212;&#8212;meek 流量混淆插件的安装&#12289;优化&#12289;原理</a>&#12299;<br>
+&#12298;<a href="../../2009/05/how-to-break-through-gfw.html">如何翻墙&#65311;</a>&#12299;<br>
+&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何&#12304;共享&#12305;翻墙通道&#8212;&#8212;兼谈&#12304;端口转发&#12305;的几种方法</a>&#12299;<br>
+&#12298;<a href="../../2019/04/Proxy-Tricks.html">如何让&#12304;不支持&#12305;代理的网络软件&#65292;通过代理进行联网&#65288;不同平台的 N 种方法&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2019/11/POSIX-TUI-from-TTY-to-Shell-Programming.html">扫盲 Linux&#65286;UNIX 命令行&#8212;&#8212;从&#8220;电传打字机&#8221;聊到&#8220;shell 脚本编程&#8221;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2015/03/Tor-Arm.html" id="OriginalPostUrl">https://program-think.blogspot.com/2015/03/Tor-Arm.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="259">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/7559978436660227503?postID=7559978436660227503&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/7559978436660227503.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

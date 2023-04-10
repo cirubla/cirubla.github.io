@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 Tails&#8212;&#8212;专门强化隐匿性的 Linux 发行版 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-12-23T22:58:00+08:00">2013年12月23日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：212条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  <a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 Tails&#8212;&#8212;专门强化隐匿性的 Linux 发行版
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;这篇教程是半年前就答应要写的&#65292;如今已到年底&#65292;实在抱歉 :( 另感谢多位网友反复催促&#65292;有效杜绝了俺的健忘&#12290;<br>
+&#12288;&#12288;今天这篇是面向菜鸟读者的初级扫盲&#65292;先介绍 Tails 的最基本使用&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;Tails 是啥&#65311;</h2><br>
+&#12288;&#12288;&#65288;如果你之前没有接触过 Linux&#65292;建议先看俺写的&#12298;<a href="../../2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统</a>&#12299;&#65289;<br>
+&#12288;&#12288;Tails 是洋文&#8220;The Amnesic Incognito Live System&#8221;的缩写&#12290;作为 Linux 发行版&#65292;Tails 衍生自 Debian&#65288;Debian 是最有影响力的社区发行版&#65292;没有之一&#65289;&#12290;设计 Tails 的目的就是为了帮助用户实现匿名上网&#65292;并最大限度保护个人隐私&#12290;为了达到这个目的&#65292;Tails 内置了各种隐匿身份和保护隐私的工具&#12290;俺随便列举如下几个&#65306;<br>
+TOR&#8212;&#8212;用于匿名上网的工具&#65292;也可用于翻墙&#65288;它的入门教程在&#8220;<a href="../../2009/09/break-through-gfw-with-tor.html">这里</a>&#8221;&#65292;FAQ在&#8220;<a href="../../2013/11/tor-faq.html">这里</a>&#8221;&#65289;<br>
+I2P&#8212;&#8212;同上&#65288;它的入门教程在&#8220;<a href="../../2012/06/gfw-i2p.html">这里</a>&#8221;&#65289;<br>
+GnuPG&#8212;&#8212;名气很大的文件加密工具&#65288;以后俺会抽空写它的教程&#65289;<br>
+TrueCrypt&#8212;&#8212;跨平台的磁盘加密工具&#65288;俺写的系列教程在&#8220;<a href="../../2011/05/recommend-truecrypt.html">这里</a>&#8221;&#65292;共5篇&#65289;<br>
+LUKS&#8212;&#8212;Linux 上的磁盘加密工具<br>
+Pidgin&#8212;&#8212;跨平台的 IM 客户端&#65292;并捆绑了 OTR&#65288;用于对 IM 聊天内容进行强加密&#65289;<br>
+Claws Mail&#8212;&#8212;邮件客户端&#65292;可以搭配 GnuPG 进行邮件内容加密<br>
+KeePassX&#8212;&#8212;口令管理工具<br>
+<br>
+&#12288;&#12288;上述列举的这一大堆工具都是开源&#65288;开放源代码&#65289;滴&#65292;在业界也都是响当当滴&#12290;所以&#65292;工具本身的可靠性&#65292;大伙儿完全可以放心&#65288;不会有流氓软件混入其中&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何获取&#65311;</h2><br>
+&#12288;&#12288;要获取 Tails 很容易&#65292;只要访问他的官网&#65288;<a href="https://tails.boum.org/" target="_blank" rel="nofollow">https://tails.boum.org/</a>&#65289;&#65292;在主页就可以看到下载页面的链接&#12290;打开下载页面后&#65292;你可以选择直接下载 ISO 镜像&#65292;也可以先下载 BT 种子&#65292;然后用 BT 下 ISO 镜像&#65288;俺个人感觉&#65292;用 BT 更快&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何安装&#65311;</h2><br>
+&#12288;&#12288;Tails 可以有几种玩法&#65306;其一&#65292;装在虚拟机中&#65307;其二&#65292;装在U盘&#65288;或SD卡&#65289;&#65307;其三&#65292;刻录成光盘&#12290;对于初学者&#65292;俺建议先拿虚拟机来练手&#12290;因为虚拟机方式上手很快&#12290;比如常见的虚拟机软件&#65288;VirtualBox 和 VMware&#65289;默认都开启 DHCP 服务&#65292;而 Tails 默认也支持 DHCP&#65292;就省去了你配置网卡参数&#65288;比如&#65306;IP地址&#12289;掩码&#65289;的麻烦&#12290;<br>
+<br>
+<h3>&#9671;安装到虚拟机</h3><br>
+&#12288;&#12288;要在虚拟机中使用 Tails&#65292;先创建一个空白的虚拟系统&#65288;Guest OS&#65289;&#65292;内存<b>至少</b>分配 768 MB&#65288;Tails 官网建议要 1GB&#65292;俺试验了一下&#65292;768兆也勉强可以跑&#65289;&#12290;然后在这个 Guest OS 的光驱设置中设置你刚才下载的那个 ISO 镜像&#12290;再启动虚拟系统&#65292;就 OK 啦&#12290;<br>
+&#12288;&#12288;从来没用过虚拟机的同学&#65292;建议先看俺的教程&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;&#12290;<br>
+<br>
+<h3>&#9671;安装到U盘</h3><br>
+&#12288;&#12288;如果要安装到U盘&#65292;可以有两种方法&#65306;<br>
+&#12288;&#12288;<b>方法1</b><br>
+&#12288;&#12288;参考俺前天的那篇博文&#12298;<a href="../../2013/12/create-bootable-usb-stick-from-iso.html">如何用 ISO 镜像制作&#12304;U盘&#12305;安装盘&#65288;通用方法&#12289;无需 WinPE&#65289;</a>&#12299;&#65292;把刚才下载的 ISO 镜像制作到U盘&#12290;然后这个U盘就可以直接用来启动 Tails 系统&#12290;<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;本文发布之后&#65292;看到有读者质疑说&#65292;那篇博文介绍的方法是用来制作安装盘的&#65288;安装环境&#65289;&#65292;为啥也可以用来制作 Tails 的运行环境&#12290;<br>
+&#12288;&#12288;俺稍微解释一下&#65306;Tails 本身就支持 Live CD 和 Live USB&#12290;也就是说&#65292;它是无需安装滴&#12290;所以用那篇博文介绍的方法把 Tails 镜像制作到 U盘中&#65292;这个 U盘 无需安装&#65292;直接就是运行使用环境&#12290;<br>
+<br>
+&#12288;&#12288;<b>方法2</b><br>
+&#12288;&#12288;先用前面说的虚拟机方式启动 Tails&#65292;在你的实体机&#65288;Host OS&#65289;上插入U盘/SD卡&#65288;容量至少1GB&#65289;&#12290;在虚拟机的菜单项中找 USB 相关的选项&#65292;把刚才插入的 U盘/SD卡 映射到这个虚拟系统&#12290;<br>
+&#12288;&#12288;然后&#65292;进入 Tails 桌面&#65292;找到如下菜单项&#65288;截图如下&#65289;&#12290;<br>
+<center><img src="../../images/2013/12/ylpG2aJvI78RxI3Y2WZVvv6se_cm1dYKLQV4NUed_30wB9uzzlghCRgh9G2ClKwkBCGP4b3ZzLVPt6NnAzUQmH5R6F8LX-t-TsSoGrRTk3rg8IdR7JoDrESJNoyY" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;启动它内置的 Tails Installer 工具&#65288;截图如下&#65289;这个工具可以把正在运行的 Tails 系统制作到 U盘/SD卡 中&#12290;<br>
+<center><img src="../../images/2013/12/n2GgNqQpOdN6Sf8ytCgZNSHdfmiElsFfnbbAKF0qrz82gltbEsoU9Mg3yA40uKKPqB_yOkh2sTz-kwzvo5vjfmqJcJna30Sbjw-lisB8sU7iRKUBkZPqf5YWX0GQ" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;这两种方法的效果有点小差别&#8212;&#8212;第二种方法虽然稍微繁琐&#65292;但感觉比较正宗 :)<br>
+<br>
+<h3>&#9671;刻录成光盘</h3><br>
+&#12288;&#12288;最后这种玩法&#65292;应该不用俺再费口水了吧&#65311;不懂得如何刻盘的同学&#65292;自己去 Google 一下&#12290;<br>
+<br>
+<br>
+<h2>&#9733;如何配置&#65311;</h2><br>
+&#12288;&#12288;作为入门教程&#65292;俺先介绍如何用 Tails 内置的 Tor Browser 上网&#12290;因为 Web 浏览是最常见的需求&#12290;<br>
+&#12288;&#12288;如果你是在墙外&#65288;天朝之外&#65289;使用 Tails&#65292;无需对 TOR 进行额外设置&#65292;直接启动内置的浏览器就可以了&#12290;<br>
+&#12288;&#12288;可惜大多数网友都是在墙内&#65292;因为 GFW 严密封锁了 TOR 在全球的中继节点和 TOR 网桥&#65292;所以你如果直接运行 Tails 里面的 TOR&#65292;多半是没法联网的&#12290;解决办法就是俺常年罗嗦的老法子&#8212;&#8212;双重代理&#12290;对双重代理不了解的同学&#65292;建议先看俺之前的教程&#12298;<a href="../../2012/03/howto-cover-your-tracks-5.html">如何隐藏你的踪迹&#65292;避免跨省追捕[5]&#65306;用多重代理隐匿公网IP</a>&#12299;<br>
+<br>
+<h3>&#9671;先准备好前置代理</h3><br>
+&#12288;&#12288;要使用双重代理&#65292;你需要先准备好另外一款&#12304;<b>可用的</b>&#12305;翻墙工具&#65288;比如&#65306;VPN&#12289;自由门&#12289;无界&#12289;赛风...&#65289;作为 TOR 的前置代理&#12290;此处有必要提醒一下&#65292;GAE 类的翻墙工具无法作为 TOR 的前置代理&#8212;&#8212;因为 GAE 类的翻墙工具没有原生支持加密的 HTTPS 代理&#65288;而 TOR 恰恰需要 HTTPS 代理&#65289;&#12290;<br>
+&#12288;&#12288;这款前置代理可以安装在另外一台虚拟系统&#65292;也可以直接安装在实体机&#65288;Host OS&#65289;&#12290;因为前置代理跟 Tails 不是同一个系统&#65292;所以你还要记得作适当的配置&#65292;把前置代理的翻墙通道共享出来&#65288;具体如何搞&#65292;请看&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何共享翻墙通道</a>&#12299;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;配置 TOR</h3><br>
+&#12288;&#12288;前置代理搞定了之后&#65292;接下来就是配置 TOR&#12290;以下是多张截图&#65292;大伙儿按部就班&#12290;<br>
+<br>
+<center><img src="../../images/2013/12/Yhr8Mk3rK4Gyzao9yzRee9cCEtA34m4WGH-HaakTwJoPke33yH4xkZidbxt_QUCxxn_InaMLUnbrgxm2HEtS1Zo8c4E48k2C_QyP2o0Eqr3nPWs7tL5iVEXbOzJp" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/rSlwth0K7iBXaNPS7lVj60Jx_MlSxbBrKDWKWnIUXbYszYXMN-k07UcMoXUmN4JpdCPKDpFn9CkmGfeW4HGdQtQDuPQ0YhRxzku4Y8Q3UtwOOMG6NSC96qH9AZbP" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/z-Q_RuiySMLdM47NlnMt7_yM8zfvlZrnUnXc6pEzNgRj382-LtzLOwT6LNwZ_PEgY_adn4e_T8y64aLOAwAZIbUhTykxM7aC6dhgCn4ZEn0k_-IWdl955d89mFJ6" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/W7HRt-hrqP6KlCLAouHQR3vSBnmbNItv-BRAKq1Qjy3FDqJmlEZW09gD80nUv_TS0BSvEUW8_jwsApG75_WZLkcNlYW9qXdVxiGVTAhFbK9frq-3eiRx8nBzkMWu" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/NQFtO_UM4IrKWbCmD8j1UlviBi2tZBbVYHVobu3bIu4NyfB0Lb5liGjImo_1o5AfEkjWu9kVTmW6GvXAZQ_EHzjHLv9fpDNcYOM2lA160I4aQPJ9m5M65ECJiDFI" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/zsEMAjsTOX34KM5oLeeFxkyMoLmfvI5tV_M1PAqFKHHSrBkiJOfwG3qGtdBmPOZarVwy_8hMmaPQU7y1ttMECCcCPyblR4TqzF2uzBk5zXgHsxMCAoP0rsn2REhJ" alt="不见图 请翻墙"></center><br>
+<b>到了这步&#65292;你需要在 root 终端上运行 vidalia & 命令</b><br>
+<center><img src="../../images/2013/12/JHFPebCvdmzX-K_UHSOf8s56PR0p4315CkA8GmzE1-4_aT7ZUY9oa5Xndq2_xfUPO1_p_9g1hS87E7fKuZ-I5WbbWxaS5wHPTquaS-TLzAFQX3-M12IlD7uCeVtc" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/pT0JBkgUqKJDvi4ySueLuDRFipuwQwEHePN8LiB7ZfXtUB37jEMDq0fdZ4Zas16RJxT3DdmEYPMg9iJmLfRYFEDNIP-3Qngwv7HnqZ68c2Zfr2zGvOJqD7N1PmfQ" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/WrYE80d8LIw0B5A_ORw47KTy66Dz6laydXi8aAuT7uQtLsUbZQltvqg1Gdnj9_B-E_pgNTv_CmfDMvwYSdNI27p6l5K2aMXzU-CWyBxfRH7gVE4lcqEYYw5uTWx-" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/s7ykBgjtI8yqFkdG48FwfztRm2f9UydsnNHfV-5ppx6M2gdz4pPdqRdgKcssBwB-eaRELCKMvaO5UTr4X6BmlD3Xe5_4BOIrg9QBPA0mS-KyV5Pdz7_GPralybqW" alt="不见图 请翻墙"></center><br>
+<center><img src="../../images/2013/12/4tsSzk3GYObxYCn8QVxhzRz_aSSlnsZWeoUHg4ZBk1xOjs8Co1DG1sxH68q40JItKlOSvjiXSg7K2TW9iFHCrBEoWQqFTt17ptzL7YSMyeDtsou_oQPTbHuUaMDi" alt="不见图 请翻墙"></center><br>
+<b>到了这步&#65292;就大功告成啦</b><br>
+<center><img src="../../images/2013/12/KXmeS-ioB-y6SQCCK5xVKr2w6r5SogbCzep6yEzal6M9z8q0CJ9Ks03Md-fAOt_tRyaMQ0AZ4X0qXITP49mShSK-Oh06uh2usNFc_mN_IU2TM7LGJMa0UwzMFCSz" alt="不见图 请翻墙"></center><br>
+<b>顺便再贴个截图&#65292;show 一下内置浏览器上安装的扩展&#65288;这些扩展主要都是为了加强安全性&#65292;尤其是&#12304;隐私性&#12305;和&#12304;隐匿性&#12305;&#65289;</b><br>
+<center><img src="../../images/2013/12/Cu0rqQ5dSQrQuX5NLcakR_qATZH44I95QmJhANFLGdv6FnRaJsElfST7qIikeF9_SB6FzebEffQE6d9N34nWHa82KRAX1ewrlVLyn5DIeajPIBgoxU4SLxwseNA9" alt="不见图 请翻墙"></center><br>
+<br>
+<h2>&#9733;结尾</h2><br>
+&#12288;&#12288;因为是入门扫盲&#65292;今天就先聊到这里&#12290;如果有很多人对 Tails 感兴趣&#65292;俺根据大伙儿的反馈&#65292;再决定是否继续介绍 Tails 的其它功能&#12290;<br>
+&#12288;&#12288;补充一下&#65306;如果你是在虚拟机中玩 Tails&#65292;可以再参考俺之前的博文&#12298;<a href="../../2013/01/howto-cover-your-tracks-6.html">如何隐藏你的踪迹&#65292;避免跨省追捕[6]&#65306;用虚拟机隐匿公网 IP&#65288;原理介绍&#65289;</a>&#12299;&#65292;把 Tails 虚拟系统的虚拟网卡设置为 Host-Only&#65292;可以把安全性再提高一个等级&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2013/10/linux-newbie-guide.html">扫盲 Linux&#65306;新手如何搞定 Linux 操作系统</a>&#12299;<br>
+&#12298;<a href="../../2013/10/linux-distributions-guide.html">扫盲 Linux&#65306;如何选择发行版</a>&#12299;<br>
+&#12298;<a href="../../2019/11/POSIX-TUI-from-TTY-to-Shell-Programming.html">扫盲 Linux&#65286;UNIX 命令行&#8212;&#8212;从&#8220;电传打字机&#8221;聊到&#8220;shell 脚本编程&#8221;</a>&#12299;<br>
+&#12298;<a href="../../2012/10/system-vm-0.html">扫盲操作系统虚拟机</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2009/09/break-through-gfw-with-tor.html">&#8220;如何翻墙&#8221;系列&#65306;戴&#8220;套&#8221;翻墻的方法</a>&#12299;<br>
+&#12298;<a href="../../2013/11/tor-faq.html">&#8220;如何翻墙&#8221;系列&#65306;关于 Tor 的常见问题解答</a>&#12299;<br>
+&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何&#12304;共享&#12305;翻墙通道&#8212;&#8212;兼谈&#12304;端口转发&#12305;的几种方法</a>&#12299;<br>
+&#12298;<a href="../../2019/04/Proxy-Tricks.html">如何让&#12304;不支持&#12305;代理的网络软件&#65292;通过代理进行联网&#65288;不同平台的 N 种方法&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2013/12/create-bootable-usb-stick-from-iso.html">如何用 ISO 镜像制作&#12304;U盘&#12305;安装盘&#65288;通用方法&#12289;无需 WinPE&#65289;</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/12/linux-tails-guide.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/12/linux-tails-guide.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="212">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/6139481491343144940?postID=6139481491343144940&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/6139481491343144940.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

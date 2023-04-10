@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 HTTPS 和 SSL/TLS 协议[1]&#65306;背景知识&#12289;协议的需求&#12289;设计的难点 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2014-11-08T23:51:00+08:00">2014年11月8日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：315条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a>  <a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 HTTPS 和 SSL/TLS 协议[1]&#65306;背景知识&#12289;协议的需求&#12289;设计的难点
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<h2>&#9733;相关背景知识</h2>
+<br>
+&#12288;&#12288;要说清楚 HTTPS 协议的实现原理&#65292;至少需要如下几个背景知识&#12290;<br>
+1. 大致了解几个基本术语&#65288;HTTPS&#12289;SSL&#12289;TLS&#65289;的含义<br>
+2. 大致了解 HTTP 和 TCP 的关系&#65288;尤其是&#8220;短连接&#8221;VS&#8220;长连接&#8221;&#65289;<br>
+3. 大致了解加密算法的概念&#65288;尤其是&#8220;对称加密与非对称加密&#8221;的区别&#65289;<br>
+4. 大致了解 CA 证书的用途<br>
+<a name='more'></a><br>
+&#12288;&#12288;考虑到很多技术菜鸟可能不了解上述背景&#65292;俺先用最简短的文字描述一下&#12290;如果你自认为不是菜鸟&#65292;请略过本章节&#65292;直接去看&#8220;HTTPS 协议的需求&#8221;&#12290;<br>
+<br>
+<h3>&#9671;先澄清几个术语&#8212;&#8212;HTTPS&#12289;SSL&#12289;TLS</h3>
+<br>
+&#12288;&#12288;<b>1. &#8220;HTTP&#8221;是干嘛用滴&#65311;</b><br>
+&#12288;&#12288;首先&#65292;HTTP 是一个网络协议&#65292;是专门用来帮你传输 Web 内容滴&#12290;关于这个协议&#65292;就算你不了解&#65292;至少也听说过吧&#65311;比如你访问俺的博客的主页&#65292;浏览器地址栏会出现如下的网址&#65306;<br>
+<blockquote>
+<b>http</b>://program-think.blogspot.com/</blockquote>
+&#12288;&#12288;俺加了粗体的部分就是指 HTTP 协议&#12290;大部分网站都是通过 HTTP 协议来传输 Web 页面&#12289;以及 Web 页面上包含的各种东东&#65288;图片&#12289;CSS 样式&#12289;JS 脚本&#65289;&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;当年写这篇的时候&#65292;Google 的 blogspot 博客平台&#12304;尚未&#12305;支持全站 HTTPS&#65292;所以在上述举例中&#65292;主页的网址以 <code>http://</code> 开头&#65289;<br>
+<br>
+&#12288;&#12288;<b>2. &#8220;SSL/TLS&#8221;是干嘛用滴&#65311;</b><br>
+&#12288;&#12288;SSL 是洋文&#8220;Secure Sockets Layer&#8221;的缩写&#65292;中文叫做&#8220;安全套接层&#8221;&#12290;它是在上世纪90年代中期&#65292;由<a href="https://zh.wikipedia.org/wiki/%E7%B6%B2%E6%99%AF" target="_blank" rel="nofollow">网景公司</a>设计的&#12290;&#65288;顺便插一句&#65292;网景公司不光发明了 SSL&#65292;还发明了很多 Web 的基础设施&#8212;&#8212;比如&#8220;CSS 样式表&#8221;和&#8220;JS 脚本&#8221;&#65289;<br>
+&#12288;&#12288;为啥要发明 SSL 这个协议捏&#65311;因为原先互联网上使用的 HTTP 协议是明文的&#65292;存在很多缺点&#8212;&#8212;比如传输内容会被偷窥&#65288;嗅探&#65289;和篡改&#12290;发明 SSL 协议&#65292;就是为了解决这些问题&#12290;<br>
+&#12288;&#12288;到了1999年&#65292;SSL 因为应用广泛&#65292;已经成为互联网上的事实标准&#12290;IETF 就在那年把 SSL 标准化&#12290;标准化之后的名称改为 TLS&#65288;是&#8220;Transport Layer Security&#8221;的缩写&#65289;&#65292;中文叫做&#8220;传输层安全协议&#8221;&#12290;<br>
+&#12288;&#12288;很多相关的文章都把这两者并列称呼&#65288;SSL/TLS&#65289;&#65292;因为这两者可以视作同一个东西的不同阶段&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. &#8220;HTTPS&#8221;是啥意思&#65311;</b><br>
+&#12288;&#12288;解释完 HTTP 和 SSL/TLS&#65292;现在就可以来解释 HTTPS 啦&#12290;咱们通常所说的 HTTPS 协议&#65292;说白了就是&#8220;HTTP 协议&#8221;和&#8220;SSL/TLS 协议&#8221;的组合&#12290;你可以把 HTTPS 大致理解为&#8212;&#8212;&#8220;HTTP over SSL&#8221;或&#8220;HTTP over TLS&#8221;&#65288;反正 SSL 和 TLS 差不多&#65292;你可以把这俩当作同义词&#65289;&#12290;<br>
+<br>
+<h3>&#9671;再来说说 HTTP 协议的特点</h3>
+<br>
+&#12288;&#12288;作为背景知识介绍&#65292;还需要再稍微谈一下 HTTP 协议本身的特点&#12290;HTTP 本身有很多特点&#65292;考虑到篇幅有限&#65292;俺只谈那些和 HTTPS 相关的特点&#12290;<br>
+<br>
+&#12288;&#12288;<b>1. HTTP 的版本和历史</b><br>
+&#12288;&#12288;如今咱们用的 HTTP 协议&#65292;版本号是 1.1&#65288;也就是 HTTP 1.1&#65289;&#12290;这个 1.1 版本是1995年底开始起草的&#65288;技术文档是 <a href="https://tools.ietf.org/html/rfc2068" target="_blank" rel="nofollow">RFC2068</a>&#65289;&#65292;并在1999年正式发布&#65288;技术文档是 <a href="https://tools.ietf.org/html/rfc2616" target="_blank" rel="nofollow">RFC2616</a>&#65289;&#12290;<br>
+&#12288;&#12288;在 1.1 之前&#65292;还有曾经出现过两个版本&#8220;0.9 和 1.0&#8221;&#65292;其中的 HTTP 0.9 &#12304;没有&#12305;被广泛使用&#65292;而 HTTP 1.0 被广泛使用过&#12290;<br>
+&#12288;&#12288;另外&#65292;据说明年&#65288;2015&#65289;<a href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1%E7%BB%84" target="_blank" rel="nofollow">IETF</a> 就要发布 HTTP 2.0 的标准了&#12290;俺拭目以待&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. HTTP 和 TCP 之间的关系</b><br>
+&#12288;&#12288;简单地说&#65292;TCP 协议是 HTTP 协议的基石&#8212;&#8212;HTTP 协议需要依靠 TCP 协议来传输数据&#12290;<br>
+&#12288;&#12288;<b>在网络分层模型中&#65292;TCP 被称为&#8220;传输层协议&#8221;&#65292;而 HTTP 被称为&#8220;应用层协议&#8221;&#12290;</b>有很多常见的应用层协议是以 TCP 为基础的&#65292;比如&#8220;FTP&#12289;SMTP&#12289;POP&#12289;IMAP&#8221;等&#12290;<br>
+&#12288;&#12288;TCP 被称为&#8220;面向连接&#8221;的传输层协议&#12290;关于它的具体细节&#65292;俺就不展开了&#65288;否则篇幅又失控了&#65289;&#12290;你只需知道&#65306;传输层主要有两个协议&#65292;分别是 TCP 和 UDP&#12290;TCP 比 UDP 更可靠&#12290;你可以把 TCP 协议想象成某个水管&#65292;发送端这头进水&#65292;接收端那头就出水&#12290;并且 TCP 协议能够确保&#65292;先发送的数据先到达&#65288;与之相反&#65292;UDP 不保证这点&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. HTTP 协议如何使用 TCP 连接&#65311;</b><br>
+&#12288;&#12288;HTTP 对 TCP 连接的使用&#65292;分为两种方式&#65306;俗称&#8220;短连接&#8221;和&#8220;长连接&#8221;&#65288;&#8220;长连接&#8221;又称&#8220;持久连接&#8221;&#65292;洋文叫做&#8220;Keep-Alive&#8221;或&#8220;Persistent Connection&#8221;&#65289;<br>
+&#12288;&#12288;假设有一个网页&#65292;里面包含好多图片&#65292;还包含好多&#12304;外部的&#12305;CSS 文件和 JS 文件&#12290;在&#8220;短连接&#8221;的模式下&#65292;浏览器会先发起一个 TCP 连接&#65292;拿到该网页的 HTML 源代码&#65288;拿到 HTML 之后&#65292;这个 TCP 连接就关闭了&#65289;&#12290;然后&#65292;浏览器开始分析这个网页的源码&#65292;知道这个页面包含很多外部资源&#65288;图片&#12289;CSS&#12289;JS&#65289;&#12290;然后针对&#12304;每一个&#12305;外部资源&#65292;再分别发起一个个 TCP 连接&#65292;把这些文件获取到本地&#65288;同样的&#65292;每抓取一个外部资源后&#65292;相应的 TCP 就断开&#65289;<br>
+&#12288;&#12288;相反&#65292;如果是&#8220;长连接&#8221;的方式&#65292;浏览器也会先发起一个 TCP 连接去抓取页面&#12290;但是抓取页面之后&#65292;该 TCP 连接并不会立即关闭&#65292;而是暂时先保持着&#65288;所谓的&#8220;Keep-Alive&#8221;&#65289;&#12290;然后浏览器分析 HTML 源码之后&#65292;发现有很多外部资源&#65292;就用刚才那个 TCP 连接去抓取此页面的外部资源&#12290;<br>
+<br>
+&#12288;&#12288;在 HTTP 1.0 版本&#65292;&#12304;默认&#12305;使用的是&#8220;短连接&#8221;&#65288;那时候是 Web 诞生初期&#65292;网页相对简单&#65292;&#8220;短连接&#8221;的问题不大&#65289;&#65307;<br>
+&#12288;&#12288;到了1995年底开始制定 HTTP 1.1 草案的时候&#65292;网页已经开始变得复杂&#65288;网页内的图片&#12289;脚本越来越多了&#65289;&#12290;这时候再用短连接的方式&#65292;效率太低下了&#65288;因为建立 TCP 连接是有&#8220;时间成本&#8221;和&#8220;CPU 成本&#8221;滴&#65289;&#12290;所以&#65292;在 HTTP 1.1 中&#65292;&#12304;默认&#12305;采用的是&#12304;Keep-Alive&#12305;的方式&#12290;<br>
+&#12288;&#12288;&#12304;HTTP Keep-Alive&#12305;有时候也叫做&#8220;HTTP persistent connection&#8221;或&#8220;HTTP connection reuse&#8221;&#12290;关于它的更多介绍&#65292;可以参见维基百科词条&#65288;在&#8220;<a href="https://en.wikipedia.org/wiki/HTTP_persistent_connection" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;<br>
+<br>
+<h3>&#9671;谈谈&#8220;对称加密&#8221;和&#8220;非对称加密&#8221;的概念</h3>
+<br>
+&#12288;&#12288;<b>1. 啥是&#8220;加密&#8221;和&#8220;解密&#8221;&#65311;</b><br>
+&#12288;&#12288;通俗而言&#65292;你可以把&#8220;加密&#8221;和&#8220;解密&#8221;理解为某种&#12304;互逆的&#12305;数学运算&#12290;就好比&#8220;加法和减法&#8221;互为逆运算&#12289;&#8220;乘法和除法&#8221;互为逆运算&#12290;<br>
+&#12288;&#12288;&#8220;加密&#8221;的过程&#65292;就是把&#8220;明文&#8221;变成&#8220;密文&#8221;的过程&#65307;反之&#65292;&#8220;解密&#8221;的过程&#65292;就是把&#8220;密文&#8221;变为&#8220;明文&#8221;&#12290;在这两个过程中&#65292;都需要一个关键的东东&#8212;&#8212;叫做&#8220;密钥&#8221;&#8212;&#8212;来参与数学运算&#12290;<br>
+<br>
+&#12288;&#12288;<b>2. 啥是&#8220;对称加密&#8221;&#65311;</b><br>
+&#12288;&#12288;所谓的&#8220;对称加密技术&#8221;&#65292;意思就是说&#65306;&#8220;加密&#8221;和&#8220;解密&#8221;使用&#12304;相同的&#12305;密钥&#12290;这个比较好理解&#12290;就好比你用 7zip 或 WinRAR 创建一个带密码&#65288;口令&#65289;的加密压缩包&#12290;当你下次要把这个压缩文件解开的时候&#65292;你需要输入&#12304;同样的&#12305;密码&#12290;在这个例子中&#65292;密码/口令就如同刚才说的&#8220;密钥&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;<b>3. 啥是&#8220;非对称加密&#8221;&#65311;</b><br>
+&#12288;&#12288;所谓的&#8220;非对称加密技术&#8221;&#65292;意思就是说&#65306;&#8220;加密&#8221;和&#8220;解密&#8221;使用&#12304;不同的&#12305;密钥&#12290;这玩意儿比较难理解&#65292;也比较难想到&#12290;当年&#8220;非对称加密&#8221;的发明&#65292;还被誉为&#8220;密码学&#8221;历史上的一次革命&#12290;<br>
+&#12288;&#12288;由于篇幅有限&#65292;对&#8220;非对称加密&#8221;这个话题&#65292;俺就不展开了&#12290;有空的话&#65292;再单独写一篇扫盲&#12290;<br>
+<br>
+&#12288;&#12288;<b>4. 各自有啥优缺点&#65311;</b><br>
+&#12288;&#12288;看完刚才的定义&#65292;很显然&#65306;&#65288;从功能角度而言&#65289;&#8220;非对称加密&#8221;能干的事情比&#8220;对称加密&#8221;要多&#12290;这是&#8220;非对称加密&#8221;的优点&#12290;但是&#8220;非对称加密&#8221;的实现&#65292;通常需要涉及到&#8220;复杂数学问题&#8221;&#12290;所以&#65292;&#8220;非对称加密&#8221;的性能通常要差很多&#65288;相对于&#8220;对称加密&#8221;而言&#65289;&#12290;<br>
+&#12288;&#12288;这两者的优缺点&#65292;也影响到了 SSL 协议的设计&#12290;<br>
+<br>
+<h3>&#9671;CA 证书的原理及用途</h3>
+<br>
+&#12288;&#12288;关于这方面&#65292;请看俺4年前写的&#12298;<a href="../../2010/02/introduce-digital-certificate-and-ca.html">数字证书及 CA 的扫盲介绍</a>&#12299;&#12290;这里就不再重复唠叨了&#65292;免得篇幅太长&#12290;<br>
+<br>
+<br>
+<h2>&#9733;HTTPS 协议的&#12304;需求&#12305;是啥&#65311;</h2>
+<br>
+&#12288;&#12288;花了好多口水&#65292;终于把背景知识说完了&#12290;下面正式进入正题&#12290;先来说说当初设计 HTTPS 是为了满足哪些需求&#65311;<br>
+&#12288;&#12288;很多介绍 HTTPS 的文章一上来就给你讲实现细节&#12290;个人觉得&#65306;这是&#12304;不好&#12305;的做法&#12290;早在2009年开博的时候&#65292;发过一篇&#12298;<a href="../../2009/02/study-technology-in-three-steps.html">学习技术的三部曲&#65306;WHAT&#12289;HOW&#12289;WHY</a>&#12299;&#65292;其中谈到&#8220;WHY 型问题&#8221;的重要性&#12290;如果一上来就丢给你一大堆协议细节&#65292;你充其量只能知道 WHAT 和 HOW&#65292;无法理解 WHY&#12290;俺在前一个章节讲了&#8220;背景知识&#8221;&#65292;在这个章节讲了&#8220;需求&#8221;&#65292;这就有助于你理解&#65306;当初&#12304;<b>为什么</b>&#12305;要设计成这样&#65311;&#8212;&#8212;这就是 WHY 型的问题&#12290;<br>
+<br>
+<h3>&#9671;兼容性</h3>
+<br>
+&#12288;&#12288;因为是先有 HTTP 再有 HTTPS&#12290;所以&#65292;HTTPS 的设计者肯定要考虑到对原有 HTTP 的兼容性&#12290;<br>
+&#12288;&#12288;这里所说的兼容性包括很多方面&#12290;比如已有的 Web 应用要尽可能无缝地迁移到 HTTPS&#65307;比如对浏览器厂商而言&#65292;改动要尽可能小&#65307;......<br>
+&#12288;&#12288;基于&#8220;兼容性&#8221;方面的考虑&#65292;很容易得出如下几个结论&#65306;<br>
+1. HTTPS 还是要基于 TCP 来传输<br>
+&#65288;如果改为 UDP 作传输层&#65292;无论是 Web 服务端还是浏览器客户端&#65292;都要大改&#8212;&#8212;动静太大&#65292;伤筋动骨&#65289;<br>
+2. 单独使用一个新的协议&#65292;把 HTTP 协议包裹起来<br>
+&#65288;所谓的&#8220;HTTP over SSL&#8221;&#65292;实际上是在原有的 HTTP 数据外面加了一层 SSL 的封装&#12290;HTTP 协议原有的 GET&#12289;POST 之类的机制&#65292;基本上原封不动&#65289;<br>
+<br>
+&#12288;&#12288;打个比方&#65306;如果原来的 HTTP 是塑料水管&#65292;容易被戳破&#65307;那么如今新设计的 HTTPS 就像是在原有的塑料水管之外&#65292;再包一层金属水管&#12290;一来&#65292;原有的塑料水管照样运行&#65307;二来&#65292;用金属加固了之后&#65292;不容易被戳破&#12290;<br>
+<br>
+<h3>&#9671;可扩展性</h3>
+<br>
+&#12288;&#12288;前面说了&#65292;HTTPS 相当于是&#8220;HTTP over SSL&#8221;&#12290;<br>
+&#12288;&#12288;如果 SSL 这个协议在&#8220;可扩展性&#8221;方面的设计足够牛逼&#65292;那么它除了能跟 HTTP 搭配&#65292;还能够跟其它的应用层协议搭配&#12290;岂不美哉&#65311;<br>
+&#12288;&#12288;现在看来&#65292;当初设计 SSL 的人确实比较牛&#12290;如今的 SSL/TLS 可以跟很多常用的应用层协议&#65288;比如&#65306;FTP&#12289;SMTP&#12289;POP&#12289;Telnet&#65289;搭配&#65292;来强化这些应用层协议的安全性&#12290;<br>
+<br>
+&#12288;&#12288;接着刚才打的比方&#65306;如果把 SSL/TLS 视作一根用来加固的金属管&#65292;它不仅可以用来加固输水的管道&#65292;还可以用来加固输煤气的管道&#12290;<br>
+<br>
+<h3>&#9671;保密性&#65288;防泄密&#65289;</h3>
+<br>
+&#12288;&#12288;HTTPS 需要做到足够好的保密性&#12290;<br>
+&#12288;&#12288;说到保密性&#65292;首先要能够对抗&#8220;嗅探&#8221;&#65288;圈内行话叫 Sniffer&#65289;&#12290;所谓的&#8220;嗅探&#8221;&#65292;通俗而言就是监视你的网络传输流量&#12290;如果你使用&#12304;明文&#12305;的 HTTP 上网&#65292;那么监视者通过嗅探&#65292;就知道你在访问哪些网站的哪些页面&#12290;<br>
+&#12288;&#12288;嗅探是最低级的攻击手法&#12290;除了嗅探&#65292;HTTPS 还需要能对抗其它一些稍微高级的攻击手法&#8212;&#8212;比如&#8220;重放攻击&#8221;&#65288;后面讲协议原理的时候&#65292;会再聊&#65289;&#12290;<br>
+<br>
+<h3>&#9671;完整性&#65288;防篡改&#65289;</h3>
+<br>
+&#12288;&#12288;除了&#8220;保密性&#8221;&#65292;还有一个同样重要的目标是&#8220;确保完整性&#8221;&#12290;关于&#8220;完整性&#8221;这个概念&#65292;在之前的博文&#12298;<a href="../../2013/02/file-integrity-check.html">扫盲文件完整性校验&#8212;&#8212;关于散列值和数字签名</a>&#12299;中大致提过&#12290;健忘的同学再去温习一下&#12290;<br>
+&#12288;&#12288;在发明 HTTPS 之前&#65292;由于 HTTP 是明文的&#65292;不但容易被嗅探&#65292;还容易被篡改&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;比如咱们天朝的网络运营商&#65288;ISP&#65289;都比较流氓&#65292;经常有网友抱怨说访问某网站&#65288;本来是没有广告的&#65289;&#65292;竟然会跳出很多中国电信的广告&#12290;为啥会这样捏&#65311;因为你的网络流量需要经过 ISP 的线路才能到达公网&#12290;如果你使用的是明文的 HTTP&#65292;ISP 很容易就可以在你访问的页面中植入广告&#12290;<br>
+&#12288;&#12288;所以&#65292;当初设计 HTTPS 的时候&#65292;还有一个需求是&#8220;确保 HTTP 协议的内容&#12304;不&#12305;被篡改&#8221;&#12290;<br>
+<br>
+<h3>&#9671;真实性&#65288;防假冒&#65289;</h3>
+<br>
+&#12288;&#12288;在谈到 HTTPS 的需求时&#65292;&#8220;真实性&#8221;经常被忽略&#12290;其实&#8220;真实性&#8221;的重要程度&#12304;不亚于&#12305;前面的&#8220;保密性&#8221;和&#8220;完整性&#8221;&#12290;<br>
+&#12288;&#12288;举个例子&#65306;<br>
+&#12288;&#12288;你因为使用网银&#65292;需要访问该网银的 Web 站点&#12290;那么&#65292;你如何确保你访问的网站确实是你想访问的网站&#65311;&#65288;这话有点绕口令&#65289;<br>
+&#12288;&#12288;有些天真的同学会说&#65306;通过看网址里面的域名&#65292;来确保&#12290;为啥说这样的同学是&#8220;天真的&#8221;&#65311;因为 DNS 系统本身是不可靠的&#65288;尤其是在设计 SSL 的那个年代&#65292;连 DNSSEC 都还没发明&#65289;&#12290;由于 DNS 的不可靠&#65288;存在&#8220;域名欺骗&#8221;和&#8220;域名劫持&#8221;&#65289;&#65292;你看到的网址里面的域名&#12304;未必&#12305;是真实滴&#65281;<br>
+&#12288;&#12288;&#65288;不了解&#8220;域名欺骗&#8221;和&#8220;域名劫持&#8221;的同学&#65292;可以参见俺之前写的&#12298;<a href="../../2014/01/dns.html">扫盲 DNS 原理&#65292;兼谈&#8220;域名劫持&#8221;和&#8220;域名欺骗/域名污染&#8221;</a>&#12299;&#65289;<br>
+&#12288;&#12288;所以&#65292;HTTPS 协议必须有某种机制来确保&#8220;真实性&#8221;的需求&#65288;至于如何确保&#65292;后面会细聊&#65289;&#12290;<br>
+<br>
+<h3>&#9671;性能</h3>
+<br>
+&#12288;&#12288;再来说最后一个需求&#8212;&#8212;性能&#12290;<br>
+&#12288;&#12288;引入 HTTPS 之后&#65292;&#12304;不能&#12305;导致性能变得太差&#12290;否则的话&#65292;谁还愿意用&#65311;<br>
+&#12288;&#12288;为了确保性能&#65292;SSL 的设计者至少要考虑如下几点&#65306;<br>
+1. 如何选择加密算法&#65288;对称加密 or 非对称加密&#65289;&#65311;<br>
+2. 如何兼顾 HTTP 采用的&#12304;短连接&#12305;TCP 方式&#65311;<br>
+&#65288;再次提醒&#65306;SSL 是在1995年之前开始设计滴&#12290;那是 Web 的远古时代&#8212;&#8212;HTTP 协议版本还只是 1.0&#65307;默认使用&#12304;短连接&#12305;的 TCP 方式&#65307;默认&#12304;不&#12305;启用 Keep-Alive&#65289;<br>
+<br>
+<h3>&#9671;小结</h3>
+<br>
+&#12288;&#12288;以上就是设计 SSL 协议时&#65292;必须兼顾的各种需求&#12290;后面聊协议的实现时&#65292;俺会拿 SSL 协议的特点跟前面的需求作对照&#12290;看看这些需求是如何被逐一满足滴&#12290;<br>
+<br>
+<br>
+<h2>&#9733;设计 HTTPS 协议的主要&#12304;难点&#12305;是啥&#65311;</h2>
+<br>
+&#12288;&#12288;设计 HTTPS 这个协议&#65292;有好几个难点&#12290;俺个人认为&#65306;&#8220;密钥交换&#8221;是最大的难点&#65288;没有之一&#65289;&#12290;<br>
+&#12288;&#12288;在传统的密码学场景中&#65292;假如张三要跟李四建立一个加密通讯的渠道&#65292;双方事先要约定好使用哪种加密算法&#65311;同时也要约定好使用的密钥是啥&#65311;在这个场景中&#65292;加密算法的&#12304;类型&#12305;让旁人知道&#65292;没太大关系&#12290;但是密钥&#12304;千万不能&#12305;让旁人知道&#12290;一旦旁人知道了密钥&#65292;自然就可以破解通讯的密文&#65292;得到明文&#12290;<br>
+&#12288;&#12288;好&#65292;现在回到 HTTPS 的场景&#12290;<br>
+&#12288;&#12288;当你访问某个公网的网站&#65292;你的浏览器和网站的服务器之间&#65292;如果要建立加密通讯&#65292;必然要商量好双方使用啥算法&#65292;啥密钥&#12290;&#8212;&#8212;在网络通讯术语中&#65292;这个过程称之为&#8220;握手&#8221;&#65288;洋文叫&#8220;handshake&#8221;&#65289;&#12290;在握手阶段&#65292;因为加密方式还没有协商好&#65292;所以握手阶段的通讯必定是&#12304;明文&#12305;滴&#65281;既然是明文&#65292;自然有可能被第三方偷窥到&#12290;然后&#65292;还要考虑到双方之间隔着一个&#12304;互联网&#12305;&#65292;啥样的事情都可能发生&#65288;不光会有&#8220;数据偷窥&#8221;&#65292;还会有&#12304;数据篡改&#12305;&#65289;&#12290;<br>
+&#12288;&#12288;因此&#65292;在握手的过程中&#65292;如何做到安全地交换密钥信息&#65292;而不让周围的第三方看到&#12290;这就是设计 HTTPS 最大的难点&#12290;<br>
+<br>
+<br>
+<h2>&#9733;结尾</h2>
+<br>
+&#12288;&#12288;本文费这么多口水&#65292;来介绍 HTTPS 的&#8220;需求&#8221;和&#8220;难点&#8221;&#65292;为啥捏&#65311;因为只有当你了解这些&#65292;后面介绍 SSL/TLS 的实现原理时&#65292;你才能理解&#8212;&#8212;当初为啥要把协议设计成这个样子&#12290;<br>
+<br>
+<b><a href="../../2014/11/https-ssl-tls-0.html#index">回到本系列的目录</a></b>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2014/11/https-ssl-tls-1.html" id="OriginalPostUrl">https://program-think.blogspot.com/2014/11/https-ssl-tls-1.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="315">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/8380087561999960001?postID=8380087561999960001&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/8380087561999960001.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

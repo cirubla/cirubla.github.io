@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>博客全程启用 HTTPS 加密 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2015-10-04T22:28:00+08:00">2015年10月4日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：350条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              博客全程启用 HTTPS 加密
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+<center><img src="../../images/2015/10/2UOkEgaXLx6jfjKYBC_LZ38TA8ferB9CZBFCYY5mXQqxtdb7yxvyt_OPCs-yXu4vNq6F7zUji5BQpzdtC9XmBizQn0Ody2Jwd6VDM_v9SOrilIOcIJZSmreiXNPi_7vCwnoOVN6qdg" alt="不见图 请翻墙"></center><br>
+<h2>&#9733;引子</h2><br>
+&#12288;&#12288;沦陷日长假的第一天&#65292;俺打算上博客回复读者评论&#12290;通常俺会先登录到 Blogger 的管理界面&#65292;清理一下被 Google 误判为垃圾广告的读者评论&#12290;结果在管理界面的首页&#65292;就看到了 Blogger 的最新消息&#8212;&#8212;<a href="https://googleonlinesecurity.blogspot.com/2015/09/https-support-coming-to-blogspot.html" target="_blank" rel="nofollow">HTTPS support coming to Blogspot</a><br>
+&#12288;&#12288;可把俺高兴坏了&#65288;好几年前&#65292;俺就盼着这一天&#65289;<br>
+&#12288;&#12288;在长假的头两天&#65292;俺对博客界面做了一些升级&#65288;具体下面会说&#65289;&#12290;第3天观察了一下&#65292;看大伙儿有没有碰到啥问题或 Bug&#65292;然后今天发一篇&#8220;博客通告&#8221;&#65292;跟大伙儿打个招呼&#12290;<a name='more'></a><br>
+<br>
+<br>
+<h2>&#9733;关于 Blogspot 的升级</h2><br>
+&#12288;&#12288;简而言之&#65292;今后搭建在 Blogspot 上的博客&#65292;都可以使用 HTTPS 方式访问&#12290;原有的 HTTP 方式依然保留&#65292;所以实际上同时支持这两种协议&#12290;<br>
+&#12288;&#12288;对于博客的博主&#65292;需要先到管理界面&#65292;启用一下 HTTPS 的选项&#65292;就 OK 了&#12290;<br>
+<br>
+<br>
+<h2>&#9733;关于俺博客的升级</h2><br>
+&#12288;&#12288;这两天做了如下几处修改&#12290;<br>
+&#12288;&#12288;&#65288;<b>俺仅仅针对博客的&#12304;桌面版&#12305;界面进行定制&#12290;俺一直没有时间去定制&#12304;手机版&#12305;的界面</b>&#65289;<br>
+<br>
+<h3>&#9671;自动重定向到 HTTPS</h3><br>
+&#12288;&#12288;如果你以 HTTP 协议打开任何一个博客页面&#65292;俺会使用 JS 脚本自动重定向到同一个页面的 HTTPS 协议&#12290;<br>
+&#12288;&#12288;因为俺是基于 JS 实现重定向&#65292;如果浏览器禁用了 JS&#65292;俺就没辙了&#12290;<br>
+<br>
+<h3>&#9671;博文中的&#8220;站内链接&#8221;替换为 HTTPS</h3><br>
+&#12288;&#12288;博客的老读者应该知道&#65292;俺经常在博文中添加交叉链接&#65292;方便你从一篇博文跳转到另一篇相关的博文&#12290;<br>
+&#12288;&#12288;当读者点击某个站内链接之后&#65292;如果该链接是 http:// 开头的&#65292;在新页面打开之后&#65292;就会多增加一次跳转&#12290;为了节省大伙儿的时间&#65292;俺就预先把站内链接全部替换为 https:// 开头&#12290;<br>
+&#12288;&#12288;这个功能是在博文加载时&#65292;用 JS 脚本实现的&#12290;&#65288;该功能同样需要依赖 JS 脚本&#65289;<br>
+<br>
+<h3>&#9671;评论中的&#8220;站内链接&#8221;替换为 HTTPS</h3><br>
+&#12288;&#12288;这个改造跟前一个类似&#12290;<br>
+&#12288;&#12288;因为某些读者可能会在评论中贴出某篇博文的链接&#65292;而且是 http:// 开头的&#12290;俺也用 JS 脚本统一替换为 https:// 开头<br>
+&#12288;&#12288;&#65288;该功能同样需要依赖 JS 脚本&#65289;<br>
+<br>
+<h3>&#9671;上述升级的好处</h3><br>
+&#12288;&#12288;经过上述改造之后&#65292;所有的站内链接都是 HTTPS 的&#12290;因此&#65292;<b>读者在博客中浏览或者发评论时&#65292;网络流量&#12304;全都是&#12305;加密的</b>&#12290;<br>
+<br>
+<br>
+<h2>&#9733;HTTPS 有啥好处&#65311;</h2><br>
+<h3>&#9671;对于网民而言</h3><br>
+&#12288;&#12288;简而言之&#65292;HTTPS 是&#12304;强加密&#12305;滴&#12290;因此&#65292;当你浏览 HTTPS 协议的网页&#65292;从&#8220;你的浏览器&#8221;到&#8220;目标网站&#8221;之间的数据传输&#65292;都是强加密的&#12290;<br>
+&#12288;&#12288;传输过程的强加密带来如下好处&#65306;<br>
+&#12288;&#12288;1. 可以防止对你的上网行为的偷窥&#65288;术语称为&#8220;嗅探&#8221;&#65289;<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;俺博客的读者&#65292;大部分都在墙内&#65292;因此都是采用翻墙的方式访问本博客&#12290;原先 Blogspot 不支持 HTTPS&#65292;所以你在俺博客浏览的时候&#65292;相关的网络流量&#65292;会被翻墙工具看到&#12290;如今有了全程 HTTPS 加密&#65292;翻墙工具&#65288;包括对应的代理服务器或 VPN 服务器&#65289;就无法看到你&#65288;访问俺博客&#65289;的网络流量&#12290;<br>
+<br>
+&#12288;&#12288;2. 可以防范&#8220;流量注入&#8221;的攻击行为<br>
+&#12288;&#12288;举例&#65306;<br>
+&#12288;&#12288;天朝的某些流氓的 ISP 会在你上网的页面中植入广告&#12290;他们用的就是&#8220;流量注入&#8221;的伎俩&#12290;<br>
+&#12288;&#12288;一旦你访问的网站是全程 HTTPS 加密的&#65292;ISP 就&#12304;无法&#12305;针对该网站的内容进行注入&#12290;<br>
+<br>
+&#12288;&#12288;HTTPS 的底层实现依赖于 TLS/SSL&#12290;具体的技术细节可以参见俺的另一个系列&#12298;<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议</a>&#12299;&#65288;该系列尚未写完&#65289;<br>
+<br>
+<h3>&#9671;对于站长和博主而言</h3><br>
+&#12288;&#12288;除了前面提到的安全性&#65292;启用 HTTPS 还有助于 SEO&#12290;<br>
+&#12288;&#12288;大约一年前&#65288;2014年8月&#65289;&#65292;Google 调整了搜索引擎的算法&#65292;提升了 HTTPS 网址的权重&#12290;具体介绍参见 Google 的公告&#65288;在&#8220;<a href="http://googlewebmastercentral.blogspot.com/2014/08/https-as-ranking-signal.html" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;所以&#65292;启用 HTTPS 有助于稍微提升一下你的网站在 Google 搜索结果中的排名&#12290;<br>
+&#12288;&#12288;&#65288;除了 Google&#65292;其它搜索引擎说不定也会采取类似的算法调整&#65289;<br>
+<br>
+<br>
+<h2>&#9733;你需要做些啥&#65311;</h2><br>
+<h3>&#9671;改一下浏览器书签</h3><br>
+&#12288;&#12288;如果你曾经在浏览器的&#8220;书签/收藏夹&#8221;中收录了俺博客&#65292;你需要重新修改一下博客对应的网址&#65288;把 http:// 改为 https://&#65289;<br>
+&#12288;&#12288;&#65288;其实不改的话&#65292;也可以照样打开&#12290;但是会多一次跳转&#65292;多浪费了你一丁点时间&#65289;<br>
+<br>
+<h3>&#9671;碰到问题的话&#65292;给俺反馈</h3><br>
+&#12288;&#12288;这次升级之后&#65292;如果你发现博客界面或功能有啥异样&#65292;恳请给个反馈&#65288;到博客留言&#65289;&#12290;俺先行谢过&#12290;<br>
+<br>
+<br>
+<h2>&#9733;Blogspot 的博主可能会碰到的问题</h2><br>
+&#12288;&#12288;&#65288;如果你&#12304;不是&#12305; Blogspot 上的博主&#65292;本节就不用看了&#65289;<br>
+<br>
+<h3>&#9671;已知的限制</h3><br>
+&#12288;&#12288;Blogspot 有一个&#8220;绑定域名&#8221;的功能&#12290;很多博主用到了这个功能&#65292;把 Blogspot 上的博客内容绑定到自己的域名&#12290;<br>
+&#12288;&#12288;根据 Blogger 界面上的提示&#65306;在绑定的域名上&#65292;&#12304;不&#12305;支持 HTTPS 的访问&#12290;<br>
+&#12288;&#12288;因为俺博客没有绑定到自己的域名&#65292;所以这个限制与俺无关&#12290;&#65288;当年开博时&#65292;因为担心泄露身份&#65292;没有购买自己的域名&#65289;<br>
+<br>
+<h3>&#9671;已知的 Bug</h3><br>
+&#12288;&#12288;根据俺这两天的观察&#65292;发现如下几个问题&#65292;有可能是 Blogspot 系统本身的 Bug&#12290;<br>
+&#12288;&#12288;1.<br>
+&#12288;&#12288;以 HTTPS 方式打开某篇博文&#65292;博文评论中的用户头像&#65292;有少数还是通过 HTTP 方式载入&#12290;这种情况下会导致浏览器给出警告&#65288;对于 HTTPS 加密页面中含有非加密的内容&#65292;比如图片&#65292;浏览器都会在地址栏显示一个警告&#65289;&#12290;<br>
+&#12288;&#12288;2.<br>
+&#12288;&#12288;使用 HTTPS 方式调用评论的 API&#65292;得到的 JSON 格式中&#65292;某些用户头像的网址&#65292;依然是 http:// 开头的&#12290;<br>
+<br>
+&#12288;&#12288;这几个问题&#65292;可能会在几天之后被修复&#65292;也可能会一直存在&#12290;<br>
+&#12288;&#12288;俺等不及问题的修复&#65292;直接去改了&#8220;HTML 模板&#8221;中的一段 JS 脚本&#65288;这段脚本与加载评论有关&#65289;&#65292;把头像的网址强制替换为 https:// 开头&#12290;<br>
+&#12288;&#12288;如果你也碰到类似问题&#65292;可以参考俺的修改&#8212;&#8212;查看俺博客页面源代码&#65292;然后搜索&#65306;<b>Avatar URL force HTTPS</b> &#65288;只要略懂 JS 代码&#65292;应该能看明白&#65289;<br>
+<br>
+<br>
+<h2>&#9733;相关的工具</h2><br>
+<h3>&#9671;Qualys Lab Tool</h3><br>
+&#12288;&#12288;这是一个 Web 工具&#65292;网址是&#65306;<a href="https://www.ssllabs.com/ssltest/" target="_blank" rel="nofollow">https://www.ssllabs.com/ssltest/</a><br>
+&#12288;&#12288;该工具可以用来测试任何一个支持 HTTPS 的网站&#65292;并给出很详细的技术评估结果&#65288;包括潜在的安全隐患&#65289;&#12290;<br>
+<br>
+<h3>&#9671;HTTPS Everywhere</h3><br>
+&#12288;&#12288;经某热心读者提醒&#65292;顺便再推荐一个浏览器扩展&#8212;&#8212;<a href="https://en.wikipedia.org/wiki/HTTPS_Everywhere" target="_blank" rel="nofollow">HTTPS Everywhere</a><br>
+&#12288;&#12288;如果某个网站同时支持 HTTPS 和 HTTP&#65288;并且该网站包含在它的 ruleset 中&#65289;&#65292;它会强制用 HTTPS 方式访问&#12290;<br>
+&#12288;&#12288;该扩展同时提供 <a href="https://addons.mozilla.org/en/firefox/addon/https-everywhere/" target="_blank" rel="nofollow">Firefox 版本</a> 和 <a href="https://chrome.google.com/webstore/detail/https-everywhere/gcbommkclmclpchllfjekcdonpmejbdp" target="_blank" rel="nofollow">Chrome 版本</a>&#12290;<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;为啥 HTTPS Everywhere 要依靠一个规则集&#65292;为啥不对任何网站自动检测是否有 HTTPS&#65311;其官网的回复在&#8220;<a href="https://www.eff.org/https-everywhere/faq#faq-Why-use-a-whitelist-of-sites-that-support-HTTPS?-Why-can%27t-you-try-to-use-HTTPS-for-every-last-site,-and-only-fall-back-to-HTTP-if-it-isn%27t-available?" target="_blank" rel="nofollow">这里</a>&#8221;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+<a href="../../2014/11/https-ssl-tls-0.html">扫盲 HTTPS 和 SSL/TLS 协议</a>&#65288;系列&#65289;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2015/10/Blog-Enable-HTTPS.html" id="OriginalPostUrl">https://program-think.blogspot.com/2015/10/Blog-Enable-HTTPS.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="350">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/7832740516169759871?postID=7832740516169759871&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/7832740516169759871.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

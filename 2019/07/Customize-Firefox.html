@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221; - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2019-07-19T21:50:00+08:00">2019年7月19日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：446条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              扫盲 Firefox 定制&#8212;&#8212;从&#8220;user.js&#8221;到&#8220;omni.ja&#8221;
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;最近一年&#65292;写过好几篇涉及&#8220;Web 安全&#8221;的博文&#12290;这些博文或多或少都会提及&#8220;Firefox 的定制&#8221;&#12290;考虑到某些读者对这方面不太了解&#65292;单独写一篇扫盲&#12290;<br>
+&#12288;&#12288;如果你从来不用 Firefox 浏览器&#65292;本教程就不用看了&#65288;以免浪费时间&#65289;&#12290;<br>
+&#12288;&#12288;本文主要面向不太熟悉 Firefox 的菜鸟&#65307;对于 Firefox 的老鸟&#65292;顶多只需要看&#8220;高级话题&#8221;相关的章节&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;预备知识</h2><br>
+<h3>&#9671;&#8220;浏览器实例&#8221;&#65288;profile&#65289;是啥&#65311;</h3><br>
+&#12288;&#12288;Firefox 支持&#12304;多实例&#12305;&#65288;多个 profile&#65289;&#12290;你可以把&#8220;profile&#8221;这个概念通俗理解为&#65306;&#8220;独立的浏览器环境&#8221;&#12290;<br>
+&#12288;&#12288;也就是说&#65292;实例之间是&#12304;互相隔离&#12305;滴&#65292;每个实例都有自己&#12304;独立的&#12305;&#8220;书签&#12289;浏览历史&#12289;下载历史&#12289;cookies ......&#8221;<br>
+&#12288;&#12288;就算你从来没有创建过实例&#65292;只要你通过 Firefox 上网&#65292;你的 Firefox 至少会有一个实例&#65288;也就是你正在用的这个&#65289;&#12290;<br>
+<br>
+<h3>&#9671;如何找到当前实例的目录&#65311;</h3><br>
+&#12288;&#12288;每个实例&#65288;profile&#65289;都对应一个目录&#65292;属于该实例的那些东西&#65288;书签&#12289;浏览历史&#12289;下载历史&#12289;cookies ...&#65289;全都存储在该目录下&#12290;<br>
+&#12288;&#12288;要想查看你正在使用的 Firefox 实例对应的目录&#65292;很简单&#65306;<br>
+1. 在浏览器地址栏输入 <code>about:support</code> 然后敲回车<br>
+2. 这时候会显示一个支持页面&#65292;其中有一项 <code>Profile Directory</code>&#65288;俺用的是英文版&#65292;中文版的叫法略有不同&#65289;&#65292;对应的就是&#12304;当前实例的目录&#12305;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;扫盲&#8220;配置选项&#8221;&#65288;Preferences&#65289;</h2><br>
+<h3>&#9671;啥是&#8220;配置选项&#8221;&#65311;</h3><br>
+&#12288;&#12288;&#8220;配置选项&#8221;也叫&#8220;首选项&#8221;&#65292;洋文称之为&#8220;Preferences&#8221;&#12290;<br>
+&#12288;&#12288;通俗地说就是&#65306;Firefox 提供了一大堆可供用户定制的参数&#12290;通过修改这些参数&#65292;可以对 Firefox 进行&#12304;全方位&#12305;定制&#12290;<br>
+&#12288;&#12288;每个 Preference 包含如下几个要素&#65306;<br>
+<br>
+&#12288;&#12288;<b>名称</b><br>
+&#12288;&#12288;每个 Preference 的名称必定是&#12304;唯一&#12305;滴&#12290;<br>
+&#12288;&#12288;&#8220;名称&#8221;由英文单词构成&#65292;单词之间以&#8220;小数点&#8221;或&#8220;下划线&#8221;分隔&#12290;<br>
+<br>
+&#12288;&#12288;<b>数据类型</b><br>
+&#12288;&#12288;Preferences 的&#8220;数据类型&#8221;必须是&#8220;布尔型&#12289;整数型&#12289;字符串型&#8221;这三者之一&#12290;<br>
+&#12288;&#12288;&#8220;布尔型&#8221;的值只能是 true 或 false&#12290;<br>
+&#12288;&#12288;&#8220;整数型&#8221;的值可以是负数&#12290;<br>
+<br>
+&#12288;&#12288;<b>默认值</b><br>
+&#12288;&#12288;每个 Preference 都有个&#8220;默认值&#8221;&#12290;<br>
+&#12288;&#12288;&#8220;默认值&#8221;包含在 Firefox 的安装包里面&#12290;<br>
+&#12288;&#12288;绝大多数用户并&#12304;不需要&#12305;去修改&#8220;默认值&#8221;&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;极少数有此需求的读者&#65292;可以去本文的<q style="background-color:#DDD;">高级话题&#8212;&#8212;autoconfig</q>这个章节&#65289;<br>
+<br>
+&#12288;&#12288;<b>当前值</b><br>
+&#12288;&#12288;每个 Preference 都对应某个&#8220;当前值&#8221;&#12290;<br>
+&#12288;&#12288;当你修改 Preference 的时候&#65292;修改的就是它的&#8220;当前值&#8221;&#12290;<br>
+&#12288;&#12288;一开始的时候&#65292;每个 Preference 的&#8220;当前值&#8221;就等于它的&#8220;默认值&#8221;&#65307;如果该 Preference 被定制了&#65288;修改了&#65289;&#65292;其&#8220;当前值&#8221;与&#8220;默认值&#8221;就有可能不同&#12290;<br>
+<br>
+<h3>&#9671;谁可以修改&#8220;配置选项&#8221;&#65311;</h3><br>
+&#12288;&#12288;首先&#65292;Firefox 的用户当然可以修改配置选项&#65288;具体如何做&#65292;后续章节会细聊&#65289;<br>
+&#12288;&#12288;除了用户&#65292;&#12304;浏览器扩展&#12305;也可以添加或修改&#8220;配置选项&#8221;&#12290;某些扩展会提供定制界面&#65292;让用户设定某些参数&#12290;这些参数也保存在浏览器的 Preference 里面&#12290;<br>
+&#12288;&#12288;有必要强调一下&#65306;网站上的 JS 是&#12304;无法修改&#12305;Preference 滴&#65281;<br>
+&#12288;&#12288;道理很简单&#65306;因为 Firefox 的 Preference 中保存了很多与安全性相关的配置参数&#12290;如果允许网站的 JS 修改这些参数&#65292;将会成为巨大的安全隐患&#12290;<br>
+<br>
+<h3>&#9671;为啥要修改&#8220;配置选项&#8221;&#65311;</h3><br>
+&#12288;&#12288;俺总结下来&#65292;大致有如下几种需求&#65306;<br>
+&#12288;&#12288;<b>1. 安全加固</b><br>
+&#12288;&#12288;你可以通过定制很多的 Preferences 以大大强化 Firefox 的安全性&#65288;包括隐私防护能力&#65289;&#12290;<br>
+&#12288;&#12288;每次 Firefox 的新版本增加了某个比较重要的安全相关的定制选项&#65292;俺会在每季度的&#12298;近期安全动态和点评&#12299;提醒大伙儿&#12290;<br>
+&#12288;&#12288;<b>2. 性能优化</b><br>
+&#12288;&#12288;通过定制 Preference 可以优化性能&#65288;包括&#65306;&#8220;网络传输&#12289;内存使用&#12289;界面渲染&#8221;等方面&#65289;<br>
+&#12288;&#12288;<b>3. 易用性</b><br>
+&#12288;&#12288;通过定制 Preference&#65292;你还可以改进 Firefox 界面的易用性&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;about:config&#8221;界面</h2><br>
+<h3>&#9671;进入界面</h3><br>
+&#12288;&#12288;修改 Firefox 的 Preference&#65292;最简单的方式就是&#8220;about:config&#8221;界面了&#12290;<br>
+&#12288;&#12288;你在浏览器地址栏输入 <code>about:config</code> 然后敲回车&#65292;就进入该界面&#12290;<br>
+&#12288;&#12288;&#65288;提醒一下&#65306;打开该界面时&#65292;你可能会看到一个警告提示&#65292;别慌张&#65289;<br>
+<br>
+&#12288;&#12288;&#8220;about:config&#8221;界面主要是个的表格&#65292;共4列&#65292;分别是&#65306;<br>
+&#12288;&#12288;第1列&#65306;Preference 的&#8220;名称&#8221;<br>
+&#12288;&#12288;第2列&#65306;Preference 的&#8220;状态&#8221;&#65288;如果显示&#8220;default&#8221;表示该 Preference 还没被修改过&#65292;显示&#8220;modified&#8221;表示已经被改过&#65289;<br>
+&#12288;&#12288;第3列&#65306;Preference 的&#8220;数据类型&#8221;<br>
+&#12288;&#12288;第4列&#65306;Preference 的&#8220;当前值&#8221;<br>
+<br>
+<h3>&#9671;&#12304;筛选/过滤&#12305;Preferences</h3><br>
+&#12288;&#12288;该界面默认会列出 Firefox&#12304;所有的&#12305;Preference&#65288;成百上千个&#65289;&#12290;某些菜鸟一看到这个架势&#65292;可能会有点晕&#12290;<br>
+&#12288;&#12288;别慌&#65292;界面上方有一个搜索框&#65292;可以帮你进行&#12304;筛选/过滤&#12305;&#12290;<br>
+&#12288;&#12288;该搜索框针对 Preference 的名称进行&#12304;模糊匹配&#12305;&#12290;比如说&#65306;你在搜索框中输入 <code>network</code>&#65292;那么界面上就只列出名称中包含 <code>network</code> 的那些 Preferences&#12290;<br>
+<br>
+<h3>&#9671;&#12304;修改&#12305;某个 Preference 的值</h3><br>
+&#12288;&#12288;对于&#8220;布尔型&#8221;的 Preference&#65292;你双击 Preference 所在的这行&#65292;就可以修改它的&#8220;当前值&#8221;&#65288;在 true 与 false 之间切换&#65289;<br>
+&#12288;&#12288;对于其它数据类型&#65292;双击 Preference 所在的行&#65292;会弹出一个对话框&#65292;让你输入&#12304;新的&#12305;数值&#12290;<br>
+<br>
+<h3>&#9671;&#12304;重置&#12305;某个 Preference 的值</h3><br>
+&#12288;&#12288;所谓的&#8220;重置&#8221;&#65288;reset&#65289;就是指&#8220;恢复默认值&#8221;&#12290;<br>
+&#12288;&#12288;&#65288;对于已经被改过的 Preference&#65289;选中它所在的那行&#65307;点右键&#65307;在快捷菜单上有一项&#8220;Reset&#8221;&#65288;重置&#65289;&#65307;使用这个菜单项就可以把该选项重新恢复成默认值&#12290;<br>
+<br>
+<h3>&#9671;&#12304;添加&#12305;一个新的 Preference</h3><br>
+&#12288;&#12288;在&#8220;about:config&#8221;界面的表格上点右键&#65307;在快捷菜单上有一项&#8220;New&#8221;&#65288;新增&#65289;&#65307;可以让你添加一个新的 Preference&#12290;<br>
+&#12288;&#12288;添加时会让你指定新 Preference 的&#8220;名称&#8221;和&#8220;数值&#8221;&#12290;<br>
+<br>
+<h3>&#9671;一个小小的练习&#8212;&#8212;如何去掉&#8220;about:config&#8221;界面的警告</h3><br>
+&#12288;&#12288;你在&#8220;about:config&#8221;界面的搜索框中输入 <code>general.warnOnAboutConfig</code>&#65292;此时只会过滤出一个 Preference&#65292;这个 Preference 是&#8220;布尔型&#8221;&#12290;当它的值是 <code>true</code>&#65292;每次你打开&#8220;about:config&#8221;界面都会显示警告提示&#65307;反之&#65292;则不显示&#12290;<br>
+&#12288;&#12288;你可以修改这个 Preference 的值&#12290;修改之后再&#12304;重新打开&#12305;&#8220;about:config&#8221;界面&#65292;体会一下效果&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;prefs.js&#8221;配置文件</h2><br>
+<h3>&#9671;功能简介</h3><br>
+&#12288;&#12288;每个 Firefox 实例中都有名为 <code>prefs.js</code> 的配置文件&#12290;这个文件保存了当前实例中&#12304;所有&#12305;Preferences 的设置&#12290;<br>
+<br>
+<h3>&#9671;文件位置</h3><br>
+&#12288;&#12288;该文件位于每个&#12304;实例目录&#12305;下&#12290;<br>
+<br>
+<h3>&#9671;文件格式</h3><br>
+&#12288;&#12288;该文件的扩展名是 <code>.js</code>&#65292;说明其内容是 javascript 语法&#12290;<br>
+&#12288;&#12288;在 javascript 语法中&#65292;任何一行中如果出现&#12304;双斜杠&#12305;<code>//</code> &#65292;那么&#8220;从双斜杠一直到行尾&#8221;都算&#12304;注释&#12305;&#65307;另外&#65292;包含在 <code>/*</code> 和 <code>*/</code> 之间的内容也是&#12304;注释&#12305;&#12290;&#65288;注&#65306;第二种注释可以跨越多行&#65289;<br>
+&#12288;&#12288;除了注释之外&#65292;该文件的每一行有效代码对应一个 Preferences&#12290;文件中的每个有效代码行全都是如下这个样子&#65306;<br>
+<div class="source"><pre><span class="nx">user_pref</span><span class="p">(</span><span class="s2">&quot;配置项名称&quot;</span><span class="p">,</span> <span class="nx">配置项数值</span><span class="p">);</span>
+</pre></div><br>
+&#12288;&#12288;由于每一个 Preferences 的名称都是字符串&#65292;因此上述代码中的 <code>配置项名称</code> 总是包含在&#12304;半角引号&#12305;中&#12290;<br>
+&#12288;&#12288;如果某个 Preferences 的数据类型属于&#8220;字符串型&#8221;&#65292;那么上述代码中的&#8220;配置项数值&#8221;也要包含在&#12304;半角引号&#12305;中&#65307;否则&#65292;就不需要使用引号&#12290;<br>
+<br>
+<h3>&#9671;注意事项&#65281;&#65281;&#65281;</h3><br>
+&#12288;&#12288;<b>&#12304;不要&#12305;直接修改 <code>prefs.js</code> 文件&#65281;&#65281;&#65281;</b><br>
+&#12288;&#12288;如果你想通过&#12304;配置文件&#12305;的方式定制 Firefox 的 Preferences&#65292;请使用&#12304;user.js&#12305;&#65288;参见下一个章节&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;&#8220;user.js&#8221;配置文件</h2><br>
+<h3>&#9671;功能简介</h3><br>
+&#12288;&#12288;Firefox 使用名为 <code>user.js</code> 的文件对 Preferences 进行个性化定制&#12290;<br>
+<br>
+<h3>&#9671;文件位置</h3><br>
+&#12288;&#12288;该文件位于&#12304;实例目录&#12305;下&#12290;请注意&#65306;<b>默认情况下&#12304;没有&#12305;这个文件&#65281;</b><br>
+&#12288;&#12288;如果你想用这种方式定制 Firefox&#65292;需要在&#12304;当前实例&#12305;的目录下&#12304;手动创建&#12305;该文件&#65292;然后往这个文件中添加代码&#12290;<br>
+<br>
+<h3>&#9671;文件格式</h3><br>
+&#12288;&#12288;该文件的格式与 <code>prefs.js</code> 相同&#12290;具体介绍参见&#8220;前一个章节&#8221;&#12290;<br>
+<br>
+<h3>&#9671;配置举例</h3><br>
+&#12288;&#12288;前面介绍&#8220;about:config&#8221;界面时&#65292;已经让你做了一个小小的练习&#12290;<br>
+&#12288;&#12288;现在&#65292;咱们在&#8220;user.js&#8221;中继续进行这个练习&#8212;&#8212;<br>
+&#12288;&#12288;当你创建好一个空的 <code>user.js</code> 文件&#65292;在文件中添加如下代码&#65292;并存盘&#12290;<br>
+<div class="source"><pre><span class="nx">user_pref</span><span class="p">(</span><span class="s2">&quot;general.warnOnAboutConfig&quot;</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</pre></div>&#12288;&#12288;&#65288;注&#65306;上述代码中的&#8220;括号&#12289;引号&#12289;逗号&#12289;分号&#8221;必须都是&#12304;半角符号&#12305;&#65289;<br>
+&#12288;&#12288;上述文件存盘之后&#65292;你把 Firefox 重新启动&#65292;然后再打开&#8220;about:config&#8221;界面&#65292;这时候就不会再有那个讨厌的警告信息了&#12290;<br>
+<br>
+<h3>&#9671;&#12304;重置&#12305;某个 Preference 的值</h3><br>
+&#12288;&#12288;如果你已经在&#8220;user.js&#8221;中修改过某个 Preference&#65292;之后又想恢复其默认值&#12290;请参照如下步骤&#65306;<br>
+1. 先在&#8220;user.js&#8221;中把这个 Preference 的配置&#8220;删除&#8221;或&#8220;注释掉&#8221;&#65307;<br>
+2. 重启浏览器&#65307;<br>
+3. 再到&#8220;about:config&#8221;界面进行重置操作&#12290;<br>
+<br>
+<h3>&#9671;注意事项&#65281;&#65281;&#65281;</h3><br>
+&#12288;&#12288;当你要通过这种方式修改某个选项&#65292;先搞清楚这个选项的含义和用途&#65292;并了解可能的&#12304;副作用&#12305;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;上述三种配置方式的&#12304;原理&#12305;</h2><br>
+<h3>&#9671;加载配置</h3><br>
+&#12288;&#12288;当 Firefox 启动的时候&#65292;会读取 <code>user.js</code> 和 <code>prefs.js</code>&#65292;拿到这两个文件中的 Preferences 配置&#65292;并保存在内存中&#12290;<br>
+&#12288;&#12288;如果发现这两个文件的配置有冲突&#65292;以 <code>user.js</code> 为准&#65288;也就是说&#65306;&#8220;<code>user.js</code> 的配置&#8221;会覆盖&#8220;<code>prefs.js</code> 的配置&#8221;&#65289;&#12290;<br>
+&#12288;&#12288;如果同一个配置项在某个文件中出现多次&#65292;后面的代码行会覆盖前面的代码行&#12290;<br>
+<br>
+<h3>&#9671;修改配置</h3><br>
+&#12288;&#12288;当你打开&#8220;about:config&#8221;界面&#65292;Firefox 会把内存中的 Preferences 信息显示给你看&#12290;<br>
+&#12288;&#12288;如果你在这个界面上进行了修改&#65292;修改的结果会保存在内存中&#65292;同时也会保存到 <code>prefs.js</code> 文件中&#12290;<br>
+&#12288;&#12288;另外&#65292;Firefox&#12304;不会&#12305;去修改你用于定制的 <code>user.js</code> 文件&#12290;<br>
+<br>
+<br>
+<h2>&#9733;高级话题&#8212;&#8212;autoconfig</h2><br>
+&#12288;&#12288;&#8220;高级话题&#8221;是专门针对&#8220;Firefox 老鸟&#8221;&#65292;尤其是那些具有&#8220;geek 精神&#8221;&#65288;善于折腾&#65289;的用户&#12290;<br>
+&#12288;&#12288;&#65288;熟悉本博客的读者应该知道&#65306;俺一向鼓励&#12304;折腾&#12305;&#65292;并写过一篇博文&#12298;<a href="../../2017/04/The-Importance-of-Zheteng.html">聊聊&#12304;折腾&#12305;的重要性</a>&#12299;&#65289;<br>
+&#12288;&#12288;至于菜鸟嘛&#65292;先搞定前面章节介绍的内容&#65292;学会怎么用&#8220;user.js&#8221;&#65307;然后再考虑本文的&#8220;高级话题&#8221;&#12290;<br>
+&#12288;&#12288;考虑到本章节的特点&#65292;&#8220;高级话题&#8221;的介绍只是&#12304;点到为止&#12305;&#8212;&#8212;对于&#12304;善折腾&#12305;的读者&#65292;俺只需给出一个方向&#65292;他们自然能沿着这个方向走得足够远&#12290;<br>
+<br>
+<h3>&#9671;&#8220;user.js&#8221;的局限性</h3><br>
+&#12288;&#12288;通过&#8220;user.js&#8221;&#65292;虽然可以让你定制每一个 Preference&#65307;但至少有如下局限性&#65306;<br>
+<br>
+&#12288;&#12288;<b>局限性1&#8212;&#8212;&#12304;无法&#12305;修改某个 Preference 的&#12304;默认值&#12305;</b><br>
+&#12288;&#12288;请注意&#65306;在 <code>user.js</code> 中修改的是&#12304;当前值&#12305;&#12290;不管&#8220;当前值&#8221;如何变&#65292;&#8220;默认值&#8221;&#12304;没&#12305;变&#12290;<br>
+&#12288;&#12288;在某些特殊场合&#65292;你可能想要定制 Preference 的&#12304;默认值&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;<b>局限性2&#8212;&#8212;&#12304;无法&#12305;锁定某个 Preference</b><br>
+&#12288;&#12288;所谓的&#8220;锁定&#8221;就是&#8220;禁止修改&#8221;的意思&#12290;<br>
+&#12288;&#12288;比如说&#65306;某个第三方扩展会修改某个 Preference 的值&#65307;但你又不希望这个 Preference 被修改&#12290;这时候就可以把这个 Preference&#12304;锁定&#12305;&#12290;<br>
+<br>
+<h3>&#9671;比&#8220;user.js&#8221;更牛逼的&#12304;autoconfig&#12305;</h3><br>
+&#12288;&#12288;Firefox 的扩展能力及其强大&#65292;当然能满足上述这些怪异的需求&#12290;<br>
+&#12288;&#12288;Mozilla 提供了名为&#12304;autoconfig&#12305;的机制&#65292;可以更进一步地定制 Preference&#12290;具体参见 Mozilla 官网的&#8220;<a href="https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig" target="_blank" rel="nofollow">这篇教程</a>&#8221;&#65288;洋文&#65289;&#12290;<br>
+&#12288;&#12288;在 <code>user.js</code> 中&#65292;咱们只能使用 <code>user_pref</code> 这个函数&#65307;而在&#12304;autoconfig&#12305;这种定制方式中&#65292;还提供了更多的函数&#65292;至少包括如下&#65288;代码中绿色的部分是注释&#65289;&#65306;<br>
+<div class="source"><pre><span class="nx">defaultPref</span><span class="p">(</span><span class="s2">&quot;配置项名称&quot;</span><span class="p">,</span> <span class="nx">配置项数值</span><span class="p">);</span>  <span class="c1">// 该函数用于&#65306;定制配置项的&#12304;默认值&#12305;</span>
+<span class="nx">lockPref</span><span class="p">(</span><span class="s2">&quot;配置项名称&quot;</span><span class="p">,</span> <span class="nx">配置项数值</span><span class="p">);</span>  <span class="c1">// 该函数用于&#65306;设置配置项的默认值并&#12304;锁定&#12305;</span>
+<span class="nx">unlockPref</span><span class="p">(</span><span class="s2">&quot;配置项名称&quot;</span><span class="p">);</span>  <span class="c1">// 该函数用于&#65306;&#12304;解锁&#12305;配置项</span>
+<span class="nx">clearPref</span><span class="p">(</span><span class="s2">&quot;配置项名称&quot;</span><span class="p">);</span>  <span class="c1">//  该函数用于&#65306;把配置项的&#12304;当前值&#12305;恢复为&#12304;默认值&#12305;</span>
+</pre></div><br>
+<br>
+<h2>&#9733;高级话题&#8212;&#8212;定制&#8220;omni.ja&#8221;</h2><br>
+<h3>&#9671;&#8220;autoconfig&#8221;的局限性</h3><br>
+&#12288;&#12288;&#8220;autoconfig&#8221;虽然比&#8220;user.js&#8221;更牛逼&#65292;但其能力只局限于 Preference 相关的定制&#12290;<br>
+&#12288;&#12288;有些你想定制的东西&#65288;比如&#65306;默认的键盘快捷键&#65289;&#12304;并不&#12305;保存在 Preference 中&#8212;&#8212;也就是说&#65292;即便你去捣鼓&#8220;autoconfig&#8221;也&#12304;搞不定&#12305;&#65281;这时候就要引入&#12304;终极大杀器&#12305;&#8212;&#8212;直接修改&#12304;omni.ja&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;顺便插一句&#65306;<br>
+&#12288;&#12288;自从 Firefox Quantum&#65288;Firefox 57&#65289;之后&#65292;旧的&#8220;XPCOM 扩展机制&#8221;已经淘汰&#65292;换成新的&#8220;WebExtensions 扩展机制&#8221;&#12290;但是&#65292;&#8220;新扩展机制&#8221;的功能比原来要弱&#65288;据说是为了安全性的考虑&#65289;&#12290;比如&#65306;对&#8220;键盘快捷键&#8221;的定制能力就变弱了&#12290;<br>
+&#12288;&#12288;在这种情况下&#65292;&#8220;定制 omni.ja&#8221;的优势就更加明显&#8212;&#8212;因为它能做到&#8220;用扩展无法完成的事情&#8221;&#12290;<br>
+<br>
+<h3>&#9671;比&#8220;autoconfig&#8221;更强大的&#12304;omni.ja&#12305;</h3><br>
+&#12288;&#12288;Firefox 是一个很复杂的开源项目&#65292;代码量超大&#12290;它的核心代码&#65288;比如&#65306;渲染引擎&#12289;JS 引擎&#65289;是基于 C++ 语言开发&#65288;并在逐步迁移到 Rust 语言&#65289;&#12290;而软件界面&#65288;UI&#65289;相关的部分&#65292;大体上还是 Web 那套东西&#65288;不外乎就是&#65306;XML&#12289;JS&#12289;JSON&#12289;CSS ...&#65289;&#12290;<br>
+&#12288;&#12288;这些与 UI 相关的东西&#65292;大部分都打包在&#65288;安装包自带的&#65289;<code>omni.ja</code> 文件中&#12290;如果你摸透了 <code>omni.ja</code> 的结构&#65292;就可以对 Firefox 的界面进行任意定制&#12290;<br>
+&#12288;&#12288;说到这里&#65292;某些熟悉 Firefox 的用户会反问&#65306;为啥不用 <code>userChrome.css</code> 定制 Firefox&#65311;<br>
+&#12288;&#12288;这个东东俺当然知道&#65288;而且还写过专门的教程&#65292;链接在&#8220;<a href="../../2016/10/custom-firefox-theme-without-extension.html">这里</a>&#8221;&#65289;&#12290;但它的能力很&#12304;有限&#12305;&#8212;&#8212;只能修改 CSS 样式&#65292;&#12304;无法&#12305;定制界面的功能&#12290;<br>
+<br>
+&#12288;&#12288;举个&#12304;简单&#12305;例子&#65306;<br>
+&#12288;&#12288;比如说 Firefox 的默认快捷键中&#65292;&#12304;Ctrl + q&#12305;会退出整个进程&#65307;<br>
+&#12288;&#12288;如果你不喜欢这个快捷键&#65292;可以换成一个更顺手的&#65288;通过修改 <code>omni.ja</code> 里面的 <code>chrome/en-US/locale/browser/browser.dtd</code>&#65289;<br>
+<br>
+&#12288;&#12288;举个&#12304;复杂&#12305;例子&#65306;<br>
+&#12288;&#12288;或许很多 Firefox 用户不知道&#8212;&#8212;你可以用&#12304;Alt + 数字键&#12305;或&#12304;Ctrl + 数字键&#12305;来切换 Firefox 的标签页&#12290;<br>
+&#12288;&#12288;&#65288;注&#65306;俺在 Linux 用的是 Alt&#65292;而 Windows 环境用的是 Ctrl&#65289;<br>
+&#12288;&#12288;当你在 Firefox 界面上按了这个组合键&#65292;会触发某个 JS 代码&#65292;然后由这个 JS 代码来改变当前标签页的状态&#12290;<br>
+&#12288;&#12288;而这段 JS 代码就包含在 <code>omni.ja</code> 这个压缩包的某个文件中&#65288;<code>chrome/browser/content/browser/browser.xul</code>&#65289;&#12290;如果你能修改这段 JS 代码&#65292;就可以实现自己想要的某些效果&#12290;<br>
+<br>
+&#12288;&#12288;<b>友情提醒&#65306;</b><br>
+&#12288;&#12288;安装好的 Firefox 有&#12304;两个&#12305; <code>omni.ja</code> &#8212;&#8212;大的那个有30多兆&#65292;小的那个有十多兆&#12290;<br>
+&#12288;&#12288;当你要折腾的时候&#65292;别搞错了&#65281;&#65281;&#65281;<br>
+&#12288;&#12288;比如说&#65306;当俺在折腾键盘快捷键时&#65292;修改的是&#12304;大的&#12305;那个&#12290;<br>
+<br>
+<h3>&#9671;简述&#8220;omni.ja&#8221;的格式</h3><br>
+&#12288;&#12288;<b>如何&#8220;解压缩&#8221;&#65311;</b><br>
+&#12288;&#12288;虽然 <code>omni.ja</code> 的扩展名是 <code>.ja</code>&#65292;但其实是个 zip 压缩包&#65307;但它又&#12304;不是&#12305;标准的 zip 压缩包&#8212;&#8212;因为它的文件头有点特殊&#12290;<br>
+&#12288;&#12288;俺在 Linux 下用 <code>unzip</code> 命令进行解压缩&#65292;完全 OK&#65288;使用 Mac OS 的同学也可以用这个命令&#65289;&#65307;<br>
+&#12288;&#12288;对于使用 Windows 的同学&#65292;&#65288;Mozilla 官网的文档建议&#65289;先把扩展名改为 <code>.zip</code> 再用资源管理器自带的解压功能&#65288;注&#65306;其它解压 zip 的工具不一定能行&#65289;&#12290;<br>
+<br>
+&#12288;&#12288;<b>如何&#8220;压缩&#65288;重新打包&#65289;&#8221;&#65311;</b><br>
+&#12288;&#12288;当你&#12304;修改完&#12305;<code>omni.ja</code> 内部的文件之后&#65292;要&#12304;重新打包&#12305;该文件&#12290;<br>
+&#12288;&#12288;对于 POSIX 环境&#65288;Linux & UNIX&#65289;&#65292;Mozilla 官网的文档建议使用如下命令&#65306;<br>
+<pre class="shell">zip -qr9XD omni.ja *</pre><br>
+<h3>&#9671;定制&#8220;omni.ja&#8221;的注意事项</h3><br>
+&#12288;&#12288;简单说几个注意事项&#65306;<br>
+<br>
+&#12288;&#12288;<b>第1条</b><br>
+&#12288;&#12288;<code>omni.ja</code> 内部的文件很多&#12290;只修改那些&#12304;你有把握&#12305;的文件&#12290;<br>
+&#12288;&#12288;如果你把 <code>omni.ja</code> 内部的某些文件改坏了&#65292;可能会导致 Firefox 无法启动&#65292;而且也没有任何报错信息&#12290;<br>
+<br>
+&#12288;&#12288;<b>第2条</b><br>
+&#12288;&#12288;每次修改完 <code>omni.ja</code>&#65292;为了让你的修改生效&#65292;要记得&#65306;先退出 Firefox&#12304;进程&#12305;&#65307;然后清空整个缓存目录&#65307;最后再启动 Firefox&#12290;<br>
+<br>
+&#12288;&#12288;<b>第3条</b><br>
+&#12288;&#12288;由于每次修改完都要做&#8220;打包&#12289;清缓存&#12289;重启 Firefox&#8221;这几件事情&#12290;俺建议&#65306;搞个命令行脚本帮你自动干这些事儿&#65292;以提升效率&#12290;<br>
+<br>
+&#12288;&#12288;<b>第4条</b><br>
+&#12288;&#12288;<code>omni.ja</code> 会随着 Firefox 的版本而变化&#12290;也就是说&#65292;每次有新版本&#65292;你还需要在新版本上再修改一次&#12290;<br>
+&#12288;&#12288;如果结合第3条与第4条&#65292;你更应该写一个脚本&#65292;帮你&#12304;自动化&#12305;完成整个定制流程&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2016/10/custom-firefox-theme-without-extension.html">无需任何插件或扩展&#65292;定制 Firefox 外观</a>&#12299;<br>
+&#12298;<a href="../../2018/10/How-to-Choose-Firefox-Version.html">基于安全考虑&#65292;如何选择及切换 Firefox 版本&#65311;</a>&#12299;<br>
+&#12298;<a href="../../2018/09/Why-You-Should-Switch-from-Chrome-to-Firefox.html">弃用 Chrome 改用 Firefox 的几点理由&#8212;&#8212;关于 Chrome 69 隐私丑闻的随想</a>&#12299;<br>
+&#12298;<a href="../../2011/11/greasemonkey-scripts-for-google-reader.html">如何用 GreaseMonkey 扩展 Google Reader</a>&#12299;<br>
+&#12298;<a href="../../2017/04/The-Importance-of-Zheteng.html">聊聊&#12304;折腾&#12305;的重要性</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2019/07/Customize-Firefox.html" id="OriginalPostUrl">https://program-think.blogspot.com/2019/07/Customize-Firefox.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="446">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/1339684058517870835?postID=1339684058517870835&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/1339684058517870835.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>&#8220;如何翻墙&#8221;系列&#65306;扫盲 VPN Gate&#8212;&#8212;分布式的 VPN 服务器 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2013-04-19T14:58:00+08:00">2013年4月19日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：440条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              &#8220;如何翻墙&#8221;系列&#65306;扫盲 VPN Gate&#8212;&#8212;分布式的 VPN 服务器
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;已经大半年没有推荐过新的翻墙工具了&#12290;今年2月份出现了一款新的翻墙工具 VPN Gate&#65292;俺尝试了一段时间&#65292;效果还不错&#12290;今天抽空跟大伙儿介绍一下&#12290;<a name='more'></a><br>
+<br>
+<br>
+<h2>&#9733;VPN Gate 是啥玩意儿&#65311;</h2><br>
+&#12288;&#12288;VPN Gate 是日本筑波大学研究生院搞的一个学术研究项目&#12290;中文版的官网在 <a href="http://www.vpngate.net/cn/" target="_blank" rel="nofollow">http://www.vpngate.net/cn/</a><br>
+&#12288;&#12288;从表面上看&#65292;VPN Gate 也属于 VPN 翻墙工具之一&#65292;也是基于加密的 VPN 协议来规避 GFW 的敏感词过滤&#12290;但是捏&#65292;既然俺专门写一篇博文来推荐&#65292;说明这玩意儿具有某些优势&#65292;是普通 VPN 所没有&#12290;<br>
+&#12288;&#12288;&#65288;如果尚不了解 VPN 翻墙的原理&#65292;可以先看<a href="../../2009/05/how-to-break-through-gfw.html#vpn">俺之前的扫盲</a>&#65289;<br>
+<br>
+<br>
+<h2>&#9733;VPN Gate 有啥特点&#65311;</h2><br>
+&#12288;&#12288;相比其它的 VPN 翻墙工具&#65292;VPN Gate 的主要特点是&#65306;<br>
+<br>
+<h3>&#9671;分布式的&#12289;动态的服务器</h3><br>
+&#12288;&#12288;VPN Gate 提供的中继服务器&#65292;遍及全球&#65292;而且大都是由志愿者义务提供的&#12290;这些公共服务器的 IP 地址&#65292;每隔几分钟都会变化&#12290;示意图如下&#65306;<br>
+<center><img src="../../images/2013/04/blx-ne7lxmRIjOkh5nHtltvW0sRvcSiDO4xW6p_gUZz7Wrto7mbRLuhpmSAIMQAs16cvTpYUi7z9a5jcmzsoVjcNM3B6MbRRw5dXu-TTnNgtIfJ-PdxHbYRZVUk" alt="不见图 请翻墙"></center>&#12288;&#12288;因为这个特点&#65292;VPN Gate 就能在一定程度上规避 GFW 的 IP 黑名单&#12290;<br>
+<br>
+<h3>&#9671;免费</h3><br>
+&#12288;&#12288;使用 VPN Gate&#65292;完全免费&#12290;<br>
+<br>
+<h3>&#9671;不限流量</h3><br>
+&#12288;&#12288;VPN Gate 的服务器&#65292;不限制你使用的流量&#12290;<br>
+<br>
+<h3>&#9671;速度快</h3><br>
+&#12288;&#12288;据俺最近一段时间的观察&#65292;VPN Gate 的速度比传统的几款翻墙工具&#65288;自由门&#12289;无界&#12289;世界通&#65289;更快&#12290;<br>
+&#12288;&#12288;在具体使用时&#65292;不同的 VPN Gate 服务器&#65292;速度是各不相同的&#12290;但基本上都能找到一个比较快的服务器&#65288;下面会具体介绍&#65289;&#12290;<br>
+<br>
+<h3>&#9671;无需注册</h3><br>
+&#12288;&#12288;很多 VPN 服务器需要注册用户才能使用&#65292;而 VPN Gate 支持匿名使用&#12290;省去了注册用户的麻烦&#12290;<br>
+<br>
+&#12288;&#12288;正是因为上述优点&#65292;VPN Gate 受到翻墙网友的热捧&#12290;据 <a href="http://www.vpngate.net/cn/region.aspx" target="_blank" rel="nofollow">VPN Gate 官网的统计</a>&#65292;<b>目前的全球用户中&#65292;天朝的用户数和通讯量都遥遥领先</b>&#12290;截至俺写本文的时候&#65292;天朝用户数 581635&#12290;看来天朝的翻墙运动&#65292;形势一片大好 :)<br>
+<br>
+<br>
+<h2>&#9733;如何使用&#65311;</h2><br>
+&#12288;&#12288;简单介绍一下如何使用&#12290;<br>
+<br>
+<h3>&#9671;下载</h3><br>
+&#12288;&#12288;直接到官网的<a href="http://www.vpngate.net/cn/download.aspx" target="_blank" rel="nofollow">这里</a>进行下载&#12290;VPN Gate 的官网早就被 GFW 封了&#65292;所以你需要用其它翻墙工具访问 VPN Gate 的官网&#12290;<br>
+&#12288;&#12288;如果你手头没有可用的翻墙工具&#65292;请用 <a href="https://www.google.com/reader/" target="_blank" rel="nofollow">Google Reader</a> 中打开俺博客的&#12298;<a href="../../2013/01/gfw-news.html">2013年1月翻墙快报</a>&#12299;&#12290;那篇博文中有&#8220;自由门&#12289;无界&#12289;世界通&#8221;的&#12304;墙内&#12305;下载链接哦&#12290;&#65288;趁着 Google Reader 还没关闭&#65292;再发挥一下它的余热&#65289;<br>
+&#12288;&#12288;提醒一下&#65292;VPN Gate 的安装包稍微有点大&#8212;&#8212;30多兆&#12290;<br>
+<br>
+<h3>&#9671;安装</h3><br>
+&#12288;&#12288;VPN Gate 不是绿色软件&#65292;需要先进行安装&#65292;而且要以 Windows 的管理员身份哦&#65288;相比很多绿色的翻墙软件&#65292;这点不太爽&#65289;&#12290;虽然安装需要用 Windows 的管理员用户&#65292;但平常可以用 Windows 的普通用户进行操作&#12290;<br>
+&#12288;&#12288;安装开始时&#65292;有一步是&#8220;选择安装的软件&#8221;&#65292;会有两项&#12290;要选第一项&#65292;不要选第二项&#12290;如下图&#65306;<br>
+<center><img src="../../images/2013/04/9iRf4lu1Zj3HEbHqY5SlPL03-Qns4OrVjpn7NiioGeJdI2szf51FNQNA1U5ZGrubNxn1b2ullMgvR4Qze5qyu_w3Kf22dxfg6unIUknr1JJXarDoNrfR1RP36xA" alt="不见图 请翻墙"></center>&#12288;&#12288;其它的安装步骤都很简单&#65292;俺就不浪费口水了&#12290;<br>
+<br>
+<h3>&#9671;添加&#8220;网络适配器&#8221;</h3><br>
+&#12288;&#12288;安装好之后&#65292;从开始菜单中点&#8220;SoftEther VPN 管理工具&#8221;&#65292;就会调出这款 VPN 的管理界面&#12290;主界面分上下两部分&#65306;上面是 "VPN 连接"的列表&#65292;下面是&#8220;虚拟网络适配器&#8221;的列表&#12290;<br>
+&#12288;&#12288;先到<b>下半边</b>的界面上点鼠标右键&#65292;在右键菜单中选&#8220;新建虚拟网络适配器&#8221;&#65292;会弹出一个对话框&#65292;让你输入一个适配器的名字&#12290;随便输入一个英文名即可&#65288;比如就输 vpn &#65289;&#12290;<br>
+<br>
+<h3>&#9671;获取公共服务器列表&#65288;正常情况&#65289;</h3><br>
+&#12288;&#12288;在<b>上半边</b>界面上&#65292;有一个&#8220;VPN Gate 公共 VPN 中继服务器&#8221;&#65292;如下图&#65306;<br>
+<center><img src="../../images/2013/04/OK5ytjaOSmP3MNdiSSdL8aWlXj9idWLUGdKZLjJcc9cp2y42FxaVWICchUgKdTE4qUkvhkk7WWUQsTQon6O4LZ0d-wsC1FXifu3Qb7L85JMMRi8yKd0Up4kK0iQ" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;双击一下&#65292;会弹出如下界面&#65306;<br>
+<center><img src="../../images/2013/04/hHMUuVU2AAfV1DhMhsBcfFrrz4WGRVJNct63rMLA-Mq1nIOgsuBiV3BF0PivqUVnp64mcLWBoPts0QNDnv455CJBhP1PZYWfW5EIPFJm5GEVQGSQXo_TOQ5Pq1o" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;你点一下右上方的&#8220;<b>刷新列表</b>&#8221;&#65292;然后稍等片刻&#12290;<b>如果一切正常</b>&#65292;大约十几秒或几十秒之后&#65292;这个服务器的列表就会刷新&#12290;而且服务器列表上方会显示&#8220;<b>最后更新时间</b>&#8221;&#65292;这个时间距离当前时间应该在20分钟之内&#12290;<br>
+这时候&#65292;你就可以进入下一步&#8212;&#8212;&#8220;&#9671;选择服务器的技巧&#8221;&#12290;<br>
+<br>
+<h3>&#9671;获取公共服务器列表&#65288;异常情况&#65289;</h3><br>
+&#12288;&#12288;在前一个步骤&#65292;如果你等了超过10分钟&#65292;列表还是没刷新&#65292;那说明 VPN Gate 的客户端软件暂时无法更新服务器列表&#12290;<br>
+&#12288;&#12288;为啥会这样捏&#65311;俺猜测是&#65306;客户端软件本地的服务器列表中&#65292;每一个服务器都被 GFW 屏蔽了&#12290;那么客户端软件就无法通过已有的服务器去更新列表&#12290;<br>
+&#12288;&#12288;这种情况比较少见&#65292;俺只偶尔碰到&#12290;万一碰上&#65292;怎么解决捏&#65311;<br>
+&#12288;&#12288;你需要先临时运行另一个&#12304;<b>可用的</b>&#12305;翻墙工具&#65288;比如&#8220;自由门&#12289;无界&#12289;赛风&#8221;等&#65289;&#12290;运行好了之后&#65292;在 VPN Gate 界面的服务器列表左下方有一个&#8220;<b>代理设置</b>&#8221;的按钮&#65292;点击之后会出现一个设置代理的界面&#12290;<br>
+&#12288;&#12288;然后你就填写另外一个翻墙工具的代理&#12290;&#65288;无界默认的 HTTP 代理端口是<code>9666</code>&#12289;自由门默认的 HTTP 代理端口是<code>8580</code>&#12289;赛风默认的 HTTP 代理端口是<code>8080</code>&#65289;填好之后&#65292;点确定&#12290;VPN Gate 就可以利用另一个翻墙工具联网&#12290;<br>
+&#12288;&#12288;这时候再点&#8220;刷新列表&#8221;按钮&#65292;服务器列表应该就会正常更新了&#12290;<br>
+&#12288;&#12288;<b>更新完之后&#65292;要记得把刚才修改过的代理设置恢复原状&#12290;</b><br>
+<br>
+<h3>&#9671;选择服务器的技巧</h3><br>
+&#12288;&#12288;在刚才提到的服务器列表中&#65292;通常会列出几十个服务器&#12290;这几十个服务器&#65292;并不是每个都可以用的&#12290;为啥捏&#65311;<br>
+&#12288;&#12288;据俺观察&#65292;GFW 已经开始封锁 VPN Gate 了&#12290;如果某个服务器连续运行的时间较长&#65288;比如超过2天&#65289;&#65292;那么这个服务器很可能已经上了 IP 黑名单了&#12290;这时候你就无法连上这个服务器了&#12290;<br>
+&#12288;&#12288;所以俺建议&#65292;尽量选择上线时间较短的服务器&#65288;看&#8220;运行时间&#8221;那一列&#65289;&#12290;另外为了保证速度快&#65292;还得看&#8220;线路速度&#8221;那一列&#65292;选大的&#12290;<br>
+<br>
+&#12288;&#12288;选好服务器之后&#65292;双击建立连接&#12290;如果一些正常&#65292;会出现如下对话框&#65292;表示你已经接入该服务器了&#12290;接入之后&#65292;VPN Gate 所在的 Windows 系统中&#65292;每个网络软件都自动走 VPN 翻墙通道&#12290;<br>
+<center><img src="../../images/2013/04/FtSSJau0jyt_3_twr6gAxlr_1f4bbHEg-80IOSzwTnhlByS5hdJ4VT1p6fQU0xzmUZEq109NtELYVYw1S4dS2Hg-HDKt7K2ZVXjONuBsDm-AW6MKAnatOaWA5J0" alt="不见图 请翻墙"></center>&#12288;&#12288;如果连不上&#65292;会提示连接失败&#12290;然后你就再尝试另一个服务器&#12290;俺通常试 2次 到 5次 会找到一个可用的&#12290;<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;在&#12298;<a href="../../2013/07/gfw-news.html">2013年7月翻墙快报</a>&#12299;中&#65292;俺又补充了一些&#8220;连接 VPN 服务器&#8221;的技巧&#12290;如果你总是连不上 VPNGate 的服务器&#65292;可以参考那篇博文&#12290;<br>
+<br>
+<br>
+<h2>&#9733;常见问题解答</h2><br>
+<h3>&#9671;如何免翻墙下载&#65311;</h3><br>
+&#12288;&#12288;很多读者抱怨 VPN Gate 的安装包太大&#65292;通过翻墙方式下载&#65292;容易中途断线&#12290;俺的建议是&#65292;通过 VPN Gate 官方的镜像网站下载&#65292;&#12304;无需翻墙&#12305;&#65292;直接下载&#12290;<br>
+&#12288;&#12288;为了获得镜像网站列表&#65292;你可以先翻墙看一下 VPN Gate 官网的&#8220;<a href="http://www.vpngate.net/cn/sites.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;由于镜像网站经常更新&#65292;还可以通过电子邮箱订阅&#8220;镜像网站列表的每日更新&#8221;&#12290;先请翻墙访问&#8220;<a href="http://www.vpngate.net/cn/mail.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;订阅之后&#65292;每隔8小时会发送一封邮件&#65292;告知你最新的镜像网站列表&#12290;<br>
+<br>
+<h3>&#9671;手机/平板上如何使用&#65311;</h3><br>
+&#12288;&#12288;如今移动设备日益流行&#12290;很多同学希望在移动设备上翻墙&#12290;<br>
+&#12288;&#12288;据 VPN Gate 官网的介绍&#65292;目前支持 Android 设备&#65288;翻墙看&#8220;<a href="http://www.vpngate.net/cn/howto_android.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;和 iOS 设备&#65288;翻墙看&#8220;<a href="http://www.vpngate.net/cn/howto_ios.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;如何让其它电脑也通过 VPN Gate 翻墙&#65311;</h3><br>
+&#12288;&#12288;关于跨电脑共享翻墙通道&#65292;俺之前写过一篇扫盲教程&#65292;在&#8220;<a href="../../2013/01/cross-host-use-gfw-tool.html">这里</a>&#8221;&#12290;<br>
+<br>
+<h3>在 VPN Gate 联通之后&#65292;为啥有些墙外网站能访问&#65292;有些却不行&#65311;</h3><br>
+&#12288;&#12288;在&#12298;<a href="../../2009/05/how-to-break-through-gfw.html">如何翻墙</a>&#12299;和&#12298;<a href="../../2011/09/gfw-vpn-hotspot-shield.html">扫盲 VPN 翻墙&#8212;&#8212;以 Hotspot Shield 为例</a>&#12299;这2篇教程中&#65292;俺都提及了&#8220;DNS 劫持&#8221;的问题&#12290;<br>
+&#12288;&#12288;如果你的操作系统中使用的是国内的 DNS 服务器&#65292;那么就存在&#8220;DNS 劫持&#8221;的风险&#12290;因为某些国内的 DNS 服务器&#65292;当你向该服务器查询某个墙外的&#12304;敏感&#12305;网站&#65292;它会&#12304;故意&#12305;给出错误的 DNS 查询结果&#12290;要避免这种很流氓的&#8220;DNS 劫持&#8221;&#65292;方法很简单&#8212;&#8212;改用国外的 DNS 服务器&#65288;比如 Google 提供的 <code>8.8.8.8</code> 和 <code>8.8.4.4</code>&#65289;&#12290;<br>
+&#12288;&#12288;关于 DNS 方面的更多扫盲介绍&#65292;请看俺后来写的&#12298;<a href="../../2014/01/dns.html">扫盲 DNS 原理&#65292;兼谈&#8220;域名劫持&#8221;和&#8220;域名欺骗/域名污染&#8221;</a>&#12299;&#12290;<br>
+<br>
+<h3>&#9671;VPN Gate 的安全性/隐匿性如何&#65311;</h3><br>
+&#12288;&#12288;从原理上看&#65292;VPN Gate 至少要比国内的 VPN 提供商更具备隐匿性&#12290;因为国内的 VPN 提供商通常会屈服于朝廷的压力&#65292;配合朝廷对用户的行为进行逆向追溯&#12290;<br>
+&#12288;&#12288;和国外的 VPN 提供商相比&#65292;VPN Gate 的安全性和隐匿性应该差不多&#12290;<br>
+<br>
+&#12288;&#12288;有一个地方需要提醒一下&#65306;VPN Gate 有&#8220;反滥用政策&#8221;&#65292;官网介绍在&#8220;<a href="http://www.vpngate.net/cn/about_abuse.aspx" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;根据这个政策&#65292;为了防止某些人滥用 VPN Gate&#65288;比如用来发送垃圾邮件&#65289;&#65292;VPN Gate 服务器会记录匿名用户的连接信息&#65292;包括如下&#65306;<br>
+<blockquote>日期和时间<br>
+目标 VPN 服务器的 ID&#12289;IP 地址和主机名称<br>
+活动的类型 (连接或断开)<br>
+源 VPN 客户端计算机的原始 IP 地址和主机名称<br>
+VPN 协议的类型 (SSL-VPN&#12289;L2TP&#12289;OpenVPN 或 SSTP)<br>
+VPN 客户端软件的名称和版本 (如果可用)<br>
+一个 VPN 连接的数据包数和字节数</blockquote><br>
+&#12288;&#12288;如果你对隐匿性的要求很高&#65292;但是又希望使用 VPN Gate 翻墙&#65292;俺强烈建议使用 <b>VPN + TOR</b>&#65292;构造双重代理&#12290;具体的教程请看&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;系列博文的第5篇&#12298;<a href="../../2012/03/howto-cover-your-tracks-5.html">用多重代理隐匿公网IP</a>&#12299;&#12290;<br>
+&#12288;&#12288;对于双重代理&#65292;VPN Gate 服务器记录的连接信息是你对 TOR 节点的连接信息&#65292;而不是你对目标网站的连接信息&#12290;如此一来&#65292;通过你访问的目标网站进行逆向追踪&#65292;很难找到你的<b>真实公网IP</b>&#12290;<br>
+<br>
+<h3>&#9671;为啥 VPN Gate 的安装包频繁更新&#65311;</h3><br>
+&#12288;&#12288;某些仔细的同学应该会发现&#65292;VPN Gate 官网提供的下载包&#65292;变化很频繁&#12290;大概几十分钟就出一个新的&#12290;<br>
+&#12288;&#12288;主要是因为 VPN Gate 的安装包里面&#65292;包含了当前最新的服务器列表&#12290;前面说了&#65292;VPN Gate 在全球的服务器&#65292;每分钟都有变化&#12290;这就导致安装包频繁更新&#12290;<br>
+&#12288;&#12288;顺便解释一下安装包的文件名&#65306;<br>
+以俺写本文时&#65292;官网的下载链接为例&#12290;文件名是 <code>vpngate-client-2013.04.19-build-9070.126514.zip</code><br>
+<i>2013.04.19 表示生成该安装包的日期<br>
+build-9070 表示软件版本的 Build 号&#65288;这个号在软件的&#8220;关于对话框&#8221;也能看到&#65289;<br>
+126514 这是一个递增的序列号&#65292;每制作一个新的安装包&#65292;就加一</i><br>
+&#12288;&#12288;上述这几个部分&#65292;通常只需要关心 build 号&#12290;<br>
+<br>
+<h3>&#9671;为啥安装之后&#65292;没有出现&#8220;中继服务器列表&#8221;&#65311;</h3><br>
+&#12288;&#12288;出现这种情况&#65292;很可能是装错软件了&#12290;<br>
+&#12288;&#12288;有些同学装的是 SoftEther VPN&#65292;而不是 VPN Gate<br>
+&#12288;&#12288;VPN Gate 的底层是基于 SoftEther VPN 的&#12290;SoftEther VPN 本身&#12304;不&#12305;提供中继服务器列表&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+<a href="../../2013/07/gfw-news.html">2013年7月翻墙快报&#65288;补充介绍 VPN Gate 经验&#65289;</a><br>
+<a href="../../2009/05/how-to-break-through-gfw.html">如何翻墙</a>&#65288;传说中的扫盲教程&#65292;定期更新&#65289;<br>
+<a href="../../2011/09/gfw-faq.html">常见翻墙问题答疑</a>&#65288;传说中的 FAQ&#65292;定期更新&#65289;<br>
+<a href="../../2011/03/how-to-get-gfw-tools.html">获取翻墙软件方法大全</a>&#65288;教你在无法翻墙的情况下拿到翻墙软件&#65289;<br>
+<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何共享翻墙通道</a><br>
+<a href="../../2014/01/dns.html">扫盲 DNS 原理&#65292;兼谈&#8220;域名劫持&#8221;和&#8220;域名欺骗/域名污染&#8221;</a><br>
+<a href="../../2013/11/tor-faq.html">关于 TOR 的常见问题解答</a><br>
+<a href="../../2011/12/gfw-wujie.html">新版本无界&#8212;&#8212;赛风3失效后的另一个选择</a><br>
+<a href="../../2011/10/gfw-psiphon.html">双管齐下的赛风3</a><br>
+<a href="../../2010/03/choose-free-gate.html">自由門&#8212;&#8212;TOR 被封之后的另一个选择</a><br>
+<a href="../../2011/09/gfw-vpn-hotspot-shield.html">扫盲 VPN 翻墙&#8212;&#8212;以 Hotspot Shield 为例</a><br>
+<a href="../../2009/09/break-through-gfw-with-tor.html">戴&#8220;套&#8221;翻墻的方法</a><br>
+<a href="../../2012/06/gfw-i2p.html">简单扫盲 I2P 的使用</a>
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2013/04/gfw-vpngate.html" id="OriginalPostUrl">https://program-think.blogspot.com/2013/04/gfw-vpngate.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="440">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/5207768724428812421?postID=5207768724428812421&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/5207768724428812421.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

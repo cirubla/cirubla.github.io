@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="Python script by program.think@gmail.com" />
+  <meta name="provider" content="program-think.blogspot.com" />
+  <script src="../../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script type="text/javascript">window.rootNavigator = '../../' </script>
+  <script src="../../scripts/base.js" type="text/javascript"></script>
+  <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
+  <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
+  <title>&#8220;如何翻墙&#8221;系列&#65306;简单扫盲 I2P 的使用 - 编程随想的博客</title>
+</head>
+
+<body>
+  <div id="outer-wrapper">
+    <div id="content-wrapper">
+      <div id="main" style="width:67%;">
+        <div class="widget Header" data-version="1" id="Header1">
+          <div id="header-inner">
+            <div class="titlewrapper">
+              <h1 class="title">
+                <a href="../../index.html">
+                  编程随想的博客
+                </a>
+              </h1>
+            </div>
+            <div class="descriptionwrapper">
+              <p class="description"></p>
+              <hr>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-content">
+          <div class="post-toolbar">
+            <div class="post-toolbar-1">
+            </div>
+            <div class="post-toolbar-2">
+              <span class="post-timestamp" data="2012-06-15T20:47:00+08:00">2012年6月15日</span>
+              <span class="post-comment-link">
+                <a class="comment-link" href="#comments">评论数：225条</a>
+              </span>
+              <span class="post-labels">
+                标签：
+                <a href="../../tags/IT.html" class="tag">IT</a>  <a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a>  <a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a>  
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h1 class="post-title entry-title">
+              <a href="https://program-think.blogspot.com/" title="点击跳转到原文(Blogspot)地址">
+              &#8220;如何翻墙&#8221;系列&#65306;简单扫盲 I2P 的使用
+              </a>
+            </h1>
+
+            <div class='post-header'>
+              <div class='post-header-line-1'>
+              <div class='post-inner-index'></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="post">
+            
+&#12288;&#12288;最近有网友在博客里留言&#65292;强烈希望俺扫盲 I2P 的使用&#12290;其实俺很早就尝试过 I2P&#65292;但因为速度太慢&#65292;所以一直没在博客上推荐&#12290;最近 I2P 刚发布了 0.9.0 版本&#65292;俺试了一下&#65292;速度有所改善&#12290;所以今天给大伙儿介绍一下&#12290;<br>
+<a name='more'></a><br>
+<br>
+<h2>&#9733;I2P 是啥玩意儿&#65311;</h2><br>
+&#12288;&#12288;I2P 是洋文&#8220;Invisible Internet Project&#8221;的缩写&#12290;官方网站是 <a href="https://geti2p.net/" target="_blank" rel="nofollow">https://geti2p.net/</a>&#65292;维基百科的介绍在&#8220;<a href="https://zh.wikipedia.org/wiki/I2P" target="_blank" rel="nofollow">这里</a>&#8221;&#12290;<br>
+&#12288;&#12288;I2P 在很多方面跟 Tor 相似&#8212;&#8212;也是开源软件&#12289;也采用分布式&#12289;也强调隐匿性&#12290;<br>
+<br>
+<br>
+<h2>&#9733;I2P 有啥特点&#65311;</h2><br>
+<h3>&#9671;安全性很强</h3><br>
+&#12288;&#12288;为啥说 I2P 的安全性强捏&#65311;<br>
+&#12288;&#12288;在网络路由方式上&#65292;大名鼎鼎的 TOR 是&#8220;洋葱路由&#8221;&#65292;而 I2P 是&#8220;大蒜路由&#8221;&#12290;这个&#8220;大蒜路由&#8221;&#65292;据说是&#8220;洋葱路由&#8221;的增强改进版&#8212;&#8212;安全性更好&#12289;隐匿性更强&#12290;<br>
+&#12288;&#12288;具体好在哪捏&#65311;简单说一下&#12290;<br>
+<br>
+&#12288;&#12288;Tor 和 I2P 的相同点在于&#65306;<br>
+都是经过若干个网络节点来加密和中转数据&#65292;并防止你的真实 IP 暴露&#12290;<br>
+&#12288;&#12288;两者的差别在于&#65306;<br>
+TOR 使用&#12304;<b>同一条网络链路</b>&#12305;实现数据的发送和接收&#65307;<br>
+I2P 使用&#12304;<b>多条网络链路</b>&#12305;发送数据和接受数据&#8212;&#8212;并且发送和接收数据的链路&#65292;数量可以是不同的&#12290;<br>
+<br>
+&#12288;&#12288;两者在路由方式上的差异对比&#65292;请看如下示意图&#12290;更多的技术细节&#65292;俺就不展开了&#12290;大伙儿有兴趣的话&#65292;今后单独写篇博文&#12290;<br>
+<center><img src="../../images/2012/06/o-uTSq98Ia1XqkNO58OJ6dOCqnxgSQwKed9PgStwC23PMaDAzllmdS-ArOabeCtsbWY4aB4G3YvqK_V4_qVkAyGKgNljgt7XqHoKLIHluFGADBMo4CQ" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;很难被封杀</h3><br>
+&#12288;&#12288;在抗封杀方面&#65292;I2P 比 Tor 要坚挺&#12290;<br>
+<br>
+&#12288;&#12288;先说说 Tor 为啥被天朝封杀&#65306;<br>
+&#12288;&#12288;Tor 每次启动时&#65292;需要先连接到某个 Tor 的&#12304;目录服务器&#12305;&#65292;获取网络上可用节点的信息&#12290;由于目录服务器数量&#12304;很少&#12305;&#65292;GFW 就把互联网上所有的 Tor 目录服务器的 IP 地址都列入黑名单&#12290;后来&#65292;Tor 官网提供网桥中继&#65292;帮助网友接入 Tor 网络&#12290;但是捏&#65292;Tor 的网桥中继&#65292;数量依然不太多&#12290;据说 GFW 专门有人在盯着 Tor 官网更新的网桥中继地址&#8212;&#8212;每次有新的中继地址贴出来&#65292;就列入黑名单&#12290;经过 GFW 的不懈努力&#65292;大部分 Tor 的网桥都被封杀&#12290;大约从2010~2014年&#65292;Tor 在天朝内不太好使&#65288;直到 Tor 后来提供了 meek 插件&#65292;才重新突破 GFW 的封锁&#65289;<br>
+<br>
+&#12288;&#12288;再看看 I2P 为啥封杀不了&#65306;<br>
+&#12288;&#12288;I2P 使用 Kad 算法&#65288;用过电驴或电骡的网友&#65292;应该听说过&#65289;来获取网络节点的信息&#12290;这么做有几个好处&#65306;<br>
+1. 不需要目录服务器<br>
+2. Kad 算法拿到的节点信息只是整个 I2P 网络的一小部分<br>
+3. 每一台运行 I2P 的主机都可以成为中继&#65292;帮别人转发数据&#65288;类似于 P2P 下载&#65289;<br>
+&#12288;&#12288;由于上述好处&#65292;GFW 很难把所有 I2P 节点都列入黑名单&#12290;<br>
+&#12288;&#12288;引申阅读&#65306;<br>
+&#12298;<a href="../../2017/09/Introduction-DHT-Kademlia-Chord.html">聊聊分布式散列表&#65288;DHT&#65289;的原理&#8212;&#8212;以 Kademlia&#65288;Kad&#65289; 和Chord 为例</a>&#12299;<br>
+<br>
+<h3>&#9671;速度很慢</h3><br>
+&#12288;&#12288;前面说的这些优点&#65292;导致了一个明显的副作用&#65292;就是速度慢&#12290;<br>
+&#12288;&#12288;速度慢是 I2P 为了安全性而不得不付出的代价&#12290;据俺亲自测试&#65292;0.9版本下载速度最多只有十几 KB/s 而已&#12290;如果是以前的版本&#65292;似乎还要慢 :(<br>
+<br>
+<br>
+<h2>&#9733;简明使用教程</h2><br>
+<h3>&#9671;准备工作</h3><br>
+&#12288;&#12288;I2P 的官网老早以前就被 GFW 封了&#12290;所以你需要&#12304;翻墙&#12305;才能打开&#8220;<a href="https://geti2p.net/zh-cn/download" target="_blank" rel="nofollow">这个下载页面</a>&#8221;&#65292;下载 I2P 的最新版本&#65288;目前是 0.9.xx&#65289;&#12290;<br>
+&#12288;&#12288;由于 I2P 是用 Java 编写的&#65292;所以你本机需要安装 Java 的运行环境&#65288;JDK 或 JRE&#65289;&#12290;Java 的版本需要 1.5 或者更高&#65288;Java 官网的下载页面在&#8220;<a href="https://java.com/zh_CN/" target="_blank" rel="nofollow">这里</a>&#8221;&#65289;&#12290;<br>
+<br>
+<h3>&#9671;安装</h3><br>
+&#12288;&#12288;安装的第一步会让你选语言&#65292;不懂洋文的同学&#65292;当然要选中文啦&#12290;安装步骤很简单&#65292;俺就不浪费口水了&#12290;<br>
+<br>
+<h3>&#9671;运行</h3><br>
+&#12288;&#12288;安装完成后&#65292;会在开始菜单添加 I2P 的链接&#12290;点击相关菜单&#65292;就可以启动 I2P&#12290;<br>
+&#12288;&#12288;I2P 本身不提供 GUI 界面&#65292;但是提供 Web 界面&#12290;I2P 启动后&#65292;你只需在浏览器地址栏输入 <code>http://127.0.0.1:7657/</code> 即可看到 I2P 的控制界面&#12290;<br>
+<br>
+<h3>&#9671;补种</h3><br>
+&#12288;&#12288;<b>注意&#65281;这步是关键&#65292;看仔细喽&#65281;</b><br>
+&#12288;&#12288;前面说了&#65292;I2P 是依靠 Kad 网络算法&#65292;通过不断扩散&#65292;来获取越来越多的节点信息&#12290;但是这个 Kad 网络算法不是万能的&#8212;&#8212;它需要一些初始的种子&#65292;才能开始工作&#12290;在 I2P 的安装包中&#65292;已经内置了若干种子&#65288;节点信息&#65289;&#12290;但是天朝的 GFW 早就把这些内置的节点彻底封杀了&#12290;所以在天朝&#65292;第一次启动 I2P 会找不到网络&#12290;这时候就需要补种&#65288;补充种子&#65289;&#65292;洋文叫&#8221;reseed&#8220;&#12290;<br>
+<br>
+&#12288;&#12288;通常来说&#65292;补种只需要做一次&#65292;之后你的 I2P 就可以一直联网了&#12290;如果你的 I2P 停了很长时间&#65288;几个月&#65289;没有运行&#65292;那么下一次运行的时候&#65292;可能会无法联网&#65292;这时候就需要再补种&#12290;<br>
+<br>
+&#12288;&#12288;I2P 的补种大致有三招&#65292;分别如下&#65306;<br>
+<br>
+&#12288;&#12288;<b>第1招&#65306;用其它翻墙工具给 I2P 补种</b><br>
+&#12288;&#12288;I2P 内置了一批&#8220;补种服务器&#8221;&#65288;洋文叫&#8220;reseed server&#8221;&#65289;&#12290;很显然&#65292;这些&#8220;补种服务器&#8221;早就被 GFW 封杀了&#12290;要想通过这些&#8220;种子服务器&#8221;进行补种&#65292;需要让 I2P 通过&#12304;其它翻墙工具&#12305;联网&#12290;<br>
+&#12288;&#12288;启动 I2P 之后&#65292;用浏览器中访问如下网址&#65292;就可以进入&#12304;I2P 的补种界面&#12305;&#12290;<br>
+<code>http://127.0.0.1:7657/configreseed</code><br>
+<br>
+&#12288;&#12288;在这个界面上添加代理&#65292;填好代理地址和端口之后&#65292;要记得点击 "保存修改+立刻开始网络引导" 按钮哦&#12290;然后 I2P 就可以通过其它翻墙工具联网并补种&#12290;界面截图如下&#65288;具体的代理地址和端口&#65292;取决于你用的翻墙软件&#65289;&#65306;<br>
+<center><img src="../../images/2012/06/T1WMrMyvpFTMNAUDx5oeCYzlozrPzJJd25pY27XsRQO6LnvpvfO0n7QkPoo__gy66RL2bd5jSIw8pfRiHS9yWP_UpD8_XrGFm5q73usyiMD5gfOwvA" alt="不见图 请翻墙"></center><br>
+&#12288;&#12288;补种完成之后&#65292;当 I2P 已经找到其它节点&#65288;界面上的 Peers 大于零&#65289;&#65292;你就可以把代理的选项&#12304;去掉&#12305;&#8212;&#8212;让 I2P&#12304;独立联网&#12305;&#12290;<br>
+<br>
+&#12288;&#12288;<b>第2招&#65306;找其它人帮忙获取 I2P 的&#12304;种子文件&#12305;</b><br>
+&#12288;&#12288;假设你有一个朋友手头有&#12304;可用的&#12305;I2P&#65292;那么你让这个朋友生成 I2P 的种子文件&#65292;并把种子文件发给你&#65307;然后你在自己的 I2P 补种界面上&#65292;导入这个种子文件&#65292;就可以成功补种&#12290;<br>
+&#12288;&#12288;&#12304;生成种子文件&#12305;的方法如下&#65306;<br>
+&#12288;&#12288;进入&#8220;I2P 的补种界面&#8221;&#65292;界面上有一项是&#12304;Create reseed file&#12305;&#12290;如果 I2P 已经联网&#65292;就可以通过这个功能&#65292;创建一个种子文件&#65288;文件中会包含可用的 I2P 节点的信息&#65289;&#12290;这个种子文件可以分享给其他 I2P 的使用者&#12290;<br>
+&#12288;&#12288;&#12304;导入种子文件&#12305;的方法如下&#65306;<br>
+&#12288;&#12288;进入&#8220;I2P 的补种界面&#8221;&#65292;界面上有一项是&#12304;Reseed from file&#12305;&#65292;用来导入种子文件&#12290;只要导入的种子文件&#12304;足够新鲜&#12305;&#65292;就可以让无法联网的 I2P 重新联网&#12290;<br>
+<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;种子文件是有&#12304;时效性&#12305;滴&#12290;越久以前创建的种子文件&#65292;时效性越差&#12290;因为 I2P 网络的节点是在不断变化的&#8212;&#8212;很早以前创建的种子文件&#65292;其中包含的节点信息可能已经过时了&#12290;一般来说&#65292;一两天之内的种子文件&#65292;是&#8220;新鲜&#8221;的&#65307;而超过一周的种子文件&#65292;就&#8220;不新鲜&#8221;了&#12290;<br>
+<br>
+&#12288;&#12288;<b>第3招&#65306;通过 BT sync&#65288;Resilio Sync&#65289;获得 I2P 的&#12304;种子文件&#12305;</b><br>
+&#12288;&#12288;如果你既没有其它可用的翻墙工具&#65292;也没有其它朋友可以帮你生成种子文件&#65292;那么你还有第三个选择&#8212;&#8212;利用俺提供的 BTsync&#65288;Resilio Sync&#65289;网盘获取种子文件&#12290;<br>
+&#12288;&#12288;熟悉俺博客的读者应该都知道&#65306;俺提供了一个 BTsync 网盘用来分享翻墙工具&#12290;该网盘的&#12304;同步密钥&#12305;如下&#65306;<br>
+<pre>BTLZ4A4UD3PEWKPLLWEOKH3W7OQJKFPLG</pre>&#12288;&#12288;从2017年10月开始&#65292;俺已经在这个网盘上放了几个&#8220;种子文件&#8221;&#65288;位于 <code>I2P</code> 目录下的 <code>seeds</code> 子目录&#65289;&#12290;种子文件的&#8220;文件名&#8221;是俺下载种子文件的 reseed server 的域名&#65307;种子文件的&#8220;扩展名&#8221;是 <code>su3</code><br>
+&#12288;&#12288;在翻墙困难的时期&#65292;俺会尽量多更新网盘上的这批种子文件&#12290;<br>
+<br>
+&#12288;&#12288;补充说明&#65306;<br>
+&#12288;&#12288;如果俺从自己的 I2P 界面上创建种子文件&#65292;这些种子文件可能会包含一些跟俺本人的网络环境相关的信息&#12290;<br>
+&#12288;&#12288;所以&#65292;&#12304;为了保护自己的隐匿性&#12305;&#65292;俺分享的&#8220;种子文件&#8221;是从一些&#12304;公开的&#12305;&#8220;补种服务器&#8221;下载的&#12290;为了确保种子文件的可靠性&#65292;俺使用了 I2P 界面&#12304;内置的&#12305;&#8220;补种服务器&#8221;&#65288;在&#8220;I2P 补种界面&#8221;上有这些 server 的列表&#65289;&#12290;<br>
+<br>
+<br>
+&#12288;&#12288;俺补种成功之后的效果图如下&#65306;<br>
+<center><img src="../../images/2012/06/6NujhJDgYrvkfnYSxGXY4HomlpRPWqCm__vrWl_s89q7cK3a0_vadIfIRGXS2JPwDIwArMILOjm6o1GOW9WGBLuDGUuxXYLOxABF2cZHpKWU1pR9Bg" alt="不见图 请翻墙"></center>&#65288;图中的 <code>4 / 48</code> 表示&#65306;最近一分钟内&#65292;跟4个节点有通讯&#65307;最近一小时内&#65292;跟48个节点有通讯&#65289;<br>
+<br>
+&#12288;&#12288;如果 I2P 找到的活动节点太少&#65288;小于20个&#65289;&#65292;你就让它一直开着&#12290;开的时间越长&#65292;它能找到越多的节点&#12290;<br>
+<br>
+<h3>&#9671;设置浏览器</h3><br>
+&#12288;&#12288;一旦你的 I2P 接入网络&#65292;就可以利用 I2P 的代理来翻墙了&#12290;<br>
+&#12288;&#12288;I2P 默认提供 HTTP 代理&#65288;<code>127.0.0.1:4444</code>&#65289;和 HTTPS 代理&#65288;<code>127.0.0.1:4445</code>&#65289;&#65292;配置如下图&#65288;以 Firefox 为例&#65292;其它浏览器大同小异&#65289;&#65306;<br>
+<center><img src="../../images/2012/06/gmPWIry3s1ZX6241mtihKrDa_zfB-f9qITc4XuGJHGQLf2u3VO1G_x0UsMEb08cigMY3zeExU9MZz8iu5rHWKVWgODhBJZ1I_ad9OXSZT8u0_Jt6sQ" alt="不见图 请翻墙"></center><br>
+<h3>&#9671;翻墙测试</h3><br>
+&#12288;&#12288;为了测试 I2P 的翻墙效果&#65292;俺去下载了几个翻墙软件&#12290;测试下来&#65292;最大下载速度只有 10 KB/s 左右&#12290;连接不稳定&#65292;有时候下载到一半就断掉&#12290;<br>
+&#12288;&#12288;假如哪位同学也尝试了 I2P&#65292;欢迎到<a href="../../2012/06/gfw-i2p.html">俺博客留言</a>&#65292;反馈你的使用情况&#65288;尤其是网速的情况&#65289;&#12290;<br>
+<br>
+<br>
+<h2>&#9733;总结&#8212;&#8212;I2P 能用来干啥&#65311;</h2><br>
+&#12288;&#12288;在本文的末尾&#65292;俺稍微总结一下 I2P 的几种用途&#12290;<br>
+<br>
+<h3>&#9671;应急情况下&#65292;获取其它翻墙工具</h3><br>
+&#12288;&#12288;对于普通的网友&#65292;平时是不需要用 I2P 的&#65288;因为速度太慢&#65289;&#12290;但是你最好在手头留一个可用的 I2P 软件&#65292;以防万一&#12290;说不定哪天&#65292;朝廷加大网络封锁力度&#65292;导致你正在用的翻墙软件失效&#65292;这时候你就可以用 I2P 去下载其它翻墙软件的最新版本&#12290;<br>
+<br>
+<h3>&#9671;匿名上网</h3><br>
+&#12288;&#12288;俺个人觉得&#65292;<a href="../../2012/03/howto-cover-your-tracks-5.html">用 Tor 搞多重代理</a>&#65288;以其它翻墙工具作为 Tor 的前置代理&#65289;&#65292;已经足以在天朝匿名上网了&#12290;不过捏&#65292;少数比较挑剔的网友&#65292;会嫌 Tor 还不够安全&#12290;对这些网友来说&#65292;I2P 是 Tor 的&#12304;更安全&#12305;替代品&#12290;<br>
+<br>
+<h3>&#9671;使用 I2P 应用</h3><br>
+&#12288;&#12288;其实拿 I2P 来做代理&#65292;是杀鸡用牛刀&#12290; 当初开发 I2P 的 主要目的&#65292;并&#12304;不是&#12305;为了提供翻墙代理&#65292;而是为了提供 &#8220;暗网&#8221;&#65288;洋文叫&#8221;darknet&#8220;&#65289;&#12290;所谓的&#8220;暗网&#8221;&#65292;就是一个完全隐匿的&#65292;不受政府监管的&#65292;也不会被政府破坏的地下互联网&#12290;既然是&#8220;地下互联网&#8221;&#65292;常见的互联网应用&#65288;比如&#65306;邮件&#12289;论坛&#12289;聊天&#12289;博客&#12289;文件共享&#65289;&#65292;I2P 网络上都有&#12290;在 I2P 网络使用这些应用&#65292;你的真实 IP 地址&#12304;不会&#12305;暴露&#65292;减低了跨省追捕的风险&#12290;<br>
+&#12288;&#12288;举个例子&#65306;假如你想成立一个地下组织&#65292;密谋颠覆朝廷&#12290;那就可以考虑让组织内的成员都采用 I2P 的网络应用&#8212;&#8212;对隐藏真实 IP 很有效&#12290;<br>
+&#12288;&#12288;至于如何在 I2P 上使用各种应用&#65292;不是本文的主题&#12290;有兴趣的同学&#65292;请看官网的&#8220;<a href="https://geti2p.net/zh-cn/faq" target="_blank" rel="nofollow">中文 FAQ</a>&#8221;&#12290;<br>
+<br>
+&#12288;&#12288;最后&#65292;祝愿更多的天朝网友掌握翻墙姿势&#65292;早日呼吸到互联网上自由的空气&#12290;<br>
+<br>
+<br>
+<b>俺博客上&#65292;和本文相关的帖子&#65288;需翻墙&#65289;</b>&#65306;<br>
+&#12298;<a href="../../2009/05/how-to-break-through-gfw.html">如何翻墙</a>&#12299;&#65288;传说中的扫盲教程&#65292;偶尔会更新&#65289;<br>
+&#12298;<a href="../../2011/09/gfw-faq.html">常见翻墙问题答疑</a>&#12299;&#65288;传说中的 FAQ&#65292;偶尔会定期更新&#65289;<br>
+&#12298;<a href="../../2011/03/how-to-get-gfw-tools.html">获取翻墙软件方法大全</a>&#12299;&#65288;教你在无法翻墙的情况下拿到翻墙软件&#65289;<br>
+&#12298;<a href="../../2013/01/cross-host-use-gfw-tool.html">多台电脑如何&#12304;共享&#12305;翻墙通道&#8212;&#8212;兼谈&#12304;端口转发&#12305;的几种方法</a>&#12299;<br>
+&#12298;<a href="../../2019/04/Proxy-Tricks.html">如何让&#12304;不支持&#12305;代理的网络软件&#65292;通过代理进行联网&#65288;不同平台的 N 种方法&#65289;</a>&#12299;<br>
+&#12298;<a href="../../2013/11/tor-faq.html">关于 TOR 的常见问题解答</a>&#12299;<br>
+&#12298;<a href="../../2009/09/break-through-gfw-with-tor.html">戴&#8220;套&#8221;翻墻的方法</a>&#12299;<br>
+&#12298;<a href="../../2013/04/gfw-vpngate.html">扫盲 VPN Gate&#8212;&#8212;分布式的 VPN 服务器</a>&#12299;<br>
+&#12298;<a href="../../2011/12/gfw-wujie.html">新版本无界&#8212;&#8212;赛风3失效后的另一个选择</a>&#12299;<br>
+&#12298;<a href="../../2011/10/gfw-psiphon.html">双管齐下的赛风3</a>&#12299;<br>
+&#12298;<a href="../../2010/03/choose-free-gate.html">自由門&#8212;&#8212;TOR 被封之后的另一个选择</a>&#12299;<br>
+&#12298;<a href="../../2011/09/gfw-vpn-hotspot-shield.html">扫盲 VPN 翻墙&#8212;&#8212;以 Hotspot Shield 为例</a>&#12299;<br>
+&#12298;<a href="../../2010/04/howto-cover-your-tracks-0.html">如何隐藏你的踪迹&#65292;避免跨省追捕</a>&#12299;&#65288;系列&#65289;<br>
+&#12298;<a href="../../2017/09/Introduction-DHT-Kademlia-Chord.html">聊聊分布式散列表&#65288;DHT&#65289;的原理&#8212;&#8212;以 Kademlia&#65288;Kad&#65289; 和Chord 为例</a>&#12299;
+<div class='post-copyright'>
+<b>版权声明</b><br>本博客所有的原创文章&#65292;作者皆保留版权&#12290;转载必须包含本声明&#65292;保持本文完整&#65292;并以超链接形式注明作者<a href='mailto:program.think@gmail.com'>编程随想</a>和本文原始地址&#65306;<br>
+<a href="../../2012/06/gfw-i2p.html" id="OriginalPostUrl">https://program-think.blogspot.com/2012/06/gfw-i2p.html</a>
+</div>
+<div style='clear: both;'></div>
+
+          </div>
+
+          <div>
+            <hr style="margin-left: 30px;">
+          </div>
+
+          <div class="comments" id="comments" init_num="225">
+            <a name="comments"></a>
+            <h4 id="comments-label"></h4>
+            <div id="comments-toolbar"></div>
+            <div id="comments-warning">
+              <noscript>
+                由于你的浏览器【禁用了】JavaScript 脚本，所以无法发布新的评论 :(
+
+                <br>另外，本文的评论数超过200，缺乏 JS 脚本支持，只能显示前面的200条 :(
+              </noscript>
+            </div>
+            <div id="comments-loading"></div>
+            <div id="comments-content">
+              <div id="comment-holder">
+              </div>
+            </div>
+            <p class="comment-footer">
+            </p>
+            <div class="comment-form">
+              <a name="comment-form"></a>
+              <p>
+              </p>
+              <a href="https://www.blogger.com/comment/frame/7283966968335405547?postID=7283966968335405547&amp;hl=zh-CN"
+                id="comment-editor-src"></a>
+            </div>
+            <p></p>
+            <div id="backlinks-container">
+              <div id="Blog1_backlinks-container">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <script src="../../scripts/slogan.js"></script>
+      <script src="../../scripts/pako.es5.min.js"></script>
+      <script src="../../comments/7283966968335405547.js"></script>
+      <script src="../../scripts/comments.js"></script>
+
+      <div id="sidebar-wrapper">
+        <div class="sidebar section" id="sidebar">
+
+          <div class="widget HTML" id="BlogAbout">
+            <div class="widget-content">
+              <img src="../../images/thinker.jpg" alt="编程随想的Logo" title="编程随想的Logo"><br>
+              <br>
+              <img src="../../images/favicon/blogspot.ico" height="16" width="16" />
+              <a href="https://program-think.blogspot.com/" target="_blank">博客主站点 (BlogSpot)</a><br>
+              <img src="../../images/favicon/gmail.ico" height="16" width="16" />
+              <a href="mailto:program.think@gmail.com" target="_blank">俺的邮箱 (Gmail)</a><br>
+              <img src="../../images/favicon/github.ico" height="16" width="16" />
+              <a href="https://github.com/programthink" target="_blank">俺的收藏 (GitHub)</a><br>
+              <img src="../../images/favicon/twitter.ico" height="16" width="16" />
+              <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogFeed">
+            <h2 class="title">订阅博客</h2>
+            <div class="widget-content">
+              <a href="https://feeds2.feedburner.com/programthink" target="_blank" title="RSS 订阅">
+                <img src="../../images/feed-icon-animated.gif" alt="RSS 订阅" border="0"></a>　　　
+              <a href="2013/06/email-subscription.html" title="邮件订阅">
+                <img src="../../images/email-icon.png" alt="邮件订阅" border="0"></a><br>
+            </div>
+          </div>
+
+          <div class="widget Text" id="BlogDesc">
+            <h2 class="title">博客主要内容</h2>
+            <div class="widget-content">
+              ★提升思维能力<br>
+              ★普及政治常识<br>
+              ★扫盲翻墙姿势<br>
+              ★揭露党国嘴脸<br>
+              ★网络安全教程<br>
+              ★软件开发技术
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogTags">
+            <h2>分类标签</h2>
+            <div class="widget-content list-label-widget-content">
+              <ul>
+                <li><a href="../../tags/IT.html" class="tag">IT</a> (208)</li>
+                <li><a href="../../tags/IT.Linux.html" class="tag">IT.Linux</a> (6)</li>
+                <li><a href="../../tags/IT.E4B89AE7958CE8AF84E8AEBA.html" class="tag">IT.业界评论</a> (16)</li>
+                <li><a href="../../tags/IT.E4BABAE5B7A5E699BAE883BD.html" class="tag">IT.人工智能</a> (3)</li>
+                <li><a href="../../tags/IT.E4BFA1E681AFE5AE89E585A8.html" class="tag">IT.信息安全</a> (100)</li>
+                <li><a href="../../tags/IT.E7BD91E7BB9C.html" class="tag">IT.网络</a> (22)</li>
+                <li><a href="../../tags/IT.E7BFBBE5A299.html" class="tag">IT.翻墙</a> (50)</li>
+                <li><a href="../../tags/IT.E8BDAFE4BBB6E4BB8BE7BB8D.html" class="tag">IT.软件介绍</a> (50)</li>
+                <li><a href="../../tags/E4B9A6E8AF842FE5BDB1E8AF84.html" class="tag">书评/影评</a> (56)</li>
+                <li><a href="../../tags/E5869BE4BA8B.html" class="tag">军事</a> (17)</li>
+                <li><a href="../../tags/E58D9AE5AEA2E9809AE5918A.html" class="tag">博客通告</a> (34)</li>
+                <li><a href="../../tags/E58E86E58FB2.html" class="tag">历史</a> (85)</li>
+                <li><a href="../../tags/E5A496E4BAA4.html" class="tag">外交</a> (26)</li>
+                <li><a href="../../tags/E5ADA6E4B9A0E696B9E6B395.html" class="tag">学习方法</a> (14)</li>
+                <li><a href="../../tags/E5ADA6E4BC9AE6809DE88083.html" class="tag">学会思考</a> (24)</li>
+                <li><a href="../../tags/E5BF83E79086E5ADA6.html" class="tag">心理学</a> (31)</li>
+                <li><a href="../../tags/E694BFE6B2BB.html" class="tag">政治</a> (281)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585ABE58DA6.html" class="tag">政治.八卦</a> (19)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E585B1E4BAA7E8BF90E58AA8.html" class="tag">政治.共产运动</a> (12)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E5B8B8E8AF86.html" class="tag">政治.常识</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E69D83E8B4B5.html" class="tag">政治.权贵</a> (27)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E6B395E588B6.html" class="tag">政治.法制</a> (22)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E79C9FE79086E983A8.html" class="tag">政治.真理部</a> (37)</li>
+                <li><a href="../../tags/E694BFE6B2BB.E88590E8B4A5.html" class="tag">政治.腐败</a> (26)</li>
+                <li><a href="../../tags/E69599E882B2.html" class="tag">教育</a> (9)</li>
+                <li><a href="../../tags/E697B6E4BA8BE8AF84E8AEBA.html" class="tag">时事评论</a> (176)</li>
+                <li><a href="../../tags/E78EAFE4BF9D.html" class="tag">环保</a> (13)</li>
+                <li><a href="../../tags/E7A791E699AE.html" class="tag">科普</a> (8)</li>
+                <li><a href="../../tags/E7AEA1E79086.html" class="tag">管理</a> (16)</li>
+                <li><a href="../../tags/E7BB8FE6B58E.html" class="tag">经济</a> (44)</li>
+                <li><a href="../../tags/E7BC96E7A88B.html" class="tag">编程</a> (69)</li>
+                <li><a href="../../tags/E7BC96E7A88B.C.html" class="tag">编程.C</a> (15)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Java.html" class="tag">编程.Java</a> (12)</li>
+                <li><a href="../../tags/E7BC96E7A88B.Python.html" class="tag">编程.Python</a> (8)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5A49AE7BABFE7A88B.html" class="tag">编程.多线程</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E5BC80E6BA90E9A1B9E79BAE.html" class="tag">编程.开源项目</a> (10)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E680A7E883BDE4BC98E58C96.html" class="tag">编程.性能优化</a> (6)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E69EB6E69E84.html" class="tag">编程.架构</a> (7)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E7AE97E6B395.html" class="tag">编程.算法</a> (3)</li>
+                <li><a href="../../tags/E7BC96E7A88B.E8BDAFE4BBB6E5B7A5E7A88B.html" class="tag">编程.软件工程</a> (13)</li>
+                <li><a href="../../tags/E8818CE59CBAE782B9E6BBB4.html" class="tag">职场点滴</a> (22)</li>
+                <li><a href="../../tags/E8BDACE8BDBD.html" class="tag">转载</a> (153)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="widget Label" id="BlogRecommend">
+            <div class="widget-content">
+              <h2>推荐帖子（翻墙技术）</h2>
+              <ul>
+                <li><a href='../../2009/05/how-to-break-through-gfw.html'>如何翻墙（全方位入门扫盲）</a></li>
+                <li><a href='../../2011/09/gfw-faq.html'>常见翻墙问题答疑</a></li>
+                <li><a href='../../2011/03/how-to-get-gfw-tools.html'>获取翻墙软件方法大全</a></li>
+                <li><a href='../../2013/01/cross-host-use-gfw-tool.html'>多台电脑如何共享翻墙通道</a></li>
+                <li><a href='../../2013/11/tor-faq.html'>关于 Tor 的常见问题解答</a></li>
+                <li><a href='../../2009/07/break-through-berlin-wall.html'>学习一下德国人民的翻墙精神</a></li>
+              </ul>
+              <h2>推荐帖子（信息安全）</h2>
+              <ul>
+                <li><a href='../../2021/03/Computer-Networks-Overview.html'>计算机网络通讯的【系统性】扫盲——从“基本概念”到“OSI 模型”</a></li>
+                <li><a href='../../2019/01/Security-Guide-for-Political-Activists.html'>为啥朝廷总抓不到俺——十年反党活动的安全经验汇总</a>
+                </li>
+                <li><a href='../../2015/08/Technology-and-Freedom.html'>“对抗专制、捍卫自由”的 N 种技术力量</a></li>
+                <li><a href='../../2010/06/howto-prevent-hacker-attack-0.html'>如何防止黑客入侵（系列）</a></li>
+                <li><a href='../../2013/06/privacy-protection-0.html'>如何保护隐私（系列）</a></li>
+                <li><a href='../../2010/04/howto-cover-your-tracks-0.html'>如何隐藏你的踪迹，避免跨省追捕（系列）</a></li>
+                <li><a href='../../2012/10/system-vm-0.html'>扫盲操作系统虚拟机 (系列)</a></li>
+                <li><a href='../../2015/10/VeraCrypt.html'>扫盲 VeraCrypt——跨平台的 TrueCrypt 替代品</a></li>
+                <li><a href='../../2011/05/recommend-truecrypt.html#index'>TrueCrypt 的扫盲教程和高级教程（VeraCrypt 也适用）</a></li>
+                <li><a href='../../2011/05/file-encryption-overview.html'>文件加密的扫盲介绍</a></li>
+                <li><a href='../../2013/07/online-backup-virtual-encrypted-disk.html'>文件备份技巧：组合“虚拟加密盘”与“网盘”</a></li>
+                <li><a href='../../2013/02/file-integrity-check.html'>扫盲文件完整性校验——关于散列值和数字签名</a></li>
+                <li><a href='../../2009/05/social-engineering-0-overview.html'>扫盲“社会工程学”（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（提升个人能力）</h2>
+              <ul>
+                <li><a href='../../2020/12/Study-and-Life.html'>学习与人生——700篇博文之感悟</a></li>
+                <li><a href='../../2019/10/Systematic-Learning.html'>如何【系统性学习】——从“媒介形态”聊到“DIKW 模型”</a></li>
+                <li><a href='../../2013/09/knowledge-structure.html'>如何完善自己的知识结构</a></li>
+                <li><a href='../../2013/04/how-to-read-book.html'>《如何阅读一本书》——书评及内容纲要</a></li>
+                <li><a href='../../2015/12/Hobbies-and-Interests.html'>什么是【真正的】兴趣爱好？以及它有啥好处？</a></li>
+                <li><a href='../../2009/02/study-technology-in-three-steps.html'>学习技术的三部曲：WHAT、HOW、WHY</a></li>
+                <li><a href='../../2012/03/think-what-how-why.html'>用提问促进思维——再谈 WHAT HOW WHY 三部曲</a></li>
+                <li><a href='../../2015/06/The-Mythical-Theories-of-Success.html'>成功学批判——简述其危害性及各种谬误</a></li>
+                <li><a
+                    href='../../2018/12/Book-Review-Antifragile-Things-That-Gain-from-Disorder.html'>读书笔记：《反脆弱——从不确定性中获益》</a>
+                </li>
+                <li><a href='../../2009/07/book-review-are-your-lights-on.html'>书评：《你的灯亮着吗？——找到问题的真正所在》</a></li>
+              </ul>
+              <h2>推荐帖子（洗脑与反洗脑）</h2>
+              <ul>
+                <li><a href='../../2014/02/brainwash-and-idiot.html'>聊聊洗脑和脑残——分析“脑残的起源”和“脑残的觉醒”</a></li>
+                <li><a href='../../2013/05/difference-between-fact-and-opinion.html'>批判性思维扫盲——学会区分“事实”与“观点”</a></li>
+                <li><a href='../../2011/03/logical-fallacies.html'>扫盲逻辑谬误——以五毛言论为反面教材</a></li>
+                <li><a href='../../2014/12/brainwash-using-real-data.html'>比“欺骗”更狡猾的洗脑——基于【真实数据】进行忽悠</a></li>
+                <li><a href='../../2014/01/doublethink.html'>比“欺骗”更有效的洗脑——基于【双重思想】的思维控制</a></li>
+                <li><a href='../../2014/01/anti-brainwashing-and-enlightenment.html'>如何用互联网进行“反洗脑”和“政治启蒙”</a></li>
+                <li><a href='../../2010/10/book-review-asking-right-questions.html'>书评：《学会提问——批判性思维指南》</a></li>
+              </ul>
+              <h2>推荐帖子（心理学）</h2>
+              <ul>
+                <li><a href='../../2019/03/Why-Thinking-Hard-So-Hard.html'>为什么独立思考这么难——谈谈心理学的成因，并分享俺的经验</a></li>
+                <li><a href='../../2014/05/fans-and-idolatry.html'>不要成为“粉丝”——谈谈“偶像崇拜”的成因和危害</a></li>
+                <li><a href='../../2012/12/emperor-complex.html'>天朝民众的心理分析：圣君情结</a></li>
+                <li><a href='../../2012/06/stockholm-syndrome.html'>天朝民众的心理分析：斯德哥尔摩综合症</a></li>
+                <li><a href='../../2014/09/oversimplification.html'>各种【一元化思维】的谬误——从“星座理论”到“共产主义社会”</a></li>
+                <li><a href='../../2015/05/Survivorship-Bias.html'>思维的误区：幸存者偏见——顺便推荐巴菲特最著名的演讲</a></li>
+                <li><a href='../../2014/06/sunk-cost-fallacy-and-loss-aversion.html'>思维的误区：从“沉没成本谬误”到“损失厌恶情结”</a></li>
+                <li><a href='../../2010/02/about-mental-model.html'>认识你自己——有关心智模式的扫盲介绍</a></li>
+                <li><a href='../../2010/04/how-to-attribute-success-failure.html'>你是如何看待【成败】的？——兼谈【有效归因】</a></li>
+                <li><a href='../../2012/01/stockdale-paradox.html'>如何面对【逆境】？——兼谈“斯托克戴尔悖论”</a></li>
+                <li><a href='../../2012/06/book-review-road-less-traveled.html'>书评：《少有人走的路——心智成熟的旅程》</a></li>
+                <li><a href='../../2009/05/halo-effect.html'>光环效应引发的认知误区</a></li>
+              </ul>
+              <h2>推荐帖子（政治）</h2>
+              <ul>
+                <li><a
+                    href='../../2018/09/Book-Review-The-Errors-of-Marxism-Leninism.html'>为什么马克思是错的——全面批判马列主义的知名著作导读</a>
+                </li>
+                <li><a href='../../2020/04/Government-and-System-Robustness.html'>“政治体制”与“系统健壮性”——基于“复杂性科学”的思考</a></li>
+                <li><a href='../../2011/06/june-fourth-incident-0.html'>回顾“六四”（系列）</a></li>
+                <li><a href='../../2011/12/revolution-0.html'>谈革命（系列）</a></li>
+                <li><a href='../../2018/07/Forty-Years-of-China-USA-Relations.html'>从量变到质变——中美关系40年</a></li>
+                <li><a href='../../2018/08/USA-Containment-Strategies-in-Cold-War.html'>苏联是如何被慢慢勒死的？——聊聊冷战中美国的遏制战略</a>
+                </li>
+                <li><a href='../../2015/01/Communism-Nazism-Caesaropapism.html'>人类自由的三大死敌——谈谈“共产运动、纳粹主义、政教合一”的共性</a>
+                </li>
+                <li><a
+                    href='../../2013/12/political-concepts-state-citizenship-etc.html'>政治常识扫盲：理清“国家、政体、公民、政府、政党”等概念</a>
+                </li>
+                <li><a href='../../2014/02/freedom-of-speech.html'>政治常识扫盲：澄清“言论自由”的各种误区</a></li>
+                <li><a href='../../2012/07/form-of-government.html'>扫盲常见的政治体制</a></li>
+                <li><a href='../../2016/06/USA-Separation-of-Powers-with-Balances.html'>聊聊美国政体中的权力制衡——不仅仅是三权分立</a></li>
+                <li><a href='../../2016/11/USA-Elections.html'>美国选举制度为啥这样设计？——兼谈其历史演变</a></li>
+                <li><a href='../../2010/11/institutionalize.html'>谈谈体制化，并推荐《肖申克的救赎》</a></li>
+                <li><a href='../../2013/04/more-supervision-less-thankfulness.html'>对政府——多些“监督问责”，少些“煽情感动”</a></li>
+                <li><a href='../../2012/03/national-people-congress.html'>看看全国人大代表都是啥货色——兼谈“议会道路的改良”行不通</a></li>
+                <li><a href='../../2012/10/history-of-red-khmers.html'>最“纯正”的共产主义政权——红色高棉简史</a></li>
+              </ul>
+              <h2>推荐帖子（历史）</h2>
+              <ul>
+                <li><a href='../../2019/11/Brief-History-of-the-Berlin-Wall.html'>美苏冷战的缩影——柏林墙简史</a></li>
+                <li><a href='../../2014/07/artists-and-ccp.html'>面对共产党——民国人文大师的众生相</a></li>
+                <li><a href='../../2012/05/three-years-famine-0.html'>谈谈三年大饥荒（系列）</a></li>
+                <li><a href='../../2016/01/Taiwan-Political-Movements.html'>台湾民主运动与独立运动简史</a></li>
+                <li><a href='../../2010/09/censorship-of-images.html'>看看真理部是如何 PS 照片的</a></li>
+                <li><a href='../../2013/08/korean-war.html'>谈谈真理部对朝鲜战争的忽悠</a></li>
+                <li><a href='../../2010/09/sino-japanese-war.html'>谈谈真理部对抗战历史的篡改</a></li>
+                <li><a href='../../2014/04/history-china-fallen-behind-europe.html'>中国是从哪个朝代开始落后于西方？</a></li>
+                <li><a href='../../2011/03/ccp-vs-japanese.html'>谁是最可恨的人？——写给仇日愤青们</a></li>
+                <li><a href='../../2015/11/Why-Islam-Is-Different-from-Other-Religions.html'>伊斯兰教为何如此奇葩？</a></li>
+                <li><a href='../../2015/01/Islamic-Extremism.html'>伊斯兰教极端主义溯源</a></li>
+              </ul>
+              <h2>推荐帖子（编程技术）</h2>
+              <ul>
+                <li><a href='../../2012/05/weekly-share-5.html'>学习编程语言的3篇好文章</a></li>
+                <li><a href='../../2009/08/why-choose-python-0-overview.html'>为什么俺推荐 Python（系列）</a></li>
+                <li><a href='../../2009/03/producer-consumer-pattern-0-overview.html'>架构设计：生产者/消费者模式</a></li>
+                <li><a href='../../2009/02/multi-process-vs-multi-thread.html'>架构设计：进程还是线程？</a></li>
+                <li><a href='../../2009/02/how-to-choose-opensource-project.html'>如何选择开源项目？</a></li>
+                <li><a href='../../2009/02/cxx-object-destroy-overview.html'>C++ 对象是怎么死的？（系列）</a></li>
+                <li><a href='../../2009/01/cxx-cross-platform-develop-0-overview.html'>C++ 的移植性和跨平台开发（系列）</a></li>
+                <li><a href='../../2009/03/java-performance-tuning-0-overview.html'>Java 性能优化（系列）</a></li>
+                <li><a href='../../2009/01/defect-of-java-beginner-0-overview.html'>Java 新手的通病（系列）</a></li>
+              </ul>
+              <h2>推荐帖子（职场与管理）</h2>
+              <ul>
+                <li><a href='../../2019/12/Time-and-Life.html'>时间与人生——跨入本世纪20年代的随想</a></li>
+                <li><a href='../../2018/06/weekly-share-121.html'>德鲁克谈【自我管理】——《哈佛商业评论》最受欢迎的文章</a></li>
+                <li><a href='../../2011/03/hiring-experience-0.html'>俺的招聘经验（系列）</a></li>
+                <li><a href='../../2009/04/defect-of-hire.html'>招聘的误区</a></li>
+                <li><a href='../../2016/04/Andy-Grove-Quotes-on-Leadership.html'>硅谷 CEO 们的教父——分享安迪·格鲁夫的管理经验</a></li>
+                <li><a href='../../2009/01/0.html'>如何成为优秀开发人员（系列）</a></li>
+              </ul>
+
+            </div>
+          </div>
+
+          <div class="widget HTML" id="BlogSearch">
+            <h2 class="title">博客站内搜索 (需联网)</h2>
+            <div class="widget-content">
+              <img src="../../images/search/google.png" alt="Google" border="0"><br>
+              <form method="GET" action="https://encrypted.google.com/search" target="_blank">
+                <input name="ie" value="UTF-8" type="hidden">
+                <input name="oe" value="UTF-8" type="hidden">
+                <input name="sitesearch" value="program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Google" type="submit">
+              </form>
+              <br>
+              <img src="../../images/search/bing.png" alt="Bing" border="0"><br>
+              <form method="GET" action="http://www.bing.com/search" target="_blank">
+                <input name="q1" value="site:program-think.blogspot.com" type="hidden">
+                <input name="q" size="32" maxlength="128" type="text">
+                <input name="search" value="Bing" type="submit">
+              </form>
+            </div>
+          </div>
+
+          <div class="widget BlogArchive" id="BlogArchive">
+            <h2>历史归档</h2>
+            <div class="widget-content">
+              <ul>
+                <li><a href="../../archive/2021.html">2021</a> (10)</li>
+                <li><a href="../../archive/2020.html">2020</a> (28)</li>
+                <li><a href="../../archive/2019.html">2019</a> (39)</li>
+                <li><a href="../../archive/2018.html">2018</a> (31)</li>
+                <li><a href="../../archive/2017.html">2017</a> (34)</li>
+                <li><a href="../../archive/2016.html">2016</a> (37)</li>
+                <li><a href="../../archive/2015.html">2015</a> (61)</li>
+                <li><a href="../../archive/2014.html">2014</a> (76)</li>
+                <li><a href="../../archive/2013.html">2013</a> (96)</li>
+                <li><a href="../../archive/2012.html">2012</a> (109)</li>
+                <li><a href="../../archive/2011.html">2011</a> (58)</li>
+                <li><a href="../../archive/2010.html">2010</a> (40)</li>
+                <li><a href="../../archive/2009.html">2009</a> (93)</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!--sidebar-->
+      </div> <!--sidebar-wrapper-->
+
+    </div> <!-- end content-wrapper -->
+  </div> <!-- end outer-wrapper -->
+</body>
+<script>
+jQuery(function($)
+{
+  function initArticleInnerLinks()
+  {
+    if($(".post h2").length == 0)
+    {
+      $(".post-inner-index").hide();
+      return;
+    }
+
+    $(".post-inner-index").css("padding-bottom", "2em")
+        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+
+    $(".post h2").each(
+      function(nIndex)
+      {
+        var sHash = "head-"+(nIndex+1);
+        $(this).before("<a name='"+sHash+"'> </a>");
+        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+      }
+    );
+  }
+
+  $(document).ready(
+    function()
+    {
+      try
+      {
+        initArticleInnerLinks();
+        $(document).tooltip({
+          content: Tooltip.content,
+          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+        });
+      }
+      catch(err)
+      {
+        reportError("init: Catch exception:\n" + err);
+      }
+    }
+  );
+});
+</script>
+</html>

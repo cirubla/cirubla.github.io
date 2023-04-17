@@ -860,9 +860,6 @@ jQuery(function($)
     {
       var comment = new Comment(entry);
       if(comment.nId in m_mapComments) { return }
-      if (entry.author[0].name['$t'] == '徐沛') {
-        console.log(entry);
-      }
 
       if(comment.bIsDeleted && !comment.nId)  // for robust, make a fake comment id
       {

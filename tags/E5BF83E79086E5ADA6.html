@@ -6,6 +6,9 @@
   <meta name="generator" content="Python script by program.think@gmail.com" />
   <meta name="provider" content="program-think.blogspot.com" />
   <script src="../scripts/jquery.min.js" type="text/javascript"></script>
+  <script src="../scripts/jquery-ui.min.js" type="text/javascript"></script>
+  <link href="../scripts/jquery-ui.min.css" rel="stylesheet" />
+  <script src="../scripts/base.js"></script>
   <script type="text/javascript">window.rootNavigator = '../' </script>
   <link type="text/css" rel="stylesheet" href="../css/program-think.css" />
   <link rel="icon" type="image/x-icon" href="../images/favicon/blogspot.ico">
@@ -772,21 +775,6 @@
 
       </div>
 
-      <script>
-        function assert(bCondition, sDesc) {
-          if (!bCondition) {
-            sDesc = (sDesc || "Assertion failed!");
-            throw (typeof Error !== "undefined") ? new Error(sDesc) : sDesc;
-          }
-        }
-        String.prototype.multiReplace = function (arrSyntax)  // helper
-        {
-          assert(Array.isArray(arrSyntax), "String.multiReplace: Invalid 'arrSyntax'!");
-          var sRtn = this;
-          $.each(arrSyntax, function (i, syntax) { sRtn = sRtn.replace(syntax[0], syntax[1]) });
-          return sRtn;
-        };
-      </script>
       <script src="../scripts/slogan.js"></script>
 
       <div id="sidebar-wrapper">
@@ -1053,13 +1041,50 @@
             </div>
           </div>
 
+          <div class='widget HTML' data-version='1' id='HTML4'>
+            <h2 class='title'>精选评论</h2>
+            <div class='widget-content'>
+            <script src="../scripts/tweets.js"></script>
+            
+            <a name="tweets"></a>
+            <div id="tweets">
+              <div class="comments-toolbar">
+                <a class="feed-link" target="_blank" href="https://program-think.blogspot.com/feeds/comments/default" title="订阅最新评论">
+                  <img src="../images/feed-icon-animated.gif" width="24" height="24" alt="订阅地址"/>
+                </a>
+                <a title="界面配置">
+                  <img src="../images/config.png" width="24" height="24" alt="界面配置"/>
+                </a>
+                <a class="refresh" href="javascript:;" title="手动刷新"><img src="../images/refresh.png" width="24" height="24" alt="手动刷新"/></a>
+                <span class="comments-loading"></span>
+              </div>
+              <div class="comments-auto-load">
+                <span class="enable" style="display:none;">自动刷新已启用&#65288;间隔 <b class="timeout"></b> 分钟&#65289;</span>
+                <span class="disable" style="display:none;">自动刷新已禁用</span>
+              </div>
+              <hr style="display:none;"/>
+              <div class="comments-warning">
+                <noscript>
+                  <b>你的浏览器&#12304;禁用了&#12305;JavaScript 脚本&#65292;<br/>无法显示&#8220;最新评论&#8221; :(</b>
+                </noscript>
+                <div style="display:none;">
+                  共自动过滤了 <span class="noise-count" style="font-weight:bold;"></span> 条&#12304;没信息量&#12305;的留言
+                </div>
+                <div style="display:none;">
+                  共自动过滤了 <span class="spam-count" style="font-weight:bold;"></span> 条&#12304;垃圾或刷屏&#12305;的留言
+                </div>
+              </div>
+              <hr style="display:none;"/>
+              <div class="comments-content"></div>
+              </div>
+            </div>
+          </div> 
+
         </div> <!--sidebar-->
       </div> <!--sidebar-wrapper-->
 
     </div> <!-- end content-wrapper -->
   </div> <!-- end outer-wrapper -->
 </body>
-<script>
-</script>
 
 </html>

@@ -1,3 +1,82 @@
+
+function CommentLoader(totalNum) 
+{
+  this.mTotalNum = totalNum;
+  this.mIsLoading = false;
+  this.mMapOpts = null;
+  this.mOffset = 0;
+  this.mIndex = 1;
+  this.mErrCounter = 0;
+}
+
+CommentLoader.prototype.hasMore = function() 
+{
+  return this.mOffset < this.mTotalNum;
+}
+
+CommentLoader.prototype.loadNewComments = function(mapOpts) 
+{
+  if (this.mIsLoading) 
+  {
+    console.log('正在加载....');
+    return;
+  }
+
+  if (!this.hasMore()) 
+  {
+    (mapOpts && mapOpts.success) && mapOpts.success({});
+    return;
+  }
+
+  this.mMapOpts = mapOpts;
+  var url = window.rootNavigator + 'comments/' + mapOpts.postID + '/' + this.mIndex + '.js';
+  this.mIsLoading = true;
+  var self = this;
+  var script = document.createElement('script');
+  script.setAttribute('src', url);
+  script.setAttribute('type', 'text/javascript');
+  script.addEventListener('error', function(event) 
+  {
+    self.mIsLoading = false;
+    var fnSuccess = ("success" in mapOpts ? mapOpts.success : null);
+    var fnError = ("error" in mapOpts ? mapOpts.error : null);
+    self.mMapOpts = null;
+    if (self.mIndex == 1 || self.mErrCounter < 5) 
+    {
+      fnError && fnError({message: "加载脚本失败"});
+      self.mErrCounter += 1;
+    }
+    else 
+    {
+      //for robust
+      fnSuccess && fnSuccess({})
+    }
+  });
+  document.body.appendChild(script); 
+}
+
+CommentLoader.prototype.onLoad = function(json) 
+{
+  this.mIsLoading = false;
+  if (!this.mMapOpts) {return}
+  var data = json;
+  if (data.feed && data.feed.entry) 
+  {
+    var length = data.feed.entry.length || 0;
+    this.mOffset += length;
+  } 
+  else 
+  {
+    data = {feed: {entry: json}};
+    this.mOffset += json.length;
+  }
+
+  this.mIndex += 1;
+  this.mMapOpts.success(data);
+  this.mMapOpts = null;
+}
+
+
 jQuery(function($)
 {
   // Module variables
@@ -729,28 +808,28 @@ jQuery(function($)
     var $top_ol = $("#comments #comment-holder ol.top");
     assert(1 == $top_ol.length, "g_loadNewComments: Multi 'ol.top'!");
     var bAddUI = $top_ol.is(":visible");
-    
-    function success(json) 
-    {
-      if(!("feed" in json) || !("entry" in json.feed))
+        
+    window.g_commentLoader.loadNewComments({
+      postID: m_sPostId,
+      success: function(json) 
+      {
+        if(!("feed" in json) || !("entry" in json.feed))
         {
           fnOnData && fnOnData(0);  // notify 'no more data'
           return;
         }
-        //delayRun(function(){ window.g_loadTweets(false, true) }, 1000);  // Notify tweets module to refresh
 
         var nEntryNum = json.feed.entry.length;
         assert(nEntryNum > 0, "g_loadNewComments: The 'entry' is empty!");
         fnOnData && fnOnData(nEntryNum);
         $.each(json.feed.entry, _procJson);
-    }
-    
-    
-    var start = new Date().getTime();
-    var TIMEOUT = 200;
-    var _comments = window.g_loadAllComments();
-    var delta = TIMEOUT - (new Date().getTime() - start);
-    (delta > 10) ? setTimeout(() => success(_comments),delta) : success(_comments);
+      },
+      error: function(err) 
+      {
+        reportError("加载评论出错:" + err.message);
+        fnOnError && fnOnError("");
+      }
+    });
 
     // $.ajax({
     //   url: sUrl,
@@ -781,6 +860,9 @@ jQuery(function($)
     {
       var comment = new Comment(entry);
       if(comment.nId in m_mapComments) { return }
+      if (entry.author[0].name['$t'] == '徐沛') {
+        console.log(entry);
+      }
 
       if(comment.bIsDeleted && !comment.nId)  // for robust, make a fake comment id
       {
@@ -1169,11 +1251,11 @@ jQuery(function($)
     var timer = setInterval(
       function()
       {
-        if(false == bIsLoading)
+        if(nNetErrNum < 5 && false == bIsLoading)
         {
           bIsLoading = true;
           nNetErrNum && (mapOpts.maxResults = 50);
-          g_loadNewComments(mapOpts);  // load again
+          dtLastLoad && g_loadNewComments(mapOpts);  // load again
           return;
         }
         if(!dtLastLoad)  // no more data
@@ -1183,7 +1265,7 @@ jQuery(function($)
           return;
         }
 
-        if( (nNetErrNum > 10) || (getCurrentMS() - dtLastLoad.getTime() > 1000 * 60) )  // load timeout
+        if( (nNetErrNum > 5) || (getCurrentMS() - dtLastLoad.getTime() > 1000 * 60) )  // load timeout
         {
           clearInterval(timer);  timer = null;
 
@@ -1554,6 +1636,7 @@ jQuery(function($)
     }
     $("#side-toolbar a.comment-number").html(nInitTotal >= 1000 ? (Math.floor(nInitTotal / 1000) + "K+") : nInitTotal);
 
+    window.g_commentLoader = new CommentLoader(nInitTotal);
     if(nInitTotal > 0)
     {
       $comments.find("#comment-holder").html("<div class='comment-thread'><ol class='top'/></div>");
@@ -1565,7 +1648,7 @@ jQuery(function($)
     else
     {
       var sHtml = "<a name='comments'> </a>"
-          + "<h4 id='comments-label'/>"
+          + "<h4 id='comments-label'>暂无评论</h4>"
           + "<div id='comments-toolbar'/>"
           + "<div id='comments-warning'/>"
           + "<div id='comments-content'>"

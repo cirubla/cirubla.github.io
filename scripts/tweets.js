@@ -1,3 +1,59 @@
+
+function TweetLoader(maxRound) 
+{
+  this.mMapOpts = null;
+  this.mIsLoading = false;
+  this.mRound = 0;
+  this.mMaxRound = maxRound;
+  this.pool = [];
+
+  for (let i=1;i<=257;i++) {this.pool.push(i)}
+}
+
+TweetLoader.prototype.takeFromPool = function()
+{
+  var randomIndex = Math.floor(Math.random() * this.pool.length);
+  var value = this.pool[randomIndex];
+  this.pool.splice(randomIndex,1);
+  console.log("Taking [ " + randomIndex  +"=" + value + " ] from pool.");
+
+  return value;
+}
+
+TweetLoader.prototype.loadTweets = function(mapOpts) 
+{
+  if (this.mIsLoading) {return;}
+  if (this.mRound >= this.mMaxRound) 
+  {
+    ('success' in mapOpts) && mapOpts.success({feed: {entry: []}});
+    return;
+  }
+
+  this.mMapOpts = mapOpts;
+  this.mIsLoading = true;
+
+  var script = document.createElement('script');
+  script.setAttribute('src', mapOpts.url);
+  script.setAttribute('type', 'text/javascript');
+  var self = this;
+  script.addEventListener('error', function(event) 
+  {
+    self.mIsLoading = false;
+    ('error' in self.mMapOpts) && mapOpts.error({message: "加载脚本失败"});
+    self.mMapOpts = null;
+  });
+  document.body.appendChild(script); 
+}
+
+TweetLoader.prototype.onLoad = function(data) 
+{
+  this.mIsLoading = false;
+  if (!this.mMapOpts) {return}
+  this.mMapOpts.success(data);
+  this.mRound += 1;
+  this.mMapOpts = null;
+}
+
 jQuery(function($)
 {
   // Module variables
@@ -21,20 +77,40 @@ jQuery(function($)
   var m_spamTextUrl = new UrlAnalyzer({ critical:2 });
   var m_spamTextFeature = new TextFeatureAnalyzer();
   var m_nTimeGroupCritical = 12;
+  var mRound = 0;
+  var m_tweetsMap = {};
 
+  function initTweetLoader() 
+  {
+    var maxRound = 10;
+    if (localStorage && localStorage.getItem('tweet.max-round')) 
+    {
+      try 
+      {
+        maxRound = parseInt(localStorage.getItem('tweet.max-round'));
+      } catch(error) 
+      {
+        console.log(error);
+        maxRound = 10;
+      }
+    }
+    window.g_tweetLoader = new TweetLoader(maxRound);
+  }
 
   window.g_loadTweets = function(bInit, bAuto)
   {
+    if (m_bLoading) 
+    {
+      console.log('正在加载中...');
+      return;
+    }
     m_bLoading = true;
-    var sFeedUrl = Url.getFeedUrlPrefix() + "/comments/full?alt=json&v=2&orderby=published";
     var bLoadOld = false;
     if(bInit)
     {
-      sFeedUrl += "&max-results=" + m_nInitNum;
       if(m_nMinCommentId !== null)
       {
         bLoadOld = true;
-        sFeedUrl += "&published-max=" + (new Date(m_nMinCommentId-1)).toISOString();
         $("#tweets .comments-loading").html("检测到刷屏&#65292;加载更早的评论...");
       }
       else
@@ -45,30 +121,33 @@ jQuery(function($)
     else
     {
       if(null === m_nMaxCommentId) { return }
-      sFeedUrl += "&published-min=" + (new Date(m_nMaxCommentId+1)).toISOString();
       $("#tweets .comments-loading").html("正在刷新...");
     }
 
-    $.ajax({
-      url: sFeedUrl,
-      dataType: "json",
-      success: function(json)
+    var randomIndex = window.g_tweetLoader.takeFromPool();
+    var url = window.rootNavigator + 'reply/' + randomIndex + '.js';
+    window.g_tweetLoader.loadTweets(
+    {
+      url: url,
+      success: function(json) 
       {
-        loadComplete(json, bInit, bLoadOld);
-      },
-      error: function(xhr, sStatus)
-      {
-        (!bAuto && !bInit)  // Manual refresh
-          && reportHttpError("获取最新评论出错", xhr, sStatus);
-      },
-      complete: function()
-      {
+        json.feed.entry.shuffle();
+        Comment.initArticlesMap(json);
+        mRound += 1;
+
+        loadComplete(json,bInit,false);
         m_bLoading = false;
         $("#tweets .comments-loading").html("");
         (!bAuto && !bInit)  // Manual refresh
-          && $("#tweets .comments-toolbar .refresh").show();
+              && $("#tweets .comments-toolbar .refresh").show();
       },
-      timeout: 1000 * 30
+      error: function(error) 
+      {
+        m_bLoading = false;
+        reportError(error.message);
+        $("#tweets .comments-loading").html(error.message);
+        $("#tweets .comments-toolbar .refresh").show();
+      }
     });
   }  // g_loadTweets() end
 
@@ -113,7 +192,7 @@ jQuery(function($)
 
     if(!bInit)
     {
-      updateArticleTitle();
+      // updateArticleTitle();
       return;
     }
 
@@ -208,103 +287,51 @@ jQuery(function($)
         continue;
       }
 
-      var $comment_block = comment.showSummary({ columnWidth:40, maxLineNum:5 }).addClass("comment-block");
+      var round = "round-" + mRound;
+      var $comment_block = comment.showSummary({ columnWidth:40, maxLineNum:5 }).addClass("comment-block").addClass(round);
       var sHtml = (nHiddenCount > 0
-                   ? "<div class='comment-block ignore' data='"+nHiddenCount+"'>"
-                     + "&#65288;此处自动过滤了 "+nHiddenCount+" 条&#65289;</div>"
-                   : "");
+                    ? "<div class='comment-block ignore' data='"+nHiddenCount+"'>"
+                      + "&#65288;此处自动过滤了 "+nHiddenCount+" 条&#65289;</div>"
+                    : "");
       bLoadOld ? $content.append($comment_block) : $content.prepend($comment_block);
       (nHiddenCount > 0) && (nHiddenCount = 0);
 
       if(!bInit)
       {
         $comment_block.css("background-color", "LightYellow");
-        delayRun(function(){ $comment_block.css("background-color", "White") }, 1000*10);
+        // delayRun(function(){ 
+        //   $comment_block.css("background-color", "White") 
+        // }, 100*10);
       }
     }  // for() end
-  }  // showTweets() end
 
-  function initAutoLoad(mapConfig)
-  {
-    if(mapConfig["tweets.auto-load"] != "true")
+    if (!bInit) 
     {
-      $("#tweets .comments-auto-load .disable").show();
-      return;
+      delayRun(function()
+      {
+        var query = '#tweets .comments-content .' + round;
+        var comments = $(query);
+        $.each(comments, function(i,comment) {comment.style = 'background-color: white';})
+      },1000 * 10)
     }
-
-    var nMinutes = parseInt(mapConfig["tweets.auto-load-timeout"]);
-    (isNaN(nMinutes) || nMinutes<=0) && (nMinutes = 5);
-
-    $("#tweets .comments-auto-load .enable .timeout").html(nMinutes);
-    $("#tweets .comments-auto-load .enable").show();
-
-    m_nAutoLoadTimeout = nMinutes * 60;
-    m_nAutoLoadCount = m_nAutoLoadTimeout;
-
-    var nInterval = 5;
-    setInterval(
-      function()
-      {
-        if(!m_bLoading)
-        {
-          m_nAutoLoadCount -= nInterval;
-          if(m_nAutoLoadCount <= 0)
-          {
-            m_nAutoLoadCount = m_nAutoLoadTimeout;
-            g_loadTweets(false, true);
-          }
-        }
-      },
-      1000 * nInterval
-    );
-  }  // initAutoLoad() end
-
-  function loadManualBannedId()
-  {
-    m_spamManual.parseSpamList($(".post .post-body").html());
-
-    $.ajax({
-      url: Url.getFeedUrlPrefix() + "/posts/full?alt=json&max-results=1",  // only get newest post
-      dataType: "json",
-      success: function(json)
-      {
-        ("feed" in json) && ("entry" in json.feed) &&
-          m_spamManual.parseSpamList(json.feed.entry[0].content.$t);
-      },
-      error: function(xhr, sStatus)
-      {
-      },
-      complete: function()
-      {
-        var mapConfig = loadConfig();
-        m_nInitNum = parseInt(mapConfig["tweets.init-num"]);
-        assert(!isNaN(m_nInitNum), "init: Invalid 'init-num' attr!");
-        (m_nInitNum < 10) && (m_nInitNum = 10);
-        (m_nInitNum > 100) && (m_nInitNum = 100);
-
-        g_loadTweets(true, false);
-        initAutoLoad(mapConfig);
-      },
-      timeout: 1000 * 40
-    });
-  }  // loadManualBannedId() end
+  }  // showTweets() end
 
   function init()
   {
+    initTweetLoader();
     if(location.pathname.match(/^\/p\/\w+\.html$/))  // This is page, NOT article
     {
       $("#tweets").closest(".widget").hide();
       return;
     }
 
-    loadManualBannedId();
-    Comment.initArticlesMap(8);
+    g_loadTweets(true,false);
 
     $("#tweets .comments-toolbar .refresh").click(
       function()
       {
         $(this).hide();
-        g_loadTweets(false, false);
+        g_loadTweets(m_nMaxCommentId === null, false);
       }
     );
     setInterval(updateCreateTime, 1000 * 60 * 10);

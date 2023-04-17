@@ -504,7 +504,7 @@ a:visited {
 #comments .comment-actions .add-btn,
 #comments .comment-actions .reply-btn {
   font-weight: bold;
-  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  background: transparent url(../images/external_link.gif) no-repeat scroll right center;
   padding-right: 13px;
 }
 #comments .comment-actions.top {  /* at page bottom */
@@ -533,7 +533,7 @@ a:visited {
 
 /*--@ BBcode @--*/
 #comments .comment-content a[target="_blank"] {
-  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  background: transparent url(../images/external_link.gif) no-repeat scroll right center;
   padding-right: 13px;
 }
 #comments .comment-content .bbcode img {
@@ -627,7 +627,7 @@ a:visited {
 
 /*--@ Comment text @--*/
 #tweets .comments-content .comment-text a[target="_blank"] {
-  background: transparent url(https://lh3.googleusercontent.com/-Gvp33TYNyrw/SY01Gm5ITiI/AAAAAAAAAao/6Uh-A5Lm5tk/external_link.gif) no-repeat scroll right center;
+  background: transparent url(../images/external_link.gif) no-repeat scroll right center;
   padding-right: 13px;
 }
 
@@ -667,7 +667,7 @@ a:visited {
 
 /*--@ Toolbar on right side @--*/
 #side-toolbar {
-  display: none;
+  display: block;
   visibility: hidden;
   background-color: LightGray;
   border: 1px solid SlateGray;
@@ -692,7 +692,7 @@ a:visited {
 
 #side-toolbar .go-comments {
   text-align: center;
-  background: url(https://lh5.googleusercontent.com/xG1s7ZZY2PP5W-Mm6TpxZylaN0HaP1xTFXiz64rbmmdPeHvKcAOfFAjVNA5NsX-ku3MKFiqwWO8jPdz0hK04ADiABoeOjvZD2AlOsSN6bczTigCJznEFvMNY3VwceQ9nBASw9Owzy3c) no-repeat scroll 0px 0px transparent;
+  background: url('../images/comments.png') no-repeat scroll 0px 0px transparent;
 }
 #side-toolbar .go-comments a,
 #side-toolbar .go-comments a:link,

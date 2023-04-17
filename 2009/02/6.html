@@ -10,7 +10,6 @@
   <link href="../../scripts/jquery-ui.min.css" rel="stylesheet" />
   <script type="text/javascript">window.rootNavigator = '../../' </script>
   <script src="../../scripts/base.js" type="text/javascript"></script>
-  <script src="../../scripts/slogan.js"></script>
   <link type="text/css" rel="stylesheet" href="../../css/program-think.css" />
   <link rel="icon" type="image/x-icon" href="../../images/favicon/blogspot.ico">
   <title>如何成为优秀开发人员[6]&#65306;正确地做事&#65288;善用工具&#65289; - 编程随想的博客</title>
@@ -35,7 +34,7 @@
             </div>
           </div>
         </div>
-
+        <a name="article"></a>
         <div class="post-content">
           <div class="post-toolbar">
             <div class="post-toolbar-1">
@@ -168,7 +167,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <div id="sidebar-wrapper">
@@ -187,6 +185,297 @@
               <img src="../../images/favicon/twitter.ico" height="16" width="16" />
               <a href="https://twitter.com/programthink" target="_blank">俺的推特 (@programthink)</a><br>
             </div>
+          </div>
+
+          <div class="widget HTML" data-version="1" id="HTML2">
+            <div class="widget-content">
+              <script type="text/javascript">
+                jQuery(function($)
+                {
+                  function initArticleInnerLinks(mapConfig)
+                  {
+                    if("true"!=mapConfig["article.inner-index"] || $(".post-inner-index").length==0)
+                    {
+                      return;
+                    }
+                    if($(".post h2").length == 0)
+                    {
+                      $(".post-inner-index").hide();
+                      return;
+                    }
+                
+                    $(".post-inner-index").css("padding-bottom", "2em")
+                        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
+                
+                    $(".post h2").each(
+                      function(nIndex)
+                      {
+                        var sHash = "head-"+(nIndex+1);
+                        $(this).before("<a name='"+sHash+"'> </a>");
+                        var sTitle = $(this).html().replace(/<.+?>|/g, "");
+                        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
+                      }
+                    );
+                  }
+                
+                  function initArticleInternalLinks()
+                  {
+                    var sSite = "http://"+Url.getDomain()+"/";  // Force HTTPS
+                    $(".post a").each(
+                      function(nIndex)
+                      {
+                        var sUrl = $(this).attr("href");
+                        (sUrl && sUrl.startsWith(sSite))
+                          && $(this).attr("href", sUrl.replace(/^http:/i, "https:"));
+                      }
+                    );
+                  }
+                
+                  function initArticleMaxMinBox()
+                  {
+                    $(".post-toolbar-1 .post-config-buttons")
+                        .append("<a href='/p/options.html#article' target='_blank' title='界面配置'><img src='../../images/config.png' alt='配置'/></a>")
+                        .append("<a class='maximize' title='进入全屏模式' href='javascript:;'><img src='https://lh4.googleusercontent.com/-xvmbNnFdxWU/VDx_uEPOw1I/AAAAAAAAA_s/-zd0eweSahg/maximize_32x32.png' alt='进入全屏'/></a>")
+                        .append("<a class='minimize' title='退出全屏模式' href='javascript:;'><img src='https://lh4.googleusercontent.com/-sijQmuC36C4/VDyBM8xDLeI/AAAAAAAABAc/fG3M6jUli74/minimize_32x32.png' alt='退出全屏'/></a>")
+                
+                    $(".post-config-buttons .maximize").click(
+                      function()
+                      {
+                        $("#sidebar").hide();
+                        $("#main").css("width", "100%");
+                        $("#comments").hide();
+                        $("#Header1").hide();
+                
+                        var mapConfig = loadConfig();
+                        ("true"==mapConfig["side-toolbar.show"]) && $("#side-toolbar").hide();
+                
+                        $(".post-config-buttons .minimize").show();
+                        $(this).hide();
+                        $("a[name=article]").scrollTo("fast");
+                      }
+                    );
+                    $(".post-config-buttons .minimize").hide().click( function() { layoutReset() } );
+                  }  // initArticleMaxMinBox() end
+                
+                  var RATIO_NUM = 10000;
+                
+                  function loadToolbarPos()
+                  {
+                    if(!hadConfig())
+                    {
+                      return;
+                    }
+                    var mapConfig = loadConfig();
+                    if(mapConfig["side-toolbar.show"]!="true" || mapConfig["side-toolbar.drag"]!="true")
+                    {
+                      return;
+                    }
+                
+                    $("#side-toolbar").css("margin-left", "0px");
+                    $("#side-toolbar").css("margin-top", "0px");
+                
+                    var sPos = mapConfig["side-toolbar.drag-pos"];
+                    if(sPos.match(/\d{1,5}_\d{1,5}/))
+                    {
+                      var offset = {
+                        left: parseInt(sPos.split("_")[0]),
+                        top: parseInt(sPos.split("_")[1])
+                      };
+                      offset.left = Math.round($(window).width() * offset.left / RATIO_NUM);
+                      offset.top = Math.round($(window).height() * offset.top / RATIO_NUM);
+                
+                      if(offset.left > $(window).width()/2)
+                      {
+                        offset.left -= $("#side-toolbar").width();
+                      }
+                      if(offset.top > $(window).height()/2)
+                      {
+                        offset.top -= $("#side-toolbar").height();
+                      }
+                      $("#side-toolbar").adjustPosition(offset);
+                    }
+                    else if("" == sPos)
+                    {
+                      var offset = {
+                        left: $(window).width() - 38,
+                        top: $(window).height()/2 - 60
+                      };
+                      $("#side-toolbar").adjustPosition(offset);
+                    }
+                  }
+                
+                  function saveToolbarPos()
+                  {
+                    var offset = $("#side-toolbar").offset();
+                    offset.left = offset.left - $(window).scrollLeft();
+                    offset.top = offset.top - $(window).scrollTop();
+                    offset = $("#side-toolbar").adjustPosition(offset);
+                
+                    if(!hadConfig())
+                    {
+                      showBottomTip("到&#8220;<a href='/p/options.html' target='_blank'>界面配置</a>&#8221;"
+                                    + "开启相关选项&#65292;既可&#12304;自动保存&#12305;工具条的位置", 10000);
+                      return;
+                    }
+                    var mapConfig = loadConfig();
+                    if(mapConfig["side-toolbar.show"]!="true"
+                       || mapConfig["side-toolbar.drag"]!="true")
+                    {
+                      return;
+                    }
+                
+                    (offset.left > $(window).width()/2)
+                      && (offset.left += $("#side-toolbar").width());
+                    (offset.top > $(window).height()/2)
+                      && (offset.top += $("#side-toolbar").height());
+                
+                    offset.left = Math.round(offset.left / $(window).width() * RATIO_NUM);
+                    offset.top = Math.round(offset.top / $(window).height() * RATIO_NUM);
+                
+                    mapConfig["side-toolbar.drag-pos"] = offset.left+"_"+offset.top;
+                    if(saveConfig(mapConfig))
+                    {
+                      showBottomTip("已经把工具条的位置保存到 cookie 中&#12290;", 3000);
+                    }
+                    else
+                    {
+                      showBottomTip("&#12304;无法&#12305;保存工具条的位置到 cookie 中&#65281;请检查你的浏览器设置&#12290;", 5000);
+                    }
+                  }
+                
+                  function initToolbar(mapConfig)
+                  {
+                    if(mapConfig["side-toolbar.show"] != "true")
+                    {
+                      return;
+                    }
+                
+                    $("#side-toolbar .go-options").show();
+                    if("true" == mapConfig["side-toolbar.drag"])
+                    {
+                      $("#side-toolbar").draggable({
+                        cancel: "a",
+                        cursor: "move",
+                        start: function(event, ui)
+                        {
+                          $("#side-toolbar").css("margin-left", "0px");
+                          $("#side-toolbar").css("margin-top", "0px");
+                        },
+                        stop: function(event, ui) { saveToolbarPos() }
+                      });
+                
+                      if(hadConfig())
+                      {
+                        $("#side-toolbar").hover(
+                          function()
+                          {
+                            $("#side-toolbar .drag").show();
+                            var offset = $("#side-toolbar").offset();
+                            offset.left = offset.left - $(window).scrollLeft();
+                            offset.top = offset.top - $(window).scrollTop() - 32;
+                            $("#side-toolbar").adjustPosition(offset);
+                          },
+                          function()
+                          {
+                            $("#side-toolbar .drag").hide();
+                            var offset = $("#side-toolbar").offset();
+                            offset.left = offset.left - $(window).scrollLeft();
+                            offset.top = offset.top - $(window).scrollTop() + 32;
+                            $("#side-toolbar").adjustPosition(offset);
+                          }
+                        );
+                      }
+                      else
+                      {
+                        $("#side-toolbar .drag").show();
+                      }
+                    }
+                
+                    $(window).resize(
+                      function(event) { delayRun(function() { loadToolbarPos() }, 300) }
+                    );
+                    $(window).trigger("resize");  // trick
+                    $("#side-toolbar").css("visibility", "visible");
+                  }  // initToolbar() end
+                
+                  function init()
+                  {
+                    var mapConfig = loadConfig();
+                
+                    // Apply font size
+                    $(".post").css("font-size", mapConfig["article.font-size"]+"%");
+                    $("#comments").css("font-size", mapConfig["comments.font-size"]+"%");
+                    $("#tweets").css("font-size", mapConfig["tweets.font-size"]+"%");
+                
+                    initArticleMaxMinBox();
+                    initToolbar(mapConfig);
+                    initArticleInnerLinks(mapConfig);
+                    initArticleInternalLinks();
+                
+                    $(document).tooltip({
+                      content: Tooltip.content,
+                      open: function(event, ui) { Tooltip.open(event, ui, 3000); }
+                    });
+                  }
+                
+                  $(document).ready(
+                    function()
+                    {
+                      try
+                      {
+                        init();
+                      }
+                      catch(err)
+                      {
+                        reportError("init: Catch exception:\n" + err);
+                      }
+                    }
+                  );
+                });
+              </script>
+            
+            <noscript>
+            <style type="text/css">
+            
+            /*--@ Toolbar on right side @--*/
+            #side-toolbar {
+              visibility: visible !important;
+            }
+            #side-toolbar .go-comments .comment-number:after {
+              line-height: 24px;
+              font-size: 10px;
+            }
+            
+            </style>
+            </noscript>
+            
+            
+            <div id="side-toolbar" class="ui-draggable" style="visibility: visible;">
+              <div class="drag" style="cursor: move;">
+                <img title="拖拽到你满意的位置" alt="拖拽" src="../../images/cross.png">
+              </div>
+              <div class="go-home">
+                <a href="../../index.html" title="跳转到俺博客主页">
+                  <img alt="主页" src="../../images/home.png"> 
+                </a>
+              </div>
+              <div class="go-article">
+                <a href="#article" title="跳转到正文区">
+                  <img alt="正文" src="../../images/article.png"> 
+                </a>
+              </div>
+              <div class="go-comments">
+                <a class="comment-number" href="#comments" title="跳转到评论区">843</a>
+              </div>
+              <div class="go-tweets">
+                <a href="#tweets" title="跳转到最新评论区"><img alt="最新" src="../../images/tweets.png"></a>
+              </div>
+              <div class="go-options">
+                <a  title="跳转到界面配置"><img alt="配置" src="../../images/config.png"></a>
+              </div>
+            </div>  <!-- side-toolbar -->
+            </div>
+            <div class="clear"></div>
           </div>
 
           <div class="widget HTML" id="BlogFeed">
@@ -435,6 +724,44 @@
             </div>
           </div>
 
+          <div class='widget HTML' data-version='1' id='HTML4'>
+            <h2 class='title'>精选评论</h2>
+            <div class='widget-content'>
+            
+            <a name="tweets"></a>
+            <div id="tweets">
+              <div class="comments-toolbar">
+                <a class="feed-link" target="_blank" href="https://program-think.blogspot.com/feeds/comments/default" title="订阅最新评论">
+                  <img src="../../images/feed-icon-animated.gif" width="24" height="24" alt="订阅地址"/>
+                </a>
+                <a title="界面配置">
+                  <img src="../../images/config.png" width="24" height="24" alt="界面配置"/>
+                </a>
+                <a class="refresh" href="javascript:;" title="手动刷新"><img src="../../images/refresh.png" width="24" height="24" alt="手动刷新"/></a>
+                <span class="comments-loading"></span>
+              </div>
+              <div class="comments-auto-load">
+                <span class="enable" style="display:none;">自动刷新已启用&#65288;间隔 <b class="timeout"></b> 分钟&#65289;</span>
+                <span class="disable" style="display:none;">自动刷新已禁用</span>
+              </div>
+              <hr style="display:none;"/>
+              <div class="comments-warning">
+                <noscript>
+                  <b>你的浏览器&#12304;禁用了&#12305;JavaScript 脚本&#65292;<br/>无法显示&#8220;最新评论&#8221; :(</b>
+                </noscript>
+                <div style="display:none;">
+                  共自动过滤了 <span class="noise-count" style="font-weight:bold;"></span> 条&#12304;没信息量&#12305;的留言
+                </div>
+                <div style="display:none;">
+                  共自动过滤了 <span class="spam-count" style="font-weight:bold;"></span> 条&#12304;垃圾或刷屏&#12305;的留言
+                </div>
+              </div>
+              <hr style="display:none;"/>
+              <div class="comments-content"></div>
+              </div>
+            </div>
+          </div>
+
         </div> <!--sidebar-->
       </div> <!--sidebar-wrapper-->
     </div> <!-- end content-wrapper -->
@@ -442,52 +769,10 @@
 
   <div id="comment-container">
     <script src="../../scripts/pako.es5.min.js"></script>
-    <script src="../../comments/7159525549088102959.js"></script>
     <script src="../../scripts/comments.js"></script>
+    <script src="../../scripts/tweets.js"></script>
   </div>
+
+  <script src="../../scripts/slogan.js"></script>
 </body>
-<script>
-jQuery(function($)
-{
-  function initArticleInnerLinks()
-  {
-    if($(".post h2").length == 0)
-    {
-      $(".post-inner-index").hide();
-      return;
-    }
-
-    $(".post-inner-index").css("padding-bottom", "2em")
-        .append("<div><b style='font-size:120%;'>文章目录</b></div>");
-
-    $(".post h2").each(
-      function(nIndex)
-      {
-        var sHash = "head-"+(nIndex+1);
-        $(this).before("<a name='"+sHash+"'> </a>");
-        var sTitle = $(this).html().replace(/<.+?>|/g, "");
-        $(".post-inner-index").append("<a href='#"+sHash+"'>"+sTitle+"</a><br/>");
-      }
-    );
-  }
-
-  $(document).ready(
-    function()
-    {
-      try
-      {
-        initArticleInnerLinks();
-        $(document).tooltip({
-          content: Tooltip.content,
-          open: function(event, ui) { Tooltip.open(event, ui, 3000); }
-        });
-      }
-      catch(err)
-      {
-        reportError("init: Catch exception:\n" + err);
-      }
-    }
-  );
-});
-</script>
 </html>

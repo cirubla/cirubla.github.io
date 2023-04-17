@@ -1,3 +1,22 @@
+
+Array.prototype.shuffle = function() {
+  var array = this;
+  var curIndex = array.length;
+  var tmp, randomIndex;
+
+  while (curIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * curIndex);
+    curIndex -= 1;
+
+    tmp = array[curIndex];
+    array[curIndex] = array[randomIndex];
+    array[randomIndex] = tmp;
+  }
+
+  return array;
+}
+
+
 function assert(bCondition, sDesc)
 {
   if(!bCondition)
@@ -707,7 +726,11 @@ function renderBBCode(sText, mapOpts)
         if (sUrl.startsWith("https://program-think.blogspot.com/")) 
         {
           var relativePath = sUrl.replace("https://program-think.blogspot.com/", '');
-          return "<a href='../../" + relativePath + "' class='bbcode simple' target='_blank' rel='nofollow' title='" + sUrl + "'>" + relativePath + "</a>";
+          var href = relativePath;
+          if (relativePath.match(/.*\?comment=\d+#\d+.*/)) {
+            href = relativePath.replace(/#\d+/, '');
+          }
+          return "<a href='../../" + href + "' class='bbcode simple' target='_blank' rel='nofollow' title='" + sUrl + "'>" + relativePath + "</a>";
         }
 
         return "<a href='" + sUrl + "' class='bbcode simple' target='_blank' rel='nofollow'>" + sUrl + "</a>";
@@ -727,7 +750,11 @@ function renderBBCode(sText, mapOpts)
         if (sUrl.startsWith("https://program-think.blogspot.com/")) 
         {
           var relativePath = sUrl.replace("https://program-think.blogspot.com/", '');
-          return "<a href='../../" + relativePath + "' class='bbcode text' target='_blank' rel='nofollow' title='" + sUrl + "'>" + sText + "</a>";
+          var href = relativePath;
+          if (relativePath.match(/.*\?comment=\d+#\d+.*/)) {
+            href = relativePath.replace(/#\d+/, '');
+          }
+          return "<a href='../../" + href + "' class='bbcode text' target='_blank' rel='nofollow' title='" + sUrl + "'>" + sText + "</a>";
         }
         return "<a href='" + sUrl + "' class='bbcode text' target='_blank' rel='nofollow'>" + sText + "</a>";
       }
@@ -1138,12 +1165,16 @@ Author.prototype.normalize = function()
   this.isAnonymous() && ("Anonymous" == this.sName) && (this.sName = "匿名");
   this.sName = this.sName.htmlTrimTag().replace(/\n|&#12288;/g, "\t");  // '\t' as placeholder
 
+  var prefix = window.rootNavigator || '../../';
   // Change avatar image
+  if (this.sign !== '') {
+    this.sAvatarUrl = prefix + 'images/avatar/' + this.sign;
+  }
   if (this.sAvatarUrl.indexOf("//img1.blogblog.com/img/blank.gif") > 0) {
-    this.sAvatarUrl = this.sign === '' ? 'https://img1.blogblog.com/img/anon36.png' : ('../../images/avatar/' + this.sign);
+    this.sAvatarUrl = '../../images/anon36.png';
   }
 
-  this.isAdmin() && (this.sAvatarUrl = '../../images/thinker.jpg');
+  this.isAdmin() && (this.sAvatarUrl =  prefix + 'images/thinker.jpg');
 
   return this;
 }
@@ -1288,29 +1319,44 @@ function Comment(json)
 }  // Comment() end
 
 Comment.mapArticles = null;
-Comment.initArticlesMap = function(nInitLoadNum)
+Comment.initArticlesMap = function(json)
 {
   if(null === Comment.mapArticles) { Comment.mapArticles = {} }
   else { return }
 
-  nInitLoadNum = isNaN(nInitLoadNum) ? 8 : nInitLoadNum;
-  $.ajax({
-    url: Url.getFeedUrlPrefix() + "/posts/summary?alt=json&max-results=" + nInitLoadNum,
-    dataType: "json",
-    success: function(json)
-    {
-      function _procLink(i, link)
-      {
-        if("alternate" != link.rel) { return true }
-        Comment.mapArticles[(new Url(link.href)).sPath] = "&#12298;" + link.title + "&#12299;";
-        return false;
-      }
-      ("feed" in json) && ("entry" in json.feed)
-        && $.each(json.feed.entry, function(i, entry){ $.each(entry.link, _procLink) });
-    },
-    timeout: 1000 * 48
-  });
+  function _procLink(i, link)
+  {
+    if("alternate" != link.rel) { return true }
+    Comment.mapArticles[(new Url(link.href)).sPath] = "&#12298;" + link.title + "&#12299;";
+    return false;
+  }
+  ("feed" in json) && ("entry" in json.feed)
+    && $.each(json.feed.entry, function(i, entry){ $.each(entry.link, _procLink) });
 }
+
+// Comment.initArticlesMap = function(nInitLoadNum)
+// {
+//   if(null === Comment.mapArticles) { Comment.mapArticles = {} }
+//   else { return }
+
+//   nInitLoadNum = isNaN(nInitLoadNum) ? 8 : nInitLoadNum;
+//   $.ajax({
+//     url: Url.getFeedUrlPrefix() + "/posts/summary?alt=json&max-results=" + nInitLoadNum,
+//     dataType: "json",
+//     success: function(json)
+//     {
+//       function _procLink(i, link)
+//       {
+//         if("alternate" != link.rel) { return true }
+//         Comment.mapArticles[(new Url(link.href)).sPath] = "&#12298;" + link.title + "&#12299;";
+//         return false;
+//       }
+//       ("feed" in json) && ("entry" in json.feed)
+//         && $.each(json.feed.entry, function(i, entry){ $.each(entry.link, _procLink) });
+//     },
+//     timeout: 1000 * 48
+//   });
+// }
 
 Comment.prototype.normalize = function()
 {
@@ -1552,7 +1598,7 @@ Comment.prototype.showFull = function(mapOpts)
       "<li class='comment "+sClass+"' data='"+this.sId+"' index='"+nIndex+"' "
       + (nHotValue ? ("hot='"+nHotValue+"'") : "") + ">"
       + "<a name='"+this.sId+"'>&nbsp;</a>"
-      + "<div class='avatar-image-container'><img src='"+this.oAuthor.sAvatarUrl+"'></div>"
+      + "<div class='avatar-image-container'><img onerror='onLoadError(event)' src='"+this.oAuthor.sAvatarUrl+"'></div>"
       + "<div id='c"+this.sLongId+"' class='comment-block'>"
       + "<div class='comment-header'>"
       + "<cite class='user"+sUserClass+"'"+sAuthorHex+">"
@@ -1583,7 +1629,7 @@ Comment.prototype.showSummary = function(mapOpts)
   var nMaxAuthorLen = ("maxAuthorLen" in mapOpts ? mapOpts.maxAuthorLen : 20);
 
   this.normalize();  // for robust
-  Comment.initArticlesMap();
+  // Comment.initArticlesMap();
 
   var sAuthor = this.oAuthor.sName;
   (sAuthor.length > nMaxAuthorLen) && (sAuthor = sAuthor.substr(0, nMaxAuthorLen) + "\t...");  // truncate
@@ -1609,7 +1655,8 @@ Comment.prototype.showSummary = function(mapOpts)
     ("scope" in mapOpts) && (sUrl += "&scope=" + mapOpts.scope);
 
     var $comment_link = $comment.find(".comment-text a");
-    $comment_link.attr("href", sUrl);
+    // $comment_link.attr("href", sUrl);
+    $comment_link.attr("href", window.rootNavigator + sUrl.substring(1));
     ($comment_link[0].pathname != location.pathname)  // NOT current page
       && $comment_link.attr("target", "_blank");
 
@@ -1644,23 +1691,23 @@ Comment.prototype.showSummary = function(mapOpts)
       break;
     }
 
-    Comment.mapArticles[sArticlePath] = "";  // set flag
-    $.ajax({
-      url: Url.getFeedUrlPrefix() + "/posts/summary?alt=json&path=" + encodeURIComponent(sArticlePath),
-      dataType: "json",
-      success: function(json)
-      {
-        function _procLink(i, link)
-        {
-          if("alternate" != link.rel) { return true }
-          $comment_article.html( Comment.mapArticles[sArticlePath] = "&#12298;" + link.title + "&#12299;" );
-          return false;
-        }
-        ("feed" in json) && ("entry" in json.feed) && json.feed.entry.length
-          && $.each(json.feed.entry[0].link, _procLink);
-      },
-      timeout: 1000 * 24
-    });
+    // Comment.mapArticles[sArticlePath] = "";  // set flag
+    // $.ajax({
+    //   url: Url.getFeedUrlPrefix() + "/posts/summary?alt=json&path=" + encodeURIComponent(sArticlePath),
+    //   dataType: "json",
+    //   success: function(json)
+    //   {
+    //     function _procLink(i, link)
+    //     {
+    //       if("alternate" != link.rel) { return true }
+    //       $comment_article.html( Comment.mapArticles[sArticlePath] = "&#12298;" + link.title + "&#12299;" );
+    //       return false;
+    //     }
+    //     ("feed" in json) && ("entry" in json.feed) && json.feed.entry.length
+    //       && $.each(json.feed.entry[0].link, _procLink);
+    //   },
+    //   timeout: 1000 * 24
+    // });
     break;
   }  // while() end
   return $comment;
@@ -2229,6 +2276,11 @@ Tooltip =
   }
 };
 
+function onLoadError(event) {
+  let prefix = window.rootNavigator || '../../'
+  event.target.src = prefix + 'images/anon36.png'
+}
+
 jQuery(function($)
 {
   $(document).ready(
@@ -2239,6 +2291,7 @@ jQuery(function($)
         if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) 
         {
           $('.sidebar.section').attr('style', 'display:none;');
+          $('#comments-content').attr('style','margin-right: 30px;')
           $('#main').attr('style', 'width: 100%;');
         }
       }

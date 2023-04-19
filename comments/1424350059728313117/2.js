@@ -1,0 +1,12 @@
+(function() 
+{
+  var comments = getData();
+  (window && window.g_commentLoader) && window.g_commentLoader.onLoad({feed: {entry: comments}});
+
+  function getData() 
+  {
+    return data = [
+      {"gd$etag":"W/\"C0UAQ385fyp7ImA9Xx5SF08.\"","id":{"$t":"tag:blogger.com,1999:blog-5235590154125226279.post-7791525437569735557"},"published":{"$t":"2023-04-17T16:47:22.127+08:00"},"updated":{"$t":"2023-04-17T16:47:22.127+08:00"},"app$edited":{"xmlns$app":"http://www.w3.org/2007/app","$t":"2023-04-17T16:47:22.127+08:00"},"title":{"$t":"TO 编程随想 (17单元)\n编程随想兄，这功能我已经实现，可惜你已遭遇不幸。原谅我的拖延症，这个离..."},"content":{"type":"html","$t":"TO 编程随想 (17单元)<br />编程随想兄，这功能我已经实现，可惜你已遭遇不幸。原谅我的拖延症，这个离线评论一直都想做，拖到了现在。愿你能安然度过这段最黑暗的日子。<br /><br />TO 其他读者<br />包含完整评论区的离线博客: [url]https://cirubla.github.io[/url]<br />下载地址: [url]https://github.com/cirubla/cirubla.github.io[/url]"},"link":[{"rel":"edit","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/1424350059728313117/comments/default/7791525437569735557?v=2"},{"rel":"self","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/1424350059728313117/comments/default/7791525437569735557?v=2"},{"rel":"alternate","type":"text/html","href":"https://program-think.blogspot.com/2020/03/share-books.html?showComment=1681721242127#c7791525437569735557","title":""},{"rel":"related","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/1424350059728313117/comments/default/3554828810417438769?v=2"}],"author":[{"name":{"$t":"Anonymous"},"email":{"$t":"noreply@blogger.com"},"gd$image":{"rel":"http://schemas.google.com/g/2005#thumbnail","width":"16","height":"16","src":"https://img1.blogblog.com/img/blank.gif"}}],"thr$in-reply-to":{"xmlns$thr":"http://purl.org/syndication/thread/1.0","href":"https://program-think.blogspot.com/2020/03/share-books.html","ref":"tag:blogger.com,1999:blog-5235590154125226279.post-1424350059728313117","source":"http://www.blogger.com/feeds/5235590154125226279/posts/default/1424350059728313117","type":"text/html"},"gd$extendedProperty":[{"name":"blogger.itemClass","value":"pid-357517073"},{"name":"blogger.displayTime","value":"2023年4月17日 16:47:00"}]},
+    ]
+  }
+})();

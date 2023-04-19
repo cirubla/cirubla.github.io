@@ -1,0 +1,12 @@
+(function() 
+{
+  var comments = getData();
+  (window && window.g_commentLoader) && window.g_commentLoader.onLoad({feed: {entry: comments}});
+
+  function getData() 
+  {
+    return data = [
+      {"gd$etag":"W/\"A0UHSH8yeyp7ImA9Xx5TEEQ.\"","id":{"$t":"tag:blogger.com,1999:blog-5235590154125226279.post-8120031418931566643"},"published":{"$t":"2023-03-29T22:13:59.193+08:00"},"updated":{"$t":"2023-03-29T22:13:59.193+08:00"},"app$edited":{"xmlns$app":"http://www.w3.org/2007/app","$t":"2023-03-29T22:13:59.193+08:00"},"title":{"$t":"这个帖子想必暴露了不少博主的个人信息，导致了2021年的陨落。20世纪软件公司想必肯定在一线城市、搞..."},"content":{"type":"html","$t":"这个帖子想必暴露了不少博主的个人信息，导致了2021年的陨落。20世纪软件公司想必肯定在一线城市、搞CPP开发。再加上博主是个大学生，调一线城市大学毕业生记录，博主还是从华东理工大肄业的、编程能力又特别强、从事信安行业，性格还像programthink的画像。<br />博主早期并没有想到后期会有那么多敌人，所以早期没注意隐藏或者随机化个人信息。<br />要是从事树敌众多的活动，必须极为严格地与个人其他身份、早期身份做出切割。现在还要担心AI对语言、标点风格的鉴别。更别说CCP的网络流量监控了。编程君干了12多年，真不容易！！！"},"link":[{"rel":"edit","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/3174965147058425565/comments/default/8120031418931566643?v=2"},{"rel":"self","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/3174965147058425565/comments/default/8120031418931566643?v=2"},{"rel":"alternate","type":"text/html","href":"https://program-think.blogspot.com/2009/02/daily-build-1-advantage.html?showComment=1680099239193#c8120031418931566643","title":""},{"rel":"related","type":"application/atom+xml","href":"https://www.blogger.com/feeds/5235590154125226279/3174965147058425565/comments/default/5209004619664128846?v=2"}],"author":[{"name":{"$t":"Anonymous"},"email":{"$t":"noreply@blogger.com"},"gd$image":{"rel":"http://schemas.google.com/g/2005#thumbnail","width":"16","height":"16","src":"https://img1.blogblog.com/img/blank.gif"}}],"thr$in-reply-to":{"xmlns$thr":"http://purl.org/syndication/thread/1.0","href":"https://program-think.blogspot.com/2009/02/daily-build-1-advantage.html","ref":"tag:blogger.com,1999:blog-5235590154125226279.post-3174965147058425565","source":"http://www.blogger.com/feeds/5235590154125226279/posts/default/3174965147058425565","type":"text/html"},"gd$extendedProperty":[{"name":"blogger.itemClass","value":"pid-357517073"},{"name":"blogger.displayTime","value":"2023年3月29日 22:13:00"}]},
+    ]
+  }
+})();

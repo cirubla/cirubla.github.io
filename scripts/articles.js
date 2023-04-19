@@ -54,7 +54,7 @@ jQuery(function($)
           '      ' + postTime +
           '    </span>' +
           '    <span class="post-comment-link">' +
-          '      <a class="comment-link" href="' + a.url + '#comments">' + a.initNum + '评论</a>' +
+          '      <a id="' +a.postID + '" class="comment-link" href="' + a.url + '#comments">' + a.initNum + '评论</a>' +
           '    </span>' +
           '    <span class="post-labels">' +
           '      标签：' +

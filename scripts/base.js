@@ -1322,7 +1322,7 @@ Comment.mapArticles = null;
 Comment.initArticlesMap = function(json)
 {
   if(null === Comment.mapArticles) { Comment.mapArticles = {} }
-  else { return }
+  // else { return }
 
   function _procLink(i, link)
   {

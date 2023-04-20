@@ -746,3 +746,24 @@ a:visited {
   text-align: center;
   border: 1px solid #999;
 }
+
+.post-toolbar-1 .post-config-buttons {
+  float: right;
+}
+
+.post-share-buttons {
+  display: inline-block;
+  margin-top: .5em;
+  vertical-align: middle;
+}
+
+.share-button {
+  width: 20px;
+  height: 20px;
+  background: url(/img/share_buttons_20_3.png) no-repeat left !important;
+  background-position-x: left;
+  background-position-y: center;
+  overflow: hidden;
+  margin-left: -1px;
+  position: relative;
+}

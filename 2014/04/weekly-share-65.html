@@ -38,6 +38,8 @@
         <div class="post-content">
           <div class="post-toolbar">
             <div class="post-toolbar-1">
+              <span class="post-share-buttons"></span>
+              <span class="post-config-buttons"></span>
             </div>
             <div class="post-toolbar-2">
               <span class="post-timestamp" data="2014-04-18T15:09:00+08:00">2014年4月18日</span>
@@ -417,9 +419,9 @@ LG已经卖给日本人了&#65292;员工都不愿意&#65292;正在罢工要求�
                   function initArticleMaxMinBox()
                   {
                     $(".post-toolbar-1 .post-config-buttons")
-                        .append("<a href='/p/options.html#article' target='_blank' title='界面配置'><img src='../../images/config.png' alt='配置'/></a>")
-                        .append("<a class='maximize' title='进入全屏模式' href='javascript:;'><img src='https://lh4.googleusercontent.com/-xvmbNnFdxWU/VDx_uEPOw1I/AAAAAAAAA_s/-zd0eweSahg/maximize_32x32.png' alt='进入全屏'/></a>")
-                        .append("<a class='minimize' title='退出全屏模式' href='javascript:;'><img src='https://lh4.googleusercontent.com/-sijQmuC36C4/VDyBM8xDLeI/AAAAAAAABAc/fG3M6jUli74/minimize_32x32.png' alt='退出全屏'/></a>")
+                        .append("<a title='界面配置'><img src='../../images/config.png' alt='配置'/></a>")
+                        .append("<a class='maximize' title='进入全屏模式' href='javascript:;'><img src='../../images/maximize.png' alt='进入全屏'/></a>")
+                        .append("<a class='minimize' title='退出全屏模式' href='javascript:;'><img src='../../images/minimize.png' alt='退出全屏'/></a>")
                 
                     $(".post-config-buttons .maximize").click(
                       function()

@@ -767,3 +767,7 @@ a:visited {
   margin-left: -1px;
   position: relative;
 }
+
+.post img {
+  max-width: 100%;
+}
